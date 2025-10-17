@@ -2,7 +2,7 @@
 
 ## Descripción del proyecto
 
-a
+El proyecto trata sobre una aplicación web que te permite crear diagramas de flujo interactivos para poder planificar estrategias contra diferentes jefes (Bosses) de videojuegos, donde cada nodo represente una accion/decisión a tomar contra el jefe.
 
 ## Enlaces a los documentos
 
