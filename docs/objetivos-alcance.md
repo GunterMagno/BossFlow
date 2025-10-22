@@ -4,7 +4,7 @@
 
 - Objetivo 1 (Específico): Diseñar una interfaz en React que permita a los usuarios crear y conectar nodos para representar acciones o decisiones en estrategias contra jefes de videojuegos.
 
-- Objetivo 2 (Medible): Implementar mínimo 6 funcionalidades clave en la aplicación.
+- Objetivo 2 (Medible): Implementar mínimo 6 funcionalidades clave, como: crear nodos, conectar nodos, eliminar nodos, guardar diagrama, importar/exportar diagrama, y compartirlos.
 
 - Objetivo 3 (Alcanzable): Completar el proyecto dedicando 12 horas semanales.
 
@@ -18,24 +18,31 @@ El mínimo producto viable que debe tener nuestra aplicación web es una versió
 
 - Ampliaciones: 
 
-    - Registro de usuarios
-    - Guardado en la nube
+    - Registro de usuarios.
+    - Guardado en la nube y persistencia de datos.
     - Permitir colaboración entre usuarios.
     - Añadir clasificaciones a los digramas por: juego, jefe, tipo de estrategia (por ejemplo: speedrun).
     - Mejorar la interfaz de la aplicación.
-    - Poder dejacomentarios en los diagramas.
+    - Poder dejar comentarios en los diagramas.
     - Exportación e importación de diagramas.
 
 ## Delimitación del alcance (qué SÍ y qué NO).
 
 - Qué se incluirá:
-    - Frontend desarrollado en React con editor de diagramas interactivos.
-    - Backend desarrollado con Node y Express para gestión de usuarios y diagramas.
-    - Base de datos MongoDB para almacenamiento de usuarios y diagramas.
+    - Editor de diagramas interactivos.
+    - Gestión de usuarios y diagramas.
+    - Base de datos para almacenamiento de usuarios y diagramas.
     - Sistema de autenticación JWT.
-    - Funcionalidad para compartir diagramas mediante enlaces públicos.
+    - Funcionalidad para compartir diagramas, pudiendo importarlos y exportarlos.
+    - Colaboración en la creación y edición de los diagramas.
 
 - Qué no se incluirá:
-
+    - Historial de versiones para los diagramas.
+    - Chat en tiempo real.
 
 ## Criterios de éxito.
+
+- Cumplir los objetivos SMART definidos para el proyecto.
+- Lograr un rendimiento adecuado y estable que garantice una buena experiencia de usuario, así como una buena usabilidad y accesibilidad.
+- Evitar errores en la aplicación final que afecten a su uso.
+- El proyecto debe integrar correctamente el stack MERN siedo escalable y consistente.
