@@ -11,7 +11,7 @@ Muchos jugadores de videojuegos encuentran dificultades para planificar y organi
 
 ## Evidencias de investigación
 - Charlas con jugadores del perfil de usuarios objetivos que comentan su insatisfacción con la escasez de aplicaciones que resuelvan sus necesidades.
-- Revisión de opiniones en foros de videojuegos, donde se percibe al demanda de estos servicios para enfrentarse a los _bosses_ en sus videojuegos favoritos.
+- Revisión de opiniones en foros de videojuegos, donde se percibe la demanda de estos servicios para enfrentarse a los _bosses_ en sus videojuegos favoritos.
 
 ## Análisis de competencia
 Existen muchísimas aplicaciones relacionadas con los diagramas de flujo, pero ninguna enfocada al mayor sector del entretenimiento como lo son los videojuegos, de esta manera no encontramos una competencia directa, ya que no se encuentran opciones tan específicas como _BossFlow_ . Como competencia indirecta podemos encontrar a los comentados foros o los mismos creadores de contenido, pero no pensamos en que puedan afectar a la llegada a nuestra página, ya que realmente son opciones muy distintas y compatibles entre sí.
