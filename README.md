@@ -14,10 +14,7 @@ El proyecto trata sobre una aplicación web que te permite crear diagramas de fl
 
 [Recursos.md (Criterio 2e)](docs/recursos.md)
 
-## Información del equipo
-
-Alejandro Borrego Cruz
-
-Jesús López Pérez
-
-Daniel Montes Iglesias
+## Información del equipo  
+- Alejandro Borrego Cruz
+- Jesús López Pérez
+- Daniel Montes Iglesias
