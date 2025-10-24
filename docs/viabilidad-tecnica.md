@@ -42,11 +42,11 @@
 
 # Esquema de bases de datos (diagrama)
 
-a
+![Imagen esquema bases de datos](image-1.png)
 
 # Arquitectura de la aplicación (diagrama)
 
-diagrama de como es el flujo de datos entre front-end y back-end y base de datos
+![Imagen, arquitectura de la aplicación](image.png)
 
 # Evaluación de las capacidades del equipo
 
