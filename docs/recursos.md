@@ -15,8 +15,9 @@ El stack tecnológico que vamos a utilizar es **MERN**, que se compone de **Mong
 - **Node.js**: Para ejecutar el código del servidor y conectar el **_Frontend_** con la base de datos.
 
 ## Servicios externos y APIs a utilizar.  
-Vamos a hacer uso de una **API** llamada [**Rawg.io**](https://rawg.io/), la cual nos proporcionará nombres e información sobre videojuegos. 
-
+- Vamos a hacer uso de una **API** llamada [**Rawg.io**](https://rawg.io/), la cual nos proporcionará nombres e información sobre videojuegos. 
+- Vamos a hacer uso de **librería** llamada **React Flow**,la cuál nos ayudará a crear el flujo de nodos.
+  
 ## Herramientas de desarrollo y gestión.
 - **Webstorm**: Para desarrollar tanto **_Frontend_** como **_Backend_** en el pryecto.
 - **IntelliJ IDEA**: Para desarrollar el **_Frontend_** de manera más avanzada.
