@@ -1,9 +1,12 @@
 # Recursos  
 ## Distribución de roles y responsabilidades.
-| Fecha       | Product Owner   | Scrum Master   | Developer  |
-|--------------|------------------|--------------------|--------------------|
-| 24/10/2025   |    Alejandro    |    Daniel   | Todos             |
-| 31/10/2025   |    ?    |    ?   | Todos             |
+| Sprint | Fecha       | Product Owner   | Scrum Master   | Developer  |
+|--------|-------------|-----------------|----------------|------------|
+| Sprint 1 | 3/11 - 9/11 | Jesús           | Alejandro      | Todos      |
+| Sprint 2 | 10/11 - 16/11 | Daniel          | Jesús          | Todos      |
+| Sprint 3 | 17/11 - 23/11 | Alejandro       | Daniel         | Todos      |
+| Sprint 4 | 24/11 - 30/12 | Jesús           | Alejandro      | Todos      |
+| Sprint 5 | 1/12 - 7/12   | Daniel          | Jesús          | Todos      |
 
 
 ## Stack tecnológico completo.
