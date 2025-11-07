@@ -2,26 +2,30 @@
   "name": "bossflow",
   "version": "1.0.0",
   "description": "El proyecto trata sobre una aplicación web que te permite crear diagramas de flujo interactivos para poder planificar estrategias contra diferentes jefes (Bosses) de videojuegos, donde cada nodo represente una accion/decisión a tomar contra el jefe.",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "keywords": [],
+  "homepage": "https://github.com/GunterMagno/BossFlow#readme",
+  "bugs": {
+    "url": "https://github.com/GunterMagno/BossFlow/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GunterMagno/BossFlow.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
+  "author": "Alejandro Borrego, Jesus Lopez y Daniel Montes",
   "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/GunterMagno/BossFlow/issues"
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
   },
-  "homepage": "https://github.com/GunterMagno/BossFlow#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
