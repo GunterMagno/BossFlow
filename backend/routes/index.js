@@ -10,4 +10,12 @@ router.post("/eco", (req, res) => {
   res.json(req.body);
 });
 
+router.get("/health", (req, res) => {
+  console.log("Recibido: ", req.body);
+  res.json({
+    status: "ok",
+    timestamp: Date.now(),
+  });
+});
+
 module.exports = router;
