@@ -1,6 +1,9 @@
+import { useHealthCheck } from '../hooks/useHealthCheck';
 import './Home.css';
 
 function Home() {
+  const { loading, data, error, isConnected } = useHealthCheck();
+
   return (
     <div className="home">
       <div className="home-container">
@@ -10,6 +13,17 @@ function Home() {
             <h1>BossFlow</h1>
           </div>
           <p className="tagline">Planifica tus estrategias contra los mejores bosses</p>
+          
+          {/* Estado de conexión con el backend */}
+          <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+            {loading ? (
+              <span>Verificando conexión con el backend...</span>
+            ) : isConnected ? (
+              <span>Conectado al backend: {data?.message || 'OK'}</span>
+            ) : (
+              <span>Backend no disponible: {error}</span>
+            )}
+          </div>
         </header>
 
         <main className="home-main">
@@ -42,7 +56,7 @@ function Home() {
         </main>
 
         <footer className="home-footer">
-          <p>BossFlow</p>
+          <p>© 2024 BossFlow - Domina cada encuentro</p>
         </footer>
       </div>
     </div>

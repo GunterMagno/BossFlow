@@ -87,6 +87,31 @@
   line-height: 1.6;
 }
 
+.connection-status {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  animation: fadeIn 0.5s ease-out;
+  backdrop-filter: blur(10px);
+}
+
+.connection-status.connected {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.connection-status.disconnected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
 /* Features */
 .features {
   display: grid;
