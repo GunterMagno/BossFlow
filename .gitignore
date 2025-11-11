@@ -1,1 +1,30 @@
 scripts/
+
+# IDE / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+**/node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+*.tgz
+
+# Builds / artefactos
+dist/
+build/
+frontend/dist/
+backend/dist/
+coverage/
+
+# Variables de entorno / secretos
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
