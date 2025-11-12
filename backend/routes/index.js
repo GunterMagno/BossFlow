@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", (res) => {
   res.json({ mensaje: "✅API funcionando correctamente" });
 });
 
@@ -17,5 +17,12 @@ router.get("/health", (req, res) => {
     timestamp: Date.now(),
   });
 });
+
+router.post("/auth/register", (req, res, next) => {
+  const authController = require("../controllers/authController");
+  authController.register(req, res, next);
+});
+
+
 
 module.exports = router;
