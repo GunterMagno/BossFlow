@@ -1,5 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
 
+/* Variables globales */
+:root {
+  /* Colores principales */
+  --primario: #1F2D44;
+  --secundario: #EAB308;
+  
+  /* Variaciones de primario */
+  --hover: #1D3254;
+  --focus: #1E293B;
+  
+  /* Variaciones de secundario */
+  --secundario-hover: #D6A50A;
+  --secundario-focus: #B48B09;
+  
+  /* Escala de grises */
+  --blanco: #F8FAFC;
+  --gris1: #E4E4E4;
+  --gris2: #BFBFBF;
+  --gris3: #A2A2A2;
+  --gris4: #818181;
+  --gris5: #6D6D6D;
+  --gris6: #505050;
+  --gris7: #464646;
+  --negro: #2E2E2E;
+
+  /* Error */
+  --error: #E60303;
+  
+  /* Espaciado */
+  --espaciado-xs: 0.25rem;   
+  --espaciado-sm: 0.5rem;    
+  --espaciado-md: 1rem;      
+  --espaciado-lg: 2rem;      
+  --espaciado-xl: 3rem;      
+  --espaciado-xxl: 4rem;     
+  
+  /* Border radius */
+  --radio-sm: 0.25rem;
+  --radio-md: 0.5rem;
+  --radio-lg: 1rem;
+  
+  /* Sombras */
+  --sombra-sm: 0 0.125rem 0.5rem rgba(31, 45, 68, 0.1);
+  --sombra-md: 0 0.25rem 1rem rgba(31, 45, 68, 0.1);
+  --sombra-lg: 0 0.5rem 2rem rgba(31, 45, 68, 0.15);
+  
+  /* Transiciones */
+  --transicion-rapida: 0.15s ease;
+  --transicion-normal: 0.3s ease;
+  --transicion-lenta: 0.5s ease;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -13,11 +65,64 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--gris7);
+  background: var(--primario);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Estilos globales para la tipografía */
+h1 {
+  font-size: 4rem; 
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2.25rem; 
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.875rem;
+}
+
+h3 {
+  font-size: 1.75rem; 
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+h4 {
+  font-size: 1.375rem; 
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.625rem;
+}
+
+h5 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+h6 {
+  font-size: 0.875rem; 
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1rem; 
+  font-weight: 400;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+small {
+  font-size: 0.875rem; 
 }
 
 #root {

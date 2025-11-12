@@ -41,15 +41,15 @@ function Login() {
         // Validar correo
         if (!datosFormulario.correo) {
             nuevosErrores.correo = 'Es obligatorio introducir un correo electrónico.';
-        } else if (!/\S+@\S+\.\S+/.test(datosFormulario.correo)) {
+        } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(datosFormulario.correo)) {
             nuevosErrores.correo = 'El correo electrónico no es válido.';
         }
 
         // Validar contraseña
         if (!datosFormulario.contrasena) {
             nuevosErrores.contrasena = 'Es obligatorio introducir una contraseña.';
-        } else if (datosFormulario.contrasena.length < 6) {
-            nuevosErrores.contrasena = 'La contraseña debe tener al menos 6 caracteres.';
+        } else if (datosFormulario.contrasena.length < 8) {
+            nuevosErrores.contrasena = 'La contraseña debe tener al menos 8 caracteres.';
         }
 
         return nuevosErrores;
@@ -95,7 +95,7 @@ function Login() {
             <article className="login__contenedor">
                 {/* Título */}
                 <section className="login__encabezado">
-                    <h2 className="login__titulo">Iniciar sesión</h2>
+                    <h3 className="login__titulo">Iniciar sesión</h3>
                     <p className="login__subtitulo">Por favor inicia sesión en tu cuenta</p>
                 </section>
 
@@ -108,7 +108,7 @@ function Login() {
                     <section className="login__campo">
                         <label htmlFor="correo" className="login__etiqueta">Correo Electrónico</label>
                         <input
-                            type="email"
+                            type="text"
                             id="correo"
                             name="correo"
                             value={datosFormulario.correo}
