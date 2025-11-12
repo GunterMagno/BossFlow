@@ -54,6 +54,19 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`✅ Servidor iniciado en el puerto -> ${PORT}`);
+  
+  // Ejecutar tests automáticos si está en modo desarrollo
+  if (process.env.NODE_ENV !== 'production') {
+    const testRunner = require('./tests/test-runner');
+    
+    try {
+      // Esperar un momento para que el servidor esté completamente listo
+      await testRunner.waitForServer();
+      await testRunner.runAllTests();
+    } catch (error) {
+      console.error('⚠️  No se pudieron ejecutar los tests:', error.message);
+    }
+  }
 });

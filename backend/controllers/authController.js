@@ -73,3 +73,65 @@ exports.register = async (req, res, next) => {
     }
 };
 
+exports.login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        // Valida que todos los campos requeridos estén presentes
+        if (!email || !password) {
+            return res.status(400).json({ 
+                error: 'Todos los campos son requeridos (email, password)' 
+            });
+        }
+
+        // Valida formato del email
+        if (!validator.isEmail(email)) {
+            return res.status(400).json({ 
+                error: 'El formato del email no es válido' 
+            });
+        }
+
+        // Normaliza el email a minúsculas antes de buscar (igual que cuando se registra)
+        const normalizedEmail = email.toLowerCase().trim();
+
+        // Busca el usuario por email (que es único)
+        const user = await User.findOne({ email: normalizedEmail });
+
+        // Verifica si el usuario existe
+        if (!user) {
+            return res.status(401).json({ 
+                error: 'Credenciales inválidas' 
+            });
+        }
+
+        // Compara la contraseña con el hash almacenado
+        const isMatch = await user.comparePassword(password);
+        
+        // Si no coincide, retorna error
+        if (!isMatch) {
+            return res.status(401).json({ 
+                error: 'Credenciales inválidas' 
+            });
+        }
+
+        // Genera token JWT
+        const token = jwt.sign(
+            { userId: user._id }, 
+            JWT_SECRET, 
+            { expiresIn: '1h' }
+        );
+
+        // Retorna token y datos del usuario (sin password)
+        res.status(200).json({ 
+            message: 'Login exitoso',
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
+    } catch (err) {
+        next(err);
+    }
+};
