@@ -1,1 +1,4 @@
 scripts/
+.vscode/
+.idea/
+Makefile
