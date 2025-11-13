@@ -1,0 +1,250 @@
+/* Bloque: encabezado */
+.encabezado {
+  background-color: var(--focus);
+  box-shadow: var(--sombra-sm);
+}
+
+/* Bloque: navbar (dentro de encabezado) */
+.encabezado__navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--espaciado-md) var(--espaciado-lg);
+  width: 100%;
+}
+
+/* Elemento: logo */
+.navbar__logo {
+  text-decoration: none;
+  color: var(--blanco);
+  transition: color var(--transicion-rapida);
+  justify-self: start;
+}
+
+.navbar__logo:hover {
+  color: var(--secundario);
+}
+
+.navbar__logo h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Elemento: enlaces de navegación */
+.navbar__enlaces {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--espaciado-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar__elemento {
+  margin: 0;
+}
+
+.navbar__enlace {
+  display: block;
+  color: var(--blanco);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: var(--espaciado-sm) var(--espaciado-md);
+  border-radius: var(--radio-sm);
+  transition: all var(--transicion-rapida);
+}
+
+.navbar__enlace:hover {
+  color: var(--secundario);
+  background-color: var(--hover);
+}
+
+
+
+/* Elemento: contenedor del usuario */
+.navbar__usuario-menu {
+  position: relative;
+  justify-self: end;
+}
+
+/* Elemento: botón de usuario logueado*/
+.navbar__usuario {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-sm);
+  padding: var(--espaciado-sm) var(--espaciado-md);
+  background: none;
+  border: none;
+  border-radius: var(--radio-md);
+  color: var(--blanco);
+  cursor: pointer;
+  transition: all var(--transicion-rapida);
+  font-family: inherit;
+}
+
+.navbar__usuario:hover {
+  background-color: var(--hover);
+}
+
+/* Elemento: botón de usuario no logueado*/
+.navbar__boton-login {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--espaciado-sm) var(--espaciado-lg);
+  background-color: var(--secundario);
+  color: var(--primario);
+  text-decoration: none;
+  border-radius: var(--radio-md);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: var(--transicion-rapida);
+  border: none;
+  cursor: pointer;
+}
+
+.navbar__boton-login:hover {
+  background-color: var(--secundario-hover);
+  box-shadow: var(--sombra-md);
+}
+
+/* Elemento: avatar del usuario */
+.navbar__avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--negro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: 2px solid var(--blanco);
+  flex-shrink: 0;
+}
+
+/* Elemento: nombre del usuario */
+.navbar__nombre {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Elemento: flecha desplegable */
+.navbar__flecha {
+  font-size: 0.75rem;
+  transition: transform var(--transicion-rapida);
+  color: var(--blanco);
+}
+
+/* Modificador: flecha hacia arriba */
+.navbar__flecha--arriba {
+  transform: rotate(180deg);
+}
+
+/* Bloque: menú desplegable */
+.menu-desplegable {
+  position: absolute;
+  top: calc(100% + var(--espaciado-sm));
+  right: 0;
+  width: max-content;
+  background-color: var(--blanco);
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-lg);
+  overflow: hidden;
+  list-style: none;
+  padding: var(--espaciado-sm) 0;
+  margin: 0;
+  animation: desplegar 0.2s ease-out;
+}
+
+@keyframes desplegar {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Elemento: elemento del menú */
+.menu-desplegable__elemento {
+  margin: 0;
+}
+
+/* Elemento: enlace del menú */
+.menu-desplegable__enlace {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-md);
+  padding: var(--espaciado-md) var(--espaciado-lg);
+  color: var(--negro);
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-radius: var(--radio-md);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transicion-rapida);
+  font-size: 1.125rem;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.menu-desplegable__enlace:hover {
+  background-color: var(--gris1);
+}
+
+/* Elemento: icono del menú */
+.menu-desplegable__icono {
+  font-size: 1.5rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Modificador: enlace de cerrar sesión */
+.menu-desplegable__enlace--cerrar {
+  color: var(--error);
+  font-weight: 600;
+}
+
+.menu-desplegable__enlace--cerrar:hover {
+  background-color: rgba(230, 3, 3, 0.1);
+}
+
+/* Elemento: separador */
+.menu-desplegable__separador {
+  height: 1px;
+  background-color: var(--gris2);
+  margin: var(--espaciado-md) 0;
+  border: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .encabezado__navbar {
+    grid-template-columns: 1fr;
+    gap: var(--espaciado-md);
+  }
+  
+  .navbar__enlaces {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--espaciado-sm);
+  }
+  
+  .navbar__enlace {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .navbar__usuario-menu {
+    justify-self: center;
+  }
+}
