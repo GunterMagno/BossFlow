@@ -1,8 +1,13 @@
 import { useHealthCheck } from '../hooks/useHealthCheck';
+import { useEffect } from 'react';
 import './Home.css';
 
 function Home() {
   const { loading, data, error, isConnected } = useHealthCheck();
+
+  useEffect(() => {
+      document.title = 'Inicio - BossFlow';
+  }, []);
 
   return (
     <div className="home">

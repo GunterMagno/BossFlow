@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { useEffect } from 'react';  
 import { useNavigate, Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import './Login.css';
 
 function Login() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = 'Iniciar Sesión - BossFlow';
+    }, []);
     
     // Estado formulario
     const [datosFormulario, setDatosFormulario] = useState({
@@ -65,15 +70,16 @@ function Login() {
             return;
         }
 
-        setCargando(true);
-
         try {
+            setErrores({});
+            setCargando(!cargando);
+            
             // Simular llamada a backend (2 segundos para probar el spinner)
             await new Promise(resolve => setTimeout(resolve, 2000));
+            
             navigate('/dashboard');
         } catch (error) {
             setErrores({ general: 'Error al iniciar sesión. Inténtalo de nuevo.' });
-        } finally {
             setCargando(false);
         }
     };
@@ -84,7 +90,7 @@ function Login() {
             {/* Botón volver */}
             <button 
                 className="login__boton-volver"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate('/')}
                 aria-label="Volver a la página anterior"
             >
                 <FiArrowLeft />
