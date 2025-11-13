@@ -1,10 +1,11 @@
-require('dotenv').config(); // Cargar variables de entorno
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') }); // Cargar variables de entorno desde la raíz del repo
 const express = require("express"); // Importar Express
 const cors = require("cors"); // Conectar Frontend y Backend
 const connectDB = require("./config/database"); // Importar conexión a BD
 
 const app = express();
-const PORT = process.env.BACKEND_PORT;
+const PORT = process.env.BACKEND_PORT || 5000;
 
 // Conectar a MongoDB
 connectDB();
