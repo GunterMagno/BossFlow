@@ -1,5 +1,6 @@
-/* Bloque: login */
-.login {
+
+/* Bloque: register */
+.register {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -9,7 +10,7 @@
 }
 
 /* Elemento: boton-volver */
-.login__boton-volver {
+.register__boton-volver {
   position: absolute;
   top: var(--espaciado-lg);
   left: var(--espaciado-lg);
@@ -29,19 +30,19 @@
   z-index: 10;
 }
 
-.login__boton-volver:hover {
+.register__boton-volver:hover {
   background: var(--gris1);
   border-color: var(--primario);
   color: var(--primario);
   transform: scale(1.02);
 }
 
-.login__boton-volver svg {
+.register__boton-volver svg {
   font-size: 1.125rem;
 }
 
 /* Elemento: contenedor */
-.login__contenedor {
+.register__contenedor {
   background: var(--blanco);
   border-radius: var(--radio-lg) 0 var(--radio-lg) 0;
   box-shadow: var(--sombra-lg);
@@ -64,32 +65,32 @@
 }
 
 /* Elemento: encabezado */
-.login__encabezado {
+.register__encabezado {
   text-align: center;
   margin-bottom: var(--espaciado-xl);
 }
 
 /* Elemento: titulo */
-.login__titulo {
+.register__titulo {
   color: var(--primario);
   margin: var(--espaciado-sm) 0;
 }
 
 /* Elemento: subtitulo */
-.login__subtitulo {
+.register__subtitulo {
   color: var(--gris5);
   margin: 0;
 }
 
 /* Elemento: formulario */
-.login__formulario {
+.register__formulario {
   display: flex;
   flex-direction: column;
   gap: var(--espaciado-lg);
 }
 
 /* Elemento: error (mensaje de error general) */
-.login__error {
+.register__error {
   background: rgba(31, 45, 68, 0.05);
   border: 0.125rem solid var(--error);
   border-radius: var(--radio-md);
@@ -100,41 +101,21 @@
 }
 
 /* Elemento: campo */
-.login__campo {
+.register__campo {
   display: flex;
   flex-direction: column;
   gap: var(--espaciado-sm);
 }
 
 /* Elemento: etiqueta */
-.login__etiqueta {
+.register__etiqueta {
   color: var(--primario);
   font-size: 0.875rem;
   font-weight: 500;
 }
 
-/* Elemento: etiqueta-con-enlace */
-.login__etiqueta-con-enlace {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Elemento: enlace-recuperar */
-.login__enlace-recuperar {
-  color: var(--gris4);
-  font-size: 0.75rem;
-  text-decoration: none;
-  transition: color var(--transicion-normal);
-}
-
-.login__enlace-recuperar:hover {
-  color: var(--primario);
-  text-decoration: underline;
-}
-
 /* Elemento: input */
-.login__input {
+.register__input {
   background: var(--blanco);
   border: 0.125rem solid var(--gris1);
   border-radius: var(--radio-md);
@@ -144,28 +125,28 @@
   transition: all var(--transicion-normal);
 }
 
-.login__input::placeholder {
+.register__input::placeholder {
   color: var(--gris3);
 }
 
-.login__input:focus {
+.register__input:focus {
   outline: none;
   border-color: var(--primario);
-  box-shadow: var(--sombra-sm);
+  box-shadow: 0 0 0 0.1875rem rgba(31, 45, 68, 0.1);
 }
 
 /* Modificador: input error */
-.login__input--error {
+.register__input--error {
   border-color: var(--error);
 }
 
-.login__input:disabled {
+.register__input:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 /* Elemento: mensaje-error */
-.login__mensaje-error {
+.register__mensaje-error {
   color: var(--error);
   font-size: 0.75rem;
   display: flex;
@@ -186,13 +167,13 @@
   }
 }
 
-/* Elemento: recordar */
-.login__recordar {
+/* Elemento: terminos */
+.register__terminos {
   margin-top: -0.5rem;
 }
 
 /* Elemento: checkbox */
-.login__checkbox {
+.register__checkbox {
   display: flex;
   align-items: center;
   gap: var(--espaciado-sm);
@@ -202,23 +183,36 @@
   user-select: none;
 }
 
-.login__checkbox-input {
+.register__checkbox-input {
   width: 1rem;
   height: 1rem;
   cursor: pointer;
   accent-color: var(--primario);
 }
 
-.login__checkbox-texto {
+.register__checkbox-texto {
   color: var(--gris4);
 }
 
-.login__checkbox:hover .login__checkbox-texto {
+.register__checkbox:hover .register__checkbox-texto {
   color: var(--primario);
 }
 
+/* Elemento: enlace-terminos */
+.register__enlace-terminos {
+  color: var(--primario);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transicion-normal);
+}
+
+.register__enlace-terminos:hover {
+  color: var(--hover);
+  text-decoration: underline;
+}
+
 /* Elemento: boton */
-.login__boton {
+.register__boton {
   background: var(--primario);
   border: none;
   border-radius: var(--radio-md) 0 var(--radio-md) 0;
@@ -235,22 +229,22 @@
   margin-top: var(--espaciado-sm);
 }
 
-.login__boton:hover:not(:disabled) {
+.register__boton:hover:not(:disabled) {
   background: var(--hover);
   box-shadow: var(--sombra-sm);
 }
 
-.login__boton:active:not(:disabled) {
+.register__boton:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-.login__boton:disabled {
+.register__boton:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 /* Elemento: spinner */
-.login__spinner {
+.register__spinner {
   border: 0.125rem solid rgba(248, 250, 252, 0.25);
   border-top: 0.125rem solid var(--blanco);
   border-radius: 50%;
@@ -269,46 +263,46 @@
 }
 
 /* Elemento: pie */
-.login__pie {
+.register__pie {
   text-align: center;
-  margin-top: var(--espaciado-md);
-  padding-top: var(--espaciado-md);
+  margin-top: var(--espaciado-lg);
+  padding-top: var(--espaciado-lg);
   border-top: 0.0625rem solid var(--gris1);
 }
 
-.login__pie-texto {
+.register__pie-texto {
   color: var(--gris5);
   font-size: 0.875rem;
   margin: 0;
 }
 
-/* Elemento: enlace-registro */
-.login__enlace-registro {
+/* Elemento: enlace-login */
+.register__enlace-login {
   color: var(--primario);
   text-decoration: none;
   font-weight: 600;
   transition: color var(--transicion-normal);
 }
 
-.login__enlace-registro:hover {
+.register__enlace-login:hover {
   color: var(--hover);
   text-decoration: underline;
 }
 
 /* Responsive */
 @media (max-width: 30rem) {
-  .login__boton-volver {
+  .register__boton-volver {
     top: 1rem;
     left: 1rem;
     padding: var(--espaciado-sm) var(--espaciado-md);
     font-size: 0.8125rem;
   }
 
-  .login__contenedor {
+  .register__contenedor {
     padding: var(--espaciado-xl);
   }
 
-  .login__titulo {
+  .register__titulo {
     font-size: 1.25rem;
   }
 }
