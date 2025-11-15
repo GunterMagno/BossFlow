@@ -11,6 +11,7 @@
   justify-content: space-between;
   padding: var(--espaciado-md) var(--espaciado-lg);
   width: 100%;
+  position: relative;
 }
 
 /* Elemento: logo */
@@ -18,7 +19,7 @@
   text-decoration: none;
   color: var(--blanco);
   transition: color var(--transicion-rapida);
-  justify-self: start;
+  z-index: 2;
 }
 
 .navbar__logo:hover {
@@ -40,6 +41,9 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .navbar__elemento {
@@ -53,16 +57,15 @@
   font-weight: 500;
   font-size: 1rem;
   padding: var(--espaciado-sm) var(--espaciado-md);
-  border-radius: var(--radio-sm);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
   transition: all var(--transicion-rapida);
 }
 
 .navbar__enlace:hover {
   color: var(--secundario);
   background-color: var(--hover);
+  transform: scale(1.05);
 }
-
-
 
 /* Elemento: contenedor del usuario */
 .navbar__usuario-menu {
@@ -78,7 +81,7 @@
   padding: var(--espaciado-sm) var(--espaciado-md);
   background: none;
   border: none;
-  border-radius: var(--radio-md);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
   color: var(--blanco);
   cursor: pointer;
   transition: all var(--transicion-rapida);
@@ -89,25 +92,51 @@
   background-color: var(--hover);
 }
 
-/* Elemento: botón de usuario no logueado*/
+/* Elemento: contenedor de botones de autenticación */
+.navbar__botones-auth {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-md);
+}
+
+/* Elemento: botón de login */
 .navbar__boton-login {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--espaciado-sm) var(--espaciado-lg);
+  background-color: transparent;
+  color: var(--secundario);
+  text-decoration: none;
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
+  border: 0.125rem solid var(--secundario);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: var(--transicion-rapida);
+  cursor: pointer;
+}
+
+.navbar__boton-login:hover {
+  transform: scale(1.05);
+}
+
+/* Elemento: botón de registro */
+.navbar__boton-registro {
   display: inline-flex;
   align-items: center;
   padding: var(--espaciado-sm) var(--espaciado-lg);
   background-color: var(--secundario);
   color: var(--primario);
   text-decoration: none;
-  border-radius: var(--radio-md);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
+  border: 0.125rem solid var(--secundario);
   font-weight: 600;
   font-size: 1rem;
   transition: var(--transicion-rapida);
-  border: none;
   cursor: pointer;
 }
 
-.navbar__boton-login:hover {
-  background-color: var(--secundario-hover);
-  box-shadow: var(--sombra-md);
+.navbar__boton-registro:hover {
+  transform: scale(1.05);
 }
 
 /* Elemento: avatar del usuario */
@@ -232,18 +261,18 @@
     grid-template-columns: 1fr;
     gap: var(--espaciado-md);
   }
-  
+
   .navbar__enlaces {
     flex-direction: column;
     width: 100%;
     gap: var(--espaciado-sm);
   }
-  
+
   .navbar__enlace {
     width: 100%;
     text-align: center;
   }
-  
+
   .navbar__usuario-menu {
     justify-self: center;
   }
