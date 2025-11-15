@@ -9,8 +9,25 @@ const PORT = process.env.BACKEND_PORT;
 // Conectar a MongoDB
 connectDB();
 
+// Configurar CORS para permitir tanto desarrollo local como Docker
+const allowedOrigins = [
+  `http://localhost:${process.env.FRONTEND_PORT || 5173}`,
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: `http://localhost:${process.env.FRONTEND_PORT}`,
+  origin: function (origin, callback) {
+    // Permitir requests sin origin (como mobile apps o curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log(`❌ CORS bloqueado para origen: ${origin}`);
+      callback(null, true); // En desarrollo, permitimos todos los orígenes
+    }
+  },
   credentials: true
 }));
 

@@ -2,14 +2,21 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import { useAuth } from '../../context/AuthContext';
 import './Register.css';
 
 function Register() {
     const navigate = useNavigate();
+    const { register: registerUser, loading: authLoading, isAuthenticated } = useAuth();
 
     useEffect(() => {
         document.title = 'Registrarse - BossFlow';
-    }, []);
+        
+        // Redirigir si ya está autenticado
+        if (isAuthenticated) {
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated, navigate]);
     
     // Estado formulario
     const [datosFormulario, setDatosFormulario] = useState({
@@ -98,14 +105,25 @@ function Register() {
 
         try {
             setErrores({});
-            setCargando(!cargando);
+            setCargando(true);
             
-            // Simular llamada a backend (2 segundos para probar el spinner)
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Llamar a la función register del contexto
+            const resultado = await registerUser(
+                datosFormulario.nombreUsuario,
+                datosFormulario.correo,
+                datosFormulario.contrasena
+            );
             
-            navigate('/dashboard');
+            if (resultado.success) {
+                // Redirigir al dashboard tras registro exitoso
+                navigate('/dashboard');
+            } else {
+                // Mostrar error del servidor
+                setErrores({ submit: resultado.error });
+            }
         } catch (error) {
             setErrores({ submit: 'Error al registrarse. Inténtalo de nuevo.' });
+        } finally {
             setCargando(false);
         }
     };

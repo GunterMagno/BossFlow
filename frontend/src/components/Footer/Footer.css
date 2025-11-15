@@ -26,6 +26,26 @@
   width: 40%;
 }
 
+/* Elemento: marca (logo + nombre) */
+.footer__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-sm);
+  margin-bottom: var(--espaciado-sm);
+}
+
+.footer__logo {
+  width: 50px;
+  height: 50px;
+  filter: drop-shadow(0 0 8px rgba(234, 179, 8, 0.3));
+}
+
+.footer__titulo--marca {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--blanco);
+  margin: 0;
+}
 
 /* Elemento: título de sección */
 .footer__titulo {
@@ -140,21 +160,103 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .footer__superior {
+    flex-wrap: wrap;
+    gap: var(--espaciado-xl);
+  }
+
+  .footer__seccion--sobre {
+    width: 100%;
+  }
+
+  .footer__enlaces {
+    width: 45%;
+  }
+}
+
 @media (max-width: 768px) {
+  .footer {
+    padding: var(--espaciado-xl) var(--espaciado-md);
+  }
+
   .footer__superior {
     flex-direction: column;
-    align-items: center;
-    gap: var(--espaciado-lg);
+    align-items: flex-start;
+    gap: var(--espaciado-xl);
+  }
+
+  .footer__seccion--sobre {
+    width: 100%;
+    text-align: left;
+  }
+
+  .footer__marca {
+    justify-content: flex-start;
+  }
+
+  .footer__logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .footer__titulo--marca {
+    font-size: 1.5rem;
   }
 
   .footer__enlaces {
     flex-direction: column;
-    gap: var(--espaciado-lg);
+    width: 100%;
+    gap: var(--espaciado-xl);
+  }
+
+  .footer__seccion--redes {
+    width: 100%;
+  }
+
+  .footer__redes {
+    justify-content: flex-start;
   }
 
   .footer__inferior {
     flex-direction: column;
     gap: var(--espaciado-sm);
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: var(--espaciado-lg) var(--espaciado-sm);
+  }
+
+  .footer__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .footer__titulo--marca {
+    font-size: 1.3rem;
+  }
+
+  .footer__descripcion {
+    font-size: 0.875rem;
+  }
+
+  .footer__titulo {
+    font-size: 1rem;
+  }
+
+  .footer__enlace {
+    font-size: 0.875rem;
+  }
+
+  .footer__red {
+    width: 35px;
+    height: 35px;
+  }
+
+  .footer__red-icono {
+    font-size: 0.875rem;
   }
 }

@@ -14,7 +14,7 @@ function Home() {
       <div className="home-container">
         <header className="home-header">
           <div className="logo">
-            <span className="logo-icon">👿</span>
+            <img src="/logo-nt.svg" alt="BossFlow Logo" className="logo-icon" />
             <h1>BossFlow</h1>
           </div>
           <p className="tagline">Planifica tus estrategias contra los mejores bosses</p>
@@ -33,9 +33,9 @@ function Home() {
 
         <main className="home-main">
           <div className="hero">
-            <h2 className="hero-title">Hello BossFlow</h2>
+            <h2 className="hero-title">Derrota a cualquier boss</h2>
             <p className="hero-subtitle">
-              Tu herramienta definitiva para crear diagramas de flujo de estrategias contra bosses épicos
+              Crea estrategias visuales y domina cada encuentro
             </p>
             
             <div className="features">

@@ -1,0 +1,126 @@
+/* Bloque: pricing */
+.pricing {
+  min-height: calc(100vh - 75px - 200px); /* viewport - header - footer */
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaciado-xxl);
+  padding: var(--espaciado-xxl) 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Elemento: fila de palabras */
+.pricing__fila {
+  width: 100vw;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Elemento: contenedor de palabras */
+.pricing__contenedor {
+  display: inline-flex;
+  gap: var(--espaciado-xxl);
+  animation-duration: 80s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Modificador: animación izquierda a derecha */
+.pricing__fila--izq-der .pricing__contenedor {
+  animation-name: scrollIzqDer;
+}
+
+/* Modificador: animación derecha a izquierda */
+.pricing__fila--der-izq .pricing__contenedor {
+  animation-name: scrollDerIzq;
+}
+
+/* Elemento: palabra - color hover del primario */
+.pricing__palabra {
+  color: var(--hover);
+  font-weight: 800;
+  font-size: 4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: default;
+  user-select: none;
+  display: inline-block;
+  transition: color var(--transicion-rapida);
+}
+
+.pricing__palabra:hover {
+  color: var(--secundario);
+}
+
+/* Animaciones */
+@keyframes scrollIzqDer {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes scrollDerIzq {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .pricing {
+    gap: var(--espaciado-xl);
+  }
+
+  .pricing__palabra {
+    font-size: 3rem;
+  }
+
+  .pricing__contenedor {
+    gap: var(--espaciado-xl);
+    animation-duration: 60s;
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing {
+    padding: var(--espaciado-lg) 0;
+    min-height: calc(100vh - 65px - 180px);
+    gap: var(--espaciado-lg);
+  }
+
+  .pricing__palabra {
+    font-size: 2rem;
+  }
+
+  .pricing__contenedor {
+    gap: var(--espaciado-lg);
+    animation-duration: 50s;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing {
+    gap: var(--espaciado-md);
+  }
+
+  .pricing__palabra {
+    font-size: 1.5rem;
+  }
+
+  .pricing__contenedor {
+    gap: var(--espaciado-md);
+    animation-duration: 40s;
+  }
+}

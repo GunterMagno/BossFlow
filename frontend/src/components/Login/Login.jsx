@@ -2,14 +2,21 @@ import { useState } from 'react';
 import { useEffect } from 'react';  
 import { useNavigate, Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
 function Login() {
     const navigate = useNavigate();
+    const { login, loading: authLoading, isAuthenticated } = useAuth();
 
     useEffect(() => {
         document.title = 'Iniciar Sesión - BossFlow';
-    }, []);
+        
+        // Redirigir si ya está autenticado
+        if (isAuthenticated) {
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated, navigate]);
     
     // Estado formulario
     const [datosFormulario, setDatosFormulario] = useState({
@@ -72,14 +79,21 @@ function Login() {
 
         try {
             setErrores({});
-            setCargando(!cargando);
+            setCargando(true);
             
-            // Simular llamada a backend (2 segundos para probar el spinner)
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Llamar a la función login del contexto
+            const resultado = await login(datosFormulario.correo, datosFormulario.contrasena);
             
-            navigate('/dashboard');
+            if (resultado.success) {
+                // Redirigir al dashboard tras login exitoso
+                navigate('/dashboard');
+            } else {
+                // Mostrar error del servidor
+                setErrores({ submit: resultado.error });
+            }
         } catch (error) {
-            setErrores({ general: 'Error al iniciar sesión. Inténtalo de nuevo.' });
+            setErrores({ submit: 'Error al iniciar sesión. Inténtalo de nuevo.' });
+        } finally {
             setCargando(false);
         }
     };

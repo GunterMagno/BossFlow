@@ -6,7 +6,10 @@ function Footer() {
     <footer className="footer">
       <section className="footer__superior">
         <section className="footer__seccion footer__seccion--sobre">
-          <h3 className="footer__titulo">Sobre BossFlow</h3>
+          <div className="footer__marca">
+            <img src="/logo-nt.svg" alt="BossFlow Logo" className="footer__logo" />
+            <h3 className="footer__titulo footer__titulo--marca">BossFlow</h3>
+          </div>
           <p className="footer__descripcion">
             La plataforma para planificar y optimizar tácticas de batallas contra jefes con diagramas de flujos interactivos. Colabora con tu equipo, diseña estrategias visuales y gana fácil contra cualquier boss.
           </p>
