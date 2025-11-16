@@ -12,6 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route element={<Layout />}>
+            {/* Rutas públicas */}
             <Route path="/" element={<Home />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/login" element={<Login />} />
