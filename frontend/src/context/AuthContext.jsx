@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import api from '../services/api';
+import authService from '../services/authService';
 
 // Crear el contexto
 const AuthContext = createContext(null);
@@ -53,12 +54,8 @@ export const AuthProvider = ({ children }) => {
         try {
             setLoading(true);
             
-            const response = await api.post('/api/auth/login', {
-                email: correo,
-                password: contrasena
-            });
-
-            const { user: userData, token } = response.data;
+            // Usar authService en vez de api directamente
+            const { user: userData, token } = await authService.login(correo, contrasena);
 
             // Guardar en localStorage
             localStorage.setItem('user', JSON.stringify(userData));
@@ -86,13 +83,12 @@ export const AuthProvider = ({ children }) => {
         try {
             setLoading(true);
             
-            const response = await api.post('/api/auth/register', {
-                username: nombreUsuario,
-                email: correo,
-                password: contrasena
-            });
-
-            const { user: userData, token } = response.data;
+            // Usar authService en vez de api directamente
+            const { user: userData, token } = await authService.register(
+                nombreUsuario,
+                correo,
+                contrasena
+            );
 
             // Guardar en localStorage
             localStorage.setItem('user', JSON.stringify(userData));
