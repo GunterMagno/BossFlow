@@ -1,12 +1,9 @@
-import { useHealthCheck } from '../hooks/useHealthCheck';
 import { useEffect } from 'react';
 import './Home.css';
 
 function Home() {
-  const { loading, data, error, isConnected } = useHealthCheck();
-
   useEffect(() => {
-      document.title = 'Inicio - BossFlow';
+    document.title = 'Inicio | BossFlow';
   }, []);
 
   return (
@@ -17,18 +14,9 @@ function Home() {
             <img src="/logo-nt.svg" alt="BossFlow Logo" className="logo-icon" />
             <h1>BossFlow</h1>
           </div>
-          <p className="tagline">Planifica tus estrategias contra los mejores bosses</p>
-          
-          {/* Estado de conexión con el backend */}
-          <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
-            {loading ? (
-              <span>Verificando conexión con el backend...</span>
-            ) : isConnected ? (
-              <span>Conectado al backend: {data?.message || 'OK'}</span>
-            ) : (
-              <span>Backend no disponible: {error}</span>
-            )}
-          </div>
+          <p className="tagline">
+            Planifica tus estrategias contra los mejores bosses
+          </p>
         </header>
 
         <main className="home-main">
@@ -37,20 +25,20 @@ function Home() {
             <p className="hero-subtitle">
               Crea estrategias visuales y domina cada encuentro
             </p>
-            
+
             <div className="features">
               <div className="feature-card">
                 <span className="feature-icon">📊</span>
                 <h3>Diagramas Visuales</h3>
                 <p>Crea flujos de decisión intuitivos para tus combates</p>
               </div>
-              
+
               <div className="feature-card">
                 <span className="feature-icon">🎯</span>
                 <h3>Estrategias</h3>
                 <p>Documenta cada fase y táctica de combate</p>
               </div>
-              
+
               <div className="feature-card">
                 <span className="feature-icon">🌐</span>
                 <h3>Comparte</h3>

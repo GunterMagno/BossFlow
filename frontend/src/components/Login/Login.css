@@ -175,7 +175,8 @@
 }
 
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   25% {
@@ -297,18 +298,34 @@
 
 /* Responsive */
 @media (max-width: 30rem) {
-  .login__boton-volver {
-    top: 1rem;
-    left: 1rem;
-    padding: var(--espaciado-sm) var(--espaciado-md);
-    font-size: 0.8125rem;
+  .login {
+    padding: var(--espaciado-md);
   }
 
   .login__contenedor {
-    padding: var(--espaciado-xl);
+    padding: var(--espaciado-lg);
   }
 
   .login__titulo {
     font-size: 1.25rem;
+  }
+
+  /* Arreglar el enlace "¿Olvidaste tu contraseña?" en móvil */
+  .login__etiqueta-con-enlace {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--espaciado-xs);
+  }
+
+  .login__enlace-recuperar {
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Separar "¿Aún no tienes cuenta?" en dos líneas */
+  .login__pie-texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciado-xs);
   }
 }
