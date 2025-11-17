@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { FiBarChart2, FiTarget, FiShare2 } from 'react-icons/fi';
 import './Home.css';
 
 function Home() {
@@ -28,19 +29,25 @@ function Home() {
 
             <div className="features">
               <div className="feature-card">
-                <span className="feature-icon">📊</span>
+                <span className="feature-icon">
+                  <FiBarChart2 />
+                </span>
                 <h3>Diagramas Visuales</h3>
                 <p>Crea flujos de decisión intuitivos para tus combates</p>
               </div>
 
               <div className="feature-card">
-                <span className="feature-icon">🎯</span>
+                <span className="feature-icon">
+                  <FiTarget />
+                </span>
                 <h3>Estrategias</h3>
                 <p>Documenta cada fase y táctica de combate</p>
               </div>
 
               <div className="feature-card">
-                <span className="feature-icon">🌐</span>
+                <span className="feature-icon">
+                  <FiShare2 />
+                </span>
                 <h3>Comparte</h3>
                 <p>Colabora con otros jugadores y mejora juntos</p>
               </div>
@@ -49,7 +56,7 @@ function Home() {
         </main>
 
         <footer className="home-footer">
-          <p>© 2024 BossFlow - Domina cada encuentro</p>
+          <p>© 2025 BossFlow - Domina cada encuentro</p>
         </footer>
       </div>
     </div>
