@@ -1,0 +1,233 @@
+/* Bloque: not-found */
+.not-found {
+  min-height: calc(100vh - 75px - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espaciado-xxl) var(--espaciado-lg);
+}
+
+/* Elemento: contenedor */
+.not-found__contenedor {
+  max-width: 600px;
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Elemento: icono */
+.not-found__icono {
+  font-size: 5rem;
+  color: var(--secundario);
+  margin-bottom: var(--espaciado-lg);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Elemento: codigo */
+.not-found__codigo {
+  font-size: 8rem;
+  font-weight: 800;
+  color: var(--blanco);
+  margin: 0;
+  line-height: 1;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Elemento: titulo */
+.not-found__titulo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--blanco);
+  margin: var(--espaciado-lg) 0 var(--espaciado-md);
+}
+
+/* Elemento: mensaje */
+.not-found__mensaje {
+  font-size: 1.125rem;
+  color: var(--gris2);
+  margin-bottom: var(--espaciado-xxl);
+  line-height: 1.6;
+}
+
+/* Elemento: sugerencias */
+.not-found__sugerencias {
+  background: var(--focus);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
+  padding: var(--espaciado-lg);
+  margin-bottom: var(--espaciado-xxl);
+  text-align: left;
+}
+
+.not-found__sugerencias-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--blanco);
+  margin-bottom: var(--espaciado-md);
+}
+
+/* Elemento: lista */
+.not-found__lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.not-found__lista li {
+  color: var(--gris2);
+  font-size: 0.95rem;
+  padding: var(--espaciado-sm) 0;
+  padding-left: var(--espaciado-lg);
+  position: relative;
+}
+
+.not-found__lista li::before {
+  content: '•';
+  position: absolute;
+  left: var(--espaciado-sm);
+  color: var(--secundario);
+  font-weight: bold;
+}
+
+/* Elemento: acciones */
+.not-found__acciones {
+  display: flex;
+  gap: var(--espaciado-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Elemento: boton */
+.not-found__boton {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-sm);
+  padding: var(--espaciado-md) var(--espaciado-xl);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.not-found__boton--primario {
+  background: var(--secundario);
+  color: var(--primario);
+}
+
+.not-found__boton--primario:hover {
+  background: var(--secundario-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.3);
+}
+
+.not-found__boton--secundario {
+  background: transparent;
+  color: var(--blanco);
+  border: 2px solid var(--blanco);
+}
+
+.not-found__boton--secundario:hover {
+  background: var(--blanco);
+  color: var(--primario);
+  transform: translateY(-2px);
+}
+
+.not-found__boton:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .not-found {
+    padding: var(--espaciado-lg) var(--espaciado-md);
+    min-height: calc(100vh - 65px - 180px);
+  }
+
+  .not-found__icono {
+    font-size: 4rem;
+  }
+
+  .not-found__codigo {
+    font-size: 6rem;
+  }
+
+  .not-found__titulo {
+    font-size: 1.75rem;
+  }
+
+  .not-found__mensaje {
+    font-size: 1rem;
+  }
+
+  .not-found__acciones {
+    flex-direction: column;
+  }
+
+  .not-found__boton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .not-found {
+    padding: var(--espaciado-md);
+  }
+
+  .not-found__icono {
+    font-size: 3rem;
+  }
+
+  .not-found__codigo {
+    font-size: 4.5rem;
+  }
+
+  .not-found__titulo {
+    font-size: 1.5rem;
+  }
+
+  .not-found__mensaje {
+    font-size: 0.9375rem;
+  }
+
+  .not-found__sugerencias {
+    padding: var(--espaciado-md);
+  }
+
+  .not-found__sugerencias-titulo {
+    font-size: 0.9375rem;
+  }
+
+  .not-found__lista li {
+    font-size: 0.875rem;
+  }
+
+  .not-found__boton {
+    font-size: 0.9375rem;
+    padding: var(--espaciado-sm) var(--espaciado-lg);
+  }
+}

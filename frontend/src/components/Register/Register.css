@@ -1,4 +1,3 @@
-
 /* Bloque: register */
 .register {
   min-height: 100vh;
@@ -156,7 +155,8 @@
 }
 
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   25% {
@@ -291,18 +291,22 @@
 
 /* Responsive */
 @media (max-width: 30rem) {
-  .register__boton-volver {
-    top: 1rem;
-    left: 1rem;
-    padding: var(--espaciado-sm) var(--espaciado-md);
-    font-size: 0.8125rem;
+  .register {
+    padding: var(--espaciado-md);
   }
 
   .register__contenedor {
-    padding: var(--espaciado-xl);
+    padding: var(--espaciado-lg);
   }
 
   .register__titulo {
     font-size: 1.25rem;
+  }
+
+  /* Separar "¿Ya tienes una cuenta?" en dos líneas */
+  .register__pie-texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciado-xs);
   }
 }
