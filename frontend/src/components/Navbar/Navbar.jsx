@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   FiUser,
@@ -36,9 +36,9 @@ function Navbar() {
   return (
     <header className="encabezado">
       <nav className="encabezado__navbar">
-        <a href="/" className="navbar__logo">
+        <Link to="/" className="navbar__logo">
           <img src="/logo.png" alt="BossFlow" className="navbar__logo-img" />
-        </a>
+        </Link>
 
         {/* Botón hamburguesa para móviles */}
         <button
@@ -53,68 +53,68 @@ function Navbar() {
           className={`navbar__enlaces ${menuMovilAbierto ? 'navbar__enlaces--visible' : ''}`}
         >
           <li className="navbar__elemento">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="navbar__enlace"
               onClick={() => setMenuMovilAbierto(false)}
             >
               Inicio
-            </a>
+            </Link>
           </li>
           <li className="navbar__elemento">
-            <a
-              href="/diagrama"
+            <Link
+              to="/diagrams"
               className="navbar__enlace"
               onClick={() => setMenuMovilAbierto(false)}
             >
               Diagramas
-            </a>
+            </Link>
           </li>
           <li className="navbar__elemento">
-            <a
-              href="/comunity"
+            <Link
+              to="/community"
               className="navbar__enlace"
               onClick={() => setMenuMovilAbierto(false)}
             >
               Comunidad
-            </a>
+            </Link>
           </li>
 
           {/* Opciones de auth en móvil dentro del menú */}
           <li className="navbar__elemento navbar__elemento--auth-movil">
             {!isAuthenticated ? (
               <section className="navbar__botones-auth-movil">
-                <a
-                  href="/login"
+                <Link
+                  to="/login"
                   className="navbar__boton-login"
                   onClick={() => setMenuMovilAbierto(false)}
                 >
                   Iniciar sesión
-                </a>
-                <a
-                  href="/register"
+                </Link>
+                <Link
+                  to="/register"
                   className="navbar__boton-registro"
                   onClick={() => setMenuMovilAbierto(false)}
                 >
                   Registrarse
-                </a>
+                </Link>
               </section>
             ) : (
               <section className="navbar__usuario-movil">
-                <a
-                  href="/profile"
+                <Link
+                  to="/profile"
                   className="navbar__enlace"
                   onClick={() => setMenuMovilAbierto(false)}
                 >
                   <FiUser /> Perfil
-                </a>
-                <a
-                  href="/settings"
+                </Link>
+                <Link
+                  to="/settings"
                   className="navbar__enlace"
                   onClick={() => setMenuMovilAbierto(false)}
                 >
                   <FiSettings /> Configuración
-                </a>
+                </Link>
                 <button
                   onClick={cerrarSesion}
                   className="navbar__enlace navbar__enlace--logout"
@@ -129,13 +129,13 @@ function Navbar() {
         <section className="navbar__usuario-menu">
           {!isAuthenticated ? (
             // Usuario NO logueado: botones de login y registro (solo desktop)
-            <section className="navbar__botones-auth">
-              <a href="/login" className="navbar__boton-login">
+              <section className="navbar__botones-auth">
+              <Link to="/login" className="navbar__boton-login">
                 Iniciar sesión
-              </a>
-              <a href="/register" className="navbar__boton-registro">
+              </Link>
+              <Link to="/register" className="navbar__boton-registro">
                 Registrarse
-              </a>
+              </Link>
             </section>
           ) : (
             // Usuario logueado: menú desplegable completo (solo desktop)
@@ -157,20 +157,20 @@ function Navbar() {
               {menuAbierto && (
                 <ul className="menu-desplegable">
                   <li className="menu-desplegable__elemento">
-                    <a href="/profile" className="menu-desplegable__enlace">
+                    <Link to="/profile" className="menu-desplegable__enlace">
                       <span className="menu-desplegable__icono">
                         <FiUser />
                       </span>
                       <span>Perfil</span>
-                    </a>
+                    </Link>
                   </li>
                   <li className="menu-desplegable__elemento">
-                    <a href="/settings" className="menu-desplegable__enlace">
+                    <Link to="/settings" className="menu-desplegable__enlace">
                       <span className="menu-desplegable__icono">
                         <FiSettings />
                       </span>
                       <span>Configuración</span>
-                    </a>
+                    </Link>
                   </li>
                   <li className="menu-desplegable__separador"></li>
                   <li className="menu-desplegable__elemento">

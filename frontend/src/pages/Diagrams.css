@@ -1,0 +1,21 @@
+/* Layout principal de la página de diagramas */
+.diagramas-page {
+  width: 100%;
+  align-items: start;
+}
+
+.diagramas__sidebar {
+  padding: var(--espaciado-lg, 1rem);
+  background: transparent; /* espacio reservado */
+}
+
+.diagramas__main {
+  padding: var(--espaciado-lg, 1rem);
+}
+
+/* En pantallas pequeñas apilamos */
+@media (max-width: 768px) {
+  .diagramas-page {
+    grid-template-columns: 1fr;
+  }
+}
