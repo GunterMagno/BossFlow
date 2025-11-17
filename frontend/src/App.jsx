@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Layout from './layouts/Layout';
 import Home from './pages/Home';
+import Diagrams from './pages/Diagrams';
 import Status from './pages/Status';
 import NotFound from './pages/NotFound';
 import Login from './components/Login/Login';
@@ -18,6 +19,9 @@ function App() {
             <Route path="/status" element={<Status />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
+            {/* Rutas privadas */}
+            <Route path="/diagrams" element={<Diagrams />} />
 
             {/* Ruta 404 - debe estar al final */}
             <Route path="*" element={<NotFound />} />
