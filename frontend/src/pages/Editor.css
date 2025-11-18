@@ -1,0 +1,17 @@
+/* Layout principal de la página de editor diagramas */
+.editor-page {
+  width: 100%;
+  align-items: start;
+}
+
+
+.editor__main {
+  padding: var(--espaciado-lg, 1rem);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .editor-page {
+    grid-template-columns: 1fr;
+  }
+}
