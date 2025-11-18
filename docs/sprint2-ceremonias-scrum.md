@@ -44,3 +44,4 @@
 - Backlog refinado y priorizado.
 - Historias de usuario para Sprint 3 definidas.
 - Ceremonia de Sprint Planning 3 agendada para el lunes 17/11.
+
