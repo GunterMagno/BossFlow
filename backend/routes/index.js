@@ -28,6 +28,10 @@ router.post("/auth/login", (req, res, next) => {
   authController.login(req, res, next);
 });
 
+router.post("/auth/logout", auth, (req, res, next) => {
+  authController.logout(req, res, next);
+});
+
 router.post("/eco", (req, res) => {
   if (process.env.NODE_ENV === 'development') {
     console.log("📨 Echo recibido:", req.body);
