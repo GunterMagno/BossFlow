@@ -1,0 +1,316 @@
+type: collection.insomnia.rest/5.0
+name: BossFlow
+meta:
+  id: wrk_9e614f6375b74f2f9884721240a42400
+  created: 1763457159154
+  modified: 1763457159154
+  description: ""
+collection:
+  - url: http://localhost:5000/api/health
+    name: Health
+    meta:
+      id: req_144fd6594aa749e8b33ee938697892d1
+      created: 1763457168925
+      modified: 1763457685587
+      isPrivate: false
+      description: ""
+      sortKey: -1763457613594
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/auth/register
+    name: Register
+    meta:
+      id: req_dc1a4f346cec446c9bb6987009d9e37e
+      created: 1763457613494
+      modified: 1763465184863
+      isPrivate: false
+      description: ""
+      sortKey: -1763457613494
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "username": "usertest",
+          "email": "usertest@example.com",
+          "password": "password123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.0.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/auth/register
+    name: Register EmailDuplicado
+    meta:
+      id: req_325e11c698f14d03ac98cda916f9c20d
+      created: 1763457688956
+      modified: 1763465253814
+      isPrivate: false
+      description: ""
+      sortKey: -1763457613394
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "username": "otrouser",
+          "email": "usertest@example.com",
+          "password": "password123"
+        }
+    parameters:
+      - id: pair_7ce4f87d8f064c0f8932ab5b2249683a
+        name: ""
+        value: ""
+        description: ""
+        disabled: false
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.0.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/auth/login
+    name: Login Exitoso
+    meta:
+      id: req_482780bde3f345f8a6be2912e5c1ab0a
+      created: 1763457759048
+      modified: 1763465311727
+      isPrivate: false
+      description: ""
+      sortKey: -1763457613294
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "usertest@example.com",
+          "password": "password123"
+        }
+    parameters:
+      - id: pair_19d3ad9d42b84f6caff5cb9637de53d8
+        name: ""
+        value: ""
+        description: ""
+        disabled: false
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.0.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/auth/login
+    name: Login Contraseña Incorrecta
+    meta:
+      id: req_1f2ae99e58a94d3ba99f7fb6e776726f
+      created: 1763457861182
+      modified: 1763465353889
+      isPrivate: false
+      description: ""
+      sortKey: -1763457613194
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "usertest@example.com",
+          "password": "contraseñaMALA"
+        }
+    parameters:
+      - id: pair_dbbdfe7f0885457090f36f10cd8c8b5d
+        name: ""
+        value: ""
+        description: ""
+        disabled: false
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.0.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/perfil
+    name: Ruta Protegida con Token
+    meta:
+      id: req_3903f199780e4d528cee925c440544d5
+      created: 1763457981268
+      modified: 1763465538629
+      isPrivate: false
+      description: ""
+      sortKey: -1763457613094
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_06fc21a971934b85aa81a62edea66732
+      - id: pair_cf94c2af6a0c4b6f86c03149c099e650
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFjNTkwODAxODk1YTE4Mjg1ZjU1ZTYiLCJpYXQiOjE3NjM0NjU0ODAsImV4cCI6MTc2MzQ2OTA4MH0.Dw2QUfGz4pzGERFZQkvoanLBudzY7LgzC_QSdacAQY0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/perfil
+    name: Ruta Protegida sin Token
+    meta:
+      id: req_5ecdac8c40594549bfc841a10e2e68e8
+      created: 1763458029686
+      modified: 1763458029686
+      isPrivate: false
+      description: ""
+      sortKey: -1763457613044
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/auth/logout
+    name: Logout
+    meta:
+      id: req_bf4d2b586fd644af975fcd3e6684b0de
+      created: 1763458167566
+      modified: 1763465774731
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612944
+    method: POST
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_982ee33bc0ed4167890fc125fb8239aa
+      - id: pair_5ab882c087254643b948ab3deeea72c5
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFjNTkwODAxODk1YTE4Mjg1ZjU1ZTYiLCJpYXQiOjE3NjM0NjU0ODAsImV4cCI6MTc2MzQ2OTA4MH0.Dw2QUfGz4pzGERFZQkvoanLBudzY7LgzC_QSdacAQY0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/auth/login
+    name: Login Email Incorrecto
+    meta:
+      id: req_c83d46ffdf174fca9f3d5e66aa36799c
+      created: 1763465326167
+      modified: 1763465375139
+      isPrivate: false
+      description: ""
+      sortKey: -1763457613144
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "noexiste@example.com",
+          "password": "password123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.0.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/perfil
+    name: Ruta Con Token Invalido
+    meta:
+      id: req_bceff35ce56b43dcb08900d963cb364b
+      created: 1763465404746
+      modified: 1763465448285
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612994
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_c2093804ff75442fb704b92e94039428
+      - id: pair_6dd4cea1ff2d4c12abae08e68148f99d
+        name: Authorization
+        value: Bearer token_invalido_123
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_fd3888387783f2e3562f716a19e382543f3ac34d
+    created: 1763457159194
+    modified: 1763457159194
+environments:
+  name: Base Environment
+  meta:
+    id: env_fd3888387783f2e3562f716a19e382543f3ac34d
+    created: 1763457159191
+    modified: 1763457159191
+    isPrivate: false
