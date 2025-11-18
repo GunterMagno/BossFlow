@@ -15,14 +15,17 @@
 ## 2. Endpoints usados
 
 - **POST `/api/auth/login`**
+
   - Recibe: `{ correo, contrasena }`
   - Devuelve: `{ user, token }`
 
 - **POST `/api/auth/register`**
+
   - Recibe: `{ nombreUsuario, correo, contrasena }`
   - Devuelve: `{ user, token }`
 
 - **GET `/api/auth/check`**
+
   - Requiere header `Authorization: Bearer <token>`
   - Devuelve: `{ user }` si el token es válido
 
