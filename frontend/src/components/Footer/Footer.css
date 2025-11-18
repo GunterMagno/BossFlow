@@ -1,0 +1,262 @@
+/* Bloque: footer */
+.footer {
+  background-color: var(--focus);
+  color: var(--blanco);
+  padding: var(--espaciado-xxl) var(--espaciado-lg);
+  box-shadow: var(--sombra-sm);
+}
+
+/* Elemento: parte superior del footer */
+.footer__superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--espaciado-xl);
+}
+
+/* Elemento: sección del footer */
+.footer__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-md);
+}
+
+/* Elemento: Sección con el título y la descripción*/
+.footer__seccion--sobre{
+  width: 40%;
+}
+
+/* Elemento: marca (logo + nombre) */
+.footer__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-sm);
+  margin-bottom: var(--espaciado-sm);
+}
+
+.footer__logo {
+  width: 50px;
+  height: 50px;
+  filter: drop-shadow(0 0 8px rgba(234, 179, 8, 0.3));
+}
+
+.footer__titulo--marca {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--blanco);
+  margin: 0;
+}
+
+/* Elemento: título de sección */
+.footer__titulo {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--blanco);
+}
+
+/* Elemento: descripción */
+.footer__descripcion {
+  margin: 0;
+  width: 100%;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--gris1);
+}
+
+.footer__enlaces{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 25%;
+}
+
+/* Elemento: lista de enlaces */
+.footer__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-sm);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Elemento: elemento de lista */
+.footer__elemento {
+  margin: 0;
+}
+
+/* Elemento: enlace */
+.footer__enlace {
+  color: var(--gris1);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color var(--transicion-rapida);
+}
+
+.footer__enlace:hover {
+  color: var(--secundario);
+}
+
+/* Elemento: contenedor de redes sociales */
+.footer__redes {
+  display: flex;
+  gap: var(--espaciado-md);
+}
+
+/* Elemento: icono de red social */
+.footer__red {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--hover);
+  border-radius: var(--radio-md);
+  color: var(--blanco);
+  text-decoration: none;
+  transition: all var(--transicion-rapida);
+}
+
+.footer__red:hover {
+  color: var(--negro);
+  background-color: var(--secundario);
+  box-shadow: var(--sombra-sm);
+}
+
+/* Elemento: icono dentro de la red */
+.footer__red-icono {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Elemento: separador */
+.footer__separador {
+  height: 1px;
+  background-color: var(--hover);
+  margin: var(--espaciado-xl) 0;
+}
+
+/* Elemento: parte inferior del footer */
+.footer__inferior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Elemento: copyright */
+.footer__copyright {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--gris2);
+}
+
+/* Elemento: lema */
+.footer__lema {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--gris2);
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .footer__superior {
+    flex-wrap: wrap;
+    gap: var(--espaciado-xl);
+  }
+
+  .footer__seccion--sobre {
+    width: 100%;
+  }
+
+  .footer__enlaces {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: var(--espaciado-xl) var(--espaciado-md);
+  }
+
+  .footer__superior {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--espaciado-xl);
+  }
+
+  .footer__seccion--sobre {
+    width: 100%;
+    text-align: left;
+  }
+
+  .footer__marca {
+    justify-content: flex-start;
+  }
+
+  .footer__logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .footer__titulo--marca {
+    font-size: 1.5rem;
+  }
+
+  .footer__enlaces {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--espaciado-xl);
+  }
+
+  .footer__seccion--redes {
+    width: 100%;
+  }
+
+  .footer__redes {
+    justify-content: flex-start;
+  }
+
+  .footer__inferior {
+    flex-direction: column;
+    gap: var(--espaciado-sm);
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: var(--espaciado-lg) var(--espaciado-sm);
+  }
+
+  .footer__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .footer__titulo--marca {
+    font-size: 1.3rem;
+  }
+
+  .footer__descripcion {
+    font-size: 0.875rem;
+  }
+
+  .footer__titulo {
+    font-size: 1rem;
+  }
+
+  .footer__enlace {
+    font-size: 0.875rem;
+  }
+
+  .footer__red {
+    width: 35px;
+    height: 35px;
+  }
+
+  .footer__red-icono {
+    font-size: 0.875rem;
+  }
+}

@@ -1,0 +1,30 @@
+/* Contenedor de loading para rutas protegidas */
+.private-route__loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  gap: var(--espaciado-md, 1rem);
+}
+
+.private-route__texto {
+  font-size: 1rem;
+  color: var(--gris-claro, #9ca3af);
+}
+
+/* Spinner animado */
+.private-route__spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 0.25rem solid var(--gris-oscuro, #374151);
+  border-top-color: var(--secundario, #eab308);
+  border-radius: 50%;
+  animation: private-route-spin 0.8s linear infinite;
+}
+
+@keyframes private-route-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
