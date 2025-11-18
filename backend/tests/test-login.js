@@ -41,20 +41,46 @@ function testLogin(testName, email, password, expectedStatus) {
 async function runTests() {
   const results = [];
   
-  // Test 1: Login exitoso
-  results.push(await testLogin('Login exitoso', 'test@example.com', 'password123', 200));
+  // Primero crear un usuario para las pruebas de login
+  const timestamp = Date.now();
+  const testEmail = `logintest${timestamp}@example.com`;
+  const testPassword = 'password123';
   
-  // Test 2: Email en mayúsculas
-  results.push(await testLogin('Email mayúsculas', 'TEST@EXAMPLE.COM', 'password123', 200));
+  await new Promise((resolve) => {
+    const data = JSON.stringify({ 
+      username: 'loginuser' + timestamp, 
+      email: testEmail, 
+      password: testPassword 
+    });
+    const options = {
+      hostname: 'localhost',
+      port: 5000,
+      path: '/api/auth/register',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length
+      }
+    };
+    const req = http.request(options, () => resolve());
+    req.write(data);
+    req.end();
+  });
+  
+  // Test 1: Login exitoso
+  results.push(await testLogin('Login exitoso', testEmail, testPassword, 200));
+  
+  // Test 2: Email en mayúsculas (debe funcionar por la normalización)
+  results.push(await testLogin('Email mayúsculas', testEmail.toUpperCase(), testPassword, 200));
   
   // Test 3: Password incorrecta
-  results.push(await testLogin('Password incorrecta', 'test@example.com', 'wrongpass', 401));
+  results.push(await testLogin('Password incorrecta', testEmail, 'wrongpass', 401));
   
   // Test 4: Email inexistente
-  results.push(await testLogin('Email inexistente', 'noexiste@example.com', 'password123', 401));
+  results.push(await testLogin('Email inexistente', `noexiste${timestamp}@example.com`, testPassword, 401));
   
   // Test 5: Email inválido
-  results.push(await testLogin('Email inválido', 'emailinvalido', 'password123', 400));
+  results.push(await testLogin('Email inválido', 'emailinvalido', testPassword, 400));
   
   // Test 6: Sin email
   const test6 = await new Promise((resolve) => {
