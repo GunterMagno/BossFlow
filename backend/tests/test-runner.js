@@ -2,25 +2,35 @@
 const testHealth = require('./test-health');
 const testLogin = require('./test-login');
 const testRegister = require('./test-register');
+const testProtected = require('./test-protected');
 
 async function runAllTests() {
   console.log('\n🧪 Ejecutando tests automáticos...\n');
   
   const allResults = {
     'Health Endpoints': [],
+    'Auth - Register': [],
     'Auth - Login': [],
-    'Auth - Register': []
+    'Auth - Logout': [],
+    'Perfil - Ruta Protegida': []
   };
   
   try {
     // Ejecutar tests de health
     allResults['Health Endpoints'] = await testHealth.runTests();
     
+    // Ejecutar tests de register (primero para crear usuarios)
+    allResults['Auth - Register'] = await testRegister.runTests();
+    
     // Ejecutar tests de login
     allResults['Auth - Login'] = await testLogin.runTests();
     
-    // Ejecutar tests de register
-    allResults['Auth - Register'] = await testRegister.runTests();
+    // Ejecutar tests de rutas protegidas y logout
+    const protectedResults = await testProtected.runTests();
+    
+    // Separar resultados de logout y perfil
+    allResults['Auth - Logout'] = protectedResults.filter(r => r.testName.includes('Logout'));
+    allResults['Perfil - Ruta Protegida'] = protectedResults.filter(r => r.testName.includes('Perfil'));
     
     // Mostrar resultados
     displayResults(allResults);
