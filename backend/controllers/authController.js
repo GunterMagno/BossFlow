@@ -143,3 +143,15 @@ exports.login = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.logout = async (req, res, next) => {
+    try {
+        // En un sistema basado en JWT sin estado, el logout se maneja en el cliente
+        // eliminando el token. Aquí simplemente confirmamos la operación.
+        res.status(200).json({ 
+            message: 'Sesión cerrada correctamente'
+        });
+    } catch (err) {
+        next(err);
+    }
+};
