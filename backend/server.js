@@ -25,6 +25,11 @@ app.use(cors({
     // Permitir requests sin origin (como mobile apps o curl)
     if (!origin) return callback(null, true);
     
+    // En producción, permitir todos los orígenes (ya que Nginx hace el proxy)
+    if (process.env.NODE_ENV === 'production') {
+      return callback(null, true);
+    }
+    
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -35,7 +40,6 @@ app.use(cors({
   credentials: true
 }));
 
-connectDB();
 app.use(express.json());
 
 const routes = require("./routes/index");
