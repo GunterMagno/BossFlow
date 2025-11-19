@@ -24,12 +24,14 @@ const nodosIniciales = [
 ];
 
 // Conexiones del flujo
-const conexiones = [
-  { id: "e1", source: "n1", target: "n2" },
-  { id: "e2", source: "n1", target: "n3" },
-  { id: "e3", source: "n2", target: "n4" },
-  { id: "e4", source: "n3", target: "n5" },
-];
+// const conexiones = [
+//   { id: "e1", source: "n1", target: "n2"},
+//   { id: "e2", source: "n1", target: "n3"},
+//   { id: "e3", source: "n2", target: "n4"},
+//   { id: "e4", source: "n3", target: "n5"},
+// ];
+
+const conexiones = [];
 
 function FlowMap() {
   const [nodos, setNodos, onNodosChange] = useNodesState(nodosIniciales);
@@ -51,6 +53,7 @@ function FlowMap() {
           onConnect={onConnect}
           nodeTypes={tiposNodos}
           fitView
+          attributionPosition="bottom-left"
         >
           {/* Configurar tipos de nodos*/} 
           <MiniMap 
@@ -75,4 +78,8 @@ function FlowMap() {
   );
 }
 
+
+
+
 export default FlowMap;
+
