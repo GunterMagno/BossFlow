@@ -2,14 +2,10 @@ services:
   backend:
     build: 
       context: ./backend
-    ports:
-      - "5000:5000"
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
       BACKEND_PORT: 5000
-      FRONTEND_PORT: 5173
       MONGO_URI: mongodb://mongo:27017/bossflow
-      MONGODB_URI: mongodb://mongo:27017/bossflow
       JWT_SECRET: b0ssfl0w_2025_d4n1_4l3j4ndr0_j3sus_d1c13mbr3_s3cr3t_d3crypt_t0k3n
     depends_on:
       mongo:
@@ -17,12 +13,16 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    expose:
+      - "5000"
 
   frontend:
     build: 
       context: ./frontend
+      args:
+        VITE_API_URL: http://localhost/api
     ports:
-      - "5173:80"
+      - "80:80"
     depends_on:
       - backend
     restart: unless-stopped
@@ -30,14 +30,14 @@ services:
       - app-network
 
   mongo:
-    image: mongo:7
-    ports:
-      - "27017:27017"
+    image: mongo:4.4
     volumes:
       - mongo-data:/data/db
     restart: unless-stopped
     networks:
       - app-network
+    expose:
+      - "27017"
 
 volumes:
   mongo-data:
