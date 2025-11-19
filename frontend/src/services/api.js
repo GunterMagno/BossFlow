@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+// En desarrollo: usa variable de entorno o localhost:5000
+// En producción (Docker): usa /api (proxy de Nginx)
+const baseURL = import.meta.env.VITE_API_URL || '/api';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000',
+  baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
