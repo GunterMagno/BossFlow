@@ -3,6 +3,9 @@ const path = require('path');
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
 }
+const express = require("express"); // Importar Express
+const cors = require("cors"); // Conectar Frontend y Backend
+const connectDB = require("./config/database"); // Importar conexión a BD
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/database");

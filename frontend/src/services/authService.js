@@ -12,7 +12,7 @@ export const authService = {
    * @returns {Promise<Object>} Datos del usuario y token
    */
   login: async (email, password) => {
-    const response = await api.post('/api/auth/login', { email, password });
+    const response = await api.post('/auth/login', { email, password });
     return response.data;
   },
 
@@ -24,7 +24,7 @@ export const authService = {
    * @returns {Promise<Object>} Datos del usuario y token
    */
   register: async (username, email, password) => {
-    const response = await api.post('/api/auth/register', {
+    const response = await api.post('/auth/register', {
       username,
       email,
       password,

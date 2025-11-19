@@ -69,6 +69,7 @@ body {
   line-height: 1.5;
   color: var(--gris7);
   background: var(--primario);
+  overflow-x: hidden;
 }
 
 /* Estilos globales para la tipografía */

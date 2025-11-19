@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:4.4
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      NODE_ENV: production
+      BACKEND_PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/bossflow
+      JWT_SECRET: b0ssfl0w_2025_d4n1_4l3j4ndr0_j3sus_d1c13mbr3_s3cr3t_d3crypt_t0k3n
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+    # Nota: no exponemos el puerto 5000 al host en producción para aumentar seguridad.
+    # El frontend (Nginx) se comunicará con el backend vía la red interna 'app-network'.
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'node -e "require(''http'').get(''http://127.0.0.1:5000/api/health'', r => { if(r.statusCode===200) process.exit(0); else process.exit(1) }).on(''error'', ()=>process.exit(1))"',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # En producción no inyectamos URL externa: el cliente usará '/api' y Nginx hará proxy
+        VITE_API_URL: ""
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./frontend/nginx.ssl.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+
+networks:
+  app-network:
+    driver: bridge

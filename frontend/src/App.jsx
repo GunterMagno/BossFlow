@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './routes/PrivateRoute';
 import Home from './pages/Home';
+import Diagrams from './pages/Diagrams';
+import Dashboard from './pages/Dashboard';
 import Editor from './pages/Editor';
 import Status from './pages/Status';
 import NotFound from './pages/NotFound';
@@ -29,6 +31,11 @@ function App() {
                 <Editor />
               </PrivateRoute>} />
             
+
+            <Route path="/dashboard" element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>} />
 
             {/* Ruta 404 - debe estar al final */}
             <Route path="*" element={<NotFound />} />
