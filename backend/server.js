@@ -1,14 +1,38 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') }); // Cargar variables de entorno desde la raíz del repo
-const express = require("express"); // Importar Express
-const cors = require("cors"); // Conectar Frontend y Backend
-const connectDB = require("./config/database"); // Importar conexión a BD
+// Solo cargar .env en desarrollo local, en Docker usamos variables de environment
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
+}
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/database");
 
 const app = express();
 const PORT = process.env.BACKEND_PORT || 5000;
 
-// Conectar a MongoDB
-connectDB();
+// Función para iniciar servidor
+async function startServer() {
+  // Primero conectar a MongoDB
+  await connectDB();
+  
+  // Luego iniciar el servidor HTTP
+  app.listen(PORT, async () => {
+    console.log(`✅ Servidor iniciado en el puerto -> ${PORT}`);
+    
+    // Ejecutar tests automáticos si está en modo desarrollo
+    if (process.env.NODE_ENV !== 'production') {
+      const testRunner = require('./tests/test-runner');
+      
+      try {
+        // Esperar un momento para que el servidor esté completamente listo
+        await testRunner.waitForServer();
+        await testRunner.runAllTests();
+      } catch (error) {
+        console.error('⚠️  No se pudieron ejecutar los tests:', error.message);
+      }
+    }
+  });
+}
 
 // Configurar CORS para permitir tanto desarrollo local como Docker
 const allowedOrigins = [
@@ -22,6 +46,11 @@ app.use(cors({
     // Permitir requests sin origin (como mobile apps o curl)
     if (!origin) return callback(null, true);
     
+    // En producción, permitir todos los orígenes (ya que Nginx hace el proxy)
+    if (process.env.NODE_ENV === 'production') {
+      return callback(null, true);
+    }
+    
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -31,10 +60,7 @@ app.use(cors({
   },
   credentials: true
 }));
-const PORT = process.env.PORT || 8080;
-const connectDB = require("./config/db");
 
-connectDB();
 app.use(express.json());
 
 const routes = require("./routes/index");
@@ -75,19 +101,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, async () => {
-  console.log(`✅ Servidor iniciado en el puerto -> ${PORT}`);
-  
-  // Ejecutar tests automáticos si está en modo desarrollo
-  if (process.env.NODE_ENV !== 'production') {
-    const testRunner = require('./tests/test-runner');
-    
-    try {
-      // Esperar un momento para que el servidor esté completamente listo
-      await testRunner.waitForServer();
-      await testRunner.runAllTests();
-    } catch (error) {
-      console.error('⚠️  No se pudieron ejecutar los tests:', error.message);
-    }
-  }
-});
+// Iniciar el servidor
+startServer();
