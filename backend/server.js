@@ -5,7 +5,7 @@ const cors = require("cors"); // Conectar Frontend y Backend
 const connectDB = require("./config/database"); // Importar conexión a BD
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.BACKEND_PORT || 5000;
 
 // Conectar a MongoDB
 connectDB();
