@@ -6,9 +6,6 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require("express"); // Importar Express
 const cors = require("cors"); // Conectar Frontend y Backend
 const connectDB = require("./config/database"); // Importar conexión a BD
-const express = require("express");
-const cors = require("cors");
-const connectDB = require("./config/database");
 
 const app = express();
 const PORT = process.env.BACKEND_PORT || 5000;
