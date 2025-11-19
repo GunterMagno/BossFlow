@@ -3,6 +3,7 @@ const testHealth = require('./test-health');
 const testLogin = require('./test-login');
 const testRegister = require('./test-register');
 const testProtected = require('./test-protected');
+const testDiagrams = require('./test-diagrams');
 
 async function runAllTests() {
   console.log('\n🧪 Ejecutando tests automáticos...\n');
@@ -12,7 +13,8 @@ async function runAllTests() {
     'Auth - Register': [],
     'Auth - Login': [],
     'Auth - Logout': [],
-    'Perfil - Ruta Protegida': []
+    'Perfil - Ruta Protegida': [],
+    'Diagramas - CRUD': []
   };
   
   try {
@@ -31,6 +33,9 @@ async function runAllTests() {
     // Separar resultados de logout y perfil
     allResults['Auth - Logout'] = protectedResults.filter(r => r.testName.includes('Logout'));
     allResults['Perfil - Ruta Protegida'] = protectedResults.filter(r => r.testName.includes('Perfil'));
+    
+    // Ejecutar tests de diagramas
+    allResults['Diagramas - CRUD'] = await testDiagrams.runTests();
     
     // Mostrar resultados
     displayResults(allResults);

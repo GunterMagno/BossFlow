@@ -1,0 +1,30 @@
+.editor__page {
+	display: grid;
+	grid-template-rows: 5% 95%;
+	grid-template-columns: 15% 85%;
+	gap: 0;
+	width: 100%;
+	height: 100vh;
+}
+
+
+/* Toolbar ocupa toda la primera fila */
+.toolbar {
+  grid-area: 1 / 1 / 2 / 3;
+  background-color: var(--blanco);
+  border-bottom: 2px solid black;
+}
+
+/* Sidebar 2 fila en la columna de la izquierda*/
+.sidebar {
+  grid-area: 2/1/3/2;
+  background-color: var(--blanco);
+}
+
+/* Canvas 2 fila en la columna de la derecha*/
+.editor__canvas {
+  grid-area: 2/2/3/3;
+  display: flexbox;
+  justify-content: center;
+  align-items: center;
+}
