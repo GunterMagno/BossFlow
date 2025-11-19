@@ -1,5 +1,8 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') }); // Cargar variables de entorno desde la raíz del repo
+// Solo cargar .env en desarrollo local, en Docker usamos variables de environment
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
+}
 const express = require("express"); // Importar Express
 const cors = require("cors"); // Conectar Frontend y Backend
 const connectDB = require("./config/database"); // Importar conexión a BD

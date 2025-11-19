@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --production
 
-# Copiar código fuente
+# Copiar código fuente (SIN el .env de la raíz)
 COPY . .
 
 EXPOSE 5000
