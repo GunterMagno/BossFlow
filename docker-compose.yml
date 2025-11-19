@@ -1,6 +1,6 @@
 services:
   backend:
-    build: 
+    build:
       context: ./backend
     environment:
       NODE_ENV: production
@@ -13,14 +13,19 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    # Publicar el puerto para que el backend sea accesible desde el host
+    ports:
+      - "5000:5000"
     expose:
       - "5000"
 
   frontend:
-    build: 
+    build:
       context: ./frontend
+      # En producción no inyectamos la URL del API: el frontend usará rutas relativas '/api'
+      # y Nginx se encargará del proxy interno a backend.
       args:
-        VITE_API_URL: /
+        VITE_API_URL: ""
     ports:
       - "80:80"
     depends_on:
