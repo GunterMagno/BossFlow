@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
 const authController = require("../controllers/authController");
+const diagramController = require("../controllers/diagramController");
 
 // Peticiones GET
 router.get("/", (req, res) => {
@@ -20,6 +21,14 @@ router.get("/perfil", auth, (req, res) => {
 });
 
 // Peticiones POST
+
+router.post("/eco", (req, res) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log("📨 Echo recibido:", req.body);
+  }
+  res.json(req.body);
+});
+
 router.post("/auth/register", (req, res, next) => {
   authController.register(req, res, next);
 });
@@ -32,11 +41,8 @@ router.post("/auth/logout", auth, (req, res, next) => {
   authController.logout(req, res, next);
 });
 
-router.post("/eco", (req, res) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log("📨 Echo recibido:", req.body);
-  }
-  res.json(req.body);
+router.post("/diagrams", auth, (req, res, next) => {
+  diagramController.createDiagram(req, res, next);
 });
 
 module.exports = router;
