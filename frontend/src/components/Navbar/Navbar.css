@@ -2,6 +2,7 @@
 .encabezado {
   background-color: var(--focus);
   box-shadow: var(--sombra-sm);
+  height: 6rem;
 }
 
 /* Bloque: navbar (dentro de encabezado) */
@@ -12,6 +13,7 @@
   gap: var(--espaciado-lg);
   padding: var(--espaciado-md) var(--espaciado-lg);
   width: 100%;
+  height: 100%;
   position: relative;
 }
 

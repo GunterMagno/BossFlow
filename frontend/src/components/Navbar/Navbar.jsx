@@ -79,6 +79,15 @@ function Navbar() {
               Comunidad
             </Link>
           </li>
+          <li className="navbar__elemento">
+            <Link
+              to="/editor/:diagramId?"
+              className="navbar__enlace"
+              onClick={() => setMenuMovilAbierto(false)}
+            >
+              Editor
+            </Link>
+          </li>
 
           {/* Opciones de auth en móvil dentro del menú */}
           <li className="navbar__elemento navbar__elemento--auth-movil">
