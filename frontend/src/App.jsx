@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './routes/PrivateRoute';
 import Home from './pages/Home';
-import Diagrams from './pages/Diagrams';
 import Dashboard from './pages/Dashboard';
 import Editor from './pages/Editor';
 import Status from './pages/Status';
