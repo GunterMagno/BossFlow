@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -8,6 +8,12 @@ import {
   FiChevronDown,
   FiMenu,
   FiX,
+  FiGrid,
+  FiHome,
+  FiFileText,
+  FiUsers,
+  FiLayers,
+  FiMessageSquare,
 } from 'react-icons/fi';
 import './Navbar.css';
 
@@ -16,6 +22,7 @@ function Navbar() {
   const [menuMovilAbierto, setMenuMovilAbierto] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const menuRef = useRef(null);
 
   const alternarMenu = () => {
     setMenuAbierto(!menuAbierto);
@@ -32,6 +39,23 @@ function Navbar() {
     logout();
     navigate('/');
   };
+
+  // Cerrar menú al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuAbierto(false);
+      }
+    };
+
+    if (menuAbierto) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuAbierto]);
 
   return (
     <header className="encabezado">
@@ -101,6 +125,49 @@ function Navbar() {
               </section>
             ) : (
               <section className="navbar__usuario-movil">
+                {/* Opciones del Dashboard */}
+                <div className="navbar__seccion-titulo">Dashboard</div>
+                <Link
+                  to="/dashboard"
+                  className="navbar__enlace"
+                  onClick={() => setMenuMovilAbierto(false)}
+                >
+                  <FiHome /> Inicio
+                </Link>
+                <Link
+                  to="/dashboard"
+                  className="navbar__enlace"
+                  onClick={() => setMenuMovilAbierto(false)}
+                >
+                  <FiFileText /> Mis diagramas
+                </Link>
+                <Link
+                  to="/dashboard/colaboraciones"
+                  className="navbar__enlace"
+                  onClick={() => setMenuMovilAbierto(false)}
+                >
+                  <FiUsers /> Colaboraciones
+                </Link>
+                <Link
+                  to="/dashboard/plantillas"
+                  className="navbar__enlace"
+                  onClick={() => setMenuMovilAbierto(false)}
+                >
+                  <FiLayers /> Plantillas
+                </Link>
+                <Link
+                  to="/dashboard/comentarios"
+                  className="navbar__enlace"
+                  onClick={() => setMenuMovilAbierto(false)}
+                >
+                  <FiMessageSquare /> Comentarios
+                </Link>
+
+                {/* Separador */}
+                <div className="navbar__separador"></div>
+
+                {/* Opciones de cuenta */}
+                <div className="navbar__seccion-titulo">Cuenta</div>
                 <Link
                   to="/profile"
                   className="navbar__enlace"
@@ -126,7 +193,7 @@ function Navbar() {
           </li>
         </ul>
 
-        <section className="navbar__usuario-menu">
+        <section className="navbar__usuario-menu" ref={menuRef}>
           {!isAuthenticated ? (
             // Usuario NO logueado: botones de login y registro (solo desktop)
               <section className="navbar__botones-auth">
@@ -162,6 +229,14 @@ function Navbar() {
                         <FiUser />
                       </span>
                       <span>Perfil</span>
+                    </Link>
+                  </li>
+                  <li className="menu-desplegable__elemento">
+                    <Link to="/dashboard" className="menu-desplegable__enlace">
+                      <span className="menu-desplegable__icono">
+                        <FiGrid />
+                      </span>
+                      <span>Dashboard</span>
                     </Link>
                   </li>
                   <li className="menu-desplegable__elemento">

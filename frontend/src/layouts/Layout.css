@@ -5,6 +5,7 @@
   min-height: 100vh;
   background: var(--primario);
   color: var(--blanco);
+  overflow-x: hidden;
 }
 
 /* Contenido principal */

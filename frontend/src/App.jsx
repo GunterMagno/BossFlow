@@ -4,6 +4,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import Layout from './layouts/Layout';
 import Home from './pages/Home';
 import Diagrams from './pages/Diagrams';
+import Dashboard from './pages/Dashboard';
 import Status from './pages/Status';
 import NotFound from './pages/NotFound';
 import Login from './components/Login/Login';
@@ -25,6 +26,11 @@ function App() {
             <Route path="/diagrams" element={
               <PrivateRoute>
                 <Diagrams />
+              </PrivateRoute>} />
+
+            <Route path="/dashboard" element={
+              <PrivateRoute>
+                <Dashboard />
               </PrivateRoute>} />
 
             {/* Ruta 404 - debe estar al final */}
