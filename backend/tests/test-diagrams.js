@@ -141,6 +141,52 @@ function testGetDiagrams(testName, token, expectedStatus) {
   });
 }
 
+// Test para obtener diagrama por ID (GET by ID)
+function testGetDiagramById(testName, diagramId, token, expectedStatus) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'localhost',
+      port: 5000,
+      path: `/api/diagrams/${diagramId}`,
+      method: 'GET',
+      headers: {}
+    };
+
+    if (token) {
+      options.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const req = http.request(options, (res) => {
+      let responseData = '';
+      
+      res.on('data', (chunk) => {
+        responseData += chunk;
+      });
+      
+      res.on('end', () => {
+        const passed = res.statusCode === expectedStatus;
+        let parsedData = null;
+        try {
+          parsedData = JSON.parse(responseData);
+        } catch (e) {}
+        resolve({ 
+          testName, 
+          passed, 
+          status: res.statusCode, 
+          expectedStatus,
+          data: parsedData
+        });
+      });
+    });
+
+    req.on('error', (error) => {
+      reject({ testName, passed: false, error: error.message });
+    });
+
+    req.end();
+  });
+}
+
 async function runTests() {
   const results = [];
   

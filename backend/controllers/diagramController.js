@@ -1,4 +1,5 @@
 const Diagram = require('../models/Diagram');
+const mongoose = require('mongoose');
 
 exports.createDiagram = async (req, res, next) => {
     try {
@@ -71,8 +72,8 @@ exports.getDiagrams = async (req, res, next) => {
                 id: diagram._id,
                 title: diagram.title,
                 description: diagram.description,
-                nodesCount: diagram.nodes?.length || 0,
-                edgesCount: diagram.edges?.length || 0,
+                nodes: diagram.nodes,
+                edges: diagram.edges,
                 createdAt: diagram.createdAt,
                 updatedAt: diagram.updatedAt
             }))
@@ -87,7 +88,6 @@ exports.getDiagrams = async (req, res, next) => {
 exports.deleteDiagram = async (req, res, next) => {
     try {
         const diagramId = req.params.id;
-        const mongoose = require('mongoose');
 
         // Validar que el ID sea un ObjectId válido
         if (!mongoose.Types.ObjectId.isValid(diagramId)) {
@@ -115,6 +115,48 @@ exports.deleteDiagram = async (req, res, next) => {
 
     } catch (error) {
         console.error('❌ Error al eliminar diagrama:', error);
+        next(error);
+    }
+};
+
+exports.getDiagramById = async (req, res, next) => {
+    try {
+        const diagramId = req.params.id;
+
+        // Validar que el ID sea un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(diagramId)) {
+            return res.status(404).json({ 
+                error: 'Diagrama no encontrado o no autorizado' 
+            });
+        }
+
+        // Buscar diagrama por ID y userId
+        const diagram = await Diagram.findOne({ 
+            _id: diagramId, 
+            userId: req.user.userId 
+        });
+
+        if (!diagram) {
+            return res.status(404).json({ 
+                error: 'Diagrama no encontrado o no autorizado' 
+            });
+        }
+
+        // Retornar diagrama encontrado
+        res.status(200).json({
+            diagram: {
+                id: diagram._id,
+                title: diagram.title,
+                description: diagram.description,
+                nodes: diagram.nodes,
+                edges: diagram.edges,
+                createdAt: diagram.createdAt,
+                updatedAt: diagram.updatedAt
+            }
+        });
+
+    } catch (error) {
+        console.error('❌ Error al obtener diagrama por ID:', error);
         next(error);
     }
 };
