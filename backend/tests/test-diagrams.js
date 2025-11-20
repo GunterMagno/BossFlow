@@ -76,7 +76,11 @@ function testCreateDiagram(testName, diagramData, token, expectedStatus) {
       
       res.on('end', () => {
         const passed = res.statusCode === expectedStatus;
-        resolve({ testName, passed, status: res.statusCode, expectedStatus });
+        let parsedData = null;
+        try {
+          parsedData = JSON.parse(responseData);
+        } catch (e) {}
+        resolve({ testName, passed, status: res.statusCode, expectedStatus, data: parsedData });
       });
     });
 
