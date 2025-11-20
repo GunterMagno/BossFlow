@@ -89,6 +89,54 @@ function testCreateDiagram(testName, diagramData, token, expectedStatus) {
   });
 }
 
+// Test para obtener diagramas (GET)
+function testGetDiagrams(testName, token, expectedStatus) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'localhost',
+      port: 5000,
+      path: '/api/diagrams',
+      method: 'GET',
+      headers: {}
+    };
+
+    if (token) {
+      options.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const req = http.request(options, (res) => {
+      let responseData = '';
+      
+      res.on('data', (chunk) => {
+        responseData += chunk;
+      });
+      
+      res.on('end', () => {
+        const passed = res.statusCode === expectedStatus;
+        let parsedData = null;
+        try {
+          parsedData = JSON.parse(responseData);
+        } catch (e) {
+          // Ignorar error de parsing
+        }
+        resolve({ 
+          testName, 
+          passed, 
+          status: res.statusCode, 
+          expectedStatus,
+          data: parsedData
+        });
+      });
+    });
+
+    req.on('error', (error) => {
+      reject({ testName, passed: false, error: error.message });
+    });
+
+    req.end();
+  });
+}
+
 async function runTests() {
   const results = [];
   
@@ -191,6 +239,120 @@ async function runTests() {
       authToken,
       409
     ));
+
+    // ========== TESTS DE GET /api/diagrams ==========
+    
+    // Crear varios diagramas para probar GET
+    const timestamp2 = Date.now();
+    await testCreateDiagram(
+      'Setup GET: Diagrama 1',
+      {
+        title: `GET Test 1 ${timestamp2}`,
+        description: 'Primer diagrama para GET',
+        nodes: [],
+        edges: []
+      },
+      authToken,
+      201
+    );
+    
+    // Pequeña espera para asegurar diferente createdAt
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    await testCreateDiagram(
+      'Setup GET: Diagrama 2',
+      {
+        title: `GET Test 2 ${timestamp2}`,
+        description: 'Segundo diagrama para GET',
+        nodes: [],
+        edges: []
+      },
+      authToken,
+      201
+    );
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    await testCreateDiagram(
+      'Setup GET: Diagrama 3',
+      {
+        title: `GET Test 3 ${timestamp2}`,
+        description: 'Tercer diagrama para GET',
+        nodes: [],
+        edges: []
+      },
+      authToken,
+      201
+    );
+
+    // Test 7: GET diagramas con token válido
+    const getTest = await testGetDiagrams('GET diagramas con token', authToken, 200);
+    results.push(getTest);
+    
+    if (getTest.passed && getTest.data && getTest.data.diagrams) {
+      const diagrams = getTest.data.diagrams;
+      
+      // Test 8: Verificar ordenamiento (más reciente primero)
+      if (diagrams.length >= 2) {
+        const isOrdered = new Date(diagrams[0].createdAt) >= new Date(diagrams[1].createdAt);
+        results.push({
+          testName: 'GET ordenamiento correcto',
+          passed: isOrdered,
+          status: isOrdered ? 200 : 'FAIL',
+          expectedStatus: 200
+        });
+      }
+      
+      // Test 9: Verificar que todos tienen los campos necesarios
+      const hasAllFields = diagrams.every(d => 
+        d.id && d.title && d.createdAt && d.updatedAt && 
+        Array.isArray(d.nodes) && Array.isArray(d.edges)
+      );
+      results.push({
+        testName: 'GET campos requeridos',
+        passed: hasAllFields,
+        status: hasAllFields ? 200 : 'FAIL',
+        expectedStatus: 200
+      });
+    }
+
+    // Test 10: GET diagramas sin token
+    results.push(await testGetDiagrams('GET sin token', null, 401));
+
+    // Test 11: GET diagramas con token inválido
+    results.push(await testGetDiagrams('GET token inválido', 'token_invalido_123', 401));
+
+    // Test 12: Verificar aislamiento de datos (otro usuario no ve estos diagramas)
+    const otherUserToken = await registerAndLogin();
+    const isolationTest = await testGetDiagrams('GET aislamiento datos', otherUserToken, 200);
+    results.push(isolationTest);
+    
+    if (isolationTest.passed && isolationTest.data && isolationTest.data.diagrams) {
+      // Crear un diagrama para el nuevo usuario
+      await testCreateDiagram(
+        'Setup: Diagrama usuario nuevo',
+        {
+          title: `User2 Diagram ${Date.now()}`,
+          description: 'Diagrama de usuario 2',
+          nodes: [],
+          edges: []
+        },
+        otherUserToken,
+        201
+      );
+      
+      // Verificar que solo ve 1 diagrama (el suyo)
+      const otherUserDiagrams = await testGetDiagrams('GET solo propios', otherUserToken, 200);
+      if (otherUserDiagrams.passed && otherUserDiagrams.data) {
+        const onlyOwn = otherUserDiagrams.data.diagrams.length === 1;
+        results.push({
+          testName: 'GET solo diagramas propios',
+          passed: onlyOwn,
+          status: 200,
+          expectedStatus: 200
+        });
+      }
+    }
 
   } catch (error) {
     results.push({ testName: 'Error en setup', passed: false, error: error.message });
