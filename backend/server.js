@@ -1,7 +1,18 @@
 const path = require('path');
 // Solo cargar .env en desarrollo local, en Docker usamos variables de environment
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
+  // Intentar cargar .env desde el directorio backend primero, luego desde la raíz
+  const fs = require('fs');
+  const localEnvPath = path.resolve(__dirname, '.env');
+  const rootEnvPath = path.resolve(__dirname, '..', '.env');
+  
+  if (fs.existsSync(localEnvPath)) {
+    require('dotenv').config({ path: localEnvPath });
+  } else if (fs.existsSync(rootEnvPath)) {
+    require('dotenv').config({ path: rootEnvPath });
+  } else {
+    require('dotenv').config(); // Intentar cargar desde el directorio actual
+  }
 }
 const express = require("express"); // Importar Express
 const cors = require("cors"); // Conectar Frontend y Backend
@@ -10,8 +21,29 @@ const connectDB = require("./config/database"); // Importar conexión a BD
 const app = express();
 const PORT = process.env.BACKEND_PORT || 5000;
 
-// Conectar a MongoDB
-connectDB();
+// Función para iniciar servidor
+async function startServer() {
+  // Primero conectar a MongoDB
+  await connectDB();
+  
+  // Luego iniciar el servidor HTTP
+  app.listen(PORT, async () => {
+    console.log(`✅ Servidor iniciado en el puerto -> ${PORT}`);
+    
+    // Ejecutar tests automáticos si está en modo desarrollo
+    if (process.env.NODE_ENV !== 'production') {
+      const testRunner = require('./tests/test-runner');
+      
+      try {
+        // Esperar un momento para que el servidor esté completamente listo
+        await testRunner.waitForServer();
+        await testRunner.runAllTests();
+      } catch (error) {
+        console.error('⚠️  No se pudieron ejecutar los tests:', error.message);
+      }
+    }
+  });
+}
 
 // Configurar CORS para permitir tanto desarrollo local como Docker
 const allowedOrigins = [
@@ -80,19 +112,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, async () => {
-  console.log(`✅ Servidor iniciado en el puerto -> ${PORT}`);
-  
-  // Ejecutar tests automáticos si está en modo desarrollo
-  if (process.env.NODE_ENV !== 'production') {
-    const testRunner = require('./tests/test-runner');
-    
-    try {
-      // Esperar un momento para que el servidor esté completamente listo
-      await testRunner.waitForServer();
-      await testRunner.runAllTests();
-    } catch (error) {
-      console.error('⚠️  No se pudieron ejecutar los tests:', error.message);
-    }
-  }
-});
+// Iniciar el servidor
+startServer();

@@ -160,7 +160,7 @@
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+@media (max-width: 1000px) {
   .footer__superior {
     flex-wrap: wrap;
     gap: var(--espaciado-xl);
