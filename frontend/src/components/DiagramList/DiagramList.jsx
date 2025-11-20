@@ -1,19 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getDiagrams, deleteDiagram } from '../../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../../services/activityService';
 import { useToast } from '../../context/ToastContext';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
-import {
-  FiFileText,
-  FiClock,
-  FiUser,
-  FiAlertCircle,
-  FiTrash2,
-} from 'react-icons/fi';
+import DiagramCard from '../DiagramCard/DiagramCard';
+import { FiFileText, FiAlertCircle } from 'react-icons/fi';
 import './DiagramList.css';
 
 function DiagramList({ onCreateClick, onDiagramDeleted }) {
+  const navigate = useNavigate();
   const toast = useToast();
   const [diagrams, setDiagrams] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,10 +36,13 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
   }, []);
 
   // Función para eliminar diagrama
-  const handleDeleteClick = (e, diagram) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleDeleteClick = (diagram) => {
     setDiagramToDelete(diagram);
+  };
+
+  // Función para editar diagrama
+  const handleEditClick = (diagram) => {
+    navigate(`/editor/${diagram.id}`);
   };
 
   const handleConfirmDelete = async () => {
@@ -86,29 +85,6 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
     }
   };
 
-  // Función para formatear fecha relativa
-  const formatRelativeDate = (date) => {
-    const now = new Date();
-    const diagramDate = new Date(date);
-    const diffMs = now - diagramDate;
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 60) {
-      return `Hace ${diffMins} ${diffMins === 1 ? 'minuto' : 'minutos'}`;
-    } else if (diffHours < 24) {
-      return `Hace ${diffHours} ${diffHours === 1 ? 'hora' : 'horas'}`;
-    } else if (diffDays < 7) {
-      return `Hace ${diffDays} ${diffDays === 1 ? 'día' : 'días'}`;
-    } else {
-      return diagramDate.toLocaleDateString('es-ES', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      });
-    }
-  };
 
   // Estado de carga
   if (loading) {
@@ -170,53 +146,12 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
       <div className="diagram-list">
         <div className="diagram-list__grid">
           {diagrams.map((diagram) => (
-            <div key={diagram.id} className="diagram-list__card-wrapper">
-              <Link
-                to={`/editor/${diagram.id}`}
-                className="diagram-list__card"
-              >
-                <div className="diagram-list__card-icon">
-                  <FiFileText />
-                </div>
-
-                <div className="diagram-list__card-content">
-                  <h3 className="diagram-list__card-title">{diagram.title}</h3>
-                  {diagram.description && (
-                    <p className="diagram-list__card-description">
-                      {diagram.description}
-                    </p>
-                  )}
-
-                  <div className="diagram-list__card-footer">
-                    <div className="diagram-list__card-info">
-                      <span className="diagram-list__card-date">
-                        <FiClock className="diagram-list__info-icon" />
-                        {formatRelativeDate(diagram.updatedAt)}
-                      </span>
-
-                      <div className="diagram-list__card-stats">
-                        <span className="diagram-list__stat">
-                          {diagram.nodesCount || 0} nodos
-                        </span>
-                        <span className="diagram-list__stat-separator">•</span>
-                        <span className="diagram-list__stat">
-                          {diagram.edgesCount || 0} conexiones
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-
-              <button
-                className="diagram-list__delete-button"
-                onClick={(e) => handleDeleteClick(e, diagram)}
-                aria-label="Eliminar diagrama"
-                title="Eliminar diagrama"
-              >
-                <FiTrash2 />
-              </button>
-            </div>
+            <DiagramCard
+              key={diagram.id}
+              diagram={diagram}
+              onDelete={handleDeleteClick}
+              onEdit={handleEditClick}
+            />
           ))}
         </div>
       </div>
