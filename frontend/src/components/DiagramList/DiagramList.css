@@ -229,24 +229,26 @@
 }
 
 .diagram-list__create-button {
-  padding: var(--espaciado-sm) var(--espaciado-xl);
-  background: linear-gradient(135deg, var(--primario), var(--secundario));
-  color: var(--blanco);
-  border: none;
-  border-radius: var(--radio-md);
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transicion-rapida);
-  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: var(--espaciado-sm);
+  padding: var(--espaciado-md) var(--espaciado-lg);
+  background: var(--secundario);
+  color: var(--primario);
+  border: none;
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transicion-normal);
+  box-shadow: 0 2px 8px rgba(234, 179, 8, 0.3);
+  text-decoration: none;
 }
 
 .diagram-list__create-button:hover {
+  background: var(--secundario-hover);
   transform: translateY(-2px);
-  box-shadow: var(--sombra-md);
+  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.4);
 }
 
 /* Responsive */
