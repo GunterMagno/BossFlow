@@ -51,7 +51,7 @@ function FlowMap({ initialNodes = [], initialEdges = [] }) {
   );
 
   return (
-    <div className="flowmap">
+    <section className="flowmap">
       <div className="flowmap__wrap">
         <ReactFlow
           nodes={nodos}
@@ -82,7 +82,7 @@ function FlowMap({ initialNodes = [], initialEdges = [] }) {
           <Background />
         </ReactFlow>
       </div>
-    </div>
+    </section>
   );
 }
 
