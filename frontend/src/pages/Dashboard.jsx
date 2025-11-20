@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getDiagrams } from '../services/diagramService';
+import { getFormattedActivities } from '../services/activityService';
 import DiagramList from '../components/DiagramList/DiagramList';
+import NewDiagramModal from '../components/NewDiagramModal/NewDiagramModal';
 import {
   FiHome,
   FiFileText,
@@ -26,34 +28,51 @@ function Dashboard() {
   const [diagrams, setDiagrams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     document.title = 'Dashboard | BossFlow';
   }, []);
 
-  // Cargar diagramas al montar el componente
-  useEffect(() => {
-    const fetchDiagrams = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await getDiagrams();
-        setDiagrams(response.diagrams || []);
-      } catch (error) {
-        console.error('Error al cargar diagramas:', error);
-        setError('No se pudieron cargar los diagramas. El endpoint aún no está disponible.');
-        setDiagrams([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Función para cargar diagramas
+  const fetchDiagrams = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await getDiagrams();
+      setDiagrams(response.diagrams || []);
+    } catch (error) {
+      console.error('Error al cargar diagramas:', error);
+      setError('No se pudieron cargar los diagramas. El endpoint aún no está disponible.');
+      setDiagrams([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // Cargar diagramas y actividades al montar el componente
+  useEffect(() => {
     fetchDiagrams();
+    loadActivities();
   }, []);
+
+  // Función para cargar actividades
+  const loadActivities = () => {
+    const formattedActivities = getFormattedActivities();
+    setActivities(formattedActivities);
+  };
 
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  // Handler cuando se crea un nuevo diagrama
+  const handleDiagramCreated = () => {
+    // Refrescar la lista de diagramas y actividades
+    fetchDiagrams();
+    loadActivities();
   };
 
   // Función para formatear fecha relativa
@@ -90,28 +109,6 @@ function Dashboard() {
 
   // Obtener los 3 diagramas más recientes
   const diagramasRecientes = diagrams.slice(0, 3);
-
-  // Actividad reciente (mock data - TODO: implementar endpoint)
-  const actividadReciente = [
-    {
-      id: 1,
-      tipo: 'creacion',
-      diagrama: 'Diagrama de flujo de ventas',
-      fecha: 'Hace 2 horas',
-    },
-    {
-      id: 2,
-      tipo: 'colaboracion',
-      diagrama: 'Proceso de onboarding',
-      fecha: 'Hace 5 horas',
-    },
-    {
-      id: 3,
-      tipo: 'edicion',
-      diagrama: 'Sistema de inventario',
-      fecha: 'Hace 1 día',
-    },
-  ];
 
   return (
     <div className="dashboard">
@@ -255,39 +252,6 @@ function Dashboard() {
               </div>
             </section>
 
-            {/* Actividad reciente */}
-            <section className="dashboard__seccion">
-              <div className="dashboard__seccion-header">
-                <div>
-                  <h2 className="dashboard__titulo">Actividad reciente</h2>
-                  <p className="dashboard__descripcion">
-                    Tus últimas acciones
-                  </p>
-                </div>
-              </div>
-
-              <div className="dashboard__actividad-lista">
-                {actividadReciente.map((actividad) => (
-                  <div key={actividad.id} className="dashboard__actividad-item">
-                    <div className="dashboard__actividad-icono">
-                      <FiClock />
-                    </div>
-                    <div className="dashboard__actividad-contenido">
-                      <p className="dashboard__actividad-texto">
-                        <span className="dashboard__actividad-accion">
-                          {actividad.tipo === 'creacion' && 'Creaste'}
-                          {actividad.tipo === 'colaboracion' && 'Te uniste a'}
-                          {actividad.tipo === 'edicion' && 'Editaste'}
-                        </span>
-                        {' '}<span className="dashboard__actividad-diagrama">{actividad.diagrama}</span>
-                      </p>
-                      <span className="dashboard__actividad-fecha">{actividad.fecha}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
             {/* Acceso rápido */}
             <section className="dashboard__seccion">
               <div className="dashboard__seccion-header">
@@ -297,10 +261,13 @@ function Dashboard() {
                     Tus diagramas más recientes
                   </p>
                 </div>
-                <Link to="/editor" className="dashboard__boton-nuevo">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="dashboard__boton-nuevo"
+                >
                   <FiPlus className="dashboard__boton-icono" />
                   Nuevo diagrama
-                </Link>
+                </button>
               </div>
 
               {loading ? (
@@ -355,6 +322,46 @@ function Dashboard() {
                 </div>
               )}
             </section>
+
+            {/* Actividad reciente */}
+            <section className="dashboard__seccion">
+              <div className="dashboard__seccion-header">
+                <div>
+                  <h2 className="dashboard__titulo">Actividad reciente</h2>
+                  <p className="dashboard__descripcion">
+                    Tus últimas acciones
+                  </p>
+                </div>
+              </div>
+
+              {activities.length > 0 ? (
+                <div className="dashboard__actividad-lista">
+                  {activities.map((actividad) => (
+                    <div key={actividad.id} className="dashboard__actividad-item">
+                      <div className="dashboard__actividad-icono">
+                        <FiClock />
+                      </div>
+                      <div className="dashboard__actividad-contenido">
+                        <p className="dashboard__actividad-texto">
+                          <span className="dashboard__actividad-accion">
+                            {actividad.tipo === 'creacion' && 'Creaste'}
+                            {actividad.tipo === 'edicion' && 'Editaste'}
+                            {actividad.tipo === 'eliminacion' && 'Eliminaste'}
+                            {actividad.tipo === 'visualizacion' && 'Visualizaste'}
+                          </span>
+                          {' '}<span className="dashboard__actividad-diagrama">{actividad.diagrama}</span>
+                        </p>
+                        <span className="dashboard__actividad-fecha">{actividad.fechaFormateada}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="dashboard__empty">
+                  <p>No hay actividad reciente. Crea o edita diagramas para ver tu actividad aquí.</p>
+                </div>
+              )}
+            </section>
           </>
         )}
 
@@ -367,16 +374,26 @@ function Dashboard() {
                   Gestiona y crea tus diagramas
                 </p>
               </div>
-              <Link to="/editor" className="dashboard__boton-nuevo">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="dashboard__boton-nuevo"
+              >
                 <FiPlus className="dashboard__boton-icono" />
                 Nuevo diagrama
-              </Link>
+              </button>
             </div>
 
-            <DiagramList />
+            <DiagramList onCreateClick={() => setIsModalOpen(true)} />
           </section>
         )}
       </main>
+
+      {/* Modal para crear nuevo diagrama */}
+      <NewDiagramModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onDiagramCreated={handleDiagramCreated}
+      />
     </div>
   );
 }
