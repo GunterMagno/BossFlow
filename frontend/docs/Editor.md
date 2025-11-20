@@ -11,22 +11,7 @@ Esta página documenta el componente `Editor` y su integración con React Flow (
 
 ## Estructura
 
-```jsx
- return (
-    <ReactFlowProvider>
-      <div className="editor__page">
-        <Toolbar />
-
-        <Sidebar />
-
-        {/* Componente que contiene el canvas principal */}
-        <div className="editor__canvas">
-          <FlowMap initialNodes={nodes} initialEdges={edges} />
-        </div>
-      </div>
-    </ReactFlowProvider>
-  );
-```
+https://github.com/GunterMagno/BossFlow/blob/cb978d893f389240e6eba0bdb2e994fc69a0e24a/frontend/src/pages/Editor.jsx#L59-L72
 
 Explicación de la estructura:
 
@@ -39,7 +24,7 @@ Explicación de la estructura:
 
 
 ## Integración React Flow
-La integración entre `Editor` y React Flow se separa en dos responsabilidades: el `Editor` se encarga de definir la página con una estructura y el manejo de datos del diagrama, mientras que `FlowMap` se encarga de la representación y edición interactiva. Concretamente, `Editor` obtiene opcionalmente un `diagramaId` de la ruta (`useParams`) y, si existe, solicita el diagrama al backend mediante `getDiagramById`; una vez recibidos, pasa los nodos y las conexiones a `FlowMap` como `initialNodes` e `initialEdges`. Por su parte, `FlowMap` utiliza las utilidades de `reactflow` (`useNodesState` y `useEdgesState`) para mantener el estado local del lienzo y para renderizar y gestionar las interacciones del usuario (arrastrar nodos, crear o eliminar conexiones, editar propiedades, etc.). Esta separación evita mezclar responsabilidades y permite que el canvas sea reactivo y que las ediciones locales del usuario no se pierdan.
+La integración entre `Editor` y React Flow se separa en dos responsabilidades: el `Editor` se encarga de definir la página con una estructura y el manejo de datos del diagrama, mientras que `FlowMap` se encarga de la representación y edición interactiva. `Editor` obtiene opcionalmente un `diagramaId` de la ruta (`useParams`) y, si existe, solicita el diagrama al backend mediante `getDiagramById`; una vez recibidos, pasa los nodos y las conexiones a `FlowMap` como `initialNodes` e `initialEdges`. Por otra parte, `FlowMap` utiliza las utilidades de `reactflow` (`useNodesState` y `useEdgesState`) para mantener el estado local del lienzo y para renderizar y gestionar las interacciones del usuario (arrastrar nodos, crear o eliminar conexiones, editar propiedades, etc.). Esta separación evita mezclar responsabilidades y permite que el canvas sea reactivo y que las ediciones locales del usuario no se pierdan.
 
 ## Estado y propiedades
 - **En `Editor.jsx`:**
@@ -47,10 +32,14 @@ La integración entre `Editor` y React Flow se separa en dos responsabilidades: 
   - **`edges` (state):** array que contiene las conexiones/conexiones (inicialmente `[]`).
   - **`loading` (state):** booleano que indica si se está cargando el diagrama desde la API.
   - **`error` (state):** error devuelto al cargar el diagrama.
+ 
+ https://github.com/GunterMagno/BossFlow/blob/cb978d893f389240e6eba0bdb2e994fc69a0e24a/frontend/src/pages/Editor.jsx#L13-L48
 
 - **En `FlowMap` (propiedades / estado interno):**
   - **Propiedad:** `initialNodes` (array) — datos iniciales que `Editor` pasa al abrir un diagrama existente.
   - **Propiedad:** `initialEdges` (array) — conexiones iniciales pasadas desde `Editor`.
   - **Estado interno:** `useNodesState(initialNodes)` y `useEdgesState(initialEdges)` mantienen el estado del editor mientras el usuario interactúa.
   - **Inicialización segura:** `FlowMap` implementa una inicialización controlada (solo la primera vez que llegan datos reales) usando `useRef` para evitar sobrescribir las ediciones del usuario si el componente Editor vuelve a renderizar o pasa elementos vacíos.
+ 
+https://github.com/GunterMagno/BossFlow/blob/cb978d893f389240e6eba0bdb2e994fc69a0e24a/frontend/src/components/FlowMap/FlowMap.jsx#L17-L46
 
