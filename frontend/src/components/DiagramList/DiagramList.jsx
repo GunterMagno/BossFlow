@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fi';
 import './DiagramList.css';
 
-function DiagramList() {
+function DiagramList({ onCreateClick }) {
   const [diagrams, setDiagrams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -96,9 +96,15 @@ function DiagramList() {
           <p className="diagram-list__empty-message">
             Crea tu primer diagrama para empezar a organizar tus ideas
           </p>
-          <Link to="/editor" className="diagram-list__create-button">
-            Crear diagrama
-          </Link>
+          {onCreateClick ? (
+            <button onClick={onCreateClick} className="diagram-list__create-button">
+              Crear diagrama
+            </button>
+          ) : (
+            <Link to="/editor" className="diagram-list__create-button">
+              Crear diagrama
+            </Link>
+          )}
         </div>
       </div>
     );

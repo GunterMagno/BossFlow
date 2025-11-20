@@ -13,9 +13,9 @@
 
 /* Card de diagrama */
 .diagram-list__card {
-  background: var(--blanco);
-  border: 1px solid var(--gris1);
-  border-radius: var(--radio-md);
+  background: var(--focus);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
   padding: var(--espaciado-lg);
   transition: all var(--transicion-normal);
   cursor: pointer;
@@ -24,44 +24,27 @@
   display: flex;
   flex-direction: column;
   gap: var(--espaciado-md);
-  position: relative;
-  overflow: hidden;
-}
-
-.diagram-list__card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--primario);
-  transform: scaleY(0);
-  transition: transform var(--transicion-normal);
-  transform-origin: bottom;
 }
 
 .diagram-list__card:hover {
-  border-color: var(--primario);
-  box-shadow: var(--sombra-md);
-  transform: translateY(-2px);
-}
-
-.diagram-list__card:hover::before {
-  transform: scaleY(1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2);
+  border-color: var(--secundario);
+  background: var(--hover);
 }
 
 /* Icono del card */
 .diagram-list__card-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--primario), var(--secundario));
-  border-radius: var(--radio-sm);
+  width: 50px;
+  height: 50px;
+  background: var(--primario);
+  border-radius: var(--radio-sm) 0 var(--radio-sm) 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--blanco);
+  color: var(--secundario);
   font-size: 1.5rem;
+  border: 1px solid rgba(234, 179, 8, 0.3);
   flex-shrink: 0;
 }
 
@@ -74,16 +57,17 @@
 }
 
 .diagram-list__card-title {
-  font-size: 1.125rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: var(--gris4);
+  color: var(--blanco);
   margin: 0;
   line-height: 1.4;
 }
 
 .diagram-list__card-description {
   font-size: 0.875rem;
-  color: var(--gris3);
+  color: var(--blanco);
+  opacity: 0.6;
   margin: 0;
   line-height: 1.5;
   display: -webkit-box;
@@ -108,13 +92,14 @@
 .diagram-list__card-date {
   display: flex;
   align-items: center;
-  gap: var(--espaciado-xs);
-  font-size: 0.75rem;
-  color: var(--gris3);
+  gap: var(--espaciado-sm);
+  font-size: 0.85rem;
+  color: var(--blanco);
+  opacity: 0.7;
 }
 
 .diagram-list__info-icon {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 
 .diagram-list__card-stats {
@@ -122,15 +107,17 @@
   align-items: center;
   gap: var(--espaciado-xs);
   font-size: 0.75rem;
-  color: var(--gris3);
+  color: var(--blanco);
+  opacity: 0.7;
 }
 
 .diagram-list__stat {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .diagram-list__stat-separator {
-  color: var(--gris2);
+  color: var(--secundario);
+  opacity: 0.5;
 }
 
 /* Estado de carga */

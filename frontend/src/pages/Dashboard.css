@@ -153,6 +153,8 @@
   cursor: pointer;
   transition: all var(--transicion-normal);
   box-shadow: 0 2px 8px rgba(234, 179, 8, 0.3);
+  text-decoration: none;
+  font-family: inherit;
 }
 
 .dashboard__boton-nuevo:hover {
