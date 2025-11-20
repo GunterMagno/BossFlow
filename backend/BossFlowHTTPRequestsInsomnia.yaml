@@ -59,11 +59,11 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/auth/register
-    name: Register EmailDuplicado
+    name: Register Email Duplicado
     meta:
       id: req_325e11c698f14d03ac98cda916f9c20d
       created: 1763457688956
-      modified: 1763465253814
+      modified: 1763641081005
       isPrivate: false
       description: ""
       sortKey: -1763457613394
@@ -293,6 +293,274 @@ collection:
         value: Bearer token_invalido_123
         description: ""
         disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams
+    name: Crear Diagrama
+    meta:
+      id: req_7ec08d713ecb498ba019a0b657f00502
+      created: 1763640283391
+      modified: 1763642938397
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612844
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "title": "Mi Primer Diagrama",
+          "description": "Descripción del diagrama de prueba",
+          "nodes": [
+            {
+              "id": "1",
+              "type": "default",
+              "position": { "x": 100, "y": 100 },
+              "data": { "label": "Nodo 1" }
+            }
+          ],
+          "edges": []
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_c1aad3ba77f246dca2d58b977b1c533b
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_1db7920a78d849729a8a04f9d907c5a2
+      - id: pair_29dc394e69f244398d0e6c77f07c1235
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams
+    name: Listar Diagramas
+    meta:
+      id: req_ef20dd75d131487a9d049e063756089d
+      created: 1763640707694
+      modified: 1763642750370
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612744
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_1c24248357ea445088be53ae7d1f3684
+      - id: pair_5a7e09244963483582245e968c4218bb
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/691f0e3c11ad1447b1d8b083
+    name: Obtener Diagrama Especifico
+    meta:
+      id: req_c49502cba1fb40dfa3ae4b6de79b3a69
+      created: 1763641053080
+      modified: 1763643033445
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612644
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_b1bf60e76eee4cff9a48b609e38ef4ef
+      - id: pair_f2a91b32f0aa4986b4f9ac6ee12176a6
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/691f0e3c11ad1447b1d8b083
+    name: Eliminar Diagrama
+    meta:
+      id: req_97ba727e836541f1bb956c7f36cecab5
+      created: 1763641186103
+      modified: 1763643155392
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612444
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_42d3ac94866c498ab54c08c80b2a837f
+      - id: pair_cb673026d39e4a3591ddb9f08ff9c46d
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams
+    name: Crear Diagrama sin Token
+    meta:
+      id: req_0046ec1725eb47afbb8a359994b19aae
+      created: 1763641302505
+      modified: 1763642979432
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612344
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "title": "Mi Primer Diagrama",
+          "description": "Descripción del diagrama de prueba",
+          "nodes": [
+            {
+              "id": "1",
+              "type": "default",
+              "position": { "x": 100, "y": 100 },
+              "data": { "label": "Nodo 1" }
+            }
+          ],
+          "edges": []
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_c1aad3ba77f246dca2d58b977b1c533b
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_1db7920a78d849729a8a04f9d907c5a2
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams
+    name: Crear Diagrama sin Nombre
+    meta:
+      id: req_03248b867af845b183b826faf9c22725
+      created: 1763641334920
+      modified: 1763643180347
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612244
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "description": "Diagrama sin nombre",
+          "nodes": [
+            {
+              "id": "1",
+              "type": "default",
+              "position": { "x": 100, "y": 100 },
+              "data": { "label": "Nodo 1" }
+            }
+          ],
+          "edges": []
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_c1aad3ba77f246dca2d58b977b1c533b
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_1db7920a78d849729a8a04f9d907c5a2
+      - id: pair_29dc394e69f244398d0e6c77f07c1235
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/1858932567985672586725867258
+    name: Obtener Diagrama Inexistente
+    meta:
+      id: req_7a73fe42da3048aa9cf7ecea3b4702f9
+      created: 1763641416377
+      modified: 1763643189345
+      isPrivate: false
+      description: ""
+      sortKey: -1763457612144
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_b1bf60e76eee4cff9a48b609e38ef4ef
+      - id: pair_f2a91b32f0aa4986b4f9ac6ee12176a6
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/1
+    name: Eliminar Diagrama sin Token
+    meta:
+      id: req_0b6aa111af7c46158764b4dc4f7244cd
+      created: 1763641469240
+      modified: 1763641475325
+      isPrivate: false
+      description: ""
+      sortKey: -1763457611944
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_42d3ac94866c498ab54c08c80b2a837f
     settings:
       renderRequestBody: true
       encodeUrl: true
