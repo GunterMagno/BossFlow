@@ -57,3 +57,29 @@ exports.createDiagram = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getDiagrams = async (req, res, next) => {
+    try {
+        // Obtener diagramas del usuario autenticado
+        // Filtrar por userId y ordenar por fecha de creación (más recientes primero)
+        const diagrams = await Diagram.find({ userId: req.user.userId })
+            .sort({ createdAt: -1 });
+
+        // Retornar lista de diagramas
+        res.status(200).json({
+            diagrams: diagrams.map(diagram => ({
+                id: diagram._id,
+                title: diagram.title,
+                description: diagram.description,
+                nodes: diagram.nodes,
+                edges: diagram.edges,
+                createdAt: diagram.createdAt,
+                updatedAt: diagram.updatedAt
+            }))
+        });
+
+    } catch (error) {
+        console.error('❌ Error al obtener diagramas:', error);
+        next(error);
+    }
+};

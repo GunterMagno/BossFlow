@@ -20,6 +20,10 @@ router.get("/perfil", auth, (req, res) => {
   res.json({user: req.user});
 });
 
+router.get("/diagrams", auth, (req, res, next) => {
+  diagramController.getDiagrams(req, res, next);
+});
+
 // Peticiones POST
 
 router.post("/eco", (req, res) => {
