@@ -11,6 +11,11 @@
   width: 100%;
 }
 
+/* Card wrapper para posicionar el botón de eliminar */
+.diagram-list__card-wrapper {
+  position: relative;
+}
+
 /* Card de diagrama */
 .diagram-list__card {
   background: var(--focus);
@@ -118,6 +123,43 @@
 .diagram-list__stat-separator {
   color: var(--secundario);
   opacity: 0.5;
+}
+
+/* Botón de eliminar */
+.diagram-list__delete-button {
+  position: absolute;
+  top: var(--espaciado-sm);
+  right: var(--espaciado-sm);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radio-sm) 0 var(--radio-sm) 0;
+  color: #ef4444;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: all var(--transicion-rapida);
+  z-index: 10;
+}
+
+.diagram-list__card-wrapper:hover .diagram-list__delete-button {
+  opacity: 1;
+}
+
+.diagram-list__delete-button:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+  transform: scale(1.05);
+}
+
+.diagram-list__delete-button:active {
+  transform: scale(0.95);
 }
 
 /* Estado de carga */
