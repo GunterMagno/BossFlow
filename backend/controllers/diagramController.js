@@ -61,9 +61,9 @@ exports.createDiagram = async (req, res, next) => {
 exports.getDiagrams = async (req, res, next) => {
     try {
         // Obtener diagramas del usuario autenticado
-        // Filtrar por userId y ordenar por fecha de creación (más recientes primero)
+        // Filtrar por userId y ordenar por fecha de actualización (más recientes primero)
         const diagrams = await Diagram.find({ userId: req.user.userId })
-            .sort({ createdAt: -1 });
+            .sort({ updatedAt: -1 });
 
         // Retornar lista de diagramas
         res.status(200).json({
@@ -71,8 +71,8 @@ exports.getDiagrams = async (req, res, next) => {
                 id: diagram._id,
                 title: diagram.title,
                 description: diagram.description,
-                nodes: diagram.nodes,
-                edges: diagram.edges,
+                nodesCount: diagram.nodes?.length || 0,
+                edgesCount: diagram.edges?.length || 0,
                 createdAt: diagram.createdAt,
                 updatedAt: diagram.updatedAt
             }))
