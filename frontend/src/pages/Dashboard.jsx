@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getDiagrams } from '../services/diagramService';
+import DiagramList from '../components/DiagramList/DiagramList';
 import {
   FiHome,
   FiFileText,
@@ -21,9 +23,32 @@ function Dashboard() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState('inicio');
+  const [diagrams, setDiagrams] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     document.title = 'Dashboard | BossFlow';
+  }, []);
+
+  // Cargar diagramas al montar el componente
+  useEffect(() => {
+    const fetchDiagrams = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await getDiagrams();
+        setDiagrams(response.diagrams || []);
+      } catch (error) {
+        console.error('Error al cargar diagramas:', error);
+        setError('No se pudieron cargar los diagramas. El endpoint aún no está disponible.');
+        setDiagrams([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDiagrams();
   }, []);
 
   const handleLogout = () => {
@@ -31,55 +56,42 @@ function Dashboard() {
     navigate('/');
   };
 
-  // Datos de ejemplo - reemplazar con datos reales de API
-  const misDiagramas = [
-    {
-      id: 1,
-      nombre: 'Nombre diagrama',
-      fechaCreacion: 'Hace 2 horas',
-      colaboradores: [1, 2, 3],
-    },
-    {
-      id: 2,
-      nombre: 'Nombre diagrama',
-      fechaCreacion: 'Hace 2 horas',
-      colaboradores: [1, 2, 3],
-    },
-    {
-      id: 3,
-      nombre: 'Nombre diagrama',
-      fechaCreacion: 'Hace 2 horas',
-      colaboradores: [1, 2, 3],
-    },
-  ];
+  // Función para formatear fecha relativa
+  const formatRelativeDate = (date) => {
+    const now = new Date();
+    const diagramDate = new Date(date);
+    const diffMs = now - diagramDate;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
 
-  const diagramasColaborados = [
-    {
-      id: 1,
-      nombre: 'Nombre diagrama',
-      creador: 1,
-      colaboradores: [1, 2, 3, 4],
-    },
-    {
-      id: 2,
-      nombre: 'Nombre diagrama',
-      creador: 1,
-      colaboradores: [1, 2, 3, 4],
-    },
-    {
-      id: 3,
-      nombre: 'Nombre diagrama',
-      creador: 1,
-      colaboradores: [1, 2, 3, 4],
-    },
-    {
-      id: 4,
-      nombre: 'Nombre diagrama',
-      creador: 1,
-      colaboradores: [1, 2, 3, 4],
-    },
-  ];
+    if (diffMins < 60) {
+      return `Hace ${diffMins} ${diffMins === 1 ? 'minuto' : 'minutos'}`;
+    } else if (diffHours < 24) {
+      return `Hace ${diffHours} ${diffHours === 1 ? 'hora' : 'horas'}`;
+    } else if (diffDays < 7) {
+      return `Hace ${diffDays} ${diffDays === 1 ? 'día' : 'días'}`;
+    } else {
+      return diagramDate.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    }
+  };
 
+  // Calcular estadísticas desde datos reales
+  const estadisticas = {
+    totalDiagramas: diagrams.length,
+    colaboraciones: 0, // TODO: Cuando se implemente colaboraciones
+    plantillas: 0, // TODO: Cuando se implemente plantillas
+    comentariosPendientes: 0, // TODO: Cuando se implemente comentarios
+  };
+
+  // Obtener los 3 diagramas más recientes
+  const diagramasRecientes = diagrams.slice(0, 3);
+
+  // Actividad reciente (mock data - TODO: implementar endpoint)
   const actividadReciente = [
     {
       id: 1,
@@ -100,13 +112,6 @@ function Dashboard() {
       fecha: 'Hace 1 día',
     },
   ];
-
-  const estadisticas = {
-    totalDiagramas: misDiagramas.length,
-    colaboraciones: diagramasColaborados.length,
-    plantillas: 5,
-    comentariosPendientes: 3,
-  };
 
   return (
     <div className="dashboard">
@@ -292,45 +297,63 @@ function Dashboard() {
                     Tus diagramas más recientes
                   </p>
                 </div>
-                <button className="dashboard__boton-nuevo">
+                <Link to="/editor" className="dashboard__boton-nuevo">
                   <FiPlus className="dashboard__boton-icono" />
                   Nuevo diagrama
-                </button>
+                </Link>
               </div>
 
-              <div className="dashboard__grid">
-                {misDiagramas.slice(0, 3).map((diagrama) => (
-                  <div key={diagrama.id} className="dashboard__card">
-                    <div className="dashboard__card-icono">
-                      <FiFileText />
-                    </div>
+              {loading ? (
+                <div className="dashboard__loading">
+                  <div className="dashboard__spinner"></div>
+                  <p>Cargando diagramas...</p>
+                </div>
+              ) : error ? (
+                <div className="dashboard__error">
+                  <p className="dashboard__error-message">{error}</p>
+                </div>
+              ) : diagramasRecientes.length > 0 ? (
+                <div className="dashboard__grid">
+                  {diagramasRecientes.map((diagrama) => (
+                    <Link
+                      key={diagrama.id}
+                      to={`/editor/${diagrama.id}`}
+                      className="dashboard__card"
+                    >
+                      <div className="dashboard__card-icono">
+                        <FiFileText />
+                      </div>
 
-                    <div className="dashboard__card-contenido">
-                      <h3 className="dashboard__card-titulo">{diagrama.nombre}</h3>
+                      <div className="dashboard__card-contenido">
+                        <h3 className="dashboard__card-titulo">{diagrama.title}</h3>
+                        {diagrama.description && (
+                          <p className="dashboard__card-descripcion">
+                            {diagrama.description}
+                          </p>
+                        )}
 
-                      <div className="dashboard__card-footer">
-                        <div className="dashboard__card-info">
-                          <span className="dashboard__card-fecha">
-                            <FiCopy className="dashboard__info-icono" />
-                            {diagrama.fechaCreacion}
-                          </span>
-                          <div className="dashboard__card-colaboradores">
-                            {diagrama.colaboradores.map((col, index) => (
-                              <div
-                                key={index}
-                                className="dashboard__avatar"
-                                title={`Colaborador ${col}`}
-                              >
-                                <FiUser />
-                              </div>
-                            ))}
+                        <div className="dashboard__card-footer">
+                          <div className="dashboard__card-info">
+                            <span className="dashboard__card-fecha">
+                              <FiClock className="dashboard__info-icono" />
+                              {formatRelativeDate(diagrama.updatedAt)}
+                            </span>
+                            <div className="dashboard__card-stats">
+                              <span>{diagrama.nodesCount || 0} nodos</span>
+                              <span className="dashboard__stat-separator">•</span>
+                              <span>{diagrama.edgesCount || 0} conexiones</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="dashboard__empty">
+                  <p>No tienes diagramas todavía. Crea tu primer diagrama para empezar.</p>
+                </div>
+              )}
             </section>
           </>
         )}
@@ -344,45 +367,13 @@ function Dashboard() {
                   Gestiona y crea tus diagramas
                 </p>
               </div>
-              <button className="dashboard__boton-nuevo">
+              <Link to="/editor" className="dashboard__boton-nuevo">
                 <FiPlus className="dashboard__boton-icono" />
                 Nuevo diagrama
-              </button>
+              </Link>
             </div>
 
-            <div className="dashboard__grid">
-              {misDiagramas.map((diagrama) => (
-                <div key={diagrama.id} className="dashboard__card">
-                  <div className="dashboard__card-icono">
-                    <FiFileText />
-                  </div>
-
-                  <div className="dashboard__card-contenido">
-                    <h3 className="dashboard__card-titulo">{diagrama.nombre}</h3>
-
-                    <div className="dashboard__card-footer">
-                      <div className="dashboard__card-info">
-                        <span className="dashboard__card-fecha">
-                          <FiCopy className="dashboard__info-icono" />
-                          {diagrama.fechaCreacion}
-                        </span>
-                        <div className="dashboard__card-colaboradores">
-                          {diagrama.colaboradores.map((col, index) => (
-                            <div
-                              key={index}
-                              className="dashboard__avatar"
-                              title={`Colaborador ${col}`}
-                            >
-                              <FiUser />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <DiagramList />
           </section>
         )}
       </main>
