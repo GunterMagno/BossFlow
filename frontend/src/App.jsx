@@ -26,8 +26,7 @@ function App() {
 
 
               {/* Rutas privadas */}
-              {/* Añadido en la ruta el parámetro diagramId como opcional (?) para desarrollo, cuando se publique quitarlo */ }
-              <Route path="/editor/:diagramId?" element={
+              <Route path="/editor/:diagramId" element={
                 <PrivateRoute>
                   <Editor />
                 </PrivateRoute>} />
