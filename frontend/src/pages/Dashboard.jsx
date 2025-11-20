@@ -75,6 +75,13 @@ function Dashboard() {
     loadActivities();
   };
 
+  // Handler cuando se elimina un diagrama
+  const handleDiagramDeleted = () => {
+    // Refrescar la lista de diagramas y actividades
+    fetchDiagrams();
+    loadActivities();
+  };
+
   // Función para formatear fecha relativa
   const formatRelativeDate = (date) => {
     const now = new Date();
@@ -383,7 +390,10 @@ function Dashboard() {
               </button>
             </div>
 
-            <DiagramList onCreateClick={() => setIsModalOpen(true)} />
+            <DiagramList
+              onCreateClick={() => setIsModalOpen(true)}
+              onDiagramDeleted={handleDiagramDeleted}
+            />
           </section>
         )}
       </main>

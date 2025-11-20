@@ -1,36 +1,90 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getDiagrams } from '../../services/diagramService';
+import { getDiagrams, deleteDiagram } from '../../services/diagramService';
+import { registerActivity, ACTIVITY_TYPES } from '../../services/activityService';
+import { useToast } from '../../context/ToastContext';
+import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import {
   FiFileText,
   FiClock,
   FiUser,
   FiAlertCircle,
+  FiTrash2,
 } from 'react-icons/fi';
 import './DiagramList.css';
 
-function DiagramList({ onCreateClick }) {
+function DiagramList({ onCreateClick, onDiagramDeleted }) {
+  const toast = useToast();
   const [diagrams, setDiagrams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [diagramToDelete, setDiagramToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const fetchDiagrams = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await getDiagrams();
+      setDiagrams(response.diagrams || []);
+    } catch (err) {
+      console.error('Error al cargar diagramas:', err);
+      setError('No se pudieron cargar los diagramas. Por favor, intenta de nuevo.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchDiagrams = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await getDiagrams();
-        setDiagrams(response.diagrams || []);
-      } catch (err) {
-        console.error('Error al cargar diagramas:', err);
-        setError('No se pudieron cargar los diagramas. Por favor, intenta de nuevo.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchDiagrams();
   }, []);
+
+  // Función para eliminar diagrama
+  const handleDeleteClick = (e, diagram) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDiagramToDelete(diagram);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!diagramToDelete) return;
+
+    try {
+      setIsDeleting(true);
+      await deleteDiagram(diagramToDelete.id);
+
+      // Registrar actividad de eliminación
+      registerActivity(
+        ACTIVITY_TYPES.DELETE,
+        diagramToDelete.title,
+        diagramToDelete.id
+      );
+
+      // Actualizar lista de diagramas local
+      await fetchDiagrams();
+
+      // Notificar al Dashboard para que actualice su estado
+      if (onDiagramDeleted) {
+        onDiagramDeleted();
+      }
+
+      // Mostrar mensaje de éxito
+      toast.success('Diagrama eliminado exitosamente');
+
+      setDiagramToDelete(null);
+    } catch (error) {
+      console.error('Error al eliminar diagrama:', error);
+      toast.error('Error al eliminar el diagrama. Por favor, intenta de nuevo.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    if (!isDeleting) {
+      setDiagramToDelete(null);
+    }
+  };
 
   // Función para formatear fecha relativa
   const formatRelativeDate = (date) => {
@@ -112,49 +166,73 @@ function DiagramList({ onCreateClick }) {
 
   // Lista de diagramas
   return (
-    <div className="diagram-list">
-      <div className="diagram-list__grid">
-        {diagrams.map((diagram) => (
-          <Link
-            key={diagram.id}
-            to={`/editor/${diagram.id}`}
-            className="diagram-list__card"
-          >
-            <div className="diagram-list__card-icon">
-              <FiFileText />
-            </div>
+    <>
+      <div className="diagram-list">
+        <div className="diagram-list__grid">
+          {diagrams.map((diagram) => (
+            <div key={diagram.id} className="diagram-list__card-wrapper">
+              <Link
+                to={`/editor/${diagram.id}`}
+                className="diagram-list__card"
+              >
+                <div className="diagram-list__card-icon">
+                  <FiFileText />
+                </div>
 
-            <div className="diagram-list__card-content">
-              <h3 className="diagram-list__card-title">{diagram.title}</h3>
-              {diagram.description && (
-                <p className="diagram-list__card-description">
-                  {diagram.description}
-                </p>
-              )}
+                <div className="diagram-list__card-content">
+                  <h3 className="diagram-list__card-title">{diagram.title}</h3>
+                  {diagram.description && (
+                    <p className="diagram-list__card-description">
+                      {diagram.description}
+                    </p>
+                  )}
 
-              <div className="diagram-list__card-footer">
-                <div className="diagram-list__card-info">
-                  <span className="diagram-list__card-date">
-                    <FiClock className="diagram-list__info-icon" />
-                    {formatRelativeDate(diagram.updatedAt)}
-                  </span>
+                  <div className="diagram-list__card-footer">
+                    <div className="diagram-list__card-info">
+                      <span className="diagram-list__card-date">
+                        <FiClock className="diagram-list__info-icon" />
+                        {formatRelativeDate(diagram.updatedAt)}
+                      </span>
 
-                  <div className="diagram-list__card-stats">
-                    <span className="diagram-list__stat">
-                      {diagram.nodesCount || 0} nodos
-                    </span>
-                    <span className="diagram-list__stat-separator">•</span>
-                    <span className="diagram-list__stat">
-                      {diagram.edgesCount || 0} conexiones
-                    </span>
+                      <div className="diagram-list__card-stats">
+                        <span className="diagram-list__stat">
+                          {diagram.nodesCount || 0} nodos
+                        </span>
+                        <span className="diagram-list__stat-separator">•</span>
+                        <span className="diagram-list__stat">
+                          {diagram.edgesCount || 0} conexiones
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
+
+              <button
+                className="diagram-list__delete-button"
+                onClick={(e) => handleDeleteClick(e, diagram)}
+                aria-label="Eliminar diagrama"
+                title="Eliminar diagrama"
+              >
+                <FiTrash2 />
+              </button>
             </div>
-          </Link>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+
+      <ConfirmModal
+        isOpen={!!diagramToDelete}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        title="¿Eliminar diagrama?"
+        message={`¿Estás seguro de que quieres eliminar "${diagramToDelete?.title}"? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        type="danger"
+        isLoading={isDeleting}
+      />
+    </>
   );
 }
 
