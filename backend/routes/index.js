@@ -24,6 +24,10 @@ router.get("/diagrams", auth, (req, res, next) => {
   diagramController.getDiagrams(req, res, next);
 });
 
+router.get("/diagrams/:id", auth, (req, res, next) => {
+  diagramController.getDiagramById(req, res, next);
+});
+
 // Peticiones POST
 
 router.post("/eco", (req, res) => {
