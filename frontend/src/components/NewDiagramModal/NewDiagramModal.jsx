@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { FiX, FiFileText, FiAlignLeft } from 'react-icons/fi';
 import { createDiagram } from '../../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../../services/activityService';
+import { useToast } from '../../context/ToastContext';
 import './NewDiagramModal.css';
 
 function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
   const navigate = useNavigate();
+  const toast = useToast();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -75,18 +77,21 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
         );
       }
 
+      // Mostrar mensaje de éxito
+      toast.success('¡Diagrama creado exitosamente!');
+
       // Notificar al componente padre que se creó un diagrama
       if (onDiagramCreated) {
         onDiagramCreated(response.diagram);
       }
 
+      // Cerrar modal
+      handleClose();
+
       // Redirigir al editor con el nuevo diagrama
       if (response.diagram && response.diagram.id) {
         navigate(`/editor/${response.diagram.id}`);
       }
-
-      // Cerrar modal
-      handleClose();
     } catch (error) {
       console.error('Error al crear diagrama:', error);
 
@@ -95,10 +100,19 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
         setErrors({
           title: 'Ya existe un diagrama con ese título',
         });
-      } else {
+        toast.error('Ya existe un diagrama con ese título');
+      } else if (error.response?.status === 400) {
+        const errorMessage = error.response?.data?.error || 'Datos inválidos';
         setErrors({
-          general: 'Error al crear el diagrama. Por favor, intenta de nuevo.',
+          general: errorMessage,
         });
+        toast.error(errorMessage);
+      } else {
+        const errorMessage = 'Error al crear el diagrama. Por favor, intenta de nuevo.';
+        setErrors({
+          general: errorMessage,
+        });
+        toast.error(errorMessage);
       }
     } finally {
       setIsSubmitting(false);

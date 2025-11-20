@@ -5,7 +5,6 @@ const DiagramSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true,
         minLength: 3,
   },
     description: {
@@ -28,6 +27,9 @@ const DiagramSchema = new mongoose.Schema({
         default: []
     }
 }, { timestamps: true });
+
+// Índice compuesto: título único por usuario (no globalmente)
+DiagramSchema.index({ title: 1, userId: 1 }, { unique: true });
 
 const Diagram = mongoose.model('Diagram', DiagramSchema);
 module.exports = Diagram;

@@ -3,7 +3,7 @@
  * Almacena las actividades en localStorage por usuario
  */
 
-const ACTIVITY_STORAGE_KEY = 'bossflow_activities';
+const ACTIVITY_STORAGE_PREFIX = 'bossflow_activities_';
 const MAX_ACTIVITIES = 10; // Máximo número de actividades a mantener
 
 /**
@@ -17,12 +17,44 @@ export const ACTIVITY_TYPES = {
 };
 
 /**
+ * Obtener el ID del usuario actual desde el token
+ * @returns {string|null} ID del usuario o null si no hay sesión
+ */
+const getCurrentUserId = () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    // Decodificar el token JWT (payload es la segunda parte)
+    const payload = token.split('.')[1];
+    const decoded = JSON.parse(atob(payload));
+    return decoded.userId;
+  } catch (error) {
+    console.error('Error al obtener userId del token:', error);
+    return null;
+  }
+};
+
+/**
+ * Obtener la clave de storage para el usuario actual
+ * @returns {string|null} Clave de storage o null si no hay usuario
+ */
+const getStorageKey = () => {
+  const userId = getCurrentUserId();
+  if (!userId) return null;
+  return `${ACTIVITY_STORAGE_PREFIX}${userId}`;
+};
+
+/**
  * Obtener todas las actividades del usuario actual
  * @returns {Array} Array de actividades ordenadas por fecha (más recientes primero)
  */
 export const getActivities = () => {
   try {
-    const activities = localStorage.getItem(ACTIVITY_STORAGE_KEY);
+    const storageKey = getStorageKey();
+    if (!storageKey) return [];
+
+    const activities = localStorage.getItem(storageKey);
     if (!activities) {
       return [];
     }
@@ -41,6 +73,9 @@ export const getActivities = () => {
  */
 export const registerActivity = (tipo, diagramaTitle, diagramaId) => {
   try {
+    const storageKey = getStorageKey();
+    if (!storageKey) return null;
+
     const activities = getActivities();
 
     // Crear nueva actividad
@@ -59,7 +94,7 @@ export const registerActivity = (tipo, diagramaTitle, diagramaId) => {
     const trimmedActivities = activities.slice(0, MAX_ACTIVITIES);
 
     // Guardar en localStorage
-    localStorage.setItem(ACTIVITY_STORAGE_KEY, JSON.stringify(trimmedActivities));
+    localStorage.setItem(storageKey, JSON.stringify(trimmedActivities));
 
     return newActivity;
   } catch (error) {
@@ -99,11 +134,13 @@ export const formatRelativeDate = (isoDate) => {
 };
 
 /**
- * Limpiar todas las actividades
+ * Limpiar todas las actividades del usuario actual
  */
 export const clearActivities = () => {
   try {
-    localStorage.removeItem(ACTIVITY_STORAGE_KEY);
+    const storageKey = getStorageKey();
+    if (!storageKey) return;
+    localStorage.removeItem(storageKey);
   } catch (error) {
     console.error('Error al limpiar actividades:', error);
   }
