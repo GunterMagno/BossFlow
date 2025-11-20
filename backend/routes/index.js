@@ -49,4 +49,10 @@ router.post("/diagrams", auth, (req, res, next) => {
   diagramController.createDiagram(req, res, next);
 });
 
+// Peticiones DELETE
+
+router.delete("/diagrams/:id", auth, (req, res, next) => {
+  diagramController.deleteDiagram(req, res, next);
+});
+
 module.exports = router;

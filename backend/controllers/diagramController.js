@@ -83,3 +83,38 @@ exports.getDiagrams = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.deleteDiagram = async (req, res, next) => {
+    try {
+        const diagramId = req.params.id;
+        const mongoose = require('mongoose');
+
+        // Validar que el ID sea un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(diagramId)) {
+            return res.status(404).json({ 
+                error: 'Diagrama no encontrado o no autorizado' 
+            });
+        }
+
+        // Buscar y eliminar diagrama si pertenece al usuario autenticado
+        const diagram = await Diagram.findOneAndDelete({ 
+            _id: diagramId, 
+            userId: req.user.userId 
+        });
+
+        if (!diagram) {
+            return res.status(404).json({ 
+                error: 'Diagrama no encontrado o no autorizado' 
+            });
+        }
+
+        // Retornar respuesta de éxito
+        res.status(200).json({ 
+            message: 'Diagrama eliminado exitosamente' 
+        });
+
+    } catch (error) {
+        console.error('❌ Error al eliminar diagrama:', error);
+        next(error);
+    }
+};
