@@ -1,41 +1,40 @@
 # Sprint 3 - Ceremonias Scrum
 
-**Scrum Master**: Daniel Montes Iglesias 
+**Scrum Master**: Daniel Montes Iglesias   
 **Sprint**: 15/11 - 21/11
 
 ## Daily Scrums
 
-### 17/11/2025
-- **Jesús**: Trabajó en documentación del flujo de autenticación. Creó paginas de estados.
-- **Daniel**: Instaló y configuró React Flow.
-- **Alejandro**: Implementó autenticación middleware. Hoy realiza el logout y documentación.
-
 ### 18/11/2025
-- **Jesús**: Completó viabilidad técnica. Hoy diseña esquema de BD.
-- **Daniel**: Terminó documentación de recursos. Hoy define objetivos SMART.
-- **Alejandro**: Implementó logout. Hoy crea rutas de la API.
+- **Jesús**: Terminó sprint anterior. Hoy crea página Dashboard.
+- **Daniel**: Terminó sprint anterior. Hoy instala y configura React Flow.
+- **Alejandro**: Terminó sprint anterior. Hoy define criterios de aceptación CRUD y crea el modelo Diagram.
 
 ### 19/11/2025
-- **Jesús**: Diseñó esquema de BD completo. Hoy revisa documentación.
-- **Daniel**: Documentó objetivos y alcance. Hoy setup del frontend.
-- **Alejandro**: Creó rutas API básicas. Hoy testing de endpoints.
+- **Jesús**: Arregló el despliegue y creó el Dashboard. Hoy crea página Dashboard.
+- **Daniel**: Instaló y configuró React Flow. Hoy implementa una página Editor con React Flow básico.
+- **Alejandro**: Definió criterios de aceptación CRUD y creó el modelo Diagram. Hoy implementa endpoints para los diagramas.
 
 ### 20/11/2025
-- **Jesús**: Revisó documentación. Hoy crea componente Home.
-- **Daniel**: Frontend configurado. Hoy implementa estilos.
-- **Alejandro**: Testeó endpoints. Hoy prueba API RAWG.io.
+- **Jesús**: Implementó lista de diagramas y modal de creación, conectado con backend. Hoy implementa eliminación, mensajes de feedback y componente DiagramCard.
+- **Daniel**: Creó página Editor básica con React Flow básico. Hoy implementa estados y documenta el componente Editor..
+- **Alejandro**: Implementó algunos endpoints. Hoy terminar endpoints y testear con Insomnia.
 
 ### 21/11/2025
+- **Jesús**: Implementó eliminación de diagramas, mensajes de feedback y componente DiagramCard.
+- **Daniel**: Implementó estados y documentó el componente Editor con ruta desde Dashboard.
+- **Alejandro**: Terminó los endpoints de los diagramas y los testeó en Insomnia.
+- Documentación del scrum del sprint3
 - Presentación del MVP del sprint3
 
 ---
 
 ## Impedimentos Documentados
 
-1. **Desconocimiento sobre librerías** - Resuelto dedicando tiempo a tutoriales.
-2. **** - Resuelto investigando patrones de MongoDB.
-
----
+1. **No saber implementar correctamente librerías** - Resuelto viendo documentación y tutoriales.
+2. **Problemas de comunicación entre el frontend y el backend** - Resuelto revisando configuraciones y ajustando rutas en el servidor.
+3. **Errores al hacer el despliegue en producción** - Resuelto revisando y configurando correctamente el despliegue.
+4. **Dificultad para autenticar usuarios con JWT** - Resuelto siguiendo un flujo estándar de autenticación y verificando el middleware.
 
 ## Sprint Review
 
