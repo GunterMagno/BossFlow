@@ -5,7 +5,7 @@
   padding: 10px 14px;
   border-radius: 8px;
   font-weight: bold;
-  color: black;
+  color: var(--blanco);
 }
 
 .decision-node { border: 2px solid #4da6ff; background: rgba(77,166,255,0.2); }
@@ -14,4 +14,4 @@
 .effect-node { border: 2px solid #9933ff; background: rgba(153,51,255,0.2); }
 
 .icon { font-size: 18px; }
-.title { font-size: 14px; }
+.title { font-size: 14px;}
