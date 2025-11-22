@@ -23,7 +23,6 @@ function App() {
               <Route path="/status" element={<Status />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/editor/:diagramId?" element={<Editor />} />
 
               {/* Rutas privadas */}
               <Route path="/editor/:diagramId" element={
