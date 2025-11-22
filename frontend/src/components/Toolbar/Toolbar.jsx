@@ -12,7 +12,7 @@ const nodosIniciales = [
 
 function Toolbar() {
   const handleInsertDemo = () => {
-    // Dispatch a custom event that FlowMap listens to; detail contains nodes array
+    // Envía un evento personalizado al que FlowMap está atento; detail contiene el array de nodos
     const ev = new CustomEvent('flowmap-insert-sample-nodes', { detail: { nodes: nodosIniciales } });
     window.dispatchEvent(ev);
   };
