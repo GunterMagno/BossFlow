@@ -13,6 +13,7 @@ import "reactflow/dist/style.css";
 import "./FlowMap.css";
 import CustomEdge from '../customEdge/CustomEdge';
 import { useToast } from '../../context/ToastContext';
+import { NODE_COLORS } from '../nodes/colors';
 
 const tiposNodos = { decision: DecisionNode, action: ActionNode, phase: PhaseNode, effect: EffectNode };
 // Definir edge types fuera del componente para evitar recrear el objeto en cada render
@@ -131,17 +132,7 @@ function FlowMap({ initialNodes = [], initialEdges = [] }) {
         >
           {/* Configurar tipos de nodos*/} 
           <MiniMap 
-            nodeColor={
-              (node) => {
-                switch (node.type) {
-                  case "decision": return "#4da6ff";
-                  case "action": return "#33cc33";
-                  case "phase": return "#ffcc00";
-                  case "effect": return "#9933ff";
-                  default: return "#eee";
-                }
-              }
-            }
+            nodeColor={(node) => NODE_COLORS[node.type] || NODE_COLORS.default}
             nodeStrokeWidth={2}
           />
           <Controls />

@@ -1,0 +1,7 @@
+/* Icon color classes mapped to node colors (kept in sync with colors.js) */
+.icon-decision { color: #4da6ff; }
+.icon-action { color: #33cc33; }
+.icon-phase { color: #ffcc00; }
+.icon-effect { color: #9933ff; }
+
+.node-icon { width: 18px; height: 18px; display: block; }
