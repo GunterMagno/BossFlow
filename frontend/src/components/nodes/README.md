@@ -14,7 +14,9 @@ Pasos detallados
 ```jsx
 export const MyCustomNode = ({ id, data }) => (
   <div className="node mycustom-node" style={{ position: 'relative' }}>
-    <Handles color={NODE_COLORS.mycustom || NODE_COLORS.default} />
+    {/* Usa variables CSS para el color: */}
+    {/* Pasa el id del nodo para generar handles únicos: */}
+    <Handles nodeId={id} color={'var(--node-mycustom, var(--node-default))'} />
     <span className="icon"><MyCustomIcon className="node-icon" role="img" aria-label={`Icono de mycustom`} /></span>
     <span className="node-title">{data.title}</span>
   </div>
@@ -36,6 +38,8 @@ export const MyCustomIcon = (props) => (
 ```
 
    - Usar `stroke="currentColor"` y/o `fill="currentColor"` permite controlar el color desde CSS (por ejemplo `.mycustom-node { color: #123456 }`).
+   - En JSX/React usa nombres de atributo en camelCase para SVG: `strokeWidth`, `strokeLinecap`, `strokeLinejoin`.
+   - Prefiere exports nombrados (`export const MyCustomIcon`) y úsalos con imports nombrados. Un `export default` con un objeto también funciona, pero puede inducir inconsistencias; los ejemplos del proyecto usan exports nombrados.
 
 3) Registrar el tipo en `FlowMap`
 
@@ -50,19 +54,19 @@ const tiposNodos = { decision: DecisionNode, action: ActionNode, mycustom: MyCus
 
 4) Styles y color
 
-   - Añade en `Nodes.css` reglas para el `className` del nodo:
+  - Añade en `Nodes.css` reglas para el `className` del nodo o usa variables:
 
 ```css
-.mycustom-node { border: 2px solid #aabbcc; background: rgba(170,187,204,0.12); color: #aabbcc; }
+.mycustom-node { border: 2px solid var(--node-mycustom, #aabbcc); background: rgba(170,187,204,0.12); color: var(--node-mycustom, #aabbcc); }
 .mycustom-node .node-icon { width: 18px; height: 18px; }
 ```
 
-   - Al usar `currentColor` en el SVG, el icono tomará `color` del contenedor (`.mycustom-node { color: ... }`).
+  - Al usar `currentColor` en el SVG, el icono tomará `color` del contenedor (`.mycustom-node { color: ... }`).
 
 5) Buenas prácticas
 
    - Usa `React.memo` para nodos que no cambian frecuentemente.
-   - Asigna `id` y handles únicos si creas handles personalizados.
+  - Asigna `id` y handles únicos si creas handles personalizados. Recomendación práctica: usa el `id` del nodo para componer los ids de handle, por ejemplo `id={`${id}-${name}-target`}` y `id={`${id}-${name}-source`}` para evitar colisiones entre instancias.
    - Añade `role="img"` y `aria-label` a iconos para accesibilidad.
    - Testea en el editor que `type` coincide con la clave usada en `tiposNodos`.
 

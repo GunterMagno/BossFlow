@@ -1,6 +1,7 @@
 .node {
   display: flex;
   align-items: center;
+  position: relative;
   gap: 6px;
   padding: 10px 14px;
   border-radius: 8px;
@@ -8,10 +9,10 @@
   color: var(--blanco);
 }
 
-.decision-node { border: 2px solid #4da6ff; background: rgba(77,166,255,0.2); }
-.action-node { border: 2px solid #33cc33; background: rgba(51,204,51,0.2); }
-.phase-node { border: 2px solid #ffcc00; background: rgba(255,204,0,0.2); }
-.effect-node { border: 2px solid #9933ff; background: rgba(153,51,255,0.2); }
+.decision-node { border: 2px solid var(--node-decision); background: var(--node-decision-bg); }
+.action-node { border: 2px solid var(--node-action); background: var(--node-action-bg); }
+.phase-node { border: 2px solid var(--node-phase); background: var(--node-phase-bg); }
+.effect-node { border: 2px solid var(--node-effect); background: var(--node-effect-bg); }
 
 .icon {
   display: inline-flex;
