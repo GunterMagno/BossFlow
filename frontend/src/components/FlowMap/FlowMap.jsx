@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { DecisionNode, ActionNode, PhaseNode, EffectNode } from "../nodes/Nodes";
+import { DecisionNode, ActionNode, PhaseNode, EffectNode, StartNode, EndNode } from "../nodes/Nodes";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -14,7 +14,7 @@ import "./FlowMap.css";
 import CustomEdge from '../customEdge/CustomEdge';
 import { useToast } from '../../context/ToastContext';
 
-const tiposNodos = { decision: DecisionNode, action: ActionNode, phase: PhaseNode, effect: EffectNode };
+const tiposNodos = { decision: DecisionNode, action: ActionNode, phase: PhaseNode, effect: EffectNode, start: StartNode, end: EndNode };
 // Definir edge types fuera del componente para evitar recrear el objeto en cada render
 const tiposEdges = { default: CustomEdge };
 
@@ -131,17 +131,15 @@ function FlowMap({ initialNodes = [], initialEdges = [] }) {
         >
           {/* Configurar tipos de nodos*/} 
           <MiniMap 
-            nodeColor={
-              (node) => {
-                switch (node.type) {
-                  case "decision": return "#4da6ff";
-                  case "action": return "#33cc33";
-                  case "phase": return "#ffcc00";
-                  case "effect": return "#9933ff";
-                  default: return "#eee";
-                }
+            nodeColor={(node) => {
+              try {
+                const key = `--node-${node.type}`;
+                const v = getComputedStyle(document.documentElement).getPropertyValue(key).trim();
+                return v || getComputedStyle(document.documentElement).getPropertyValue('--node-default').trim() || '#eee';
+              } catch (e) {
+                return '#eee';
               }
-            }
+            }}
             nodeStrokeWidth={2}
           />
           <Controls />
