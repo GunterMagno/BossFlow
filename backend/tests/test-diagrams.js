@@ -197,18 +197,54 @@ async function runTests() {
     // Generar timestamp para títulos únicos
     const timestamp = Date.now();
 
-    // Test 1: Crear diagrama exitoso
-    results.push(await testCreateDiagram(
-      'Crear diagrama exitoso',
+    // Test 1: Crear diagrama exitoso con nodes y edges
+    const createTest = await testCreateDiagram(
+      'Crear diagrama con nodes y edges',
       {
         title: `Diagrama Test ${timestamp}`,
         description: 'Descripción de prueba',
-        nodes: [{ id: '1', type: 'default', position: { x: 0, y: 0 } }],
-        edges: []
+        nodes: [
+          { id: 'node-1', type: 'start', position: { x: 100, y: 100 }, data: { label: 'Inicio' } },
+          { id: 'node-2', type: 'activity', position: { x: 300, y: 100 }, data: { label: 'Proceso' } }
+        ],
+        edges: [
+          { id: 'edge-1', source: 'node-1', target: 'node-2' }
+        ]
       },
       authToken,
       201
-    ));
+    );
+    results.push(createTest);
+
+    // Verificar que se guardaron correctamente los nodes y edges
+    if (createTest.passed && createTest.data && createTest.data.diagram) {
+      const diagram = createTest.data.diagram;
+      const nodesValid = diagram.nodes && diagram.nodes.length === 2 &&
+                        diagram.nodes[0].id === 'node-1' &&
+                        diagram.nodes[0].type === 'start' &&
+                        diagram.nodes[0].position.x === 100 &&
+                        diagram.nodes[0].position.y === 100 &&
+                        diagram.nodes[0].data.label === 'Inicio';
+      
+      const edgesValid = diagram.edges && diagram.edges.length === 1 &&
+                        diagram.edges[0].id === 'edge-1' &&
+                        diagram.edges[0].source === 'node-1' &&
+                        diagram.edges[0].target === 'node-2';
+      
+      results.push({
+        testName: 'Verificar estructura nodes guardada',
+        passed: nodesValid,
+        status: nodesValid ? 200 : 'FAIL',
+        expectedStatus: 200
+      });
+
+      results.push({
+        testName: 'Verificar estructura edges guardada',
+        passed: edgesValid,
+        status: edgesValid ? 200 : 'FAIL',
+        expectedStatus: 200
+      });
+    }
 
     // Test 2: Crear diagrama sin título
     results.push(await testCreateDiagram(
@@ -217,6 +253,80 @@ async function runTests() {
         description: 'Sin título',
         nodes: [],
         edges: []
+      },
+      authToken,
+      400
+    ));
+
+    // Test 2.5: Crear diagrama con nodes sin campos requeridos
+    results.push(await testCreateDiagram(
+      'Nodes sin id',
+      {
+        title: `Test nodes invalidos ${Date.now()}`,
+        description: 'Nodes sin id',
+        nodes: [{ type: 'start', position: { x: 0, y: 0 } }],
+        edges: []
+      },
+      authToken,
+      400
+    ));
+
+    results.push(await testCreateDiagram(
+      'Nodes sin type',
+      {
+        title: `Test nodes invalidos 2 ${Date.now()}`,
+        description: 'Nodes sin type',
+        nodes: [{ id: 'node-1', position: { x: 0, y: 0 } }],
+        edges: []
+      },
+      authToken,
+      400
+    ));
+
+    results.push(await testCreateDiagram(
+      'Nodes sin position',
+      {
+        title: `Test nodes invalidos 3 ${Date.now()}`,
+        description: 'Nodes sin position',
+        nodes: [{ id: 'node-1', type: 'start' }],
+        edges: []
+      },
+      authToken,
+      400
+    ));
+
+    // Test 2.6: Crear diagrama con edges sin campos requeridos
+    results.push(await testCreateDiagram(
+      'Edges sin id',
+      {
+        title: `Test edges invalidos ${Date.now()}`,
+        description: 'Edges sin id',
+        nodes: [],
+        edges: [{ source: 'a', target: 'b' }]
+      },
+      authToken,
+      400
+    ));
+
+    results.push(await testCreateDiagram(
+      'Edges sin source',
+      {
+        title: `Test edges invalidos 2 ${Date.now()}`,
+        description: 'Edges sin source',
+        nodes: [],
+        edges: [{ id: 'edge-1', target: 'b' }]
+      },
+      authToken,
+      400
+    ));
+
+    results.push(await testCreateDiagram(
+      'Edges sin target',
+      {
+        title: `Test edges invalidos 3 ${Date.now()}`,
+        description: 'Edges sin target',
+        nodes: [],
+        edges: [{ id: 'edge-1', source: 'a' }]
       },
       authToken,
       400

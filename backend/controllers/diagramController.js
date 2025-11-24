@@ -72,8 +72,8 @@ exports.getDiagrams = async (req, res, next) => {
                 id: diagram._id,
                 title: diagram.title,
                 description: diagram.description,
-                nodesCount: diagram.nodes?.length || 0,
-                edgesCount: diagram.edges?.length || 0,
+                nodes: diagram.nodes || [],
+                edges: diagram.edges || [],
                 createdAt: diagram.createdAt,
                 updatedAt: diagram.updatedAt
             }))
