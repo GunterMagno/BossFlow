@@ -1,18 +1,24 @@
 .node {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   gap: 6px;
   padding: 10px 14px;
   border-radius: 8px;
   font-weight: bold;
   color: var(--blanco);
+  height: 100%;
+  text-align: center;
 }
 
 .decision-node { border: 2px solid var(--node-decision); background: var(--node-decision-bg); }
 .action-node { border: 2px solid var(--node-action); background: var(--node-action-bg); }
 .phase-node { border: 2px solid var(--node-phase); background: var(--node-phase-bg); }
 .effect-node { border: 2px solid var(--node-effect); background: var(--node-effect-bg); }
+
+.start-node { border: 2px solid white; background: var(--node-start-end-bg); }
+.end-node { border: 2px solid white; background: var(--node-start-end-bg); }
 
 .icon {
   display: inline-flex;
@@ -30,3 +36,4 @@
 }
 
 .node-title { font-size: 14px; }
+

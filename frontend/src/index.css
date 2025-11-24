@@ -63,6 +63,14 @@
   --node-action-bg: rgba(51,204,51,0.2);
   --node-phase-bg: rgba(255,204,0,0.2);
   --node-effect-bg: rgba(153,51,255,0.2);
+  /* Start/End nodes (gris con borde blanco) */
+  --node-start-end: #BFBFBF;
+  --node-start-end-bg: rgba(191,191,191,0.12);
+  /* Aliases para MiniMap y consistencia por tipo */
+  --node-start: var(--node-start-end);
+  --node-end: var(--node-start-end);
+  --node-start-bg: var(--node-start-end-bg);
+  --node-end-bg: var(--node-start-end-bg);
 }
 
 * {
