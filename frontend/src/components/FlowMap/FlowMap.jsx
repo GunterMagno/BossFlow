@@ -25,29 +25,27 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
   const toast = useToast();
 
-  /* Usamos refs para evitar reinicializar el estado interno del editor, si Editor vuelve a pasar las mismas propiedades o props vacías después de que el usuario haya comenzado a editar el diagrama. Solo inicializa la primera vez que lleguen datos reales, evitando así sobrescribir las ediciones realizadas por el usuario localmente. */
+  /* Se usan refs para evitar reinicializar el estado interno del editor si el usuario ya ha comenzado a editar. Solo carga datos desde initialNodes/initialEdges una vez al inicializar el componente o cuando cambian desde el backend. */
 
-  // Referencias que indican si ya se inicializó el estado a partir de las propiedades.
-  const nodesInitRef = useRef(false);
-  const edgesInitRef = useRef(false);
+  // Referencia para saber si el usuario ha hecho cambios locales
+  const hasLocalChangesRef = useRef(false);
+  const isInitialLoadRef = useRef(true);
 
-  /* Inicializa los nodos a partir de `initialNodes` sólo una vez (cuando llegan datos reales). No vuelve a ejecutar la asignación después para no borrar los cambios del usuario si el padre vuelve a renderizar o envía arrays vacíos. */
+  /* Inicializa los nodos cuando llegan del backend. En la carga inicial (isInitialLoadRef=true), siempre carga los datos. Después, solo carga si no hay cambios locales. */
   useEffect(() => {
-    if (nodesInitRef.current) return;
-    if (Array.isArray(initialNodes) && initialNodes.length > 0) {
+    if (isInitialLoadRef.current && Array.isArray(initialNodes) && initialNodes.length > 0) {
       setNodos(initialNodes);
-      nodesInitRef.current = true;
+      isInitialLoadRef.current = false;
     }
   }, [initialNodes, setNodos]);
 
-  // Igual que en el código anterior, inicializa sólo la primera vez que recibimos edges.
+  // Igual para edges, inicializa en la primera carga
   useEffect(() => {
-    if (edgesInitRef.current) return;
-    if (Array.isArray(initialEdges) && initialEdges.length > 0) {
+    if (isInitialLoadRef.current && Array.isArray(initialEdges) && initialEdges.length > 0) {
       setConexiones(initialEdges);
-      edgesInitRef.current = true;
     }
   }, [initialEdges, setConexiones]);
+
 
   // Notifica a Editor.jsx cuando cambien los nodos
   useEffect(() => {

@@ -24,7 +24,19 @@
 /* Canvas 2 fila en la columna de la derecha*/
 .editor__canvas {
   grid-area: 2/2/3/3;
-  display: flexbox;
+  display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+
+.editor__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 1.2rem;
+  color: var(--gris-oscuro, #666);
 }
