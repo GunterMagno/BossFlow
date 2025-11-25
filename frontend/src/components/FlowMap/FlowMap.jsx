@@ -18,15 +18,14 @@ const tiposNodos = { decision: DecisionNode, action: ActionNode, phase: PhaseNod
 // Definir edge types fuera del componente para evitar recrear el objeto en cada render
 const tiposEdges = { default: CustomEdge };
 
-// FlowMap ahora acepta propiedades `initialNodes` e `initialEdges` para iniciar estado vacío o con diagrama cargado
+// FlowMap acepta propiedades `initialNodes` e `initialEdges` para iniciar estado vacío o con diagrama cargado. Las propiedades onNodesChange y onEdgesChange son para indicar si cambian
 
-function FlowMap({ initialNodes = [], initialEdges = [] }) {
+function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp }) {
   const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
   const toast = useToast();
 
-  /* Usamos refs para evitar reinicializar el estado interno del editor, si Editor vuelve a pasar las mismas propiedades o props vacías después de que
-     el usuario haya comenzado a editar el diagrama. Solo inicializa la primera vez que lleguen datos reales, evitando así sobrescribir las ediciones realizadas por el usuario localmente. */
+  /* Usamos refs para evitar reinicializar el estado interno del editor, si Editor vuelve a pasar las mismas propiedades o props vacías después de que el usuario haya comenzado a editar el diagrama. Solo inicializa la primera vez que lleguen datos reales, evitando así sobrescribir las ediciones realizadas por el usuario localmente. */
 
   // Referencias que indican si ya se inicializó el estado a partir de las propiedades.
   const nodesInitRef = useRef(false);
@@ -49,6 +48,20 @@ function FlowMap({ initialNodes = [], initialEdges = [] }) {
       edgesInitRef.current = true;
     }
   }, [initialEdges, setConexiones]);
+
+  // Notifica a Editor.jsx cuando cambien los nodos
+  useEffect(() => {
+    if (onNodesChangeProp) {
+      onNodesChangeProp(nodos);
+    }
+  }, [nodos, onNodesChangeProp]);
+
+  // Notifica a Editor.jsx cuando cambien las conexiones
+  useEffect(() => {
+    if (onEdgesChangeProp) {
+      onEdgesChangeProp(conexiones);
+    }
+  }, [conexiones, onEdgesChangeProp]);
 
   const onConnect = useCallback(
     (params) => {

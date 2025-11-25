@@ -1,5 +1,6 @@
 import React from 'react';
 import './Toolbar.css';
+import { FaSave } from 'react-icons/fa';
 
 // Nodos de ejemplo para mostrar en el canvas (solo demo)
 const nodosIniciales = [
@@ -12,7 +13,7 @@ const nodosIniciales = [
   { id: 'end1', type: 'end', position: { x: 700, y: 50 }, data: { title: 'End' } },
 ];
 
-function Toolbar() {
+function Toolbar({ onSave, saving = false }) {
   const handleInsertDemo = () => {
     // Envía un evento personalizado al que FlowMap está atento; detail contiene el array de nodos
     const ev = new CustomEvent('flowmap-insert-sample-nodes', { detail: { nodes: nodosIniciales } });
@@ -24,6 +25,17 @@ function Toolbar() {
       <button className="toolbar__button" onClick={handleInsertDemo} title="Insertar nodos de ejemplo">
         Demo nodos
       </button>
+      
+      {onSave && (
+        <button 
+          className="toolbar__button toolbar__button--save" 
+          onClick={onSave} 
+          disabled={saving}
+          title={saving ? 'Guardando...' : 'Guardar diagrama'}
+        >
+          <FaSave /> {saving ? 'Guardando...' : 'Guardar'}
+        </button>
+      )}
     </div>
   );
 }
