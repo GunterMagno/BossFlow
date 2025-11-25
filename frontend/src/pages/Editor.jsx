@@ -6,6 +6,7 @@ import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
+import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
 
 function Editor() {
@@ -14,6 +15,7 @@ function Editor() {
   /*Usado el diagramId para cargar el diagrama desde la base de datos. Además se gestiona el estado de carga (loading), el estado de guardado (saving) y errores al obtener el diagrama. Envia los nodos y conexiones cargados al componente FlowMap. Y además, se muestra feedback al usuario mediante toast.*/
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  const [diagramTitle, setDiagramTitle] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -32,9 +34,20 @@ function Editor() {
         if (!activo) return;
         // La API devuelve { diagram: {...} }, así que se accede a response.diagram
         const diagram = response.diagram;
+
         // Si la API devuelve nodos/conexiones se utilizan. Si no, se crean vacíos
         setNodes(Array.isArray(diagram.nodes) ? diagram.nodes : []);
         setEdges(Array.isArray(diagram.edges) ? diagram.edges : []);
+
+        // Guarda título para futuras actividades
+        setDiagramTitle(diagram.title || '');
+        // Registrar actividad de visualización
+        try {
+          registerActivity(ACTIVITY_TYPES.VIEW, diagram.title || 'Diagrama', diagram.id);
+        } catch (e) {
+          // no bloquear la carga si falla el registro de actividad
+          console.error('Error registrando actividad de visualización:', e);
+        }
       } catch (error) {
         if (!activo) return;
         console.error('Error obteniendo el diagrama:', error);
@@ -70,7 +83,7 @@ function Editor() {
 
     setSaving(true);
     
-    try {
+      try {
       const diagramData = {
         nodes,
         edges
@@ -78,6 +91,12 @@ function Editor() {
       
       await updateDiagram(diagramId, diagramData);
       toast.success('Diagrama guardado correctamente');
+        // Registra actividad de edición al guardar
+        try {
+          registerActivity(ACTIVITY_TYPES.EDIT, diagramTitle || 'Diagrama', diagramId);
+        } catch (e) {
+          console.error('Error registrando actividad de edición:', e);
+        }
     } catch (error) {
       console.error('Error al guardar diagrama:', error);
       const errorMessage = error.response?.data?.error || 'Error al guardar el diagrama';

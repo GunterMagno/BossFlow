@@ -313,9 +313,9 @@ function Dashboard() {
                               {formatRelativeDate(diagrama.updatedAt)}
                             </span>
                             <div className="dashboard__card-stats">
-                              <span>{diagrama.nodesCount || 0} nodos</span>
+                              <span>{(diagrama.nodes ? diagrama.nodes.length : 0)} nodos</span>
                               <span className="dashboard__stat-separator">•</span>
-                              <span>{diagrama.edgesCount || 0} conexiones</span>
+                              <span>{(diagrama.edges ? diagrama.edges.length : 0)} conexiones</span>
                             </div>
                           </div>
                         </div>
