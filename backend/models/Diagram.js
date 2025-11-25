@@ -54,6 +54,31 @@ const DiagramSchema = new mongoose.Schema({
         target: {
             type: String,
             required: true
+        },
+        sourceHandle: {
+            type: String,
+            required: false
+        },
+        targetHandle: {
+            type: String,
+            required: false
+        },
+        type: {
+            type: String,
+            required: false
+        },
+        animated: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+        style: {
+            type: mongoose.Schema.Types.Mixed,
+            default: {}
+        },
+        data: {
+            type: mongoose.Schema.Types.Mixed,
+            default: {}
         }
     }]
 }, { timestamps: true });

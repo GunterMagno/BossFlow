@@ -105,12 +105,18 @@ function Editor() {
 
         {/* Componente que contiene el canvas principal */}
         <main className="editor__canvas">
-          <FlowMap 
-            initialNodes={nodes} 
-            initialEdges={edges}
-            onNodesChange={handleNodesChange}
-            onEdgesChange={handleEdgesChange}
-          />
+          {loading && diagramId ? (
+            <div className="editor__loading">
+              <p>Cargando diagrama...</p>
+            </div>
+          ) : (
+            <FlowMap 
+              initialNodes={nodes} 
+              initialEdges={edges}
+              onNodesChange={handleNodesChange}
+              onEdgesChange={handleEdgesChange}
+            />
+          )}
         </main>
       </div>
     </ReactFlowProvider>
