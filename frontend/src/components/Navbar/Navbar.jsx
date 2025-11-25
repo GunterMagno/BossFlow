@@ -87,11 +87,11 @@ function Navbar() {
           </li>
           <li className="navbar__elemento">
             <Link
-              to="/dashboard"
+              to="/diagrams"
               className="navbar__enlace"
               onClick={() => setMenuMovilAbierto(false)}
             >
-              Dashboard
+              Diagramas
             </Link>
           </li>
           <li className="navbar__elemento">
@@ -101,6 +101,15 @@ function Navbar() {
               onClick={() => setMenuMovilAbierto(false)}
             >
               Comunidad
+            </Link>
+          </li>
+          <li className="navbar__elemento">
+            <Link
+              to="/editor/:diagramId?"
+              className="navbar__enlace"
+              onClick={() => setMenuMovilAbierto(false)}
+            >
+              Editor
             </Link>
           </li>
 

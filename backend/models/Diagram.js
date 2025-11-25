@@ -18,44 +18,14 @@ const DiagramSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    nodes: [{
-        id: {
-            type: String,
-            required: true
-        },
-        type: {
-            type: String,
-            required: true
-        },
-        position: {
-            x: {
-                type: Number,
-                required: true
-            },
-            y: {
-                type: Number,
-                required: true
-            }
-        },
-        data: {
-            type: mongoose.Schema.Types.Mixed,
-            default: {}
-        }
-    }],
-    edges: [{
-        id: {
-            type: String,
-            required: true
-        },
-        source: {
-            type: String,
-            required: true
-        },
-        target: {
-            type: String,
-            required: true
-        }
-    }]
+    nodes: {
+        type: Array,
+        default: []
+    },
+    edges: {
+        type: Array,
+        default: []
+    }
 }, { timestamps: true });
 
 // Índice compuesto: título único por usuario (no globalmente)

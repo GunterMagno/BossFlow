@@ -24,8 +24,10 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
 
+
               {/* Rutas privadas */}
-              <Route path="/editor/:diagramId" element={
+              {/* Añadido en la ruta el parámetro diagramId como opcional (?) para desarrollo, cuando se publique quitarlo */ }
+              <Route path="/editor/:diagramId?" element={
                 <PrivateRoute>
                   <Editor />
                 </PrivateRoute>} />

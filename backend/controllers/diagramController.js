@@ -72,8 +72,8 @@ exports.getDiagrams = async (req, res, next) => {
                 id: diagram._id,
                 title: diagram.title,
                 description: diagram.description,
-                nodes: diagram.nodes || [],
-                edges: diagram.edges || [],
+                nodesCount: diagram.nodes?.length || 0,
+                edgesCount: diagram.edges?.length || 0,
                 createdAt: diagram.createdAt,
                 updatedAt: diagram.updatedAt
             }))
@@ -157,80 +157,6 @@ exports.getDiagramById = async (req, res, next) => {
 
     } catch (error) {
         console.error('❌ Error al obtener diagrama por ID:', error);
-        next(error);
-    }
-};
-
-exports.updateDiagram = async (req, res, next) => {
-    try {
-        const diagramId = req.params.id;
-        const { title, description, nodes, edges } = req.body;
-        
-        // Validar que el ID sea un ObjectId válido
-        if (!mongoose.Types.ObjectId.isValid(diagramId)) {
-            return res.status(404).json({ 
-                error: 'Diagrama no encontrado o no autorizado' 
-            });
-        }
-
-        // Validar título si se proporciona
-        if (title !== undefined && (!title || title.trim().length < 3)) {
-            return res.status(400).json({ 
-                error: 'El título debe tener al menos 3 caracteres' 
-            });
-        }
-
-        // Buscar diagrama por ID y userId
-        const diagram = await Diagram.findOne({ 
-            _id: diagramId, 
-            userId: req.user.userId 
-        });
-
-        if (!diagram) {
-            return res.status(404).json({ 
-                error: 'Diagrama no encontrado o no autorizado' 
-            });
-        }
-
-        // Actualizar campos del diagrama
-        if (title !== undefined) diagram.title = title.trim();
-        if (description !== undefined) diagram.description = description.trim();
-        if (nodes !== undefined) diagram.nodes = nodes;
-        if (edges !== undefined) diagram.edges = edges;
-
-        // Guardar cambios
-        await diagram.save();
-
-        // Retornar diagrama actualizado
-        res.status(200).json({
-            message: 'Diagrama actualizado exitosamente',
-            diagram: {
-                id: diagram._id,
-                title: diagram.title,
-                description: diagram.description,
-                nodes: diagram.nodes,
-                edges: diagram.edges,
-                createdAt: diagram.createdAt,
-                updatedAt: diagram.updatedAt
-            }
-        });
-
-    } catch (error) {
-        // Manejar error de título duplicado
-        if (error.code === 11000) {
-            return res.status(409).json({ 
-                error: 'Ya existe un diagrama con ese título' 
-            });
-        }
-
-        // Manejar errores de validación de Mongoose
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({ 
-                error: error.message 
-            });
-        }
-
-        console.error('❌ Error al actualizar diagrama:', error);
         next(error);
     }
 };

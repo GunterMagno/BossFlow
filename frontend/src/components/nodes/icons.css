@@ -1,7 +1,0 @@
-/* Icon color classes mapped to node colors using CSS variables */
-.icon-decision { color: var(--node-decision); }
-.icon-action { color: var(--node-action); }
-.icon-phase { color: var(--node-phase); }
-.icon-effect { color: var(--node-effect); }
-
-.node-icon { width: 18px; height: 18px; display: block; }
