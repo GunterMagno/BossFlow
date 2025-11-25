@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { DecisionNode, ActionNode, PhaseNode, EffectNode } from "../nodes/Nodes";
+import { DecisionNode, ActionNode, PhaseNode, EffectNode, StartNode, EndNode } from "../nodes/Nodes";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -11,17 +11,21 @@ import ReactFlow, {
 
 import "reactflow/dist/style.css";
 import "./FlowMap.css";
+import CustomEdge from '../customEdge/CustomEdge';
+import { useToast } from '../../context/ToastContext';
 
-const tiposNodos = { decision: DecisionNode, action: ActionNode, phase: PhaseNode, effect: EffectNode };
+const tiposNodos = { decision: DecisionNode, action: ActionNode, phase: PhaseNode, effect: EffectNode, start: StartNode, end: EndNode };
+// Definir edge types fuera del componente para evitar recrear el objeto en cada render
+const tiposEdges = { default: CustomEdge };
 
-// FlowMap ahora acepta propiedades `initialNodes` e `initialEdges` para iniciar estado vacío o con diagrama cargado
+// FlowMap acepta propiedades `initialNodes` e `initialEdges` para iniciar estado vacío o con diagrama cargado. Las propiedades onNodesChange y onEdgesChange son para indicar si cambian
 
-function FlowMap({ initialNodes = [], initialEdges = [] }) {
+function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp }) {
   const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
+  const toast = useToast();
 
-  /* Usamos refs para evitar reinicializar el estado interno del editor, si Editor vuelve a pasar las mismas propiedades o props vacías después de que
-     el usuario haya comenzado a editar el diagrama. Solo inicializa la primera vez que lleguen datos reales, evitando así sobrescribir las ediciones realizadas por el usuario localmente. */
+  /* Usamos refs para evitar reinicializar el estado interno del editor, si Editor vuelve a pasar las mismas propiedades o props vacías después de que el usuario haya comenzado a editar el diagrama. Solo inicializa la primera vez que lleguen datos reales, evitando así sobrescribir las ediciones realizadas por el usuario localmente. */
 
   // Referencias que indican si ya se inicializó el estado a partir de las propiedades.
   const nodesInitRef = useRef(false);
@@ -45,9 +49,59 @@ function FlowMap({ initialNodes = [], initialEdges = [] }) {
     }
   }, [initialEdges, setConexiones]);
 
+  // Notifica a Editor.jsx cuando cambien los nodos
+  useEffect(() => {
+    if (onNodesChangeProp) {
+      onNodesChangeProp(nodos);
+    }
+  }, [nodos, onNodesChangeProp]);
+
+  // Notifica a Editor.jsx cuando cambien las conexiones
+  useEffect(() => {
+    if (onEdgesChangeProp) {
+      onEdgesChangeProp(conexiones);
+    }
+  }, [conexiones, onEdgesChangeProp]);
+
   const onConnect = useCallback(
-    (params) => setConexiones((eds) => addEdge(params, eds)),
-    [setConexiones]
+    (params) => {
+      setConexiones((eds) => {
+        const { source, target, sourceHandle, targetHandle } = params || {};
+
+        //VALIDACIONES
+        if (!source || !target) {
+          toast.error('Conexión inválida');
+          return eds;
+        }
+
+        if (source === target) {
+          toast.warning('No puedes conectar un nodo a sí mismo');
+          return eds;
+        }
+
+        // Validación para que no haya más de una conexión entre nodos
+        const connectionBetweenNodes = eds.some(
+          (e) => (e.source === source && e.target === target) || (e.source === target && e.target === source)
+        );
+
+        if (connectionBetweenNodes) {
+          toast.warning('Ya existe una conexión entre estos nodos');
+          return eds;
+        }
+
+        const exists = eds.some( (e) =>
+            e.source === source && e.target === target && (e.sourceHandle || null) === (sourceHandle || null) && (e.targetHandle || null) === (targetHandle || null)
+        );
+
+        if (exists) {
+          toast.info('La conexión ya existe');
+          return eds;
+        }
+
+        return addEdge(params, eds);
+      });
+    },
+    [setConexiones, toast]
   );
 
   // Listener para insertar nodos de demo cuando se dispare el evento desde la Toolbar
@@ -84,22 +138,21 @@ function FlowMap({ initialNodes = [], initialEdges = [] }) {
           onEdgesChange={onConexionesChange}
           onConnect={onConnect}
           nodeTypes={tiposNodos}
+          edgeTypes={tiposEdges}
           fitView
           attributionPosition="bottom-left"
         >
           {/* Configurar tipos de nodos*/} 
           <MiniMap 
-            nodeColor={
-              (node) => {
-                switch (node.type) {
-                  case "decision": return "#4da6ff";
-                  case "action": return "#33cc33";
-                  case "phase": return "#ffcc00";
-                  case "effect": return "#9933ff";
-                  default: return "#eee";
-                }
+            nodeColor={(node) => {
+              try {
+                const key = `--node-${node.type}`;
+                const v = getComputedStyle(document.documentElement).getPropertyValue(key).trim();
+                return v || getComputedStyle(document.documentElement).getPropertyValue('--node-default').trim() || '#eee';
+              } catch (e) {
+                return '#eee';
               }
-            }
+            }}
             nodeStrokeWidth={2}
           />
           <Controls />
