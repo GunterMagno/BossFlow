@@ -34,12 +34,34 @@ const tiposEdges = { default: CustomEdge };
 
 // FlowMap acepta propiedades `initialNodes` e `initialEdges` para iniciar estado vacío o con diagrama cargado. Las propiedades onNodesChange y onEdgesChange son para indicar si cambian
 
-function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp }) {
+function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onSetUpdateNodeFunction }) {
   const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
   const toast = useToast();
   const reactFlowWrapper = useRef(null);
   const { screenToFlowPosition } = useReactFlow();
+
+  // Función para actualizar un nodo específico
+  const updateNode = useCallback((updatedNode) => {
+    setNodos((nds) =>
+      nds.map((node) => {
+        if (node.id === updatedNode.id) {
+          return {
+            ...updatedNode,
+            data: { ...updatedNode.data },
+          };
+        }
+        return node;
+      })
+    );
+  }, [setNodos]);
+
+  // Exponer la función de actualización al componente padre
+  useEffect(() => {
+    if (onSetUpdateNodeFunction) {
+      onSetUpdateNodeFunction(updateNode);
+    }
+  }, [onSetUpdateNodeFunction, updateNode]);
 
   /* Se usan refs para evitar reinicializar el estado interno del editor si el usuario ya ha comenzado a editar. Solo carga datos desde initialNodes/initialEdges una vez al inicializar el componente o cuando cambian desde el backend. */
 
@@ -217,6 +239,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           onConnect={onConnect}
           onDragOver={onDragOver}
           onDrop={onDrop}
+          onNodeDoubleClick={onNodeDoubleClick}
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
           fitView

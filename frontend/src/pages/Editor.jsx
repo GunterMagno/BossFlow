@@ -1,10 +1,11 @@
 import "./Editor.css";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { ReactFlowProvider } from 'reactflow'
 import { useParams } from 'react-router-dom'
 import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
 import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
+import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
@@ -19,6 +20,8 @@ function Editor() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedNode, setSelectedNode] = useState(null);
   const toast = useToast();
 
   useEffect(() => {
@@ -112,6 +115,48 @@ function Editor() {
     // TODO: Implementar lógica para añadir nodo al canvas
   };
 
+  // Función para abrir el modal de edición de nodo
+  const handleNodeDoubleClick = useCallback((_event, node) => {
+    setSelectedNode(node);
+    setIsModalOpen(true);
+  }, []);
+
+  // Función para cerrar el modal
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+    setSelectedNode(null);
+  }, []);
+
+  // Ref para almacenar la función de actualización de nodos desde FlowMap
+  const updateNodeInFlowMapRef = useRef(null);
+
+  // Función para guardar los cambios del nodo editado
+  const handleSaveNode = useCallback((updatedNode) => {
+    // Actualizar directamente en FlowMap si la función está disponible
+    if (updateNodeInFlowMapRef.current) {
+      updateNodeInFlowMapRef.current(updatedNode);
+    }
+
+    // También actualizar en el estado local del Editor
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === updatedNode.id) {
+          return {
+            ...updatedNode,
+            data: { ...updatedNode.data },
+          };
+        }
+        return node;
+      })
+    );
+    toast.success('Nodo actualizado correctamente');
+  }, [toast]);
+
+  // Callback para recibir la función de actualización desde FlowMap
+  const handleSetUpdateNodeFunction = useCallback((updateFn) => {
+    updateNodeInFlowMapRef.current = updateFn;
+  }, []);
+
   return (
     <ReactFlowProvider>
       <div className="editor__page">
@@ -125,14 +170,23 @@ function Editor() {
               <p>Cargando diagrama...</p>
             </div>
           ) : (
-            <FlowMap 
-              initialNodes={nodes} 
+            <FlowMap
+              initialNodes={nodes}
               initialEdges={edges}
               onNodesChange={handleNodesChange}
               onEdgesChange={handleEdgesChange}
+              onNodeDoubleClick={handleNodeDoubleClick}
+              onSetUpdateNodeFunction={handleSetUpdateNodeFunction}
             />
           )}
         </main>
+
+        <NodeEditModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          node={selectedNode}
+          onSave={handleSaveNode}
+        />
       </div>
     </ReactFlowProvider>
   );
