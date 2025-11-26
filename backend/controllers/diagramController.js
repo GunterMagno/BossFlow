@@ -62,9 +62,14 @@ exports.createDiagram = async (req, res, next) => {
 exports.getDiagrams = async (req, res, next) => {
     try {
         // Obtener diagramas del usuario autenticado
-        // Filtrar por userId y ordenar por fecha de actualización (más recientes primero)
+        // Optimizaciones aplicadas:
+        // 1. Usa índice compuesto { userId: 1, updatedAt: -1 }
+        // 2. Proyección: solo campos necesarios (sin __v)
+        // 3. lean(): devuelve objetos planos (más rápido que documentos Mongoose)
         const diagrams = await Diagram.find({ userId: req.user.userId })
-            .sort({ updatedAt: -1 });
+            .select('title description nodes edges createdAt updatedAt') // Proyección
+            .sort({ updatedAt: -1 })
+            .lean();
 
         // Retornar lista de diagramas
         res.status(200).json({
@@ -134,7 +139,9 @@ exports.getDiagramById = async (req, res, next) => {
         const diagram = await Diagram.findOne({ 
             _id: diagramId, 
             userId: req.user.userId 
-        });
+        })
+        .select('title description nodes edges createdAt updatedAt')
+        .lean();
 
         if (!diagram) {
             return res.status(404).json({ 

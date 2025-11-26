@@ -83,8 +83,10 @@ const DiagramSchema = new mongoose.Schema({
     }]
 }, { timestamps: true });
 
-// Índice compuesto: título único por usuario (no globalmente)
 DiagramSchema.index({ title: 1, userId: 1 }, { unique: true });
+DiagramSchema.index({ userId: 1 });
+DiagramSchema.index({ updatedAt: -1 });
+DiagramSchema.index({ userId: 1, updatedAt: -1 });
 
 const Diagram = mongoose.model('Diagram', DiagramSchema);
 module.exports = Diagram;
