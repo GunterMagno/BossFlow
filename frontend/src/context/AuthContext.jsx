@@ -23,6 +23,21 @@ export const AuthProvider = ({ children }) => {
     // Verificar si hay un usuario autenticado al cargar la aplicación
     useEffect(() => {
         checkAuth();
+
+        // Escuchar evento de token expirado
+        const handleTokenExpired = () => {
+            console.log('Token expirado detectado, cerrando sesión...');
+            logout();
+            // Redirigir al login
+            window.location.href = '/login';
+        };
+
+        window.addEventListener('token-expired', handleTokenExpired);
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('token-expired', handleTokenExpired);
+        };
     }, []);
 
     // Verificar autenticación desde localStorage
@@ -50,12 +65,12 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Función de login
-    const login = async (correo, contrasena) => {
+    const login = async (correo, contrasena, recordarme = false) => {
         try {
             setLoading(true);
-            
+
             // Usar authService en vez de api directamente
-            const { user: userData, token } = await authService.login(correo, contrasena);
+            const { user: userData, token } = await authService.login(correo, contrasena, recordarme);
 
             // Guardar en localStorage
             localStorage.setItem('user', JSON.stringify(userData));
@@ -67,7 +82,7 @@ export const AuthProvider = ({ children }) => {
             // Actualizar estado
             setUser(userData);
             setIsAuthenticated(true);
-            
+
             return { success: true, user: userData };
         } catch (error) {
             console.error('Error en login:', error);
@@ -79,15 +94,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Función de register
-    const register = async (nombreUsuario, correo, contrasena) => {
+    const register = async (nombreUsuario, correo, contrasena, recordarme = false) => {
         try {
             setLoading(true);
-            
+
             // Usar authService en vez de api directamente
             const { user: userData, token } = await authService.register(
                 nombreUsuario,
                 correo,
-                contrasena
+                contrasena,
+                recordarme
             );
 
             // Guardar en localStorage
@@ -100,7 +116,7 @@ export const AuthProvider = ({ children }) => {
             // Actualizar estado
             setUser(userData);
             setIsAuthenticated(true);
-            
+
             return { success: true, user: userData };
         } catch (error) {
             console.error('Error en register:', error);

@@ -4,6 +4,8 @@ import { ReactFlowProvider } from 'reactflow'
 import { useParams } from 'react-router-dom'
 import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
+import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
+import { getDiagramById } from '../services/diagramService';
 import Sidebar from "../components/Sidebar/Sidebar";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
@@ -106,23 +108,19 @@ function Editor() {
     }
   };
 
-  // Para que haga scroll al principio de la página
-  useEffect(() => {
-    const offset = window.innerHeight * 0.07; // 10vh
-    window.scrollTo({
-      top: offset,
-      behavior: "smooth" 
-    });
-  }, []);
+
+  const handleAddNode = (nodeType) => {
+    console.log('Añadir nodo:', nodeType);
+    // TODO: Implementar lógica para añadir nodo al canvas
+  };
 
   return (
     <ReactFlowProvider>
       <div className="editor__page">
         <Toolbar onSave={handleSave} saving={saving} />
 
-        <Sidebar />
+        <EditorSidebar onAddNode={handleAddNode} />
 
-        {/* Componente que contiene el canvas principal */}
         <main className="editor__canvas">
           {loading && diagramId ? (
             <div className="editor__loading">

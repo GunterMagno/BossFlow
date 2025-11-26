@@ -32,6 +32,23 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Detectar si el token ha expirado (401 Unauthorized)
+    if (error.response && error.response.status === 401) {
+      const errorMessage = error.response.data?.error || '';
+
+      // Si el error indica que el token es inválido o expirado
+      if (errorMessage.includes('Token inválido') || errorMessage.includes('expirado')) {
+        // Limpiar localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
+        // Emitir evento personalizado para que AuthContext lo detecte
+        window.dispatchEvent(new Event('token-expired'));
+
+        console.warn('Token expirado. Sesión cerrada automáticamente.');
+      }
+    }
+
     if (error.response) {
       console.error('Error del servidor:', error.response.data);
     } else if (error.request) {

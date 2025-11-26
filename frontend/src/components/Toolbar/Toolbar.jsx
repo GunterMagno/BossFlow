@@ -1,7 +1,10 @@
-import React from 'react';
 import './Toolbar.css';
 import { FaSave } from 'react-icons/fa';
 
+function Toolbar() {
+  return (
+    <div className="toolbar" aria-label="toolbar">
+      {/* Toolbar vacío por ahora - se añadirán herramientas en el futuro */}
 // Nodos de ejemplo para mostrar en el canvas (solo demo)
 const nodosIniciales = [
   { id: 'n1', type: 'decision', position: { x: 250, y: 50 }, data: { title: 'Elige tu camino' } },

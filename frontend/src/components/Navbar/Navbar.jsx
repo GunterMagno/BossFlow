@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   FiUser,
@@ -22,7 +22,11 @@ function Navbar() {
   const [menuMovilAbierto, setMenuMovilAbierto] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const menuRef = useRef(null);
+
+  // Verificar si estamos en la ruta del Dashboard
+  const isInDashboard = location.pathname.startsWith('/dashboard');
 
   const alternarMenu = () => {
     setMenuAbierto(!menuAbierto);
@@ -125,46 +129,50 @@ function Navbar() {
               </section>
             ) : (
               <section className="navbar__usuario-movil">
-                {/* Opciones del Dashboard */}
-                <div className="navbar__seccion-titulo">Dashboard</div>
-                <Link
-                  to="/dashboard"
-                  className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
-                >
-                  <FiHome /> Inicio
-                </Link>
-                <Link
-                  to="/dashboard"
-                  className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
-                >
-                  <FiFileText /> Mis diagramas
-                </Link>
-                <Link
-                  to="/dashboard/colaboraciones"
-                  className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
-                >
-                  <FiUsers /> Colaboraciones
-                </Link>
-                <Link
-                  to="/dashboard/plantillas"
-                  className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
-                >
-                  <FiLayers /> Plantillas
-                </Link>
-                <Link
-                  to="/dashboard/comentarios"
-                  className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
-                >
-                  <FiMessageSquare /> Comentarios
-                </Link>
+                {/* Opciones del Dashboard - solo si estamos en Dashboard */}
+                {isInDashboard && (
+                  <>
+                    <div className="navbar__seccion-titulo">Dashboard</div>
+                    <Link
+                      to="/dashboard"
+                      className="navbar__enlace"
+                      onClick={() => setMenuMovilAbierto(false)}
+                    >
+                      <FiHome /> Inicio
+                    </Link>
+                    <Link
+                      to="/dashboard"
+                      className="navbar__enlace"
+                      onClick={() => setMenuMovilAbierto(false)}
+                    >
+                      <FiFileText /> Mis diagramas
+                    </Link>
+                    <Link
+                      to="/dashboard/colaboraciones"
+                      className="navbar__enlace"
+                      onClick={() => setMenuMovilAbierto(false)}
+                    >
+                      <FiUsers /> Colaboraciones
+                    </Link>
+                    <Link
+                      to="/dashboard/plantillas"
+                      className="navbar__enlace"
+                      onClick={() => setMenuMovilAbierto(false)}
+                    >
+                      <FiLayers /> Plantillas
+                    </Link>
+                    <Link
+                      to="/dashboard/comentarios"
+                      className="navbar__enlace"
+                      onClick={() => setMenuMovilAbierto(false)}
+                    >
+                      <FiMessageSquare /> Comentarios
+                    </Link>
 
-                {/* Separador */}
-                <div className="navbar__separador"></div>
+                    {/* Separador */}
+                    <div className="navbar__separador"></div>
+                  </>
+                )}
 
                 {/* Opciones de cuenta */}
                 <div className="navbar__seccion-titulo">Cuenta</div>
