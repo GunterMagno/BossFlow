@@ -5,8 +5,6 @@ import { useParams } from 'react-router-dom'
 import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
 import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
-import { getDiagramById } from '../services/diagramService';
-import Sidebar from "../components/Sidebar/Sidebar";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';

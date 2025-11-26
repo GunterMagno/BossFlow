@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { DecisionNode, ActionNode, PhaseNode, EffectNode, StartNode, EndNode } from "../nodes/Nodes";
+import { DecisionNode, ActionNode, PhaseNode, EffectNode, StartNode, EndNode, PositionNode, TimerNode, AbilityNode } from "../nodes/Nodes";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -7,6 +7,7 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
+  useReactFlow,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -14,7 +15,20 @@ import "./FlowMap.css";
 import CustomEdge from '../customEdge/CustomEdge';
 import { useToast } from '../../context/ToastContext';
 
-const tiposNodos = { decision: DecisionNode, action: ActionNode, phase: PhaseNode, effect: EffectNode, start: StartNode, end: EndNode };
+const tiposNodos = {
+  decision: DecisionNode,
+  action: ActionNode,
+  phase: PhaseNode,
+  effect: EffectNode,
+  start: StartNode,
+  end: EndNode,
+  // Mapeo de tipos adicionales a componentes específicos
+  startEnd: StartNode,
+  position: PositionNode,
+  timer: TimerNode,
+  mechanic: EffectNode,
+  ability: AbilityNode
+};
 // Definir edge types fuera del componente para evitar recrear el objeto en cada render
 const tiposEdges = { default: CustomEdge };
 
@@ -24,6 +38,8 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
   const toast = useToast();
+  const reactFlowWrapper = useRef(null);
+  const { screenToFlowPosition } = useReactFlow();
 
   /* Se usan refs para evitar reinicializar el estado interno del editor si el usuario ya ha comenzado a editar. Solo carga datos desde initialNodes/initialEdges una vez al inicializar el componente o cuando cambian desde el backend. */
 
@@ -102,6 +118,70 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     [setConexiones, toast]
   );
 
+  // Funciones para drag & drop
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }, []);
+
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const nodeDataString = event.dataTransfer.getData('application/reactflow');
+
+      // Si no hay datos, salir
+      if (!nodeDataString) {
+        console.log('No hay datos en el drop');
+        return;
+      }
+
+      try {
+        const nodeData = JSON.parse(nodeDataString);
+        console.log('Datos del nodo dropeado:', nodeData);
+
+        // Convertir la posición del mouse a coordenadas del canvas
+        const position = screenToFlowPosition({
+          x: event.clientX,
+          y: event.clientY,
+        });
+
+        console.log('Posición calculada:', position);
+
+        // Generar ID único para el nuevo nodo
+        const newNodeId = `${nodeData.type}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+
+        // Crear nuevo nodo con datos por defecto
+        const newNode = {
+          id: newNodeId,
+          type: nodeData.type,
+          position,
+          data: {
+            title: nodeData.label || 'Nuevo nodo',
+            icon: '⚡',
+            description: nodeData.description || '',
+          },
+        };
+
+        console.log('Nuevo nodo a crear:', newNode);
+
+        // Agregar el nuevo nodo al estado
+        setNodos((nds) => {
+          console.log('Nodos actuales:', nds);
+          const updated = [...nds, newNode];
+          console.log('Nodos actualizados:', updated);
+          return updated;
+        });
+
+        toast.success(`Nodo "${nodeData.label}" agregado al canvas`);
+      } catch (error) {
+        console.error('Error al procesar el drop:', error);
+        toast.error('Error al agregar el nodo');
+      }
+    },
+    [screenToFlowPosition, setNodos, toast]
+  );
+
   // Listener para insertar nodos de demo cuando se dispare el evento desde la Toolbar
   useEffect(() => {
     const handler = (e) => {
@@ -128,13 +208,15 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
 
   return (
     <section className="flowmap">
-      <div className="flowmap__wrap">
+      <div className="flowmap__wrap" ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodos}
           edges={conexiones}
           onNodesChange={onNodosChange}
           onEdgesChange={onConexionesChange}
           onConnect={onConnect}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
           fitView

@@ -268,10 +268,14 @@
 /* ============================================
    DRAG AND DROP SUPPORT
    ============================================ */
-.editor-sidebar__node-button[draggable="true"] {
+.editor-sidebar__node-button[draggable="true"],
+.editor-sidebar__recent-item[draggable="true"] {
   cursor: grab;
+  user-select: none;
 }
 
-.editor-sidebar__node-button[draggable="true"]:active {
+.editor-sidebar__node-button[draggable="true"]:active,
+.editor-sidebar__recent-item[draggable="true"]:active {
   cursor: grabbing;
+  opacity: 0.7;
 }

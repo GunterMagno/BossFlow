@@ -3,12 +3,13 @@ import {
   FiZap,
   FiGitBranch,
   FiCircle,
-  FiHexagon,
   FiMapPin,
   FiClock,
-  FiSettings,
   FiChevronDown,
   FiChevronRight,
+  FiWatch,
+  FiTool,
+  FiStar,
 } from 'react-icons/fi';
 import './EditorSidebar.css';
 
@@ -67,7 +68,7 @@ function EditorSidebar({ onAddNode, className = '' }) {
     {
       type: 'phase',
       label: 'Fase',
-      icon: <FiHexagon />,
+      icon: <FiWatch />,
       description: 'Fase del boss',
       color: '#ffcc00',
     },
@@ -92,14 +93,14 @@ function EditorSidebar({ onAddNode, className = '' }) {
     {
       type: 'mechanic',
       label: 'Mecánica',
-      icon: <FiSettings />,
+      icon: <FiTool />,
       description: 'Mecánica especial',
       color: '#9b59b6',
     },
     {
       type: 'ability',
       label: 'Habilidad',
-      icon: <FiZap />,
+      icon: <FiStar />,
       description: 'Habilidad especial',
       color: '#f39c12',
     },
@@ -109,7 +110,7 @@ function EditorSidebar({ onAddNode, className = '' }) {
   const recentNodes = [
     { type: 'action', label: 'Nodo nombre', icon: <FiZap /> },
     { type: 'decision', label: 'Nodo nombre', icon: <FiGitBranch /> },
-    { type: 'phase', label: 'Nodo nombre', icon: <FiHexagon /> },
+    { type: 'phase', label: 'Nodo nombre', icon: <FiWatch /> },
   ];
 
   const handleNodeClick = (nodeType) => {
@@ -118,10 +119,26 @@ function EditorSidebar({ onAddNode, className = '' }) {
     }
   };
 
+  const onDragStart = (event, nodeData) => {
+    // Extraer solo los datos serializables (sin el componente React del icono)
+    const nodeInfo = {
+      type: nodeData.type,
+      label: nodeData.label,
+      description: nodeData.description,
+      color: nodeData.color
+    };
+
+    console.log('Drag iniciado con datos:', nodeInfo);
+    event.dataTransfer.setData('application/reactflow', JSON.stringify(nodeInfo));
+    event.dataTransfer.effectAllowed = 'move';
+  };
+
   const renderNodeButton = (node, index) => (
-    <button
+    <div
       key={`${node.type}-${index}`}
       className="editor-sidebar__node-button"
+      draggable
+      onDragStart={(event) => onDragStart(event, node)}
       onClick={() => handleNodeClick(node)}
       title={node.description}
       style={{ '--node-color': node.color }}
@@ -130,7 +147,7 @@ function EditorSidebar({ onAddNode, className = '' }) {
         {node.icon}
       </span>
       <span className="editor-sidebar__node-label">{node.label}</span>
-    </button>
+    </div>
   );
 
   return (
@@ -208,14 +225,16 @@ function EditorSidebar({ onAddNode, className = '' }) {
           {expandedSections.recent && (
             <div className="editor-sidebar__section-content">
               {recentNodes.map((node, index) => (
-                <button
+                <div
                   key={`recent-${index}`}
                   className="editor-sidebar__recent-item"
+                  draggable
+                  onDragStart={(event) => onDragStart(event, node)}
                   onClick={() => handleNodeClick(node)}
                 >
                   <span className="editor-sidebar__recent-icon">{node.icon}</span>
                   <span className="editor-sidebar__recent-label">{node.label}</span>
-                </button>
+                </div>
               ))}
             </div>
           )}
