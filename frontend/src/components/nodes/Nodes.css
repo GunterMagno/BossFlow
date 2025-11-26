@@ -17,8 +17,13 @@
 .phase-node { border: 2px solid var(--node-phase); background: var(--node-phase-bg); }
 .effect-node { border: 2px solid var(--node-effect); background: var(--node-effect-bg); }
 
-.start-node { border: 2px solid white; background: var(--node-start-end-bg); }
-.end-node { border: 2px solid white; background: var(--node-start-end-bg); }
+.start-node { border: 2px solid var(--node-start-end); background: var(--node-start-end-bg); }
+.end-node { border: 2px solid var(--node-start-end); background: var(--node-start-end-bg); }
+
+/* Nodos específicos del juego */
+.position-node { border: 2px solid var(--node-position); background: var(--node-position-bg); }
+.timer-node { border: 2px solid var(--node-timer); background: var(--node-timer-bg); }
+.ability-node { border: 2px solid var(--node-ability); background: var(--node-ability-bg); }
 
 .icon {
   display: inline-flex;
@@ -35,5 +40,29 @@
   object-fit: contain;
 }
 
-.node-title { font-size: 14px; }
+.node-title {
+  font-size: 14px;
+  cursor: text;
+  user-select: none;
+}
+
+.node-title-input {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: inherit;
+  color: var(--blanco);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  padding: 2px 6px;
+  outline: none;
+  min-width: 60px;
+  max-width: 200px;
+  text-align: center;
+}
+
+.node-title-input:focus {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--blanco);
+}
 

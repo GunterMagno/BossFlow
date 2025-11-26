@@ -1,39 +1,53 @@
 .toolbar {
-    background-color: var(--blanco);
+    background: linear-gradient(180deg, var(--primario) 0%, var(--hover) 100%);
     display: flex;
     gap: 1rem;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.5rem;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--sombra-sm);
 }
 
 .toolbar__button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--primary, #007bff);
-    color: white;
+    padding: 0.625rem 1.25rem;
+    border: 2px solid var(--secundario);
+    border-radius: var(--radio-md);
+    background-color: var(--secundario);
+    color: var(--primario);
     cursor: pointer;
     font-size: 0.9rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    transition: all 0.2s ease;
+    transition: var(--transicion-normal);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .toolbar__button:hover:not(:disabled) {
-    opacity: 0.9;
-    transform: translateY(-1px);
+    background-color: var(--secundario-hover);
+    border-color: var(--secundario-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.toolbar__button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .toolbar__button:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
 }
 
 .toolbar__button--save {
-    background-color: #28a745;
+    background-color: var(--secundario);
+    border-color: var(--secundario);
 }
 
 .toolbar__button--save:hover:not(:disabled) {
-    background-color: #218838;
+    background-color: var(--secundario-hover);
+    border-color: var(--secundario-hover);
 }
