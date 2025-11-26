@@ -42,27 +42,6 @@
 
 .node-title {
   font-size: 14px;
-  cursor: text;
   user-select: none;
-}
-
-.node-title-input {
-  font-size: 14px;
-  font-weight: bold;
-  font-family: inherit;
-  color: var(--blanco);
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 4px;
-  padding: 2px 6px;
-  outline: none;
-  min-width: 60px;
-  max-width: 200px;
-  text-align: center;
-}
-
-.node-title-input:focus {
-  background: rgba(0, 0, 0, 0.5);
-  border-color: var(--blanco);
 }
 
