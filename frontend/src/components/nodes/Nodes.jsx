@@ -1,6 +1,7 @@
 import React from "react";
-import { Handle, Position } from "reactflow";
+import { Handle, Position, NodeResizer } from "reactflow";
 import "./Nodes.css";
+import { DecisionIcon, ActionIcon, PhaseIcon, EffectIcon } from './icons';
 
 // Define positions array to reuse names and positions
 const posiciones = [
@@ -11,20 +12,20 @@ const posiciones = [
 ];
 
 // Handles con IDs únicos
-// Acepta `color` para el fondo del handle acorde al nodo
-const Handles = ({ color = "#555" }) => (
+// Acepta `nodeId` para garantizar ids únicos y `color` para el fondo del handle acorde al nodo
+const Handles = ({ nodeId = '', color = 'var(--handle-default)' }) => (
   <>
     {posiciones.map(({ pos, name }) => (
       <React.Fragment key={name}>
         <Handle
-          id={`${name}-target`}
+          id={`${nodeId}-${name}-target`}
           type="target"
           position={pos}
           isConnectable={true}
           style={{ width: 12, height: 12, borderRadius: 6, zIndex: 10, background: color }}
         />
         <Handle
-          id={`${name}-source`}
+          id={`${nodeId}-${name}-source`}
           type="source"
           position={pos}
           isConnectable={true}
@@ -35,34 +36,90 @@ const Handles = ({ color = "#555" }) => (
   </>
 );
 
-export const DecisionNode = ({ id, data }) => (
-  <div className="node decision-node" style={{ position: "relative" }}>
-    <Handles color="#4da6ff" />
-    <span className="icon">{data.icon}</span>
-    <span className="title">{data.title}</span>
+export const DecisionNode = ({ id, data, style, selected }) => (
+    <div className={`node decision-node ${selected ? 'selected' : ''}`} style={style}>
+    <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
+      width: '8px',
+      height: '8px',
+      backgroundColor: selected ? 'var(--node-decision)' : 'transparent',
+      border: '1px solid white',
+      borderRadius: '2px',
+    }} />
+    <Handles nodeId={id} color={'var(--node-decision)'} />
+    <span className="icon"><DecisionIcon className="node-icon icon-decision" role="img" aria-label="Icono de decisión" /></span>
+    <span className="node-title">{data.title}</span>
   </div>
 );
 
-export const ActionNode = ({ id, data }) => (
-  <div className="node action-node" style={{ position: "relative" }}>
-    <Handles color="#33cc33" />
-    <span className="icon">{data.icon}</span>
-    <span className="title">{data.title}</span>
+export const ActionNode = ({ id, data, style, selected }) => (
+    <div className={`node action-node ${selected ? 'selected' : ''}`} style={style}>
+    <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
+      width: '8px',
+      height: '8px',
+      backgroundColor: selected ? 'var(--node-action)' : 'transparent',
+      border: '1px solid white',
+      borderRadius: '2px',
+    }} />
+    <Handles nodeId={id} color={'var(--node-action)'} />
+    <span className="icon"><ActionIcon className="node-icon icon-action" role="img" aria-label="Icono de acción" /></span>
+    <span className="node-title">{data.title}</span>
   </div>
 );
 
-export const PhaseNode = ({ id, data }) => (
-  <div className="node phase-node" style={{ position: "relative" }}>
-    <Handles color="#ffcc00" />
-    <span className="icon">{data.icon}</span>
-    <span className="title">{data.title}</span>
+export const PhaseNode = ({ id, data, style, selected }) => (
+    <div className={`node phase-node ${selected ? 'selected' : ''}`} style={style}>
+    <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
+      width: '8px',
+      height: '8px',
+      backgroundColor: selected ? 'var(--node-phase)' : 'transparent',
+      border: '1px solid white',
+      borderRadius: '2px',
+    }} />
+    <Handles nodeId={id} color={'var(--node-phase)'} />
+    <span className="icon"><PhaseIcon className="node-icon icon-phase" role="img" aria-label="Icono de fase" /></span>
+    <span className="node-title">{data.title}</span>
   </div>
 );
 
-export const EffectNode = ({ id, data }) => (
-  <div className="node effect-node" style={{ position: "relative" }}>
-    <Handles color="#9933ff" />
-    <span className="icon">{data.icon}</span>
-    <span className="title">{data.title}</span>
+export const EffectNode = ({ id, data, style, selected }) => (
+    <div className={`node effect-node ${selected ? 'selected' : ''}`} style={style}>
+    <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
+      width: '8px',
+      height: '8px',
+      backgroundColor: selected ? 'var(--node-effect)' : 'transparent',
+      border: '1px solid white',
+      borderRadius: '2px',
+    }} />
+    <Handles nodeId={id} color={'var(--node-effect)'} />
+    <span className="icon"><EffectIcon className="node-icon icon-effect" role="img" aria-label="Icono de efecto" /></span>
+    <span className="node-title">{data.title}</span>
+  </div>
+);
+
+export const StartNode = ({ id, data, style, selected }) => (
+  <div className={`node start-node ${selected ? 'selected' : ''}`} style={style}>
+    <NodeResizer minWidth={80} minHeight={30} isVisible={selected} handleStyle={{
+      width: '8px',
+      height: '8px',
+      backgroundColor: selected ? 'var(--node-start-end)' : 'transparent',
+      border: '1px solid white',
+      borderRadius: '2px',
+    }} />
+    <Handles nodeId={id} color={'var(--node-start-end)'} />
+    <span className="node-title">{data?.title || 'Start'}</span>
+  </div>
+);
+
+export const EndNode = ({ id, data, style, selected }) => (
+  <div className={`node end-node ${selected ? 'selected' : ''}`} style={style}>
+    <NodeResizer minWidth={80} minHeight={30} isVisible={selected} handleStyle={{
+      width: '8px',
+      height: '8px',
+      backgroundColor: selected ? 'var(--node-start-end)' : 'transparent',
+      border: '1px solid white',
+      borderRadius: '2px',
+    }} />
+    <Handles nodeId={id} color={'var(--node-start-end)'} />
+    <span className="node-title">{data?.title || 'End'}</span>
   </div>
 );

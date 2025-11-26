@@ -1,17 +1,39 @@
 .node {
   display: flex;
   align-items: center;
+  justify-content: center;
+  position: relative;
   gap: 6px;
   padding: 10px 14px;
   border-radius: 8px;
   font-weight: bold;
   color: var(--blanco);
+  height: 100%;
+  text-align: center;
 }
 
-.decision-node { border: 2px solid #4da6ff; background: rgba(77,166,255,0.2); }
-.action-node { border: 2px solid #33cc33; background: rgba(51,204,51,0.2); }
-.phase-node { border: 2px solid #ffcc00; background: rgba(255,204,0,0.2); }
-.effect-node { border: 2px solid #9933ff; background: rgba(153,51,255,0.2); }
+.decision-node { border: 2px solid var(--node-decision); background: var(--node-decision-bg); }
+.action-node { border: 2px solid var(--node-action); background: var(--node-action-bg); }
+.phase-node { border: 2px solid var(--node-phase); background: var(--node-phase-bg); }
+.effect-node { border: 2px solid var(--node-effect); background: var(--node-effect-bg); }
 
-.icon { font-size: 18px; }
-.title { font-size: 14px;}
+.start-node { border: 2px solid white; background: var(--node-start-end-bg); }
+.end-node { border: 2px solid white; background: var(--node-start-end-bg); }
+
+.icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.node-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+  object-fit: contain;
+}
+
+.node-title { font-size: 14px; }
+
