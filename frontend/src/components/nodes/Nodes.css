@@ -45,3 +45,8 @@
   user-select: none;
 }
 
+/* Aumenta grosor y visibilidad del marco de redimensionamiento de React Flow */
+.react-flow__resize-control {
+  border-width: 2px !important; /* Grosor de la línea */
+}
+
