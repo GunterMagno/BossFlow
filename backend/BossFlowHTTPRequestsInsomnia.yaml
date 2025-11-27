@@ -569,6 +569,415 @@ collection:
         send: true
         store: true
       rebuildPath: true
+  - url: http://localhost:5000/api/diagrams
+    name: Flujo Completo - Crear Diagrama Complejo
+    meta:
+      id: req_8f3b9d4c2e1a4f5b8c7d6e9a0b1c2d3e
+      created: 1763645000000
+      modified: 1763645000000
+      isPrivate: false
+      description: "Crear diagrama complejo con 4 nodos, 4 edges y datos anidados para
+        probar integridad"
+      sortKey: -1763457611844
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "title": "Diagrama de Flujo de Pedidos",
+          "description": "Flujo completo del proceso de pedidos con validaciones y pagos",
+          "nodes": [
+            {
+              "id": "start-node",
+              "type": "input",
+              "position": { "x": 100, "y": 100 },
+              "data": {
+                "label": "Inicio del Pedido",
+                "color": "#4CAF50",
+                "priority": "high",
+                "metadata": {
+                  "department": "ventas",
+                  "version": "2.0"
+                }
+              }
+            },
+            {
+              "id": "validate-node",
+              "type": "process",
+              "position": { "x": 300, "y": 100 },
+              "data": {
+                "label": "Validar Inventario",
+                "timeout": 5000,
+                "retries": 3,
+                "config": {
+                  "checkStock": true,
+                  "reserveItems": true
+                }
+              }
+            },
+            {
+              "id": "payment-node",
+              "type": "process",
+              "position": { "x": 500, "y": 100 },
+              "data": {
+                "label": "Procesar Pago",
+                "gateway": "stripe",
+                "methods": ["card", "paypal"],
+                "limits": {
+                  "min": 10,
+                  "max": 10000
+                }
+              }
+            },
+            {
+              "id": "end-node",
+              "type": "output",
+              "position": { "x": 700, "y": 100 },
+              "data": {
+                "label": "Pedido Completado",
+                "status": "success",
+                "notifications": {
+                  "email": true,
+                  "sms": false
+                }
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "start-node",
+              "target": "validate-node",
+              "type": "default",
+              "data": {
+                "condition": "order.total > 0"
+              }
+            },
+            {
+              "id": "e2",
+              "source": "validate-node",
+              "target": "payment-node",
+              "type": "smoothstep",
+              "data": {
+                "condition": "inventory.available === true",
+                "priority": 1
+              }
+            },
+            {
+              "id": "e3",
+              "source": "payment-node",
+              "target": "end-node",
+              "type": "step",
+              "data": {
+                "condition": "payment.status === 'approved'",
+                "webhook": "https://api.example.com/webhook"
+              }
+            },
+            {
+              "id": "e4-fallback",
+              "source": "validate-node",
+              "target": "end-node",
+              "type": "straight",
+              "animated": true,
+              "data": {
+                "condition": "inventory.available === false",
+                "errorHandling": "skip_payment"
+              }
+            }
+          ]
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_flow1_content
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_flow1_user
+      - id: pair_flow1_auth
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_AQUI
+    name: Flujo Completo - Cargar y Verificar Diagrama
+    meta:
+      id: req_9a4c8d5f3b2e6a7d1c9f0e8b5a4c3d2e
+      created: 1763645100000
+      modified: 1763645100000
+      isPrivate: false
+      description: "Cargar diagrama guardado y verificar que todos los datos se
+        mantienen intactos (reemplazar DIAGRAM_ID_AQUI con ID real)"
+      sortKey: -1763457611744
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_flow2_user
+      - id: pair_flow2_auth
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_AQUI
+    name: Flujo Completo - Actualizar Diagrama
+    meta:
+      id: req_7e5d9c8b4a3f6e2d1b0c9a8f7e6d5c4b
+      created: 1763645200000
+      modified: 1763645200000
+      isPrivate: false
+      description: "Actualizar diagrama agregando nuevo nodo y edge, verificar
+        persistencia (reemplazar DIAGRAM_ID_AQUI con ID real)"
+      sortKey: -1763457611644
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "title": "Diagrama de Flujo de Pedidos - v2",
+          "description": "Flujo completo con notificaciones agregadas",
+          "nodes": [
+            {
+              "id": "start-node",
+              "type": "input",
+              "position": { "x": 100, "y": 100 },
+              "data": {
+                "label": "Inicio del Pedido",
+                "color": "#4CAF50",
+                "priority": "high",
+                "metadata": {
+                  "department": "ventas",
+                  "version": "2.0"
+                }
+              }
+            },
+            {
+              "id": "validate-node",
+              "type": "process",
+              "position": { "x": 300, "y": 100 },
+              "data": {
+                "label": "Validar Inventario",
+                "timeout": 5000,
+                "retries": 3,
+                "config": {
+                  "checkStock": true,
+                  "reserveItems": true
+                }
+              }
+            },
+            {
+              "id": "payment-node",
+              "type": "process",
+              "position": { "x": 500, "y": 100 },
+              "data": {
+                "label": "Procesar Pago",
+                "gateway": "stripe",
+                "methods": ["card", "paypal"],
+                "limits": {
+                  "min": 10,
+                  "max": 10000
+                }
+              }
+            },
+            {
+              "id": "notify-node",
+              "type": "process",
+              "position": { "x": 700, "y": 200 },
+              "data": {
+                "label": "Enviar Notificaciones",
+                "channels": ["email", "sms", "push"],
+                "template": "order_complete"
+              }
+            },
+            {
+              "id": "end-node",
+              "type": "output",
+              "position": { "x": 900, "y": 100 },
+              "data": {
+                "label": "Pedido Completado",
+                "status": "success",
+                "notifications": {
+                  "email": true,
+                  "sms": false
+                }
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "start-node",
+              "target": "validate-node",
+              "type": "default",
+              "data": {
+                "condition": "order.total > 0"
+              }
+            },
+            {
+              "id": "e2",
+              "source": "validate-node",
+              "target": "payment-node",
+              "type": "smoothstep",
+              "data": {
+                "condition": "inventory.available === true",
+                "priority": 1
+              }
+            },
+            {
+              "id": "e3",
+              "source": "payment-node",
+              "target": "notify-node",
+              "type": "step",
+              "data": {
+                "condition": "payment.status === 'approved'",
+                "webhook": "https://api.example.com/webhook"
+              }
+            },
+            {
+              "id": "e4-fallback",
+              "source": "validate-node",
+              "target": "end-node",
+              "type": "straight",
+              "animated": true,
+              "data": {
+                "condition": "inventory.available === false",
+                "errorHandling": "skip_payment"
+              }
+            },
+            {
+              "id": "e5-notify",
+              "source": "notify-node",
+              "target": "end-node",
+              "type": "default",
+              "data": {
+                "delay": 2000
+              }
+            }
+          ]
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_flow3_content
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_flow3_user
+      - id: pair_flow3_auth
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/invalidIDformat
+    name: Flujo Completo - Error ID Invalido
+    meta:
+      id: req_6d8c9a7b5e4f3d2c1a0b9e8f7d6c5a4b
+      created: 1763645300000
+      modified: 1763645300000
+      isPrivate: false
+      description: "Intentar cargar diagrama con ID inválido (error 400)"
+      sortKey: -1763457611544
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_flow4_user
+      - id: pair_flow4_auth
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/507f1f77bcf86cd799439011
+    name: Flujo Completo - Error Diagrama No Existe
+    meta:
+      id: req_5c7b8a6d9e4f3c2b1a0e9d8c7f6b5a4c
+      created: 1763645400000
+      modified: 1763645400000
+      isPrivate: false
+      description: "Intentar cargar diagrama inexistente (error 404)"
+      sortKey: -1763457611444
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_flow5_user
+      - id: pair_flow5_auth
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_OTRO_USUARIO
+    name: Flujo Completo - Error Acceso Denegado
+    meta:
+      id: req_4b6a9c8d7e5f3d2c1b0a9e8f7d6c5b4a
+      created: 1763645500000
+      modified: 1763645500000
+      isPrivate: false
+      description: "Intentar acceder a diagrama de otro usuario (error 403,
+        reemplazar con ID de diagrama de otro usuario)"
+      sortKey: -1763457611344
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.0.0
+        id: pair_flow6_user
+      - id: pair_flow6_auth
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTFmMGQyYjExYWQxNDQ3YjFkOGIwN2IiLCJpYXQiOjE3NjM2NDI2NjcsImV4cCI6MTc2MzY0NjI2N30.t5MIJtwrrO_dBQT1yrCTJFsoQS0i6x_M_Rmj_sRbMN4
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
