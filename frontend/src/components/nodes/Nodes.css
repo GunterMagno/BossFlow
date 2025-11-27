@@ -17,8 +17,8 @@
 .phase-node { border: 2px solid var(--node-phase); background: var(--node-phase-bg); }
 .effect-node { border: 2px solid var(--node-effect); background: var(--node-effect-bg); }
 
-.start-node { border: 2px solid var(--node-start-end); background: var(--node-start-end-bg); }
-.end-node { border: 2px solid var(--node-start-end); background: var(--node-start-end-bg); }
+.start-node { border: 2px solid var(--node-start-end); background: var(--node-start-end-bg); border-radius: 50%;}
+.end-node { border: 2px solid var(--node-start-end); background: var(--node-start-end-bg); border-radius: 50%;}
 
 /* Nodos específicos del juego */
 .position-node { border: 2px solid var(--node-position); background: var(--node-position-bg); }

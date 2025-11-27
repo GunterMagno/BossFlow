@@ -27,46 +27,32 @@
   color: var(--blanco);
 }
 
-/* ============================================
-   DEMO SECTION
-   ============================================ */
-.editor-sidebar__demo-section {
-  padding: var(--espaciado-md) var(--espaciado-lg);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.editor-sidebar__demo-button {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--espaciado-sm);
-  padding: var(--espaciado-md) var(--espaciado-lg);
-  background: var(--secundario);
-  color: var(--primario);
+/* Close button for overlay sidebar (visible on small screens) */
+.editor-sidebar__close-button {
+  display: none;
+  background: transparent;
   border: none;
-  border-radius: var(--radio-md) 0 var(--radio-md) 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transicion-normal);
-  box-shadow: 0 2px 8px rgba(234, 179, 8, 0.3);
-  font-family: inherit;
-}
-
-.editor-sidebar__demo-button:hover {
-  background: var(--secundario-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.4);
-}
-
-.editor-sidebar__demo-button:active {
-  transform: translateY(0);
-}
-
-.editor-sidebar__demo-button svg {
+  color: var(--blanco);
   font-size: 1.1rem;
+  cursor: pointer;
 }
+
+@media (max-width: 765px) {
+  .editor-sidebar__close-button {
+    display: inline-flex;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+}
+
+
 
 /* ============================================
    CONTENT
@@ -163,12 +149,10 @@
 .editor-sidebar__node-button:hover {
   background: var(--hover);
   border-color: var(--node-color, var(--primario));
-  transform: translateX(4px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .editor-sidebar__node-button:active {
-  transform: translateX(2px);
+  /* no translation on active */
 }
 
 .editor-sidebar__node-icon {
@@ -209,7 +193,6 @@
 
 .editor-sidebar__recent-item:hover {
   background: var(--hover);
-  transform: translateX(2px);
 }
 
 .editor-sidebar__recent-icon {

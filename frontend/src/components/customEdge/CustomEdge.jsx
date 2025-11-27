@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { getBezierPath } from 'reactflow';
+import { getSmoothStepPath } from 'reactflow';
 
 const CustomEdge = ({
 	id,
@@ -15,7 +15,15 @@ const CustomEdge = ({
 	selected = false,
 	animated = false,
 }) => {
-	const [edgePath] = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
+	const [edgePath] = getSmoothStepPath({ 
+		sourceX, 
+		sourceY, 
+		sourcePosition, 
+		targetX, 
+		targetY, 
+		targetPosition,
+		
+	});
 	const [hover, setHover] = useState(false);
 
 	// data.connecting -> estado visual cuando la conexión se intenta conectar

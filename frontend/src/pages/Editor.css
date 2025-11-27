@@ -1,39 +1,37 @@
 .editor__page {
-	display: grid;
-	grid-template-rows: 1fr;
-	grid-template-columns: 280px 1fr;
-	gap: 0;
-	width: 100%;
-	height: calc(100vh - 6rem);
-	max-height: calc(100vh - 6rem);
-	min-height: 500px;
-	overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr; /* toolbar arriba + área principal */
+  grid-template-columns: 280px 1fr;
+  gap: 0;
+  width: 100%;
+  /* Dejar que el layout padre controle la altura para no solapar el footer */
+  min-height: 0;
 }
 
-/* Toolbar oculto - no se usa por ahora */
+/* Toolbar placed at the top row */
 .toolbar {
-  display: none;
+  grid-area: 1 / 1 / 2 / 3;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
-/* EditorSidebar - columna izquierda */
+/* EditorSidebar - columna izquierda (fila 2) */
 .editor-sidebar {
-  grid-area: 1 / 1 / 2 / 2;
+  grid-area: 2 / 1 / 3 / 2;
 }
 
-/* Canvas - columna derecha */
+/* Canvas - columna derecha (fila 2) */
 .editor__canvas {
-  grid-area: 1 / 2 / 2 / 3;
+  grid-area: 2 / 2 / 3 / 3;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   position: relative;
-}
-
-  grid-area: 2/2/3/3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* Permitir scroll interno para evitar solapamiento con el footer */
+  min-height: 0;
+  overflow: auto;
 }
 
 
@@ -47,3 +45,33 @@
   font-size: 1.2rem;
   color: var(--gris-oscuro, #666);
 }
+
+
+
+/* Responsive: sidebar overlay en móvil */
+@media (max-width: 768px) {
+  .editor__page {
+    grid-template-columns: 1fr; 
+  }
+
+  .editor-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform var(--transicion-normal);
+    height: 100vh;
+  }
+
+  .editor-sidebar.editor-sidebar--open {
+    transform: translateX(0);
+    box-shadow: var(--sombra-lg);
+  }
+
+  .editor__canvas {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+}
+
