@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Editor from './pages/Editor';
 import Status from './pages/Status';
+import Community from './pages/Community';
+import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
@@ -21,6 +23,7 @@ function App() {
               {/* Rutas públicas */}
               <Route path="/" element={<Home />} />
               <Route path="/status" element={<Status />} />
+              <Route path="/community" element={<Community />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
 
@@ -30,6 +33,10 @@ function App() {
                   <Editor />
                 </PrivateRoute>} />
 
+              <Route path="/profile" element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>} />
 
               <Route path="/dashboard" element={
                 <PrivateRoute>

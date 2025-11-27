@@ -5,7 +5,7 @@
   position: relative;
   gap: 6px;
   padding: 10px 14px;
-  border-radius: 8px;
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
   font-weight: bold;
   color: var(--blanco);
   height: 100%;

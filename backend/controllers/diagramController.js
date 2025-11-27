@@ -1,4 +1,5 @@
 const Diagram = require('../models/Diagram');
+const User = require('../models/User');
 const mongoose = require('mongoose');
 const { validateDiagramStructure } = require('../validators/diagramValidator');
 
@@ -33,6 +34,17 @@ exports.createDiagram = async (req, res, next) => {
 
         // Guardar en BD
         await diagram.save();
+
+        // Actualizar estadísticas del usuario
+        await User.findByIdAndUpdate(
+            req.user.userId,
+            {
+                $inc: {
+                    'stats.diagramsCreated': 1,
+                    'stats.nodesCreated': (nodes || []).length
+                }
+            }
+        );
 
         // Retornar diagrama creado
         res.status(201).json({
@@ -239,6 +251,14 @@ exports.updateDiagram = async (req, res, next) => {
             });
         }
 
+        // Calcular cambio en número de nodos si se actualizan
+        let nodeDifference = 0;
+        if (nodes !== undefined) {
+            const oldNodeCount = diagram.nodes.length;
+            const newNodeCount = nodes.length;
+            nodeDifference = newNodeCount - oldNodeCount;
+        }
+
         // Actualizar campos del diagrama
         if (title !== undefined) diagram.title = title.trim();
         if (description !== undefined) diagram.description = description.trim();
@@ -247,6 +267,14 @@ exports.updateDiagram = async (req, res, next) => {
 
         // Guardar cambios
         await diagram.save();
+
+        // Actualizar estadísticas del usuario si hay cambio en nodos
+        if (nodeDifference !== 0) {
+            await User.findByIdAndUpdate(
+                req.user.userId,
+                { $inc: { 'stats.nodesCreated': nodeDifference } }
+            );
+        }
 
         // Retornar diagrama actualizado
         res.status(200).json({

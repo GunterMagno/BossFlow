@@ -217,7 +217,11 @@ function Navbar() {
             <>
               <button className="navbar__usuario" onClick={alternarMenu}>
                 <span className="navbar__avatar">
-                  <FiUser />
+                  {user?.avatar ? (
+                    <img src={user.avatar} alt={user.username} className="navbar__avatar-img" />
+                  ) : (
+                    <FiUser />
+                  )}
                 </span>
                 <span className="navbar__nombre">
                   {user?.username || user?.email}

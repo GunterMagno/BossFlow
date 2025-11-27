@@ -75,7 +75,8 @@ exports.register = async (req, res, next) => {
             user: {
                 id: newUser._id,
                 username: newUser.username,
-                email: newUser.email
+                email: newUser.email,
+                avatar: newUser.avatar || null
             }
         });
     } catch (err) {
@@ -140,7 +141,8 @@ exports.login = async (req, res, next) => {
             user: {
                 id: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                avatar: user.avatar || null
             }
         });
     } catch (err) {

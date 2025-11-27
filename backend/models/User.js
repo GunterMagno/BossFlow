@@ -23,6 +23,39 @@ const UserSchema = new mongoose.Schema({
         required: true,
         minLength: 8,
     },
+    avatar: {
+        type: String,
+        default: null, // URL o path de la imagen de perfil
+    },
+    bio: {
+        type: String,
+        maxLength: 500,
+        default: '',
+    },
+    favoriteGames: {
+        type: [String],
+        default: [],
+        validate: {
+            validator: function(v) {
+                return v.length <= 10; // Máximo 10 juegos favoritos
+            },
+            message: 'No puedes tener más de 10 juegos favoritos',
+        },
+    },
+    achievements: {
+        type: [{
+            name: String,
+            description: String,
+            icon: String,
+            unlockedAt: Date,
+        }],
+        default: [],
+    },
+    stats: {
+        diagramsCreated: { type: Number, default: 0 },
+        nodesCreated: { type: Number, default: 0 },
+        collaborations: { type: Number, default: 0 },
+    },
 }, { timestamps: true });
 
 
