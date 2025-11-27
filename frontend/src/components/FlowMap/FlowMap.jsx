@@ -221,30 +221,6 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     [screenToFlowPosition, setNodos, toast]
   );
 
-  // Listener para insertar nodos de demo cuando se dispare el evento desde la Toolbar
-  useEffect(() => {
-    const handler = (e) => {
-      const incoming = e?.detail?.nodes;
-      if (!Array.isArray(incoming) || incoming.length === 0) return;
-
-      setNodos((prev) => {
-        // Evitar ids duplicados: si un id ya existe, le añadimos un sufijo único
-        const existingIds = new Set(prev.map(n => n.id));
-        const mapped = incoming.map((n) => {
-          let id = n.id;
-          if (existingIds.has(id)) {
-            id = `${id}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`;
-          }
-          return { ...n, id };
-        });
-        return [...prev, ...mapped];
-      });
-    };
-
-    window.addEventListener('flowmap-insert-sample-nodes', handler);
-    return () => window.removeEventListener('flowmap-insert-sample-nodes', handler);
-  }, [setNodos]);
-
   // Listener para detectar la tecla Suprimir/Delete
   useEffect(() => {
     const handleKeyDown = (event) => {

@@ -26,7 +26,12 @@ function Editor() {
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [nodesToDelete, setNodesToDelete] = useState([]);
   const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toast = useToast();
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((v) => !v);
+  };
 
   useEffect(() => {
     if (!diagramId) return; // nuevo diagrama: estado inicial vacío
@@ -255,9 +260,13 @@ function Editor() {
   return (
     <ReactFlowProvider>
       <div className="editor__page">
-        <Toolbar onSave={handleSave} saving={saving} onClear={handleClearRequest} />
+        <Toolbar onSave={handleSave} saving={saving} onClear={handleClearRequest} onToggleSidebar={toggleSidebar} />
 
-        <EditorSidebar onAddNode={handleAddNode} />
+        <EditorSidebar
+          onAddNode={handleAddNode}
+          className={isSidebarOpen ? 'editor-sidebar--open' : ''}
+          onCloseSidebar={() => setIsSidebarOpen(false)}
+        />
 
         <main className="editor__canvas">
           {loading && diagramId ? (

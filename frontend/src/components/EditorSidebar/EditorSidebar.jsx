@@ -13,7 +13,9 @@ import {
 } from 'react-icons/fi';
 import './EditorSidebar.css';
 
-function EditorSidebar({ onAddNode, className = '' }) {
+import { FiX } from 'react-icons/fi';
+
+function EditorSidebar({ onAddNode, className = '', onCloseSidebar }) {
   const [expandedSections, setExpandedSections] = useState({
     basic: false,
     game: false,
@@ -27,20 +29,7 @@ function EditorSidebar({ onAddNode, className = '' }) {
     }));
   };
 
-  // Nodos de ejemplo para mostrar en el canvas (solo demo)
-  const nodosIniciales = [
-    { id: 'n1', type: 'decision', position: { x: 250, y: 50 }, data: { title: 'Elige tu camino', icon: '🎯' } },
-    { id: 'n2', type: 'action', position: { x: 250, y: 200 }, data: { title: 'Atacar enemigo', icon: '⚔️' } },
-    { id: 'n3', type: 'phase', position: { x: 500, y: 200 }, data: { title: 'Fase de preparación', icon: '⏳' } },
-    { id: 'n4', type: 'effect', position: { x: 250, y: 350 }, data: { title: 'Curación', icon: '💖' } },
-    { id: 'n5', type: 'effect', position: { x: 500, y: 350 }, data: { title: 'Buff de fuerza', icon: '💪' } },
-  ];
-
-  const handleInsertDemo = () => {
-    // Envía un evento personalizado al que FlowMap está atento
-    const ev = new CustomEvent('flowmap-insert-sample-nodes', { detail: { nodes: nodosIniciales } });
-    window.dispatchEvent(ev);
-  };
+  // Demo removed: sample node insertion logic has been removed per request
 
   // Definición de tipos de nodos básicos
   const basicNodes = [
@@ -154,19 +143,20 @@ function EditorSidebar({ onAddNode, className = '' }) {
     <aside className={`editor-sidebar ${className}`} aria-label="Biblioteca de nodos">
       <div className="editor-sidebar__header">
         <h2 className="editor-sidebar__title">Biblioteca de Nodos</h2>
+        {/* Close button for overlay (visible on small screens) */}
+        {onCloseSidebar && (
+          <button
+            className="editor-sidebar__close-button"
+            onClick={onCloseSidebar}
+            aria-label="Cerrar panel"
+            title="Cerrar panel"
+          >
+            <FiX />
+          </button>
+        )}
       </div>
 
-      {/* Botón Demo */}
-      <div className="editor-sidebar__demo-section">
-        <button
-          className="editor-sidebar__demo-button"
-          onClick={handleInsertDemo}
-          title="Insertar nodos de ejemplo en el canvas"
-        >
-          <FiZap />
-          <span>Demo</span>
-        </button>
-      </div>
+      {/* Demo button removed */}
 
       <div className="editor-sidebar__content">
         {/* Nodos Básicos */}
