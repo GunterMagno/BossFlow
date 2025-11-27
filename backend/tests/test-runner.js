@@ -4,9 +4,10 @@ const testLogin = require('./test-login');
 const testRegister = require('./test-register');
 const testProtected = require('./test-protected');
 const testDiagrams = require('./test-diagrams');
+const testValidation = require('./test-validation');
 
 async function runAllTests() {
-  console.log('\n🧪 Ejecutando tests automáticos...\n');
+  console.log('\n🧪 Ejecutando tests automáticos...');
   
   const allResults = {
     'Health Endpoints': [],
@@ -14,7 +15,8 @@ async function runAllTests() {
     'Auth - Login': [],
     'Auth - Logout': [],
     'Perfil - Ruta Protegida': [],
-    'Diagramas - CRUD': []
+    'Diagramas - CRUD': [],
+    'Validación - Estructura': []
   };
   
   try {
@@ -36,6 +38,9 @@ async function runAllTests() {
     
     // Ejecutar tests de diagramas
     allResults['Diagramas - CRUD'] = await testDiagrams.runTests();
+    
+    // Ejecutar tests de validación de estructura
+    allResults['Validación - Estructura'] = await testValidation.runTests();
     
     // Mostrar resultados
     displayResults(allResults);

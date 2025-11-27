@@ -1,5 +1,7 @@
 const Diagram = require('../models/Diagram');
+const User = require('../models/User');
 const mongoose = require('mongoose');
+const { validateDiagramStructure } = require('../validators/diagramValidator');
 
 exports.createDiagram = async (req, res, next) => {
     try {
@@ -12,7 +14,16 @@ exports.createDiagram = async (req, res, next) => {
             });
         }
 
-                // Crear diagrama asociado al usuario autenticado
+        // Validar estructura de nodos y edges
+        const structureValidation = validateDiagramStructure({ nodes, edges });
+        if (!structureValidation.valid) {
+            return res.status(400).json({
+                error: 'Error de validación en la estructura del diagrama',
+                details: structureValidation.errors
+            });
+        }
+
+        // Crear diagrama asociado al usuario autenticado
         const diagram = new Diagram({
             title: title.trim(),
             description: description?.trim() || '',
@@ -23,6 +34,17 @@ exports.createDiagram = async (req, res, next) => {
 
         // Guardar en BD
         await diagram.save();
+
+        // Actualizar estadísticas del usuario
+        await User.findByIdAndUpdate(
+            req.user.userId,
+            {
+                $inc: {
+                    'stats.diagramsCreated': 1,
+                    'stats.nodesCreated': (nodes || []).length
+                }
+            }
+        );
 
         // Retornar diagrama creado
         res.status(201).json({
@@ -62,9 +84,14 @@ exports.createDiagram = async (req, res, next) => {
 exports.getDiagrams = async (req, res, next) => {
     try {
         // Obtener diagramas del usuario autenticado
-        // Filtrar por userId y ordenar por fecha de actualización (más recientes primero)
+        // Optimizaciones aplicadas:
+        // 1. Usa índice compuesto { userId: 1, updatedAt: -1 }
+        // 2. Proyección: solo campos necesarios (sin __v)
+        // 3. lean(): devuelve objetos planos (más rápido que documentos Mongoose)
         const diagrams = await Diagram.find({ userId: req.user.userId })
-            .sort({ updatedAt: -1 });
+            .select('title description nodes edges createdAt updatedAt') // Proyección
+            .sort({ updatedAt: -1 })
+            .lean();
 
         // Retornar lista de diagramas
         res.status(200).json({
@@ -72,8 +99,8 @@ exports.getDiagrams = async (req, res, next) => {
                 id: diagram._id,
                 title: diagram.title,
                 description: diagram.description,
-                nodesCount: diagram.nodes?.length || 0,
-                edgesCount: diagram.edges?.length || 0,
+                nodes: diagram.nodes || [],
+                edges: diagram.edges || [],
                 createdAt: diagram.createdAt,
                 updatedAt: diagram.updatedAt
             }))
@@ -134,7 +161,9 @@ exports.getDiagramById = async (req, res, next) => {
         const diagram = await Diagram.findOne({ 
             _id: diagramId, 
             userId: req.user.userId 
-        });
+        })
+        .select('title description nodes edges createdAt updatedAt')
+        .lean();
 
         if (!diagram) {
             return res.status(404).json({ 
@@ -157,6 +186,126 @@ exports.getDiagramById = async (req, res, next) => {
 
     } catch (error) {
         console.error('❌ Error al obtener diagrama por ID:', error);
+        next(error);
+    }
+};
+
+exports.updateDiagram = async (req, res, next) => {
+    try {
+        const diagramId = req.params.id;
+        const { title, description, nodes, edges } = req.body;
+        
+        // Validar que el ID sea un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(diagramId)) {
+            return res.status(404).json({ 
+                error: 'Diagrama no encontrado o no autorizado' 
+            });
+        }
+
+        // Validar título si se proporciona
+        if (title !== undefined && (!title || title.trim().length < 3)) {
+            return res.status(400).json({ 
+                error: 'El título debe tener al menos 3 caracteres' 
+            });
+        }
+
+        // Validar estructura de nodos y edges si se proporcionan
+        if (nodes !== undefined || edges !== undefined) {
+            // Obtener el diagrama actual para combinar con los nuevos datos
+            const currentDiagram = await Diagram.findOne({ 
+                _id: diagramId, 
+                userId: req.user.userId 
+            });
+
+            if (!currentDiagram) {
+                return res.status(404).json({ 
+                    error: 'Diagrama no encontrado o no autorizado' 
+                });
+            }
+
+            const updatedNodes = nodes !== undefined ? nodes : currentDiagram.nodes;
+            const updatedEdges = edges !== undefined ? edges : currentDiagram.edges;
+
+            const structureValidation = validateDiagramStructure({ 
+                nodes: updatedNodes, 
+                edges: updatedEdges 
+            });
+            
+            if (!structureValidation.valid) {
+                return res.status(400).json({
+                    error: 'Error de validación en la estructura del diagrama',
+                    details: structureValidation.errors
+                });
+            }
+        }
+
+        // Buscar diagrama por ID y userId
+        const diagram = await Diagram.findOne({ 
+            _id: diagramId, 
+            userId: req.user.userId 
+        });
+
+        if (!diagram) {
+            return res.status(404).json({ 
+                error: 'Diagrama no encontrado o no autorizado' 
+            });
+        }
+
+        // Calcular cambio en número de nodos si se actualizan
+        let nodeDifference = 0;
+        if (nodes !== undefined) {
+            const oldNodeCount = diagram.nodes.length;
+            const newNodeCount = nodes.length;
+            nodeDifference = newNodeCount - oldNodeCount;
+        }
+
+        // Actualizar campos del diagrama
+        if (title !== undefined) diagram.title = title.trim();
+        if (description !== undefined) diagram.description = description.trim();
+        if (nodes !== undefined) diagram.nodes = nodes;
+        if (edges !== undefined) diagram.edges = edges;
+
+        // Guardar cambios
+        await diagram.save();
+
+        // Actualizar estadísticas del usuario si hay cambio en nodos
+        if (nodeDifference !== 0) {
+            await User.findByIdAndUpdate(
+                req.user.userId,
+                { $inc: { 'stats.nodesCreated': nodeDifference } }
+            );
+        }
+
+        // Retornar diagrama actualizado
+        res.status(200).json({
+            message: 'Diagrama actualizado exitosamente',
+            diagram: {
+                id: diagram._id,
+                title: diagram.title,
+                description: diagram.description,
+                nodes: diagram.nodes,
+                edges: diagram.edges,
+                createdAt: diagram.createdAt,
+                updatedAt: diagram.updatedAt
+            }
+        });
+
+    } catch (error) {
+        // Manejar error de título duplicado
+        if (error.code === 11000) {
+            return res.status(409).json({ 
+                error: 'Ya existe un diagrama con ese título' 
+            });
+        }
+
+        // Manejar errores de validación de Mongoose
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({ 
+                error: error.message 
+            });
+        }
+
+        console.error('❌ Error al actualizar diagrama:', error);
         next(error);
     }
 };

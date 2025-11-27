@@ -1,27 +1,40 @@
-import React from 'react';
 import './Toolbar.css';
+import { FaSave } from 'react-icons/fa';
+import { FiTrash2, FiMenu } from 'react-icons/fi';
 
-// Nodos de ejemplo para mostrar en el canvas (solo demo)
-const nodosIniciales = [
-  { id: 'n1', type: 'decision', position: { x: 250, y: 50 }, data: { title: 'Elige tu camino', icon: '🎯' } },
-  { id: 'n2', type: 'action', position: { x: 250, y: 200 }, data: { title: 'Atacar enemigo', icon: '⚔️' } },
-  { id: 'n3', type: 'phase', position: { x: 500, y: 200 }, data: { title: 'Fase de preparación', icon: '⏳' } },
-  { id: 'n4', type: 'effect', position: { x: 250, y: 350 }, data: { title: 'Curación', icon: '💖' } },
-  { id: 'n5', type: 'effect', position: { x: 500, y: 350 }, data: { title: 'Buff de fuerza', icon: '💪' } },
-];
-
-function Toolbar() {
-  const handleInsertDemo = () => {
-    // Dispatch a custom event that FlowMap listens to; detail contains nodes array
-    const ev = new CustomEvent('flowmap-insert-sample-nodes', { detail: { nodes: nodosIniciales } });
-    window.dispatchEvent(ev);
-  };
-
+function Toolbar({ onSave, saving = false, onClear, onToggleSidebar }) {
   return (
     <div className="toolbar" aria-label="toolbar">
-      <button className="toolbar__button" onClick={handleInsertDemo} title="Insertar nodos de ejemplo">
-        Demo nodos
-      </button>
+      {/* Menu button for small screens - toggles sidebar overlay */}
+      {onToggleSidebar && (
+        <button
+          className="toolbar__button toolbar__button--menu"
+          onClick={onToggleSidebar}
+          title="Mostrar/Ocultar panel"
+        >
+          <FiMenu />
+        </button>
+      )}
+
+      {onSave && (
+        <button
+          className="toolbar__button toolbar__button--save"
+          onClick={onSave}
+          disabled={saving}
+          title={saving ? 'Guardando...' : 'Guardar diagrama'}
+        >
+          <FaSave /> <span>{saving ? 'Guardando...' : 'Guardar'}</span>
+        </button>
+      )}
+      {onClear && (
+        <button
+          className="toolbar__button toolbar__button--clear"
+          onClick={onClear}
+          title="Limpiar canvas"
+        >
+          <FiTrash2 /> <span>Limpiar</span>
+        </button>
+      )}
     </div>
   );
 }

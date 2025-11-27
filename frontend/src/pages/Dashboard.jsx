@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getDiagrams } from '../services/diagramService';
+import { getStats } from '../services/profileService';
 import { getFormattedActivities } from '../services/activityService';
 import DiagramList from '../components/DiagramList/DiagramList';
 import NewDiagramModal from '../components/NewDiagramModal/NewDiagramModal';
@@ -30,6 +31,7 @@ function Dashboard() {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activities, setActivities] = useState([]);
+  const [userStats, setUserStats] = useState(null);
 
   useEffect(() => {
     document.title = 'Dashboard | BossFlow';
@@ -51,10 +53,21 @@ function Dashboard() {
     }
   };
 
-  // Cargar diagramas y actividades al montar el componente
+  // Función para cargar estadísticas
+  const fetchStats = async () => {
+    try {
+      const response = await getStats();
+      setUserStats(response.stats);
+    } catch (error) {
+      console.error('Error al cargar estadísticas:', error);
+    }
+  };
+
+  // Cargar diagramas, actividades y estadísticas al montar el componente
   useEffect(() => {
     fetchDiagrams();
     loadActivities();
+    fetchStats();
   }, []);
 
   // Función para cargar actividades
@@ -70,16 +83,18 @@ function Dashboard() {
 
   // Handler cuando se crea un nuevo diagrama
   const handleDiagramCreated = () => {
-    // Refrescar la lista de diagramas y actividades
+    // Refrescar la lista de diagramas, actividades y estadísticas
     fetchDiagrams();
     loadActivities();
+    fetchStats();
   };
 
   // Handler cuando se elimina un diagrama
   const handleDiagramDeleted = () => {
-    // Refrescar la lista de diagramas y actividades
+    // Refrescar la lista de diagramas, actividades y estadísticas
     fetchDiagrams();
     loadActivities();
+    fetchStats();
   };
 
   // Función para formatear fecha relativa
@@ -106,12 +121,19 @@ function Dashboard() {
     }
   };
 
-  // Calcular estadísticas desde datos reales
-  const estadisticas = {
-    totalDiagramas: diagrams.length,
-    colaboraciones: 0, // TODO: Cuando se implemente colaboraciones
+  // Calcular estadísticas desde datos reales o del backend
+  const estadisticas = userStats ? {
+    totalDiagramas: userStats.diagramsCreated || diagrams.length,
+    totalNodos: userStats.nodesCreated || 0,
+    colaboraciones: userStats.collaborations || 0,
     plantillas: 0, // TODO: Cuando se implemente plantillas
     comentariosPendientes: 0, // TODO: Cuando se implemente comentarios
+  } : {
+    totalDiagramas: diagrams.length,
+    totalNodos: 0,
+    colaboraciones: 0,
+    plantillas: 0,
+    comentariosPendientes: 0,
   };
 
   // Obtener los 3 diagramas más recientes
@@ -239,11 +261,11 @@ function Dashboard() {
 
                 <div className="dashboard__stat-card">
                   <div className="dashboard__stat-icono">
-                    <FiLayers />
+                    <FiCopy />
                   </div>
                   <div className="dashboard__stat-contenido">
-                    <h3 className="dashboard__stat-numero">{estadisticas.plantillas}</h3>
-                    <p className="dashboard__stat-label">Plantillas</p>
+                    <h3 className="dashboard__stat-numero">{estadisticas.totalNodos}</h3>
+                    <p className="dashboard__stat-label">Nodos creados</p>
                   </div>
                 </div>
 
@@ -313,9 +335,9 @@ function Dashboard() {
                               {formatRelativeDate(diagrama.updatedAt)}
                             </span>
                             <div className="dashboard__card-stats">
-                              <span>{diagrama.nodesCount || 0} nodos</span>
+                              <span>{(diagrama.nodes ? diagrama.nodes.length : 0)} nodos</span>
                               <span className="dashboard__stat-separator">•</span>
-                              <span>{diagrama.edgesCount || 0} conexiones</span>
+                              <span>{(diagrama.edges ? diagrama.edges.length : 0)} conexiones</span>
                             </div>
                           </div>
                         </div>

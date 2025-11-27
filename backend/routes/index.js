@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const authController = require("../controllers/authController");
 const diagramController = require("../controllers/diagramController");
+const profileController = require("../controllers/profileController");
 
 // Peticiones GET
 router.get("/", (req, res) => {
@@ -20,12 +21,30 @@ router.get("/perfil", auth, (req, res) => {
   res.json({user: req.user});
 });
 
+router.get("/profile", auth, (req, res, next) => {
+  profileController.getProfile(req, res, next);
+});
+
+router.get("/profile/stats", auth, (req, res, next) => {
+  profileController.getStats(req, res, next);
+});
+
 router.get("/diagrams", auth, (req, res, next) => {
   diagramController.getDiagrams(req, res, next);
 });
 
 router.get("/diagrams/:id", auth, (req, res, next) => {
   diagramController.getDiagramById(req, res, next);
+});
+
+// Peticiones PUT
+
+router.put("/profile", auth, (req, res, next) => {
+  profileController.updateProfile(req, res, next);
+});
+
+router.put("/diagrams/:id", auth, (req, res, next) => {
+  diagramController.updateDiagram(req, res, next);
 });
 
 // Peticiones POST

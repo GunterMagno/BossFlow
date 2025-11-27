@@ -21,6 +21,7 @@ function Login() {
   const [datosFormulario, setDatosFormulario] = useState({
     correo: '',
     contrasena: '',
+    recordarme: false,
   });
 
   // Estadio validación
@@ -31,10 +32,10 @@ function Login() {
 
   // Control de cambios inputs
   const manejoCambios = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setDatosFormulario({
       ...datosFormulario,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     });
 
     if (errores[name]) {
@@ -88,7 +89,8 @@ function Login() {
       // Llamar a la función login del contexto
       const resultado = await login(
         datosFormulario.correo,
-        datosFormulario.contrasena
+        datosFormulario.contrasena,
+        datosFormulario.recordarme
       );
 
       if (resultado.success) {
@@ -184,6 +186,9 @@ function Login() {
               <input
                 type="checkbox"
                 id="recordarme"
+                name="recordarme"
+                checked={datosFormulario.recordarme}
+                onChange={manejoCambios}
                 className="login__checkbox-input"
               />
               <span className="login__checkbox-texto">Recordarme</span>
