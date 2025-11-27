@@ -640,13 +640,14 @@ async function runTests() {
         200
       ));
 
-      // Test PUT-3: Actualizar solo nodes
+      // Test PUT-3: Actualizar solo nodes (manteniendo compatibilidad con edges)
       results.push(await testUpdateDiagram(
         'PUT solo nodes',
         diagramIdToUpdate,
         { 
           nodes: [
-            { id: 'n3', type: 'activity', position: { x: 50, y: 50 }, data: {} }
+            { id: 'n1', type: 'start', position: { x: 50, y: 50 }, data: {} },
+            { id: 'n2', type: 'end', position: { x: 150, y: 150 }, data: {} }
           ]
         },
         authToken,
