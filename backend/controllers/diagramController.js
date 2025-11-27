@@ -1,5 +1,6 @@
 const Diagram = require('../models/Diagram');
 const mongoose = require('mongoose');
+const { validateDiagramStructure } = require('../validators/diagramValidator');
 
 exports.createDiagram = async (req, res, next) => {
     try {
@@ -12,7 +13,16 @@ exports.createDiagram = async (req, res, next) => {
             });
         }
 
-                // Crear diagrama asociado al usuario autenticado
+        // Validar estructura de nodos y edges
+        const structureValidation = validateDiagramStructure({ nodes, edges });
+        if (!structureValidation.valid) {
+            return res.status(400).json({
+                error: 'Error de validación en la estructura del diagrama',
+                details: structureValidation.errors
+            });
+        }
+
+        // Crear diagrama asociado al usuario autenticado
         const diagram = new Diagram({
             title: title.trim(),
             description: description?.trim() || '',
@@ -185,6 +195,36 @@ exports.updateDiagram = async (req, res, next) => {
             return res.status(400).json({ 
                 error: 'El título debe tener al menos 3 caracteres' 
             });
+        }
+
+        // Validar estructura de nodos y edges si se proporcionan
+        if (nodes !== undefined || edges !== undefined) {
+            // Obtener el diagrama actual para combinar con los nuevos datos
+            const currentDiagram = await Diagram.findOne({ 
+                _id: diagramId, 
+                userId: req.user.userId 
+            });
+
+            if (!currentDiagram) {
+                return res.status(404).json({ 
+                    error: 'Diagrama no encontrado o no autorizado' 
+                });
+            }
+
+            const updatedNodes = nodes !== undefined ? nodes : currentDiagram.nodes;
+            const updatedEdges = edges !== undefined ? edges : currentDiagram.edges;
+
+            const structureValidation = validateDiagramStructure({ 
+                nodes: updatedNodes, 
+                edges: updatedEdges 
+            });
+            
+            if (!structureValidation.valid) {
+                return res.status(400).json({
+                    error: 'Error de validación en la estructura del diagrama',
+                    details: structureValidation.errors
+                });
+            }
         }
 
         // Buscar diagrama por ID y userId
