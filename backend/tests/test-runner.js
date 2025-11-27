@@ -7,7 +7,7 @@ const testDiagrams = require('./test-diagrams');
 const testValidation = require('./test-validation');
 
 async function runAllTests() {
-  console.log('\n🧪 Ejecutando tests automáticos...\n');
+  console.log('\n🧪 Ejecutando tests automáticos...');
   
   const allResults = {
     'Health Endpoints': [],
