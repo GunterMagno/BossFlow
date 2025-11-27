@@ -82,7 +82,7 @@ const DiagramSchema = new mongoose.Schema({
         }
     }]
 }, { timestamps: true });
-
+ 
 DiagramSchema.index({ title: 1, userId: 1 }, { unique: true });
 DiagramSchema.index({ userId: 1 });
 DiagramSchema.index({ updatedAt: -1 });
