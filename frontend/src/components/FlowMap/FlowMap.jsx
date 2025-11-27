@@ -258,6 +258,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           onNodeDoubleClick={onNodeDoubleClick}
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
+          connectionRadius={30}
           fitView
           attributionPosition="bottom-left"
         >

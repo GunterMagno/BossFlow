@@ -14,7 +14,7 @@ import { useToast } from '../context/ToastContext';
 function Editor() {
   const { diagramId } = useParams();
 
-  /*Usado el diagramId para cargar el diagrama desde la base de datos. Además se gestiona el estado de carga (loading), el estado de guardado (saving) y errores al obtener el diagrama. Envia los nodos y conexiones cargados al componente FlowMap. Y además, se muestra feedback al usuario mediante toast.*/
+  /* Se usa el diagramId para cargar el diagrama desde la base de datos. Se gestiona el estado de carga (loading), el estado de guardado (saving) y errores al obtener el diagrama. Se envían los nodos y conexiones cargados al componente FlowMap. Se muestra feedback al usuario mediante toast. */
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [diagramTitle, setDiagramTitle] = useState('');
@@ -28,15 +28,17 @@ function Editor() {
   const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toast = useToast();
+  const autoSaveTimeoutRef = useRef(null);
+  const isInitialLoadRef = useRef(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((v) => !v);
   };
 
   useEffect(() => {
-    if (!diagramId) return; // nuevo diagrama: estado inicial vacío
+    if (!diagramId) return; // Nuevo diagrama: estado inicial vacío
 
-    // indica si el componente sigue activo para evitar actualizar estado. 
+    // Indica si el componente sigue activo para evitar actualizar estado 
     let activo = true;
     const cargarDiagrama = async () => {
       setLoading(true);
@@ -47,24 +49,24 @@ function Editor() {
         // La API devuelve { diagram: {...} }, así que se accede a response.diagram
         const diagram = response.diagram;
 
-        // Si la API devuelve nodos/conexiones se utilizan. Si no, se crean vacíos
+        // Si la API devuelve nodos/conexiones se utilizan, si no, se crean vacíos
         setNodes(Array.isArray(diagram.nodes) ? diagram.nodes : []);
         setEdges(Array.isArray(diagram.edges) ? diagram.edges : []);
 
-        // Guarda título para futuras actividades
+        // Se guarda el título para futuras actividades
         setDiagramTitle(diagram.title || '');
-        // Registrar actividad de visualización
+        // Se registra la actividad de visualización
         try {
           registerActivity(ACTIVITY_TYPES.VIEW, diagram.title || 'Diagrama', diagram.id);
         } catch (e) {
-          // no bloquear la carga si falla el registro de actividad
+          // No se bloquea la carga si falla el registro de actividad
           console.error('Error registrando actividad de visualización:', e);
         }
       } catch (error) {
         if (!activo) return;
         console.error('Error obteniendo el diagrama:', error);
         setError(error);
-        // En caso de error dejamos nodes/edges vacíos
+        // En caso de error se dejan nodes/edges vacíos
         setNodes([]);
         setEdges([]);
       } finally {
@@ -77,7 +79,41 @@ function Editor() {
     return () => { activo = false; };
   }, [diagramId]);
 
-  // Handlers para actualizar nodes y edges desde FlowMap
+  // Marca que la carga inicial ha terminado
+  useEffect(() => {
+    if (!loading && diagramId) {
+      // Pequeño delay para asegurar que la carga inicial ha terminado
+      const timer = setTimeout(() => {
+        isInitialLoadRef.current = false;
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [loading, diagramId]);
+
+  // Se activa el guardado automático cuando cambian nodos o conexiones
+  useEffect(() => {
+    // No se guarda durante la carga inicial
+    if (isInitialLoadRef.current || !diagramId) return;
+
+    // Se limpia el timeout anterior si existe
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+
+    // Se configura un nuevo timeout para guardar después de 2 segundos de inactividad
+    autoSaveTimeoutRef.current = setTimeout(() => {
+      handleSave(true); // true indica que es guardado automático
+    }, 2000);
+
+    // Se limpia el timeout al desmontar o cuando cambien las dependencias
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+    };
+  }, [nodes, edges, diagramId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Se actualizan nodes y edges desde FlowMap
   const handleNodesChange = useCallback((updatedNodes) => {
     setNodes(updatedNodes);
   }, []);
@@ -86,10 +122,12 @@ function Editor() {
     setEdges(updatedEdges);
   }, []);
 
-  // Función asícronica para guardar el diagrama
-  const handleSave = async () => {
+  // Función asíncrona que guarda el diagrama
+  const handleSave = async (isAutoSave = false) => {
     if (!diagramId) {
-      toast.error('No se puede guardar: diagrama no encontrado');
+      if (!isAutoSave) {
+        toast.error('No se puede guardar: diagrama no encontrado');
+      }
       return;
     }
 
@@ -102,8 +140,10 @@ function Editor() {
       };
       
       await updateDiagram(diagramId, diagramData);
-      toast.success('Diagrama guardado correctamente');
-        // Registra actividad de edición al guardar
+      if (!isAutoSave) {
+        toast.success('Diagrama guardado correctamente');
+      }
+        // Se registra la actividad de edición al guardar
         try {
           registerActivity(ACTIVITY_TYPES.EDIT, diagramTitle || 'Diagrama', diagramId);
         } catch (e) {
@@ -112,7 +152,10 @@ function Editor() {
     } catch (error) {
       console.error('Error al guardar diagrama:', error);
       const errorMessage = error.response?.data?.error || 'Error al guardar el diagrama';
-      toast.error(errorMessage);
+      // Solo se muestra el error si no es guardado automático
+      if (!isAutoSave) {
+        toast.error(errorMessage);
+      }
     } finally {
       setSaving(false);
     }
