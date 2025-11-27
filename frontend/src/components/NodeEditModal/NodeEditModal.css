@@ -167,10 +167,21 @@
 .node-edit-modal__actions {
   display: flex;
   gap: var(--espaciado-md);
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-top: var(--espaciado-md);
   padding-top: var(--espaciado-lg);
   border-top: 1px solid var(--gris1);
+}
+
+.node-edit-modal__actions-left {
+  display: flex;
+  gap: var(--espaciado-md);
+}
+
+.node-edit-modal__actions-right {
+  display: flex;
+  gap: var(--espaciado-md);
 }
 
 .node-edit-modal__button {
@@ -207,6 +218,17 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.node-edit-modal__button--delete {
+  background: #e74c3c;
+  color: var(--blanco);
+}
+
+.node-edit-modal__button--delete:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .node-edit-modal__button:active {
   transform: translateY(0);
 }
@@ -224,6 +246,12 @@
   }
 
   .node-edit-modal__actions {
+    flex-direction: column;
+  }
+
+  .node-edit-modal__actions-left,
+  .node-edit-modal__actions-right {
+    width: 100%;
     flex-direction: column;
   }
 

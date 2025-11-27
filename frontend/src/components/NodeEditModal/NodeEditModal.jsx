@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import './NodeEditModal.css';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiTrash2 } from 'react-icons/fi';
 
-function NodeEditModal({ isOpen, onClose, node, onSave }) {
+function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -91,6 +91,13 @@ function NodeEditModal({ isOpen, onClose, node, onSave }) {
         }
       });
       onClose();
+    }
+  };
+
+  // Manejar eliminación del nodo
+  const handleDelete = () => {
+    if (onDelete && node) {
+      onDelete(node.id);
     }
   };
 
@@ -192,19 +199,33 @@ function NodeEditModal({ isOpen, onClose, node, onSave }) {
 
           {/* Botones de acción */}
           <div className="node-edit-modal__actions">
-            <button
-              type="button"
-              className="node-edit-modal__button node-edit-modal__button--cancel"
-              onClick={onClose}
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="node-edit-modal__button node-edit-modal__button--save"
-            >
-              Guardar Cambios
-            </button>
+            <div className="node-edit-modal__actions-left">
+              {onDelete && (
+                <button
+                  type="button"
+                  className="node-edit-modal__button node-edit-modal__button--delete"
+                  onClick={handleDelete}
+                  title="Eliminar nodo"
+                >
+                  <FiTrash2 /> Eliminar
+                </button>
+              )}
+            </div>
+            <div className="node-edit-modal__actions-right">
+              <button
+                type="button"
+                className="node-edit-modal__button node-edit-modal__button--cancel"
+                onClick={onClose}
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                className="node-edit-modal__button node-edit-modal__button--save"
+              >
+                Guardar Cambios
+              </button>
+            </div>
           </div>
         </form>
       </div>

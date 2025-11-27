@@ -6,6 +6,7 @@ import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
 import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
 import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
+import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
@@ -22,6 +23,8 @@ function Editor() {
   const [saving, setSaving] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+  const [nodesToDelete, setNodesToDelete] = useState([]);
   const toast = useToast();
 
   useEffect(() => {
@@ -129,6 +132,8 @@ function Editor() {
 
   // Ref para almacenar la función de actualización de nodos desde FlowMap
   const updateNodeInFlowMapRef = useRef(null);
+  // Ref para almacenar la función de eliminación de nodos desde FlowMap
+  const deleteNodesInFlowMapRef = useRef(null);
 
   // Función para guardar los cambios del nodo editado
   const handleSaveNode = useCallback((updatedNode) => {
@@ -157,6 +162,64 @@ function Editor() {
     updateNodeInFlowMapRef.current = updateFn;
   }, []);
 
+  // Callback para recibir la función de eliminación desde FlowMap
+  const handleSetDeleteNodesFunction = useCallback((deleteFn) => {
+    deleteNodesInFlowMapRef.current = deleteFn;
+  }, []);
+
+  // Función para iniciar la eliminación de nodos (desde tecla Suprimir)
+  const handleDeleteRequest = useCallback((selectedNodes) => {
+    if (selectedNodes && selectedNodes.length > 0) {
+      setNodesToDelete(selectedNodes);
+      setIsConfirmDeleteOpen(true);
+    }
+  }, []);
+
+  // Función para confirmar la eliminación de nodos
+  const handleConfirmDelete = useCallback(() => {
+    if (nodesToDelete.length > 0) {
+      const nodeIdsToDelete = nodesToDelete.map((n) => n.id);
+
+      // Eliminar directamente en FlowMap si la función está disponible
+      if (deleteNodesInFlowMapRef.current) {
+        deleteNodesInFlowMapRef.current(nodeIdsToDelete);
+      }
+
+      // También actualizar en el estado local del Editor
+      setNodes((nds) => nds.filter((node) => !nodeIdsToDelete.includes(node.id)));
+      setEdges((eds) =>
+        eds.filter((edge) =>
+          !nodeIdsToDelete.includes(edge.source) && !nodeIdsToDelete.includes(edge.target)
+        )
+      );
+
+      const count = nodesToDelete.length;
+      toast.success(`${count} ${count === 1 ? 'nodo eliminado' : 'nodos eliminados'} correctamente`);
+
+      // Limpiar estado
+      setNodesToDelete([]);
+      setIsConfirmDeleteOpen(false);
+    }
+  }, [nodesToDelete, toast]);
+
+  // Función para cancelar la eliminación
+  const handleCancelDelete = useCallback(() => {
+    setNodesToDelete([]);
+    setIsConfirmDeleteOpen(false);
+  }, []);
+
+  // Función para eliminar un nodo específico (desde el modal de edición)
+  const handleDeleteNode = useCallback((nodeId) => {
+    const nodeToDelete = nodes.find((n) => n.id === nodeId);
+    if (nodeToDelete) {
+      setNodesToDelete([nodeToDelete]);
+      setIsConfirmDeleteOpen(true);
+      // Cerrar el modal de edición
+      setIsModalOpen(false);
+      setSelectedNode(null);
+    }
+  }, [nodes]);
+
   return (
     <ReactFlowProvider>
       <div className="editor__page">
@@ -177,6 +240,8 @@ function Editor() {
               onEdgesChange={handleEdgesChange}
               onNodeDoubleClick={handleNodeDoubleClick}
               onSetUpdateNodeFunction={handleSetUpdateNodeFunction}
+              onSetDeleteNodesFunction={handleSetDeleteNodesFunction}
+              onDeleteRequest={handleDeleteRequest}
             />
           )}
         </main>
@@ -186,6 +251,22 @@ function Editor() {
           onClose={handleCloseModal}
           node={selectedNode}
           onSave={handleSaveNode}
+          onDelete={handleDeleteNode}
+        />
+
+        <ConfirmDialog
+          isOpen={isConfirmDeleteOpen}
+          onClose={handleCancelDelete}
+          onConfirm={handleConfirmDelete}
+          title="Confirmar eliminación"
+          message={
+            nodesToDelete.length === 1
+              ? `¿Estás seguro de que deseas eliminar el nodo "${nodesToDelete[0]?.data?.title || 'Sin título'}"?`
+              : `¿Estás seguro de que deseas eliminar ${nodesToDelete.length} nodos seleccionados?`
+          }
+          confirmText="Eliminar"
+          cancelText="Cancelar"
+          type="danger"
         />
       </div>
     </ReactFlowProvider>

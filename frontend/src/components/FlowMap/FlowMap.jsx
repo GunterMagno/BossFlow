@@ -34,7 +34,7 @@ const tiposEdges = { default: CustomEdge };
 
 // FlowMap acepta propiedades `initialNodes` e `initialEdges` para iniciar estado vacío o con diagrama cargado. Las propiedades onNodesChange y onEdgesChange son para indicar si cambian
 
-function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onSetUpdateNodeFunction }) {
+function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onSetUpdateNodeFunction, onSetDeleteNodesFunction, onDeleteRequest }) {
   const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
   const toast = useToast();
@@ -56,12 +56,29 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     );
   }, [setNodos]);
 
+  // Función para eliminar nodos específicos
+  const deleteNodes = useCallback((nodeIdsToDelete) => {
+    setNodos((nds) => nds.filter((node) => !nodeIdsToDelete.includes(node.id)));
+    setConexiones((eds) =>
+      eds.filter((edge) =>
+        !nodeIdsToDelete.includes(edge.source) && !nodeIdsToDelete.includes(edge.target)
+      )
+    );
+  }, [setNodos, setConexiones]);
+
   // Exponer la función de actualización al componente padre
   useEffect(() => {
     if (onSetUpdateNodeFunction) {
       onSetUpdateNodeFunction(updateNode);
     }
   }, [onSetUpdateNodeFunction, updateNode]);
+
+  // Exponer la función de eliminación al componente padre
+  useEffect(() => {
+    if (onSetDeleteNodesFunction) {
+      onSetDeleteNodesFunction(deleteNodes);
+    }
+  }, [onSetDeleteNodesFunction, deleteNodes]);
 
   /* Se usan refs para evitar reinicializar el estado interno del editor si el usuario ya ha comenzado a editar. Solo carga datos desde initialNodes/initialEdges una vez al inicializar el componente o cuando cambian desde el backend. */
 
@@ -227,6 +244,29 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     window.addEventListener('flowmap-insert-sample-nodes', handler);
     return () => window.removeEventListener('flowmap-insert-sample-nodes', handler);
   }, [setNodos]);
+
+  // Listener para detectar la tecla Suprimir/Delete
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Detectar tecla Suprimir o Delete
+      if (event.key === 'Delete' || event.key === 'Supr') {
+        // Obtener nodos seleccionados
+        const selectedNodes = nodos.filter((node) => node.selected);
+
+        if (selectedNodes.length > 0 && onDeleteRequest) {
+          event.preventDefault();
+          onDeleteRequest(selectedNodes);
+        }
+      }
+    };
+
+    // Agregar listener al documento
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [nodos, onDeleteRequest]);
 
   return (
     <section className="flowmap">
