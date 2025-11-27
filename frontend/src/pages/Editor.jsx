@@ -25,6 +25,7 @@ function Editor() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [nodesToDelete, setNodesToDelete] = useState([]);
+  const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
   const toast = useToast();
 
   useEffect(() => {
@@ -220,10 +221,41 @@ function Editor() {
     }
   }, [nodes]);
 
+  // Función para solicitar la limpieza del canvas
+  const handleClearRequest = useCallback(() => {
+    // Solo mostrar confirmación si hay nodos en el canvas
+    if (nodes.length > 0 || edges.length > 0) {
+      setIsConfirmClearOpen(true);
+    } else {
+      toast.info('El canvas ya está vacío');
+    }
+  }, [nodes.length, edges.length, toast]);
+
+  // Función para confirmar la limpieza del canvas
+  const handleConfirmClear = useCallback(() => {
+    // Limpiar nodos y conexiones en FlowMap
+    if (deleteNodesInFlowMapRef.current && nodes.length > 0) {
+      const allNodeIds = nodes.map((n) => n.id);
+      deleteNodesInFlowMapRef.current(allNodeIds);
+    }
+
+    // Limpiar estado local
+    setNodes([]);
+    setEdges([]);
+
+    toast.success('Canvas limpiado correctamente');
+    setIsConfirmClearOpen(false);
+  }, [nodes, toast]);
+
+  // Función para cancelar la limpieza
+  const handleCancelClear = useCallback(() => {
+    setIsConfirmClearOpen(false);
+  }, []);
+
   return (
     <ReactFlowProvider>
       <div className="editor__page">
-        <Toolbar onSave={handleSave} saving={saving} />
+        <Toolbar onSave={handleSave} saving={saving} onClear={handleClearRequest} />
 
         <EditorSidebar onAddNode={handleAddNode} />
 
@@ -265,6 +297,17 @@ function Editor() {
               : `¿Estás seguro de que deseas eliminar ${nodesToDelete.length} nodos seleccionados?`
           }
           confirmText="Eliminar"
+          cancelText="Cancelar"
+          type="danger"
+        />
+
+        <ConfirmDialog
+          isOpen={isConfirmClearOpen}
+          onClose={handleCancelClear}
+          onConfirm={handleConfirmClear}
+          title="Limpiar canvas"
+          message={`¿Estás seguro de que deseas limpiar todo el canvas? Se eliminarán todos los nodos (${nodes.length}) y conexiones (${edges.length}). Esta acción no se puede deshacer.`}
+          confirmText="Limpiar todo"
           cancelText="Cancelar"
           type="danger"
         />
