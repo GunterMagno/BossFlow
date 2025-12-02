@@ -290,6 +290,7 @@ function Dashboard() {
                     Tus diagramas más recientes
                   </p>
                 </div>
+              <div>
                 <button
                   onClick={() => setIsModalOpen(true)}
                   className="dashboard__boton-nuevo"
@@ -297,6 +298,7 @@ function Dashboard() {
                   <FiPlus className="dashboard__boton-icono" />
                   Nuevo diagrama
                 </button>
+              </div>
               </div>
 
               {loading ? (

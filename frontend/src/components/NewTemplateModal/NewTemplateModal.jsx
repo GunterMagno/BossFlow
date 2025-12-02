@@ -4,9 +4,9 @@ import { FiX, FiFileText, FiAlignLeft } from 'react-icons/fi';
 import { createDiagram } from '../../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../../services/activityService';
 import { useToast } from '../../context/ToastContext';
-import './NewDiagramModal.css';
+import './NewTemplateModal.css';
 
-function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = null, initialEdges = null }) {
+function NewTemplateModal({ isOpen, onClose, onTemplateCreated }) {
   const navigate = useNavigate();
   const toast = useToast();
   const [formData, setFormData] = useState({
@@ -60,12 +60,13 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
     try {
       setIsSubmitting(true);
 
-      // Crear diagrama en el backend
+      // Crear plantilla en el backend (diagrama con isTemplate: true)
       const response = await createDiagram({
         title: formData.title.trim(),
         description: formData.description.trim(),
-        nodes: initialNodes || [],
-        edges: initialEdges || [],
+        nodes: [],
+        edges: [],
+        isTemplate: true
       });
 
       // Registrar actividad de creación
@@ -78,29 +79,29 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
       }
 
       // Mostrar mensaje de éxito
-      toast.success('¡Diagrama creado exitosamente!');
+      toast.success('¡Plantilla creada exitosamente!');
 
-      // Notificar al componente padre que se creó un diagrama
-      if (onDiagramCreated) {
-        onDiagramCreated(response.diagram);
+      // Notificar al componente padre que se creó una plantilla
+      if (onTemplateCreated) {
+        onTemplateCreated(response.diagram);
       }
 
       // Cerrar modal
       handleClose();
 
-      // Redirigir al editor con el nuevo diagrama
+      // Redirigir al editor con la nueva plantilla
       if (response.diagram && response.diagram.id) {
         navigate(`/editor/${response.diagram.id}`);
       }
     } catch (error) {
-      console.error('Error al crear diagrama:', error);
+      console.error('Error al crear plantilla:', error);
 
       // Manejar error de título duplicado
       if (error.response?.status === 409) {
         setErrors({
-          title: 'Ya existe un diagrama con ese título',
+          title: 'Ya existe una plantilla con ese título',
         });
-        toast.error('Ya existe un diagrama con ese título');
+        toast.error('Ya existe una plantilla con ese título');
       } else if (error.response?.status === 400) {
         const errorMessage = error.response?.data?.error || 'Datos inválidos';
         setErrors({
@@ -108,7 +109,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
         });
         toast.error(errorMessage);
       } else {
-        const errorMessage = 'Error al crear el diagrama. Por favor, intenta de nuevo.';
+        const errorMessage = 'Error al crear la plantilla. Por favor, intenta de nuevo.';
         setErrors({
           general: errorMessage,
         });
@@ -155,7 +156,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
         {/* Header del modal */}
         <div className="modal__header">
           <h2 id="modal-title" className="modal__title">
-            {initialNodes ? 'Crear diagrama desde plantilla' : 'Crear nuevo diagrama'}
+            Crear nueva plantilla
           </h2>
           <button
             type="button"
@@ -180,7 +181,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
           <div className="modal__form-group">
             <label htmlFor="title" className="modal__label">
               <FiFileText className="modal__label-icon" />
-              Título del diagrama
+              Título de la plantilla
               <span className="modal__required">*</span>
             </label>
             <input
@@ -190,7 +191,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
               value={formData.title}
               onChange={handleChange}
               className={`modal__input ${errors.title ? 'modal__input--error' : ''}`}
-              placeholder="Ej: Flujo de proceso de ventas"
+              placeholder="Ej: Plantilla de flujo de trabajo"
               maxLength={100}
               autoFocus
             />
@@ -211,7 +212,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
               value={formData.description}
               onChange={handleChange}
               className="modal__textarea"
-              placeholder="Describe brevemente de qué trata este diagrama..."
+              placeholder="Describe brevemente de qué trata esta plantilla..."
               rows={4}
               maxLength={500}
             />
@@ -235,7 +236,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
               className="modal__button modal__button--primary"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Creando...' : 'Crear diagrama'}
+              {isSubmitting ? 'Creando...' : 'Crear plantilla'}
             </button>
           </div>
         </form>
@@ -244,4 +245,4 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
   );
 }
 
-export default NewDiagramModal;
+export default NewTemplateModal;

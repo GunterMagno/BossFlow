@@ -37,6 +37,10 @@ router.get("/diagrams/:id", auth, (req, res, next) => {
   diagramController.getDiagramById(req, res, next);
 });
 
+router.get("/templates", auth, (req, res, next) => {
+  diagramController.getTemplates(req, res, next);
+});
+
 // Peticiones PUT
 
 router.put("/profile", auth, (req, res, next) => {

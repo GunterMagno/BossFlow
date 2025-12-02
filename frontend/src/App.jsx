@@ -4,6 +4,7 @@ import { ToastProvider } from './context/ToastContext';
 import PrivateRoute from './routes/PrivateRoute';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import Templates from './pages/Templates';
 import Editor from './pages/Editor';
 import Status from './pages/Status';
 import Community from './pages/Community';
@@ -41,6 +42,11 @@ function App() {
               <Route path="/dashboard" element={
                 <PrivateRoute>
                   <Dashboard />
+                </PrivateRoute>} />
+
+              <Route path="/dashboard/plantillas" element={
+                <PrivateRoute>
+                  <Templates />
                 </PrivateRoute>} />
 
               {/* Ruta 404 - debe estar al final */}
