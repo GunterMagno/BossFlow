@@ -54,3 +54,14 @@ export const deleteDiagram = async (id) => {
     throw error;
   }
 };
+
+// Obtener todas las plantillas del usuario autenticado
+export const getTemplates = async () => {
+  try {
+    const response = await api.get('/templates');
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener plantillas:', error);
+    throw error;
+  }
+};
