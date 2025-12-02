@@ -5,6 +5,7 @@ const testRegister = require('./test-register');
 const testProtected = require('./test-protected');
 const testDiagrams = require('./test-diagrams');
 const testValidation = require('./test-validation');
+const testImages = require('./test-images');
 
 async function runAllTests() {
   console.log('\n🧪 Ejecutando tests automáticos...');
@@ -16,7 +17,8 @@ async function runAllTests() {
     'Auth - Logout': [],
     'Perfil - Ruta Protegida': [],
     'Diagramas - CRUD': [],
-    'Validación - Estructura': []
+    'Validación - Estructura': [],
+    'Imágenes - Esquema': []
   };
   
   try {
@@ -41,6 +43,9 @@ async function runAllTests() {
     
     // Ejecutar tests de validación de estructura
     allResults['Validación - Estructura'] = await testValidation.runTests();
+    
+    // Ejecutar tests de imágenes
+    allResults['Imágenes - Esquema'] = await testImages.runTests();
     
     // Mostrar resultados
     displayResults(allResults);
