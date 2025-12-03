@@ -5,11 +5,14 @@ import { useParams } from 'react-router-dom'
 import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
 import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
+import MobileNodePanel from "../components/MobileNodePanel/MobileNodePanel";
 import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
 import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
+import { FaSave } from 'react-icons/fa';
+import { FiTrash2 } from 'react-icons/fi';
 
 function Editor() {
   const { diagramId } = useParams();
@@ -162,10 +165,38 @@ function Editor() {
   };
 
 
-  const handleAddNode = (nodeType) => {
-    console.log('Añadir nodo:', nodeType);
-    // TODO: Implementar lógica para añadir nodo al canvas
-  };
+  const handleAddNode = useCallback((nodeData) => {
+    console.log('Añadir nodo:', nodeData);
+
+    // Generar ID único para el nuevo nodo
+    const newNodeId = `${nodeData.type}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+
+    // Crear nuevo nodo en el centro del canvas con un pequeño offset aleatorio
+    const randomOffset = () => Math.floor(Math.random() * 100) - 50;
+
+    const newNode = {
+      id: newNodeId,
+      type: nodeData.type,
+      position: {
+        x: 250 + randomOffset(),
+        y: 150 + randomOffset()
+      },
+      data: {
+        title: nodeData.label || 'Nuevo nodo',
+        icon: '⚡',
+        description: nodeData.description || '',
+      },
+    };
+
+    // Actualizar el estado directamente para que se refleje inmediatamente
+    setNodes((currentNodes) => {
+      const updatedNodes = [...currentNodes, newNode];
+      console.log('Nodos actualizados:', updatedNodes);
+      return updatedNodes;
+    });
+
+    toast.success(`Nodo "${nodeData.label}" agregado al canvas`);
+  }, [toast]);
 
   // Función para abrir el modal de edición de nodo
   const handleNodeDoubleClick = useCallback((_event, node) => {
@@ -303,7 +334,7 @@ function Editor() {
   return (
     <ReactFlowProvider>
       <div className="editor__page">
-        <Toolbar onSave={handleSave} saving={saving} onClear={handleClearRequest} onToggleSidebar={toggleSidebar} />
+        <Toolbar onToggleSidebar={toggleSidebar} />
 
         <EditorSidebar
           onAddNode={handleAddNode}
@@ -328,7 +359,29 @@ function Editor() {
               onDeleteRequest={handleDeleteRequest}
             />
           )}
+
+          {/* Botones flotantes */}
+          <div className="editor__floating-actions">
+            <button
+              className="editor__floating-button editor__floating-button--save"
+              onClick={() => handleSave()}
+              disabled={saving}
+              title={saving ? 'Guardando...' : 'Guardar diagrama'}
+            >
+              <FaSave />
+            </button>
+            <button
+              className="editor__floating-button editor__floating-button--clear"
+              onClick={handleClearRequest}
+              title="Limpiar canvas"
+            >
+              <FiTrash2 />
+            </button>
+          </div>
         </main>
+
+        {/* Panel móvil de nodos */}
+        <MobileNodePanel onAddNode={handleAddNode} />
 
         <NodeEditModal
           isOpen={isModalOpen}

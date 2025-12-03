@@ -86,20 +86,25 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   const hasLocalChangesRef = useRef(false);
   const isInitialLoadRef = useRef(true);
 
-  /* Inicializa los nodos cuando llegan del backend. En la carga inicial (isInitialLoadRef=true), siempre carga los datos. Después, solo carga si no hay cambios locales. */
+  /* Inicializa los nodos cuando llegan del backend. Solo actualiza si el cambio viene del padre (diferentes IDs o longitud). */
   useEffect(() => {
-    if (isInitialLoadRef.current && Array.isArray(initialNodes) && initialNodes.length > 0) {
-      setNodos(initialNodes);
-      isInitialLoadRef.current = false;
+    if (Array.isArray(initialNodes)) {
+      if (isInitialLoadRef.current && initialNodes.length > 0) {
+        setNodos(initialNodes);
+        isInitialLoadRef.current = false;
+      } else if (!isInitialLoadRef.current && initialNodes.length !== nodos.length) {
+        // Solo actualizar si la longitud cambió (nuevo nodo añadido o eliminado)
+        setNodos(initialNodes);
+      }
     }
-  }, [initialNodes, setNodos]);
+  }, [initialNodes, nodos.length, setNodos]);
 
-  // Igual para edges, inicializa en la primera carga
+  // Igual para edges, inicializa en la primera carga y actualiza después
   useEffect(() => {
-    if (isInitialLoadRef.current && Array.isArray(initialEdges) && initialEdges.length > 0) {
+    if (Array.isArray(initialEdges) && initialEdges.length !== conexiones.length) {
       setConexiones(initialEdges);
     }
-  }, [initialEdges, setConexiones]);
+  }, [initialEdges, conexiones.length, setConexiones]);
 
 
   // Notifica a Editor.jsx cuando cambien los nodos

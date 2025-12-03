@@ -1,28 +1,25 @@
 .editor__page {
   display: grid;
-  grid-template-rows: auto 1fr; /* toolbar arriba + área principal */
+  grid-template-rows: 1fr; /* solo área principal */
   grid-template-columns: 280px 1fr;
   gap: 0;
   width: 100%;
   height: 100vh;
 }
 
-/* Toolbar placed at the top row */
+/* Toolbar - hidden by default, shown only on mobile as fixed overlay */
 .toolbar {
-  grid-area: 1 / 1 / 2 / 3;
-  display: flex;
-  align-items: center;
-  width: 100%;
+  display: none;
 }
 
-/* EditorSidebar - columna izquierda (fila 2) */
+/* EditorSidebar - columna izquierda */
 .editor-sidebar {
-  grid-area: 2 / 1 / 3 / 2;
+  grid-area: 1 / 1 / 2 / 2;
 }
 
-/* Canvas - columna derecha (fila 2) */
+/* Canvas - columna derecha */
 .editor__canvas {
-  grid-area: 2 / 2 / 3 / 3;
+  grid-area: 1 / 2 / 2 / 3;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,32 +40,116 @@
   color: var(--gris-oscuro, #666);
 }
 
+/* Botones flotantes */
+.editor__floating-actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+.editor__floating-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.editor__floating-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.editor__floating-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.editor__floating-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.editor__floating-button--save {
+  background-color: var(--secundario);
+  color: var(--primario);
+}
+
+.editor__floating-button--save:hover:not(:disabled) {
+  background-color: var(--secundario-hover);
+}
+
+.editor__floating-button--clear {
+  background-color: #e74c3c;
+  color: var(--blanco);
+}
+
+.editor__floating-button--clear:hover:not(:disabled) {
+  background-color: #c0392b;
+}
+
 
 
 /* Responsive: sidebar overlay en móvil */
 @media (max-width: 768px) {
   .editor__page {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
   }
 
+  /* Hide toolbar on mobile */
+  .toolbar {
+    display: none;
+  }
+
+  /* Hide sidebar on mobile - replaced by bottom panel */
   .editor-sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 280px;
-    z-index: 100;
-    transform: translateX(-100%);
-    transition: transform var(--transicion-normal);
-    height: 100vh;
-  }
-
-  .editor-sidebar.editor-sidebar--open {
-    transform: translateX(0);
-    box-shadow: var(--sombra-lg);
+    display: none;
   }
 
   .editor__canvas {
-    grid-area: 2 / 1 / 3 / 2;
+    grid-area: 1 / 1 / 2 / 2;
+    padding-bottom: 0;
+    height: calc(100vh - 60px); /* Full height minus panel toggle button */
+  }
+
+  .editor__floating-actions {
+    top: 1rem;
+    right: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .editor__floating-button {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .editor__canvas {
+    height: calc(100vh - 55px);
+  }
+
+  .editor__floating-actions {
+    top: 0.75rem;
+    right: 0.5rem;
+    gap: 0.4rem;
+  }
+
+  .editor__floating-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
 }
 

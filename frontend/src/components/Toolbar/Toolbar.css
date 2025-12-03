@@ -2,10 +2,17 @@
     background: linear-gradient(180deg, var(--primario) 0%, var(--hover) 100%);
     display: flex;
     gap: 1rem;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: var(--sombra-sm);
+    justify-content: space-between;
+    border-bottom: none;
+    box-shadow: none;
+}
+
+.toolbar__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-left: auto;
 }
 
 .toolbar__button {
@@ -37,6 +44,16 @@
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
+}
+
+.toolbar__button--icon-only {
+    padding: 0.625rem;
+    min-width: 42px;
+    justify-content: center;
+}
+
+.toolbar__button--icon-only svg {
+    font-size: 1.1rem;
 }
 
 .toolbar__button--save {
@@ -87,10 +104,17 @@
         gap: 0.75rem;
     }
 
-    .toolbar__button {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-        gap: 0.4rem;
+    .toolbar__actions {
+        gap: 0.5rem;
+    }
+
+    .toolbar__button--icon-only {
+        padding: 0.5rem;
+        min-width: 38px;
+    }
+
+    .toolbar__button--icon-only svg {
+        font-size: 1rem;
     }
 }
 
@@ -100,22 +124,16 @@
         gap: 0.5rem;
     }
 
-    .toolbar__button {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.8rem;
+    .toolbar__actions {
+        gap: 0.4rem;
     }
 
-    .toolbar__button svg {
-        font-size: 0.9rem;
+    .toolbar__button--icon-only {
+        padding: 0.45rem;
+        min-width: 36px;
     }
 
-    /* Ocultar texto en pantallas muy pequeñas, solo mostrar iconos */
-    .toolbar__button span {
-        display: none;
-    }
-
-    .toolbar__button {
-        min-width: 40px;
-        justify-content: center;
+    .toolbar__button--icon-only svg {
+        font-size: 0.95rem;
     }
 }
