@@ -65,11 +65,11 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
 
               <div className="diagram-card__stats">
                 <span className="diagram-card__stat">
-                  {diagram.nodesCount || 0} nodos
+                  {(diagram.nodes ? diagram.nodes.length : 0)} nodos
                 </span>
                 <span className="diagram-card__stat-separator">•</span>
                 <span className="diagram-card__stat">
-                  {diagram.edgesCount || 0} conexiones
+                  {(diagram.edges ? diagram.edges.length : 0)} conexiones
                 </span>
               </div>
             </div>

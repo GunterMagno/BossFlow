@@ -181,11 +181,20 @@
 
 /* Confirm buttons */
 .confirm-modal__button--confirm {
-  color: var(--blanco);
+  background: var(--secundario);
+  color: var(--primario);
+  box-shadow: 0 2px 8px rgba(234, 179, 8, 0.3);
+}
+
+.confirm-modal__button--confirm:hover:not(:disabled) {
+  background: var(--secundario-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.4);
 }
 
 .confirm-modal__button--danger {
   background: #ef4444;
+  color: var(--blanco);
 }
 
 .confirm-modal__button--danger:hover:not(:disabled) {
@@ -196,6 +205,7 @@
 
 .confirm-modal__button--warning {
   background: #f59e0b;
+  color: var(--blanco);
 }
 
 .confirm-modal__button--warning:hover:not(:disabled) {
@@ -206,6 +216,7 @@
 
 .confirm-modal__button--info {
   background: var(--primario);
+  color: var(--blanco);
 }
 
 .confirm-modal__button--info:hover:not(:disabled) {

@@ -65,3 +65,14 @@ export const getTemplates = async () => {
     throw error;
   }
 };
+
+// Eliminar una plantilla
+export const deleteTemplate = async (id) => {
+  try {
+    const response = await api.delete(`/diagrams/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar plantilla:', error);
+    throw error;
+  }
+};

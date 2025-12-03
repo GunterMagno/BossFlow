@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getTemplates } from '../services/diagramService';
+import { getTemplates, deleteTemplate } from '../services/diagramService';
 import TemplateList from '../components/TemplateList/TemplateList';
 import NewDiagramModal from '../components/NewDiagramModal/NewDiagramModal';
 import NewTemplateModal from '../components/NewTemplateModal/NewTemplateModal';
+import ConfirmModal from '../components/ConfirmModal/ConfirmModal';
+import { SYSTEM_TEMPLATES } from '../data/systemTemplates';
+import { useToast } from '../context/ToastContext';
 import {
   FiHome,
   FiFileText,
@@ -20,19 +23,22 @@ import './Dashboard.css';
 function Templates() {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const toast = useToast();
   const [templates, setTemplates] = useState([]);
   const [loadingTemplates, setLoadingTemplates] = useState(true);
   const [errorTemplates, setErrorTemplates] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
   const [templateNodes, setTemplateNodes] = useState(null);
+  const [editingTemplate, setEditingTemplate] = useState(null);
+  const [templateToDelete, setTemplateToDelete] = useState(null);
   const [activeTab, setActiveTab] = useState('predeterminadas'); // 'predeterminadas' o 'mis-plantillas'
 
   useEffect(() => {
     document.title = 'Plantillas | BossFlow';
   }, []);
 
-  // Función para cargar plantillas
+  // Función para cargar plantillas de usuario
   const fetchTemplates = async () => {
     try {
       setLoadingTemplates(true);
@@ -48,10 +54,12 @@ function Templates() {
     }
   };
 
-  // Cargar plantillas al montar el componente
+  // Cargar plantillas de usuario solo cuando se cambia a esa pestaña
   useEffect(() => {
-    fetchTemplates();
-  }, []);
+    if (activeTab === 'mis-plantillas') {
+      fetchTemplates();
+    }
+  }, [activeTab]);
 
   const handleLogout = () => {
     logout();
@@ -81,12 +89,51 @@ function Templates() {
     // Refrescar la lista de plantillas
     fetchTemplates();
     setIsTemplateModalOpen(false);
+    setEditingTemplate(null);
   };
 
-  // Filtrar plantillas según la pestaña activa
-  const filteredTemplates = activeTab === 'predeterminadas' 
-    ? [] // TODO: Implementar plantillas predeterminadas del sistema
+  // Handler para editar plantilla (sistema o usuario)
+  const handleEditTemplate = (template) => {
+    if (activeTab === 'predeterminadas') {
+      // Para plantillas del sistema, abrir modal de nueva plantilla con los datos precargados
+      setEditingTemplate(template);
+      setIsTemplateModalOpen(true);
+    } else {
+      // Para plantillas de usuario, abrir modal para editar título/descripción
+      setEditingTemplate(template);
+      setIsTemplateModalOpen(true);
+    }
+  };
+
+  // Handler para eliminar plantilla
+  const handleDeleteTemplate = (template) => {
+    setTemplateToDelete(template);
+  };
+
+  // Confirmar eliminación de plantilla
+  const handleConfirmDelete = async () => {
+    if (!templateToDelete) return;
+
+    try {
+      await deleteTemplate(templateToDelete._id);
+      toast.success('Plantilla eliminada correctamente');
+      fetchTemplates();
+    } catch (error) {
+      console.error('Error al eliminar plantilla:', error);
+      toast.error('No se pudo eliminar la plantilla');
+    } finally {
+      setTemplateToDelete(null);
+    }
+  };
+
+  // Obtener plantillas según la pestaña activa
+  const displayedTemplates = activeTab === 'predeterminadas' 
+    ? SYSTEM_TEMPLATES
     : templates;
+
+  // Estados de carga según pestaña activa
+  const isLoading = activeTab === 'mis-plantillas' && loadingTemplates;
+  const currentError = activeTab === 'mis-plantillas' ? errorTemplates : null;
 
   return (
     <div className="dashboard">
@@ -190,13 +237,16 @@ function Templates() {
           </div>
 
           <TemplateList
-            templates={filteredTemplates}
-            loading={loadingTemplates}
-            error={errorTemplates}
+            templates={displayedTemplates}
+            loading={isLoading}
+            error={currentError}
             onUseTemplate={handleUseTemplate}
+            onEditTemplate={handleEditTemplate}
+            onDeleteTemplate={handleDeleteTemplate}
             onRetry={fetchTemplates}
             onCreateTemplate={() => setIsTemplateModalOpen(true)}
             showCreateButton={activeTab === 'mis-plantillas'}
+            isSystemTemplates={activeTab === 'predeterminadas'}
           />
         </section>
       </main>
@@ -216,8 +266,38 @@ function Templates() {
       {/* Modal para crear nueva plantilla */}
       <NewTemplateModal
         isOpen={isTemplateModalOpen}
-        onClose={() => setIsTemplateModalOpen(false)}
+        onClose={() => {
+          setIsTemplateModalOpen(false);
+          setEditingTemplate(null);
+        }}
         onTemplateCreated={handleTemplateCreated}
+        initialNodes={editingTemplate?.nodes}
+        initialEdges={editingTemplate?.edges}
+        initialTitle={
+          editingTemplate 
+            ? (activeTab === 'predeterminadas' 
+                ? `Copia de ${editingTemplate.title}` 
+                : editingTemplate.title)
+            : ''
+        }
+        initialDescription={editingTemplate?.description || ''}
+        editingTemplateId={
+          activeTab === 'mis-plantillas' && editingTemplate 
+            ? editingTemplate.id
+            : null
+        }
+      />
+
+      {/* Modal de confirmación para eliminar */}
+      <ConfirmModal
+        isOpen={!!templateToDelete}
+        onClose={() => setTemplateToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="¿Eliminar plantilla?"
+        message={`¿Estás seguro de que quieres eliminar la plantilla "${templateToDelete?.title}"? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        type="danger"
       />
     </div>
   );
