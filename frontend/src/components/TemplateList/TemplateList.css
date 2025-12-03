@@ -109,10 +109,10 @@
 .template-list__create-button {
   margin-top: var(--espaciado-md);
   padding: var(--espaciado-md) var(--espaciado-xl);
-  background: var(--primario);
-  color: var(--blanco);
-  border: none;
-  border-radius: var(--radio-md);
+  background: transparent;
+  color: var(--secundario);
+  border: 2px solid var(--secundario);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
@@ -120,9 +120,9 @@
 }
 
 .template-list__create-button:hover {
-  background: var(--primario-oscuro);
-  transform: translateY(-1px);
-  box-shadow: var(--sombra-sm);
+  background: rgba(234, 179, 8, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.2);
 }
 
 /* Responsive */
