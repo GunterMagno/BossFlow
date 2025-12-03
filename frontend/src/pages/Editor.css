@@ -89,6 +89,15 @@
   background-color: var(--secundario-hover);
 }
 
+.editor__floating-button--image {
+  background-color: #9b59b6;
+  color: var(--blanco);
+}
+
+.editor__floating-button--image:hover:not(:disabled) {
+  background-color: #8e44ad;
+}
+
 .editor__floating-button--clear {
   background-color: #e74c3c;
   color: var(--blanco);

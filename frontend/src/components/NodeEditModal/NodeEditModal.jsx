@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import './NodeEditModal.css';
-import { FiX, FiTrash2 } from 'react-icons/fi';
+import { FiX, FiTrash2, FiImage } from 'react-icons/fi';
+import UploadImageModal from '../UploadImageModal/UploadImageModal';
 
 function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    type: ''
+    type: '',
+    image: null
   });
 
   const [errors, setErrors] = useState({});
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
   // Tipos de nodos disponibles
   const nodeTypes = [
@@ -29,7 +32,8 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
       setFormData({
         title: node.data?.title || '',
         description: node.data?.description || '',
-        type: node.type || ''
+        type: node.type || '',
+        image: node.data?.image || null
       });
       setErrors({});
     }
@@ -87,11 +91,28 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
         data: {
           ...node.data,
           title: formData.title.trim(),
-          description: formData.description.trim()
+          description: formData.description.trim(),
+          image: formData.image
         }
       });
       onClose();
     }
+  };
+
+  // Manejar imagen subida
+  const handleImageUploaded = (imageData) => {
+    setFormData(prev => ({
+      ...prev,
+      image: imageData
+    }));
+  };
+
+  // Eliminar imagen del nodo
+  const handleRemoveImage = () => {
+    setFormData(prev => ({
+      ...prev,
+      image: null
+    }));
   };
 
   // Manejar eliminación del nodo
@@ -197,6 +218,51 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
             )}
           </div>
 
+          {/* Campo: Imagen */}
+          <div className="node-edit-modal__field">
+            <label className="node-edit-modal__label">
+              Imagen
+            </label>
+            {formData.image ? (
+              <div className="node-edit-modal__image-preview">
+                <img 
+                  src={formData.image.url} 
+                  alt={formData.image.filename || 'Vista previa'}
+                  className="node-edit-modal__image"
+                />
+                <div className="node-edit-modal__image-info">
+                  <p className="node-edit-modal__image-filename">
+                    {formData.image.filename}
+                  </p>
+                  <div className="node-edit-modal__image-actions">
+                    <button
+                      type="button"
+                      className="node-edit-modal__button node-edit-modal__button--change"
+                      onClick={() => setIsUploadModalOpen(true)}
+                    >
+                      <FiImage /> Cambiar
+                    </button>
+                    <button
+                      type="button"
+                      className="node-edit-modal__button node-edit-modal__button--remove"
+                      onClick={handleRemoveImage}
+                    >
+                      <FiTrash2 /> Eliminar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                className="node-edit-modal__button node-edit-modal__button--upload"
+                onClick={() => setIsUploadModalOpen(true)}
+              >
+                <FiImage /> Añadir imagen
+              </button>
+            )}
+          </div>
+
           {/* Botones de acción */}
           <div className="node-edit-modal__actions">
             <div className="node-edit-modal__actions-left">
@@ -228,6 +294,14 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
             </div>
           </div>
         </form>
+
+        {/* Modal de subida de imagen */}
+        <UploadImageModal
+          isOpen={isUploadModalOpen}
+          onClose={() => setIsUploadModalOpen(false)}
+          onImageUploaded={handleImageUploaded}
+          title="Añadir imagen al nodo"
+        />
       </div>
     </div>
   );

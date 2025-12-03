@@ -8,11 +8,12 @@ import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
 import MobileNodePanel from "../components/MobileNodePanel/MobileNodePanel";
 import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
 import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
+import UploadImageModal from "../components/UploadImageModal/UploadImageModal";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
 import { FaSave } from 'react-icons/fa';
-import { FiTrash2 } from 'react-icons/fi';
+import { FiTrash2, FiImage } from 'react-icons/fi';
 
 function Editor() {
   const { diagramId } = useParams();
@@ -30,6 +31,7 @@ function Editor() {
   const [nodesToDelete, setNodesToDelete] = useState([]);
   const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isUploadImageModalOpen, setIsUploadImageModalOpen] = useState(false);
   const toast = useToast();
   const autoSaveTimeoutRef = useRef(null);
   const isInitialLoadRef = useRef(true);
@@ -163,6 +165,27 @@ function Editor() {
       setSaving(false);
     }
   };
+
+
+  const handleGlobalImageUploaded = useCallback((imageData) => {
+    // Crear un nodo especial para la imagen global
+    const imageId = `image-${Date.now()}`;
+    const imageNode = {
+      id: imageId,
+      type: 'imageNode',
+      position: { x: 250, y: 100 }, // Posición inicial centrada
+      data: {
+        image: imageData,
+        onDelete: () => {
+          setNodes((nds) => nds.filter((n) => n.id !== imageId));
+        }
+      }
+    };
+
+    setNodes((nds) => [...nds, imageNode]);
+    toast.success('Imagen añadida al diagrama');
+    scheduleAutoSave();
+  }, [toast]);
 
 
   const handleAddNode = useCallback((nodeData) => {
@@ -363,6 +386,13 @@ function Editor() {
           {/* Botones flotantes */}
           <div className="editor__floating-actions">
             <button
+              className="editor__floating-button editor__floating-button--image"
+              onClick={() => setIsUploadImageModalOpen(true)}
+              title="Subir imagen al diagrama"
+            >
+              <FiImage />
+            </button>
+            <button
               className="editor__floating-button editor__floating-button--save"
               onClick={() => handleSave()}
               disabled={saving}
@@ -389,6 +419,13 @@ function Editor() {
           node={selectedNode}
           onSave={handleSaveNode}
           onDelete={handleDeleteNode}
+        />
+
+        <UploadImageModal
+          isOpen={isUploadImageModalOpen}
+          onClose={() => setIsUploadImageModalOpen(false)}
+          onImageUploaded={handleGlobalImageUploaded}
+          title="Subir imagen al diagrama"
         />
 
         <ConfirmDialog

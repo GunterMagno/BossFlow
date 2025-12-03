@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { DecisionNode, ActionNode, PhaseNode, EffectNode, StartNode, EndNode, PositionNode, TimerNode, AbilityNode } from "../nodes/Nodes";
+import ImageNode from "../nodes/ImageNode/ImageNode";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -27,7 +28,8 @@ const tiposNodos = {
   position: PositionNode,
   timer: TimerNode,
   mechanic: EffectNode,
-  ability: AbilityNode
+  ability: AbilityNode,
+  imageNode: ImageNode
 };
 // Definir edge types fuera del componente para evitar recrear el objeto en cada render
 const tiposEdges = { default: CustomEdge };
