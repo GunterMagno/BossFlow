@@ -94,31 +94,30 @@ exports.validateImageUrl = async (req, res, next) => {
         }
 
         // Validar formato de URL
+        let parsedUrl;
         try {
-            new URL(url);
+            parsedUrl = new URL(url);
         } catch (e) {
             return res.status(400).json({ 
                 error: 'URL no válida' 
             });
         }
 
-        // Verificar que la URL apunta a una imagen
-        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-        const hasImageExtension = imageExtensions.some(ext => 
-            url.toLowerCase().includes(ext)
-        );
-
-        if (!hasImageExtension) {
+        // Aceptar cualquier URL (las extensiones pueden no estar visibles en URLs dinámicas)
+        // Solo verificar que sea http o https
+        if (!parsedUrl.protocol.startsWith('http')) {
             return res.status(400).json({ 
-                error: 'La URL no parece apuntar a una imagen válida' 
+                error: 'La URL debe usar protocolo HTTP o HTTPS' 
             });
         }
 
-        // Determinar mimeType basado en extensión
-        let mimeType = 'image/jpeg';
-        if (url.includes('.png')) mimeType = 'image/png';
-        else if (url.includes('.gif')) mimeType = 'image/gif';
-        else if (url.includes('.webp')) mimeType = 'image/webp';
+        // Determinar mimeType basado en extensión si existe
+        let mimeType = 'image/jpeg'; // Default
+        const urlLower = url.toLowerCase();
+        if (urlLower.includes('.png')) mimeType = 'image/png';
+        else if (urlLower.includes('.gif')) mimeType = 'image/gif';
+        else if (urlLower.includes('.webp')) mimeType = 'image/webp';
+        else if (urlLower.includes('.svg')) mimeType = 'image/svg+xml';
 
         // Retornar metadata
         res.status(200).json({

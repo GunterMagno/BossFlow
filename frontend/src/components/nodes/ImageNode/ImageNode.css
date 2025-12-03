@@ -1,67 +1,71 @@
 .image-node {
   background: transparent;
-  border: none;
+  border: 2px solid transparent;
   padding: 0;
   position: relative;
+  transition: border-color 0.2s;
 }
 
-.image-node.selected {
-  outline: 2px solid #4a90e2;
-  outline-offset: 2px;
-  border-radius: 4px;
+.image-node:hover {
+  border-color: #4a90e2;
 }
 
 .image-node-container {
   position: relative;
-  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
 .image-node-img {
   display: block;
-  max-width: 400px;
-  min-width: 100px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s;
+  pointer-events: none;
+  image-rendering: auto;
+  -webkit-user-drag: none;
 }
 
 .image-node.selected .image-node-img {
   box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
-.image-node-controls {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  display: flex;
-  gap: 8px;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.image-node.selected .image-node-controls {
-  opacity: 1;
-}
-
 .image-node-delete {
-  background-color: rgba(255, 255, 255, 0.95);
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 32px;
-  height: 32px;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: rgba(231, 76, 60, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  opacity: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.image-node:hover .image-node-delete {
+  opacity: 1;
 }
 
 .image-node-delete:hover {
-  background-color: #fee;
-  border-color: #fcc;
-  transform: scale(1.1);
+  background-color: #c0392b;
+  transform: scale(1.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.image-node-delete:active {
+  transform: scale(1.05);
 }
 
 /* Responsive */
@@ -70,7 +74,7 @@
     max-width: 250px;
   }
 
-  .image-node-controls {
+  .image-node-delete {
     opacity: 1; /* Siempre visible en móvil */
   }
 }

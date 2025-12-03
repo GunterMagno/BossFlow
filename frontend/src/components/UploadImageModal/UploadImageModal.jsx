@@ -46,7 +46,7 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
         try {
           const base64Data = e.target.result;
           
-          const response = await fetch('http://localhost:3000/api/images/upload', {
+          const response = await fetch('/api/images/upload', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
 
     try {
       const imageData = await uploadFileToBackend(file);
-      const fullUrl = `http://localhost:3000${imageData.url}`;
+      const fullUrl = imageData.url;
       setPreview(fullUrl);
       
       // Llamar callback con la información de la imagen
@@ -128,21 +128,6 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
     }
   };
 
-  const handlePaste = async (e) => {
-    const items = e.clipboardData?.items;
-    if (!items) return;
-
-    for (let item of items) {
-      if (item.type.indexOf('image') !== -1) {
-        const file = item.getAsFile();
-        if (file) {
-          handleFileSelect(file);
-        }
-        break;
-      }
-    }
-  };
-
   const handleUrlSubmit = async () => {
     if (!imageUrl.trim()) {
       setError('Por favor, ingrese una URL');
@@ -153,7 +138,7 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3000/api/images/validate-url', {
+      const response = await fetch('/api/images/validate-url', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -217,7 +202,6 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              onPaste={handlePaste}
               tabIndex={0}
             >
               <input
@@ -238,9 +222,6 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
                   <div className="upload-icon">📸</div>
                   <p className="upload-main-text">
                     Arrastra una imagen aquí
-                  </p>
-                  <p className="upload-sub-text">
-                    o pega desde el portapapeles (Ctrl+V)
                   </p>
                   <button
                     className="upload-browse-button"

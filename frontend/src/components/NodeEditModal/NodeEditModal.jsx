@@ -230,26 +230,24 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
                   alt={formData.image.filename || 'Vista previa'}
                   className="node-edit-modal__image"
                 />
-                <div className="node-edit-modal__image-info">
-                  <p className="node-edit-modal__image-filename">
-                    {formData.image.filename}
-                  </p>
-                  <div className="node-edit-modal__image-actions">
-                    <button
-                      type="button"
-                      className="node-edit-modal__button node-edit-modal__button--change"
-                      onClick={() => setIsUploadModalOpen(true)}
-                    >
-                      <FiImage /> Cambiar
-                    </button>
-                    <button
-                      type="button"
-                      className="node-edit-modal__button node-edit-modal__button--remove"
-                      onClick={handleRemoveImage}
-                    >
-                      <FiTrash2 /> Eliminar
-                    </button>
-                  </div>
+                <p className="node-edit-modal__image-filename">
+                  {formData.image.filename}
+                </p>
+                <div className="node-edit-modal__image-actions">
+                  <button
+                    type="button"
+                    className="node-edit-modal__button node-edit-modal__button--change"
+                    onClick={() => setIsUploadModalOpen(true)}
+                  >
+                    <FiImage /> Cambiar
+                  </button>
+                  <button
+                    type="button"
+                    className="node-edit-modal__button node-edit-modal__button--remove"
+                    onClick={handleRemoveImage}
+                  >
+                    <FiTrash2 /> Eliminar
+                  </button>
                 </div>
               </div>
             ) : (

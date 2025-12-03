@@ -92,11 +92,20 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   useEffect(() => {
     if (Array.isArray(initialNodes)) {
       if (isInitialLoadRef.current && initialNodes.length > 0) {
-        setNodos(initialNodes);
+        // Preservar el estilo (width, height) de los nodos al cargar
+        const nodesWithStyle = initialNodes.map(node => ({
+          ...node,
+          style: node.style || {}
+        }));
+        setNodos(nodesWithStyle);
         isInitialLoadRef.current = false;
       } else if (!isInitialLoadRef.current && initialNodes.length !== nodos.length) {
         // Solo actualizar si la longitud cambió (nuevo nodo añadido o eliminado)
-        setNodos(initialNodes);
+        const nodesWithStyle = initialNodes.map(node => ({
+          ...node,
+          style: node.style || {}
+        }));
+        setNodos(nodesWithStyle);
       }
     }
   }, [initialNodes, nodos.length, setNodos]);
@@ -266,6 +275,9 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
           connectionRadius={30}
+          nodesDraggable={true}
+          nodesConnectable={true}
+          elementsSelectable={true}
           fitView
           attributionPosition="bottom-left"
         >

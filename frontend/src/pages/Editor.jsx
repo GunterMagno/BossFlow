@@ -10,6 +10,7 @@ import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
 import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
 import UploadImageModal from "../components/UploadImageModal/UploadImageModal";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
+import { deleteImage } from '../services/imageService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
 import { FaSave } from 'react-icons/fa';
@@ -55,7 +56,39 @@ function Editor() {
         const diagram = response.diagram;
 
         // Si la API devuelve nodos/conexiones se utilizan, si no, se crean vacíos
-        setNodes(Array.isArray(diagram.nodes) ? diagram.nodes : []);
+        // Para nodos de imagen, restaurar la función onDelete y asegurar que tienen dimensiones
+        const nodesWithCallbacks = Array.isArray(diagram.nodes) 
+          ? diagram.nodes.map(node => {
+              if (node.type === 'imageNode') {
+                const imageUrl = node.data.image?.url;
+                return {
+                  ...node,
+                  data: {
+                    ...node.data,
+                    image: {
+                      ...node.data.image,
+                      width: node.data.image?.width || 150,
+                      height: node.data.image?.height || 150
+                    },
+                    onDelete: async () => {
+                      // Eliminar imagen del servidor si es local
+                      try {
+                        await deleteImage(imageUrl);
+                      } catch (error) {
+                        console.error('Error al eliminar imagen del servidor:', error);
+                      }
+                      // Eliminar nodo del canvas
+                      setNodes((nds) => nds.filter((n) => n.id !== node.id));
+                      toast.success('Imagen eliminada');
+                    }
+                  }
+                };
+              }
+              return node;
+            })
+          : [];
+        
+        setNodes(nodesWithCallbacks);
         setEdges(Array.isArray(diagram.edges) ? diagram.edges : []);
 
         // Se guarda el título para futuras actividades
@@ -144,6 +177,8 @@ function Editor() {
         edges
       };
       
+      console.log('💾 Guardando diagrama con nodos:', nodes);
+      
       await updateDiagram(diagramId, diagramData);
       if (!isAutoSave) {
         toast.success('Diagrama guardado correctamente');
@@ -173,18 +208,29 @@ function Editor() {
     const imageNode = {
       id: imageId,
       type: 'imageNode',
-      position: { x: 250, y: 100 }, // Posición inicial centrada
+      position: { x: 250, y: 100 },
       data: {
-        image: imageData,
-        onDelete: () => {
+        image: {
+          ...imageData,
+          width: 150,
+          height: 150
+        },
+        onDelete: async () => {
+          // Eliminar imagen del servidor si es local
+          try {
+            await deleteImage(imageData.url);
+          } catch (error) {
+            console.error('Error al eliminar imagen del servidor:', error);
+          }
+          // Eliminar nodo del canvas
           setNodes((nds) => nds.filter((n) => n.id !== imageId));
+          toast.success('Imagen eliminada');
         }
       }
     };
 
     setNodes((nds) => [...nds, imageNode]);
     toast.success('Imagen añadida al diagrama');
-    scheduleAutoSave();
   }, [toast]);
 
 
@@ -223,6 +269,9 @@ function Editor() {
 
   // Función para abrir el modal de edición de nodo
   const handleNodeDoubleClick = useCallback((_event, node) => {
+    // No permitir edición de nodos de tipo imagen
+    if (node.type === 'imageNode') return;
+    
     setSelectedNode(node);
     setIsModalOpen(true);
   }, []);
