@@ -1,4 +1,59 @@
 /**
+ * @param {Object} image - Metadata de la imagen a validar
+ * @param {string} context - Contexto para mensajes de error
+ * @returns {Object} { valid: boolean, errors: string[] }
+ */
+function validateImageMetadata(image, context) {
+    const errors = [];
+    const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+
+    // Validar que la imagen es un objeto
+    if (!image || typeof image !== 'object') {
+        return {
+            valid: false,
+            errors: [`${context}: debe ser un objeto válido`]
+        };
+    }
+
+    // Validar filename (obligatorio)
+    if (!image.filename || typeof image.filename !== 'string' || image.filename.trim() === '') {
+        errors.push(`${context}: el campo 'filename' es obligatorio y debe ser un string no vacío`);
+    }
+
+    // Validar url (obligatorio)
+    if (!image.url || typeof image.url !== 'string' || image.url.trim() === '') {
+        errors.push(`${context}: el campo 'url' es obligatorio y debe ser un string no vacío`);
+    }
+
+    // Validar mimeType (obligatorio)
+    if (!image.mimeType || typeof image.mimeType !== 'string') {
+        errors.push(`${context}: el campo 'mimeType' es obligatorio y debe ser un string`);
+    } else if (!ALLOWED_MIME_TYPES.includes(image.mimeType)) {
+        errors.push(`${context}: 'mimeType' debe ser uno de: ${ALLOWED_MIME_TYPES.join(', ')}`);
+    }
+
+    // Validar size (obligatorio)
+    if (typeof image.size !== 'number') {
+        errors.push(`${context}: el campo 'size' es obligatorio y debe ser un número`);
+    } else if (image.size < 0) {
+        errors.push(`${context}: 'size' debe ser mayor o igual a 0`);
+    } else if (image.size > MAX_SIZE) {
+        errors.push(`${context}: 'size' no puede exceder ${MAX_SIZE} bytes (5MB)`);
+    }
+
+    // Validar createdAt (opcional)
+    if (image.createdAt !== undefined && !(image.createdAt instanceof Date) && isNaN(Date.parse(image.createdAt))) {
+        errors.push(`${context}: 'createdAt' debe ser una fecha válida`);
+    }
+
+    return {
+        valid: errors.length === 0,
+        errors
+    };
+}
+
+/**
  * Valida la estructura de un nodo
  * @param {Object} node - Nodo a validar
  * @returns {Object} { valid: boolean, errors: string[] }
@@ -44,6 +99,14 @@ function validateNode(node, index) {
         errors.push(`Nodo en posición ${index}: el campo 'data' es obligatorio (puede ser un objeto vacío {})`);
     } else if (typeof node.data !== 'object') {
         errors.push(`Nodo en posición ${index}: el campo 'data' debe ser un objeto`);
+    }
+
+    // Validar campo 'image'
+    if (node.image !== undefined && node.image !== null) {
+        const imageValidation = validateImageMetadata(node.image, `Nodo en posición ${index}, campo 'image'`);
+        if (!imageValidation.valid) {
+            errors.push(...imageValidation.errors);
+        }
     }
 
     return {
@@ -187,13 +250,30 @@ function validateEdges(edges, nodes = []) {
 }
 
 /**
- * Valida la estructura completa del diagrama (nodos + edges)
- * @param {Object} diagramData - Datos del diagrama { nodes, edges }
+ * Valida la estructura completa del diagrama (nodos + edges + images)
+ * @param {Object} diagramData - Datos del diagrama { nodes, edges, images }
  * @returns {Object} { valid: boolean, errors: string[] }
  */
 function validateDiagramStructure(diagramData) {
-    const { nodes = [], edges = [] } = diagramData;
+    const { nodes = [], edges = [], images = [] } = diagramData;
     const allErrors = [];
+    const MAX_IMAGES = 10;
+
+    // Validar imágenes del diagrama
+    if (!Array.isArray(images)) {
+        allErrors.push('El campo "images" debe ser un array');
+    } else {
+        if (images.length > MAX_IMAGES) {
+            allErrors.push(`Un diagrama no puede tener más de ${MAX_IMAGES} imágenes`);
+        }
+        
+        images.forEach((image, index) => {
+            const imageValidation = validateImageMetadata(image, `Imagen del diagrama en posición ${index}`);
+            if (!imageValidation.valid) {
+                allErrors.push(...imageValidation.errors);
+            }
+        });
+    }
 
     // Validar nodos
     const nodesValidation = validateNodes(nodes);
@@ -222,6 +302,7 @@ function validateDiagramStructure(diagramData) {
 }
 
 module.exports = {
+    validateImageMetadata,
     validateNode,
     validateEdge,
     validateNodes,

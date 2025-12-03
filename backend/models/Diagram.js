@@ -18,6 +18,10 @@ const DiagramSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    isTemplate: {
+        type: Boolean,
+        default: false
+    },
     nodes: [{
         id: {
             type: String,
