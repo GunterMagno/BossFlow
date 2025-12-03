@@ -4,7 +4,18 @@ import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { FiFileText, FiAlertCircle } from 'react-icons/fi';
 import './TemplateList.css';
 
-function TemplateList({ templates, loading, error, onUseTemplate, onRetry, onCreateTemplate, showCreateButton }) {
+function TemplateList({ 
+  templates, 
+  loading, 
+  error, 
+  onUseTemplate, 
+  onEditTemplate,
+  onDeleteTemplate,
+  onRetry, 
+  onCreateTemplate, 
+  showCreateButton,
+  isSystemTemplates = false
+}) {
   const [templateToUse, setTemplateToUse] = useState(null);
 
   // Función para manejar clic en plantilla
@@ -87,9 +98,12 @@ function TemplateList({ templates, loading, error, onUseTemplate, onRetry, onCre
         <div className="template-list__grid">
           {templates.map((template) => (
             <TemplateCard
-              key={template.id}
+              key={template.id || template._id}
               template={template}
               onUseTemplate={handleTemplateClick}
+              onEditTemplate={onEditTemplate}
+              onDeleteTemplate={onDeleteTemplate}
+              isSystemTemplate={isSystemTemplates}
             />
           ))}
         </div>

@@ -1,20 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiX, FiFileText, FiAlignLeft } from 'react-icons/fi';
-import { createDiagram } from '../../services/diagramService';
+import { createDiagram, updateDiagram } from '../../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../../services/activityService';
 import { useToast } from '../../context/ToastContext';
 import './NewTemplateModal.css';
 
-function NewTemplateModal({ isOpen, onClose, onTemplateCreated }) {
+function NewTemplateModal({ 
+  isOpen, 
+  onClose, 
+  onTemplateCreated, 
+  initialTitle = '',
+  initialDescription = '',
+  initialNodes = [],
+  initialEdges = [],
+  editingTemplateId = null // Si existe, es edición; si es null, es creación
+}) {
   const navigate = useNavigate();
   const toast = useToast();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
+    title: initialTitle,
+    description: initialDescription,
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Actualizar formData cuando cambien los valores iniciales
+  useEffect(() => {
+    setFormData({
+      title: initialTitle,
+      description: initialDescription,
+    });
+  }, [initialTitle, initialDescription, isOpen]);
 
   // Manejar cambios en los inputs
   const handleChange = (e) => {
@@ -60,38 +77,71 @@ function NewTemplateModal({ isOpen, onClose, onTemplateCreated }) {
     try {
       setIsSubmitting(true);
 
-      // Crear plantilla en el backend (diagrama con isTemplate: true)
-      const response = await createDiagram({
-        title: formData.title.trim(),
-        description: formData.description.trim(),
-        nodes: [],
-        edges: [],
-        isTemplate: true
-      });
+      let response;
+      
+      if (editingTemplateId) {
+        // Actualizar plantilla existente
+        response = await updateDiagram(editingTemplateId, {
+          title: formData.title.trim(),
+          description: formData.description.trim(),
+        });
 
-      // Registrar actividad de creación
-      if (response.diagram) {
-        registerActivity(
-          ACTIVITY_TYPES.CREATE,
-          response.diagram.title,
-          response.diagram.id
-        );
-      }
+        // Registrar actividad de actualización
+        if (response.diagram) {
+          registerActivity(
+            ACTIVITY_TYPES.UPDATE,
+            response.diagram.title,
+            response.diagram.id
+          );
+        }
 
-      // Mostrar mensaje de éxito
-      toast.success('¡Plantilla creada exitosamente!');
+        toast.success('¡Plantilla actualizada exitosamente!');
+        
+        // Notificar al componente padre
+        if (onTemplateCreated) {
+          onTemplateCreated(response.diagram);
+        }
 
-      // Notificar al componente padre que se creó una plantilla
-      if (onTemplateCreated) {
-        onTemplateCreated(response.diagram);
-      }
+        // Cerrar modal
+        handleClose();
 
-      // Cerrar modal
-      handleClose();
+        // Redirigir al editor con la plantilla actualizada
+        if (response.diagram && response.diagram.id) {
+          navigate(`/editor/${response.diagram.id}`);
+        }
+      } else {
+        // Crear plantilla nueva en el backend (diagrama con isTemplate: true)
+        response = await createDiagram({
+          title: formData.title.trim(),
+          description: formData.description.trim(),
+          nodes: initialNodes,
+          edges: initialEdges,
+          isTemplate: true
+        });
 
-      // Redirigir al editor con la nueva plantilla
-      if (response.diagram && response.diagram.id) {
-        navigate(`/editor/${response.diagram.id}`);
+        // Registrar actividad de creación
+        if (response.diagram) {
+          registerActivity(
+            ACTIVITY_TYPES.CREATE,
+            response.diagram.title,
+            response.diagram.id
+          );
+        }
+
+        toast.success('¡Plantilla creada exitosamente!');
+
+        // Notificar al componente padre que se creó una plantilla
+        if (onTemplateCreated) {
+          onTemplateCreated(response.diagram);
+        }
+
+        // Cerrar modal
+        handleClose();
+
+        // Redirigir al editor con la nueva plantilla
+        if (response.diagram && response.diagram.id) {
+          navigate(`/editor/${response.diagram.id}`);
+        }
       }
     } catch (error) {
       console.error('Error al crear plantilla:', error);
@@ -156,7 +206,7 @@ function NewTemplateModal({ isOpen, onClose, onTemplateCreated }) {
         {/* Header del modal */}
         <div className="modal__header">
           <h2 id="modal-title" className="modal__title">
-            Crear nueva plantilla
+            {editingTemplateId ? 'Editar plantilla' : 'Crear nueva plantilla'}
           </h2>
           <button
             type="button"
@@ -236,7 +286,10 @@ function NewTemplateModal({ isOpen, onClose, onTemplateCreated }) {
               className="modal__button modal__button--primary"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Creando...' : 'Crear plantilla'}
+              {isSubmitting 
+                ? (editingTemplateId ? 'Guardando...' : 'Creando...') 
+                : (editingTemplateId ? 'Guardar y editar' : 'Crear plantilla')
+              }
             </button>
           </div>
         </form>
