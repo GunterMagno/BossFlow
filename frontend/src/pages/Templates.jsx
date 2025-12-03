@@ -6,7 +6,7 @@ import TemplateList from '../components/TemplateList/TemplateList';
 import NewDiagramModal from '../components/NewDiagramModal/NewDiagramModal';
 import NewTemplateModal from '../components/NewTemplateModal/NewTemplateModal';
 import ConfirmModal from '../components/ConfirmModal/ConfirmModal';
-import { SYSTEM_TEMPLATES } from '../data/systemTemplates';
+import { DEFAULT_TEMPLATES } from '../data/defaultTemplates';
 import { useToast } from '../context/ToastContext';
 import {
   FiHome,
@@ -128,7 +128,7 @@ function Templates() {
 
   // Obtener plantillas según la pestaña activa
   const displayedTemplates = activeTab === 'predeterminadas' 
-    ? SYSTEM_TEMPLATES
+    ? DEFAULT_TEMPLATES
     : templates;
 
   // Estados de carga según pestaña activa

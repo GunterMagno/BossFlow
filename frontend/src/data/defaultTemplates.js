@@ -7,7 +7,7 @@
  * Los id deben usar prefijo "system-" para evitar colisiones
  */
 
-export const SYSTEM_TEMPLATES = [
+export const DEFAULT_TEMPLATES = [
   {
     id: "system-estrategia-basica",
     title: "Estrategia básica",
