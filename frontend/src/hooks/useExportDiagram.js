@@ -135,6 +135,7 @@ export function useExportDiagram(diagramName = 'diagrama') {
   const exportToSVG = null; // Función desactivada temporalmente
 
   // Exporta a PDF (usando PNG como base)
+  /* Desactivado temporalmente
   const exportToPDF = async () => {
     try {
       const nodes = getNodes();
@@ -193,10 +194,28 @@ export function useExportDiagram(diagramName = 'diagrama') {
       throw error;
     }
   };
+  */
+  const exportToPDF = null; // Función desactivada temporalmente
+
+  // Exporta a JSON (estructura de datos del diagrama)
+  const exportToJSON = async () => {
+    try {
+      const nodes = getNodes();
+      if (nodes.length === 0) {
+        throw new Error('No hay nodos para exportar');
+      }
+
+      // Aquí se implementará la exportación JSON
+    } catch (error) {
+      console.error('Error al exportar JSON:', error);
+      throw error;
+    }
+  };
 
   return {
     exportToPNG,
-    exportToSVG, // null - temporalmente deshabilitada
-    exportToPDF
+    exportToSVG, // null - desactivada
+    exportToPDF, // null - desactivada
+    exportToJSON
   };
 }

@@ -109,8 +109,8 @@
 .template-list__create-button {
   margin-top: var(--espaciado-md);
   padding: var(--espaciado-md) var(--espaciado-xl);
-  background: transparent;
-  color: var(--secundario);
+  background: var(--secundario);
+  color: var(--primario);
   border: 2px solid var(--secundario);
   border-radius: var(--radio-md) 0 var(--radio-md) 0;
   font-size: 0.875rem;
@@ -120,9 +120,9 @@
 }
 
 .template-list__create-button:hover {
-  background: rgba(234, 179, 8, 0.1);
+  background: var(--secundario-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.2);
+  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.4);
 }
 
 /* Responsive */

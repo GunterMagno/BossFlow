@@ -1,7 +1,7 @@
 import { FiDownload, FiX, FiImage, FiFile } from 'react-icons/fi';
 import './ExportModal.css';
 
-function ExportModal({ isOpen, onClose, onExportPNG, onExportSVG, onExportPDF, isExporting }) {
+function ExportModal({ isOpen, onClose, onExportPNG, onExportJSON, isExporting }) {
   if (!isOpen) return null;
 
   return (
@@ -45,34 +45,18 @@ function ExportModal({ isOpen, onClose, onExportPNG, onExportSVG, onExportPDF, i
               </div>
             </button>
 
-            {/* Opción SVG */}
-            <button
-              className="export-modal__option export-modal__option--disabled"
-              onClick={onExportSVG}
-              disabled={true}
-              title="Funcionalidad temporalmente deshabilitada"
-            >
-              <div className="export-modal__option-icon">
-                <FiImage />
-              </div>
-              <div className="export-modal__option-info">
-                <h3>SVG <span style={{fontSize: '0.8em', opacity: 0.7}}>(No disponible)</span></h3>
-                <p>Gráfico vectorial escalable</p>
-              </div>
-            </button>
-
-            {/* Opción PDF */}
+            {/* Opción JSON */}
             <button
               className="export-modal__option"
-              onClick={onExportPDF}
+              onClick={onExportJSON}
               disabled={isExporting}
             >
               <div className="export-modal__option-icon">
                 <FiFile />
               </div>
               <div className="export-modal__option-info">
-                <h3>PDF</h3>
-                <p>Documento para impresión</p>
+                <h3>JSON</h3>
+                <p>Estructura de datos del diagrama</p>
               </div>
             </button>
           </div>

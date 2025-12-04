@@ -39,6 +39,7 @@ function Editor() {
   const [isNewDiagramModalOpen, setIsNewDiagramModalOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [recentNodes, setRecentNodes] = useState([]);
   const toast = useToast();
   const autoSaveTimeoutRef = useRef(null);
   const isInitialLoadRef = useRef(true);
@@ -432,6 +433,7 @@ function Editor() {
           onAddNode={handleAddNode}
           className={isSidebarOpen ? 'editor-sidebar--open' : ''}
           onCloseSidebar={() => setIsSidebarOpen(false)}
+          recentNodes={recentNodes}
         />
 
         <main className="editor__canvas">
@@ -449,6 +451,7 @@ function Editor() {
               onSetUpdateNodeFunction={handleSetUpdateNodeFunction}
               onSetDeleteNodesFunction={handleSetDeleteNodesFunction}
               onDeleteRequest={handleDeleteRequest}
+              onRecentNodesChange={setRecentNodes}
             />
           )}
 
@@ -567,27 +570,14 @@ function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExport
     }
   };
 
-  const handleExportSVG = async () => {
+  const handleExportJSON = async () => {
     setIsExporting(true);
     try {
-      await exportToSVG();
-      toast.success('Diagrama exportado como SVG');
+      await exportToJSON();
+      toast.success('Diagrama exportado como JSON');
       onClose();
     } catch (error) {
-      toast.error('Error al exportar SVG');
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  const handleExportPDF = async () => {
-    setIsExporting(true);
-    try {
-      await exportToPDF();
-      toast.success('Diagrama exportado como PDF');
-      onClose();
-    } catch (error) {
-      toast.error('Error al exportar PDF');
+      toast.error('Error al exportar JSON');
     } finally {
       setIsExporting(false);
     }
@@ -598,8 +588,7 @@ function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExport
       isOpen={isOpen}
       onClose={onClose}
       onExportPNG={handleExportPNG}
-      onExportSVG={handleExportSVG}
-      onExportPDF={handleExportPDF}
+      onExportJSON={handleExportJSON}
       isExporting={isExporting}
     />
   );
