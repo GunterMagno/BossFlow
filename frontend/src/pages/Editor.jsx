@@ -448,6 +448,8 @@ function Editor() {
         <NewDiagramModal
           isOpen={isNewDiagramModalOpen}
           onClose={handleCloseNewDiagramModal}
+        />
+
         {/* Modal de exportación */}
         <ExportHandler
           isOpen={isExportModalOpen}
