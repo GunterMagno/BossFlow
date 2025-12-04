@@ -1,9 +1,17 @@
-import { FiFileText, FiClock } from 'react-icons/fi';
+import { FiFileText, FiClock, FiEdit2, FiTrash2, FiCopy } from 'react-icons/fi';
 import './TemplateCard.css';
 
-function TemplateCard({ template, onUseTemplate }) {
+function TemplateCard({ 
+  template, 
+  onUseTemplate, 
+  onEditTemplate, 
+  onDeleteTemplate,
+  isSystemTemplate = false 
+}) {
   // Función para formatear fecha relativa
   const formatRelativeDate = (date) => {
+    if (!date) return 'Plantilla del sistema';
+    
     const now = new Date();
     const templateDate = new Date(date);
     const diffMs = now - templateDate;
@@ -34,9 +42,38 @@ function TemplateCard({ template, onUseTemplate }) {
     }
   };
 
+  const handleEdit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onEditTemplate) {
+      onEditTemplate(template);
+    }
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onDeleteTemplate) {
+      onDeleteTemplate(template);
+    }
+  };
+
   return (
     <div className="template-card-wrapper">
-      <div className="template-card" onClick={handleUseTemplate}>
+      <div className="template-card">
+        
+        {/* Botón de eliminar arriba a la derecha (solo para plantillas de usuario) */}
+        {!isSystemTemplate && (
+          <button
+            className="template-card__delete-button"
+            onClick={handleDelete}
+            aria-label="Eliminar plantilla"
+            title="Eliminar plantilla"
+          >
+            <FiTrash2 />
+          </button>
+        )}
+
         <div className="template-card__icon">
           <FiFileText />
         </div>
@@ -46,25 +83,37 @@ function TemplateCard({ template, onUseTemplate }) {
           {template.description && (
             <p className="template-card__description">{template.description}</p>
           )}
+        </div>
 
-          <div className="template-card__footer">
-            <div className="template-card__info">
-              <span className="template-card__date">
-                <FiClock className="template-card__date-icon" />
-                {formatRelativeDate(template.updatedAt)}
-              </span>
-
-              <div className="template-card__stats">
-                <span className="template-card__stat">
-                  {template.nodes?.length || 0} nodos
-                </span>
-                <span className="template-card__stat-separator">•</span>
-                <span className="template-card__stat">
-                  {template.edges?.length || 0} conexiones
-                </span>
-              </div>
-            </div>
-          </div>
+        <div className="template-card__actions">
+          <button
+            className="template-card__action-button template-card__action-button--use"
+            onClick={handleUseTemplate}
+            title="Crear diagrama desde plantilla"
+          >
+            <FiFileText />
+            <span>Usar</span>
+          </button>
+          
+          {isSystemTemplate ? (
+            <button
+              className="template-card__action-button template-card__action-button--copy"
+              onClick={handleEdit}
+              title="Crear plantilla basada en esta"
+            >
+              <FiCopy />
+              <span>Copiar</span>
+            </button>
+          ) : (
+            <button
+              className="template-card__action-button template-card__action-button--edit"
+              onClick={handleEdit}
+              title="Editar plantilla"
+            >
+              <FiEdit2 />
+              <span>Editar</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -9,11 +9,13 @@ import MobileNodePanel from "../components/MobileNodePanel/MobileNodePanel";
 import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
 import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
 import NewDiagramModal from "../components/NewDiagramModal/NewDiagramModal";
+import ExportModal from "../components/ExportModal/ExportModal";
+import { useExportDiagram } from "../hooks/useExportDiagram";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
 import { FaSave } from 'react-icons/fa';
-import { FiTrash2 } from 'react-icons/fi';
+import { FiTrash2, FiDownload } from 'react-icons/fi';
 
 function Editor() {
   const { diagramId } = useParams();
@@ -32,6 +34,8 @@ function Editor() {
   const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isNewDiagramModalOpen, setIsNewDiagramModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const toast = useToast();
   const autoSaveTimeoutRef = useRef(null);
   const isInitialLoadRef = useRef(true);
@@ -348,7 +352,9 @@ function Editor() {
   return (
     <ReactFlowProvider>
       <div className="editor__page">
-        <Toolbar onToggleSidebar={toggleSidebar} />
+        <Toolbar 
+          onToggleSidebar={toggleSidebar}
+        />
 
         <EditorSidebar
           onAddNode={handleAddNode}
@@ -383,6 +389,14 @@ function Editor() {
               title={saving ? 'Guardando...' : 'Guardar diagrama'}
             >
               <FaSave />
+            </button>
+            <button
+              className="editor__floating-button editor__floating-button--export"
+              onClick={() => setIsExportModalOpen(true)}
+              disabled={isExporting}
+              title="Exportar diagrama"
+            >
+              <FiDownload />
             </button>
             <button
               className="editor__floating-button editor__floating-button--clear"
@@ -434,9 +448,72 @@ function Editor() {
         <NewDiagramModal
           isOpen={isNewDiagramModalOpen}
           onClose={handleCloseNewDiagramModal}
+        {/* Modal de exportación */}
+        <ExportHandler
+          isOpen={isExportModalOpen}
+          onClose={() => setIsExportModalOpen(false)}
+          diagramTitle={diagramTitle}
+          isExporting={isExporting}
+          setIsExporting={setIsExporting}
+          toast={toast}
         />
       </div>
     </ReactFlowProvider>
+  );
+}
+
+// Componente interno que usa el hook de ReactFlow
+function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExporting, toast }) {
+  const { exportToPNG, exportToSVG, exportToPDF } = useExportDiagram(diagramTitle || 'diagram');
+
+  const handleExportPNG = async () => {
+    setIsExporting(true);
+    try {
+      await exportToPNG();
+      toast.success('Diagrama exportado como PNG');
+      onClose();
+    } catch (error) {
+      toast.error('Error al exportar PNG');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportSVG = async () => {
+    setIsExporting(true);
+    try {
+      await exportToSVG();
+      toast.success('Diagrama exportado como SVG');
+      onClose();
+    } catch (error) {
+      toast.error('Error al exportar SVG');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      await exportToPDF();
+      toast.success('Diagrama exportado como PDF');
+      onClose();
+    } catch (error) {
+      toast.error('Error al exportar PDF');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  return (
+    <ExportModal
+      isOpen={isOpen}
+      onClose={onClose}
+      onExportPNG={handleExportPNG}
+      onExportSVG={handleExportSVG}
+      onExportPDF={handleExportPDF}
+      isExporting={isExporting}
+    />
   );
 }
 
