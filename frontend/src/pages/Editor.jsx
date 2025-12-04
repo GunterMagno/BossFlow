@@ -39,6 +39,7 @@ function Editor() {
   const [isNewDiagramModalOpen, setIsNewDiagramModalOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [recentNodes, setRecentNodes] = useState([]);
   const toast = useToast();
   const autoSaveTimeoutRef = useRef(null);
   const isInitialLoadRef = useRef(true);
@@ -432,6 +433,7 @@ function Editor() {
           onAddNode={handleAddNode}
           className={isSidebarOpen ? 'editor-sidebar--open' : ''}
           onCloseSidebar={() => setIsSidebarOpen(false)}
+          recentNodes={recentNodes}
         />
 
         <main className="editor__canvas">
@@ -449,6 +451,7 @@ function Editor() {
               onSetUpdateNodeFunction={handleSetUpdateNodeFunction}
               onSetDeleteNodesFunction={handleSetDeleteNodesFunction}
               onDeleteRequest={handleDeleteRequest}
+              onRecentNodesChange={setRecentNodes}
             />
           )}
 

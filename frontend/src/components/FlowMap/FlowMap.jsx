@@ -16,6 +16,7 @@ import "./FlowMap.css";
 import CustomEdge from '../customEdge/CustomEdge';
 import NodeDescriptionPopup from '../NodeDescriptionPopup/NodeDescriptionPopup';
 import { useToast } from '../../context/ToastContext';
+import useRecentNodes from '../../hooks/useRecentNodes';
 
 const tiposNodos = {
   decision: DecisionNode,
@@ -37,13 +38,21 @@ const tiposEdges = { default: CustomEdge };
 
 // FlowMap acepta propiedades `initialNodes` e `initialEdges` para iniciar estado vacío o con diagrama cargado. Las propiedades onNodesChange y onEdgesChange son para indicar si cambian
 
-function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onSetUpdateNodeFunction, onSetDeleteNodesFunction, onDeleteRequest }) {
+function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onEdgeDoubleClick, onSetUpdateNodeFunction, onSetDeleteNodesFunction, onDeleteRequest, onRecentNodesChange }) {
   const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
   const [selectedNodeForDescription, setSelectedNodeForDescription] = useState(null);
   const toast = useToast();
   const reactFlowWrapper = useRef(null);
   const { screenToFlowPosition } = useReactFlow();
+  const { nodosRecientes, agregarNodoReciente } = useRecentNodes();
+
+  // Notifica al padre cuando cambien los nodos recientes
+  useEffect(() => {
+    if (onRecentNodesChange) {
+      onRecentNodesChange(nodosRecientes);
+    }
+  }, [nodosRecientes, onRecentNodesChange]);
 
   // Función para actualizar un nodo específico
   const updateNode = useCallback((updatedNode) => {
@@ -257,13 +266,16 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           return updated;
         });
 
+        // Registra el nodo en la lista de recientes
+        agregarNodoReciente(nodeData);
+
         toast.success(`Nodo "${nodeData.label}" agregado al canvas`);
       } catch (error) {
         console.error('Error al procesar el drop:', error);
         toast.error('Error al agregar el nodo');
       }
     },
-    [screenToFlowPosition, setNodos, toast]
+    [screenToFlowPosition, setNodos, toast, agregarNodoReciente]
   );
 
   // Listener para detectar la tecla Suprimir/Delete
@@ -326,6 +338,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           onDragOver={onDragOver}
           onDrop={onDrop}
           onNodeDoubleClick={onNodeDoubleClick}
+          onEdgeDoubleClick={onEdgeDoubleClick}
           onNodeClick={handleNodeClick}
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
