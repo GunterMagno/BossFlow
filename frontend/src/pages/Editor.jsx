@@ -55,6 +55,8 @@ function Editor() {
     }
   }, [diagramId]);
 
+
+
   // Función para cerrar el modal y volver al dashboard
   const handleCloseNewDiagramModal = () => {
     setIsNewDiagramModalOpen(false);
@@ -555,7 +557,7 @@ function Editor() {
 
 // Componente interno que usa el hook de ReactFlow
 function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExporting, toast }) {
-  const { exportToPNG, exportToSVG, exportToPDF } = useExportDiagram(diagramTitle || 'diagram');
+  const { exportToPNG, exportToJSON } = useExportDiagram(diagramTitle || 'diagram');
 
   const handleExportPNG = async () => {
     setIsExporting(true);
@@ -577,7 +579,7 @@ function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExport
       toast.success('Diagrama exportado como JSON');
       onClose();
     } catch (error) {
-      toast.error('Error al exportar JSON');
+      toast.error('Error al exportar JSON: ' + error.message);
     } finally {
       setIsExporting(false);
     }

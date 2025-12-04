@@ -45,7 +45,7 @@ function ExportModal({ isOpen, onClose, onExportPNG, onExportJSON, isExporting }
               </div>
             </button>
 
-            {/* Opción JSON */}
+            {/* Opción JSON - Abre modal de importación/exportación */}
             <button
               className="export-modal__option"
               onClick={onExportJSON}
@@ -56,7 +56,7 @@ function ExportModal({ isOpen, onClose, onExportPNG, onExportJSON, isExporting }
               </div>
               <div className="export-modal__option-info">
                 <h3>JSON</h3>
-                <p>Estructura de datos del diagrama</p>
+                <p>Exportar estructura del diagrama</p>
               </div>
             </button>
           </div>
