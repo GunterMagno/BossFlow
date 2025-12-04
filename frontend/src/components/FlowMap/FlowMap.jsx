@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { DecisionNode, ActionNode, PhaseNode, EffectNode, StartNode, EndNode, PositionNode, TimerNode, AbilityNode } from "../nodes/Nodes";
+import ImageNode from "../nodes/ImageNode/ImageNode";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -27,7 +28,8 @@ const tiposNodos = {
   position: PositionNode,
   timer: TimerNode,
   mechanic: EffectNode,
-  ability: AbilityNode
+  ability: AbilityNode,
+  imageNode: ImageNode
 };
 // Definir edge types fuera del componente para evitar recrear el objeto en cada render
 const tiposEdges = { default: CustomEdge };
@@ -90,11 +92,20 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   useEffect(() => {
     if (Array.isArray(initialNodes)) {
       if (isInitialLoadRef.current && initialNodes.length > 0) {
-        setNodos(initialNodes);
+        // Preservar el estilo (width, height) de los nodos al cargar
+        const nodesWithStyle = initialNodes.map(node => ({
+          ...node,
+          style: node.style || {}
+        }));
+        setNodos(nodesWithStyle);
         isInitialLoadRef.current = false;
       } else if (!isInitialLoadRef.current && initialNodes.length !== nodos.length) {
         // Solo actualizar si la longitud cambió (nuevo nodo añadido o eliminado)
-        setNodos(initialNodes);
+        const nodesWithStyle = initialNodes.map(node => ({
+          ...node,
+          style: node.style || {}
+        }));
+        setNodos(nodesWithStyle);
       }
     }
   }, [initialNodes, nodos.length, setNodos]);
@@ -264,6 +275,9 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
           connectionRadius={30}
+          nodesDraggable={true}
+          nodesConnectable={true}
+          elementsSelectable={true}
           fitView
           attributionPosition="bottom-left"
         >

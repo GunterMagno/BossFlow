@@ -72,7 +72,11 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Aumentar límite para imágenes base64
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
+// Servir archivos estáticos desde el directorio uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const routes = require("./routes/index");
 app.use("/api", routes);

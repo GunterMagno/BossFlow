@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const authController = require("../controllers/authController");
 const diagramController = require("../controllers/diagramController");
 const profileController = require("../controllers/profileController");
+const imageController = require("../controllers/imageController");
 
 // Peticiones GET
 router.get("/", (req, res) => {
@@ -76,10 +77,22 @@ router.post("/diagrams", auth, (req, res, next) => {
   diagramController.createDiagram(req, res, next);
 });
 
+router.post("/images/upload", auth, (req, res, next) => {
+  imageController.uploadImage(req, res, next);
+});
+
+router.post("/images/validate-url", auth, (req, res, next) => {
+  imageController.validateImageUrl(req, res, next);
+});
+
 // Peticiones DELETE
 
 router.delete("/diagrams/:id", auth, (req, res, next) => {
   diagramController.deleteDiagram(req, res, next);
+});
+
+router.delete("/images", auth, (req, res, next) => {
+  imageController.deleteImage(req, res, next);
 });
 
 module.exports = router;

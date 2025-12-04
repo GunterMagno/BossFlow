@@ -1,0 +1,80 @@
+.image-node {
+  background: transparent;
+  border: 2px solid transparent;
+  padding: 0;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.image-node:hover {
+  border-color: #4a90e2;
+}
+
+.image-node-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.image-node-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  image-rendering: auto;
+  -webkit-user-drag: none;
+}
+
+.image-node.selected .image-node-img {
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.image-node-delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: rgba(231, 76, 60, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  opacity: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.image-node:hover .image-node-delete {
+  opacity: 1;
+}
+
+.image-node-delete:hover {
+  background-color: #c0392b;
+  transform: scale(1.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.image-node-delete:active {
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .image-node-img {
+    max-width: 250px;
+  }
+
+  .image-node-delete {
+    opacity: 1; /* Siempre visible en móvil */
+  }
+}
