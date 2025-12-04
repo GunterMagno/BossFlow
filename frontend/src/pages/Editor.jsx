@@ -1,13 +1,14 @@
 import "./Editor.css";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { ReactFlowProvider } from 'reactflow'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
 import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
 import MobileNodePanel from "../components/MobileNodePanel/MobileNodePanel";
 import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
 import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
+import NewDiagramModal from "../components/NewDiagramModal/NewDiagramModal";
 import ExportModal from "../components/ExportModal/ExportModal";
 import { useExportDiagram } from "../hooks/useExportDiagram";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
@@ -18,13 +19,13 @@ import { FiTrash2, FiDownload } from 'react-icons/fi';
 
 function Editor() {
   const { diagramId } = useParams();
+  const navigate = useNavigate();
 
   /* Se usa el diagramId para cargar el diagrama desde la base de datos. Se gestiona el estado de carga (loading), el estado de guardado (saving) y errores al obtener el diagrama. Se envían los nodos y conexiones cargados al componente FlowMap. Se muestra feedback al usuario mediante toast. */
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [diagramTitle, setDiagramTitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -32,6 +33,7 @@ function Editor() {
   const [nodesToDelete, setNodesToDelete] = useState([]);
   const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isNewDiagramModalOpen, setIsNewDiagramModalOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const toast = useToast();
@@ -42,14 +44,26 @@ function Editor() {
     setIsSidebarOpen((v) => !v);
   };
 
+  // Efecto para mostrar el modal cuando diagramId === 'new'
   useEffect(() => {
-    if (!diagramId) return; // Nuevo diagrama: estado inicial vacío
+    if (diagramId === 'new') {
+      setIsNewDiagramModalOpen(true);
+    }
+  }, [diagramId]);
 
-    // Indica si el componente sigue activo para evitar actualizar estado 
+  // Función para cerrar el modal y volver al dashboard
+  const handleCloseNewDiagramModal = () => {
+    setIsNewDiagramModalOpen(false);
+    navigate('/dashboard', { replace: true });
+  };
+
+  useEffect(() => {
+    if (!diagramId || diagramId === 'new') return; // Nuevo diagrama: estado inicial vacío
+
+    // Indica si el componente sigue activo para evitar actualizar estado
     let activo = true;
     const cargarDiagrama = async () => {
       setLoading(true);
-      setError(null);
       try {
         const response = await getDiagramById(diagramId);
         if (!activo) return;
@@ -72,7 +86,7 @@ function Editor() {
       } catch (error) {
         if (!activo) return;
         console.error('Error obteniendo el diagrama:', error);
-        setError(error);
+        toast.error('Error al cargar el diagrama');
         // En caso de error se dejan nodes/edges vacíos
         setNodes([]);
         setEdges([]);
@@ -431,6 +445,9 @@ function Editor() {
           type="danger"
         />
 
+        <NewDiagramModal
+          isOpen={isNewDiagramModalOpen}
+          onClose={handleCloseNewDiagramModal}
         {/* Modal de exportación */}
         <ExportHandler
           isOpen={isExportModalOpen}
