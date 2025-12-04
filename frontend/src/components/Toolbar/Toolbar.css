@@ -36,10 +36,6 @@
     border-color: var(--secundario-hover);
 }
 
-.toolbar__button:active:not(:disabled) {
-    /* no translate or extra shadow */
-}
-
 .toolbar__button:disabled {
     opacity: 0.5;
     cursor: not-allowed;

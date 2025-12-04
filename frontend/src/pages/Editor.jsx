@@ -567,27 +567,14 @@ function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExport
     }
   };
 
-  const handleExportSVG = async () => {
+  const handleExportJSON = async () => {
     setIsExporting(true);
     try {
-      await exportToSVG();
-      toast.success('Diagrama exportado como SVG');
+      await exportToJSON();
+      toast.success('Diagrama exportado como JSON');
       onClose();
     } catch (error) {
-      toast.error('Error al exportar SVG');
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  const handleExportPDF = async () => {
-    setIsExporting(true);
-    try {
-      await exportToPDF();
-      toast.success('Diagrama exportado como PDF');
-      onClose();
-    } catch (error) {
-      toast.error('Error al exportar PDF');
+      toast.error('Error al exportar JSON');
     } finally {
       setIsExporting(false);
     }
@@ -598,8 +585,7 @@ function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExport
       isOpen={isOpen}
       onClose={onClose}
       onExportPNG={handleExportPNG}
-      onExportSVG={handleExportSVG}
-      onExportPDF={handleExportPDF}
+      onExportJSON={handleExportJSON}
       isExporting={isExporting}
     />
   );
