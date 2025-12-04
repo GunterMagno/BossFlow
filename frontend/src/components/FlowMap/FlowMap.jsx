@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DecisionNode, ActionNode, PhaseNode, EffectNode, StartNode, EndNode, PositionNode, TimerNode, AbilityNode } from "../nodes/Nodes";
 import ImageNode from "../nodes/ImageNode/ImageNode";
 import ReactFlow, {
@@ -14,6 +14,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import "./FlowMap.css";
 import CustomEdge from '../customEdge/CustomEdge';
+import NodeDescriptionPopup from '../NodeDescriptionPopup/NodeDescriptionPopup';
 import { useToast } from '../../context/ToastContext';
 
 const tiposNodos = {
@@ -39,6 +40,7 @@ const tiposEdges = { default: CustomEdge };
 function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onSetUpdateNodeFunction, onSetDeleteNodesFunction, onDeleteRequest }) {
   const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
+  const [selectedNodeForDescription, setSelectedNodeForDescription] = useState(null);
   const toast = useToast();
   const reactFlowWrapper = useRef(null);
   const { screenToFlowPosition } = useReactFlow();
@@ -287,6 +289,31 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     };
   }, [nodos, onDeleteRequest]);
 
+  // Manejador de clic en nodo para mostrar descripción
+  const handleNodeClick = useCallback((_event, node) => {
+    // Solo mostrar popup si existe descripción no vacía
+    if (node.data?.description && node.data.description.trim() !== '') {
+      // Calcular posición del nodo en la pantalla
+      const nodeElement = document.querySelector(`[data-id="${node.id}"]`);
+      if (nodeElement) {
+        const rect = nodeElement.getBoundingClientRect();
+        setSelectedNodeForDescription({
+          node,
+          nodePosition: rect,
+        });
+      } else {
+        // Fallback si no se encuentra el elemento
+        setSelectedNodeForDescription({
+          node,
+          nodePosition: null,
+        });
+      }
+    } else {
+      // Cerrar tooltip si hacemos clic en un nodo sin descripción
+      setSelectedNodeForDescription(null);
+    }
+  }, []);
+
   return (
     <section className="flowmap">
       <div className="flowmap__wrap" ref={reactFlowWrapper}>
@@ -299,6 +326,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           onDragOver={onDragOver}
           onDrop={onDrop}
           onNodeDoubleClick={onNodeDoubleClick}
+          onNodeClick={handleNodeClick}
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
           connectionRadius={30}
@@ -325,8 +353,17 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           <Background />
         </ReactFlow>
       </div>
+
+      {/* Popup de descripción del nodo */}
+      <NodeDescriptionPopup
+        isOpen={!!selectedNodeForDescription}
+        onClose={() => setSelectedNodeForDescription(null)}
+        node={selectedNodeForDescription?.node}
+        nodePosition={selectedNodeForDescription?.nodePosition}
+      />
     </section>
   );
+
 }
 
 
