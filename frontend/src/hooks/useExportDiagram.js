@@ -1,11 +1,12 @@
 import { useReactFlow, getNodesBounds, getViewportForBounds, getRectOfNodes } from 'reactflow';
 import { toPng, toSvg } from 'html-to-image';
+import { CURRENT_VERSION } from '../utils/jsonValidator';
 
-// Hook personalizado que maneja la exportación de diagramas
+// Hook personalizado que se usa para manejar la exportación de diagramas
 export function useExportDiagram(diagramName = 'diagrama') {
-  const { getNodes } = useReactFlow();
+  const { getNodes, getEdges } = useReactFlow();
 
-  // Genera nombre de archivo con fecha/hora
+  // Se genera el nombre de archivo con fecha/hora
   const generateFileName = (extension) => {
     const now = new Date();
     const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
@@ -13,7 +14,7 @@ export function useExportDiagram(diagramName = 'diagrama') {
     return `${diagramName}_${dateStr}_${timeStr}.${extension}`;
   };
 
-  // Descarga el archivo
+  // Se descarga el archivo
   const downloadFile = (dataUrl, fileName) => {
     const a = document.createElement('a');
     a.setAttribute('download', fileName);
@@ -21,7 +22,7 @@ export function useExportDiagram(diagramName = 'diagrama') {
     a.click();
   };
 
-  // Calcula dimensiones y viewport para la exportación
+  // Se calculan las dimensiones y viewport para la exportación
   const getExportConfig = () => {
     const nodes = getNodes();
     if (nodes.length === 0) {
@@ -55,7 +56,7 @@ export function useExportDiagram(diagramName = 'diagrama') {
     };
   };
 
-  // Obtiene el elemento viewport de ReactFlow
+  // Se obtiene el elemento viewport de ReactFlow
   const getViewportElement = () => {
     const viewport = document.querySelector('.react-flow__viewport');
     if (!viewport) {
@@ -64,7 +65,7 @@ export function useExportDiagram(diagramName = 'diagrama') {
     return viewport;
   };
 
-  // Exporta a PNG
+  // Se exporta el diagrama a PNG
   const exportToPNG = async () => {
     try {
       const nodes = getNodes();
@@ -97,7 +98,7 @@ export function useExportDiagram(diagramName = 'diagrama') {
     }
   };
 
-  // Exporta a SVG
+  // Se exporta el diagrama a SVG
   /* Desactivado por ahora (No se muestra el fondo correctamente)
   const exportToSVG = async () => {
     try {
@@ -134,7 +135,7 @@ export function useExportDiagram(diagramName = 'diagrama') {
   */
   const exportToSVG = null; // Función desactivada temporalmente
 
-  // Exporta a PDF (usando PNG como base)
+  // Se exporta el diagrama a PDF (usando PNG como base)
   /* Desactivado temporalmente
   const exportToPDF = async () => {
     try {
@@ -197,15 +198,71 @@ export function useExportDiagram(diagramName = 'diagrama') {
   */
   const exportToPDF = null; // Función desactivada temporalmente
 
-  // Exporta a JSON (estructura de datos del diagrama)
+  // Se exporta el diagrama a JSON (estructura de datos del diagrama)
   const exportToJSON = async () => {
     try {
       const nodes = getNodes();
+      const edges = getEdges();
+
       if (nodes.length === 0) {
         throw new Error('No hay nodos para exportar');
       }
 
-      // Aquí se implementará la exportación JSON
+      // Se crea la estructura JSON con metadata
+      const exportData = {
+        version: CURRENT_VERSION,
+        metadata: {
+          title: diagramName || 'Diagrama sin título',
+          exportedAt: new Date().toISOString(),
+          exportedBy: 'BossFlow',
+          nodeCount: nodes.length,
+          edgeCount: edges.length
+        },
+        diagram: {
+          nodes: nodes.map(node => ({
+            id: node.id,
+            type: node.type,
+            position: {
+              x: node.position.x,
+              y: node.position.y
+            },
+            data: node.data || {},
+            style: node.style || {},
+            // Incluir campos opcionales si existen
+            ...(node.width && { width: node.width }),
+            ...(node.height && { height: node.height })
+          })),
+          edges: edges.map(edge => ({
+            id: edge.id,
+            source: edge.source,
+            target: edge.target,
+            sourceHandle: edge.sourceHandle || null,
+            targetHandle: edge.targetHandle || null,
+            type: edge.type || 'default',
+            data: edge.data || {},
+            style: edge.style || {},
+            animated: edge.animated || false,
+            label: edge.label || ''
+          }))
+        }
+      };
+
+      // Convertir a JSON con formato legible
+      const jsonString = JSON.stringify(exportData, null, 2);
+      
+      // Crear blob y descargar
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      
+      // Generar nombre de archivo
+      a.download = generateFileName('json');
+      
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error al exportar JSON:', error);
       throw error;
