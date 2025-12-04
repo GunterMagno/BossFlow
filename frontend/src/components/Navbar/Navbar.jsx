@@ -8,7 +8,6 @@ import {
   FiChevronDown,
   FiMenu,
   FiX,
-  FiGrid,
 } from 'react-icons/fi';
 import './Navbar.css';
 
@@ -187,14 +186,6 @@ function Navbar() {
                         <FiUser />
                       </span>
                       <span>Perfil</span>
-                    </Link>
-                  </li>
-                  <li className="menu-desplegable__elemento">
-                    <Link to="/dashboard" className="menu-desplegable__enlace">
-                      <span className="menu-desplegable__icono">
-                        <FiGrid />
-                      </span>
-                      <span>Dashboard</span>
                     </Link>
                   </li>
                   <li className="menu-desplegable__elemento">

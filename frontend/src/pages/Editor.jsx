@@ -17,8 +17,7 @@ import { deleteImage } from '../services/imageService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
 import { FaSave } from 'react-icons/fa';
-import { FiTrash2, FiImage } from 'react-icons/fi';
-import { FiTrash2, FiDownload } from 'react-icons/fi';
+import { FiTrash2, FiImage, FiDownload } from 'react-icons/fi';
 
 function Editor() {
   const { diagramId } = useParams();
@@ -596,7 +595,7 @@ function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExport
 
   return (
     <ExportModal
-      isOpen={isOpen}3
+      isOpen={isOpen}
       onClose={onClose}
       onExportPNG={handleExportPNG}
       onExportSVG={handleExportSVG}
