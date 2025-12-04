@@ -56,6 +56,18 @@ const UserSchema = new mongoose.Schema({
         nodesCreated: { type: Number, default: 0 },
         collaborations: { type: Number, default: 0 },
     },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationToken: {
+        type: String,
+        default: null,
+    },
+    verificationTokenExpires: {
+        type: Date,
+        default: null,
+    },
 }, { timestamps: true });
 
 

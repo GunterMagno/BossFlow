@@ -61,6 +61,7 @@
   flex: 1;
   overflow-y: auto;
   padding: var(--espaciado-sm) 0;
+  margin-bottom: var(--espaciado-md);
 }
 
 /* Custom scrollbar */
@@ -151,10 +152,6 @@
   border-color: var(--node-color, var(--primario));
 }
 
-.editor-sidebar__node-button:active {
-  /* no translation on active */
-}
-
 .editor-sidebar__node-icon {
   display: flex;
   align-items: center;
@@ -208,6 +205,15 @@
   opacity: 0.7;
 }
 
+.editor-sidebar__empty-message {
+  padding: var(--espaciado-md);
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--gris3);
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
@@ -246,6 +252,39 @@
     transform: translateX(0);
     box-shadow: var(--sombra-lg);
   }
+}
+
+/* ============================================
+   Botón para salir
+   ============================================ */
+.editor-sidebar__exit-button {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-md);
+  padding: var(--espaciado-md);
+  margin: var(--espaciado-lg);
+  margin-top: auto;
+  color: var(--blanco);
+  opacity: 0.7;
+  background: transparent;
+  border: none;
+  border-radius: var(--radio-sm) 0 var(--radio-sm) 0;
+  cursor: pointer;
+  transition: all var(--transicion-normal);
+  font-size: 0.95rem;
+  width: calc(100% - var(--espaciado-lg) * 2);
+  text-align: left;
+}
+
+.editor-sidebar__exit-button:hover {
+  background: var(--error);
+  opacity: 1;
+  color: var(--blanco);
+}
+
+.editor-sidebar__nav-icono {
+  font-size: 1.25rem;
+  flex-shrink: 0;
 }
 
 /* ============================================

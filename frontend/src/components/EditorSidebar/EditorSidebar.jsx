@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   FiZap,
   FiGitBranch,
@@ -10,12 +11,25 @@ import {
   FiWatch,
   FiTool,
   FiStar,
+  FiX,
+  FiLogOut,
 } from 'react-icons/fi';
 import './EditorSidebar.css';
 
-import { FiX } from 'react-icons/fi';
+// Mapeo de tipos de nodos a iconos
+const nodeIconMap = {
+  action: <FiZap />,
+  decision: <FiGitBranch />,
+  startEnd: <FiCircle />,
+  phase: <FiWatch />,
+  position: <FiMapPin />,
+  timer: <FiClock />,
+  mechanic: <FiTool />,
+  ability: <FiStar />,
+};
 
-function EditorSidebar({ onAddNode, className = '', onCloseSidebar }) {
+function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes = [] }) {
+  const navigate = useNavigate();
   const [expandedSections, setExpandedSections] = useState({
     basic: false,
     game: false,
@@ -95,17 +109,14 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar }) {
     },
   ];
 
-  // Nodos recientes (mock - en producción vendría del estado global o localStorage)
-  const recentNodes = [
-    { type: 'action', label: 'Nodo nombre', icon: <FiZap /> },
-    { type: 'decision', label: 'Nodo nombre', icon: <FiGitBranch /> },
-    { type: 'phase', label: 'Nodo nombre', icon: <FiWatch /> },
-  ];
-
   const handleNodeClick = (nodeType) => {
     if (onAddNode) {
       onAddNode(nodeType);
     }
+  };
+
+  const handleExit = () => {
+    navigate(-1); // Vuelve a la última página visitada
   };
 
   const onDragStart = (event, nodeData) => {
@@ -214,22 +225,30 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar }) {
 
           {expandedSections.recent && (
             <div className="editor-sidebar__section-content">
-              {recentNodes.map((node, index) => (
-                <div
-                  key={`recent-${index}`}
-                  className="editor-sidebar__recent-item"
-                  draggable
-                  onDragStart={(event) => onDragStart(event, node)}
-                  onClick={() => handleNodeClick(node)}
-                >
-                  <span className="editor-sidebar__recent-icon">{node.icon}</span>
-                  <span className="editor-sidebar__recent-label">{node.label}</span>
-                </div>
-              ))}
+              {recentNodes.length === 0 ? (
+                <p className="editor-sidebar__empty-message">
+                  No hay nodos recientes. Arrastra un nodo al canvas para comenzar.
+                </p>
+              ) : (
+                recentNodes.map((node, index) => {
+                  // Añadir el nodo con su icono
+                  const nodeWithIcon = {
+                    ...node,
+                    icon: nodeIconMap[node.type] || <FiCircle />
+                  };
+                  return renderNodeButton(nodeWithIcon, index);
+                })
+              )}
             </div>
           )}
         </section>
       </div>
+
+      {/* Botón Salir */}
+      <button className="editor-sidebar__exit-button" onClick={handleExit}>
+        <FiLogOut className="editor-sidebar__nav-icono" />
+        <span>Salir</span>
+      </button>
     </aside>
   );
 }

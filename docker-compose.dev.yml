@@ -23,6 +23,7 @@ services:
     volumes:
       - ./backend:/app:delegated
       - /app/node_modules
+      - uploads-data:/app/uploads
     ports:
       - "5000:5000"
     depends_on:
@@ -54,6 +55,7 @@ services:
 
 volumes:
   mongo-data:
+  uploads-data:
 
 networks:
   app-network:

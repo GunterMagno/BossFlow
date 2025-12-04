@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiX, FiFileText, FiAlignLeft } from 'react-icons/fi';
+import { FiX, FiFileText, FiAlignLeft, FiUpload } from 'react-icons/fi';
 import { createDiagram } from '../../services/diagramService';
 import { registerActivity, ACTIVITY_TYPES } from '../../services/activityService';
 import { useToast } from '../../context/ToastContext';
+import ImportJSON from '../ImportJSON/ImportJSON';
 import './NewDiagramModal.css';
 
-function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
+function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = null, initialEdges = null }) {
   const navigate = useNavigate();
   const toast = useToast();
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [importedData, setImportedData] = useState(null);
 
   // Manejar cambios en los inputs
   const handleChange = (e) => {
@@ -48,6 +51,22 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Manejar importación de JSON
+  const handleImport = (data) => {
+    setImportedData(data);
+    setIsImportModalOpen(false);
+    
+    // Pre-llenar el título si está vacío
+    if (!formData.title && data.metadata?.title) {
+      setFormData(prev => ({
+        ...prev,
+        title: data.metadata.title
+      }));
+    }
+    
+    toast.success('Datos importados. Completa el formulario para crear el diagrama.');
+  };
+
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,12 +79,16 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
     try {
       setIsSubmitting(true);
 
+      // Usar nodos/edges importados si existen, si no, usar los iniciales
+      const nodesToUse = importedData?.nodes || initialNodes || [];
+      const edgesToUse = importedData?.edges || initialEdges || [];
+
       // Crear diagrama en el backend
       const response = await createDiagram({
         title: formData.title.trim(),
         description: formData.description.trim(),
-        nodes: [],
-        edges: [],
+        nodes: nodesToUse,
+        edges: edgesToUse,
       });
 
       // Registrar actividad de creación
@@ -126,6 +149,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
       description: '',
     });
     setErrors({});
+    setImportedData(null);
     onClose();
   };
 
@@ -155,7 +179,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
         {/* Header del modal */}
         <div className="modal__header">
           <h2 id="modal-title" className="modal__title">
-            Crear nuevo diagrama
+            {initialNodes ? 'Crear diagrama desde plantilla' : 'Crear nuevo diagrama'}
           </h2>
           <button
             type="button"
@@ -166,6 +190,16 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
             <FiX />
           </button>
         </div>
+
+        {/* Indicador de datos importados */}
+        {importedData && (
+          <div className="modal__imported-badge">
+            <FiUpload />
+            <span>
+              Datos importados: {importedData.nodes?.length || 0} nodos y {importedData.edges?.length || 0} conexiones
+            </span>
+          </div>
+        )}
 
         {/* Formulario */}
         <form onSubmit={handleSubmit} className="modal__form">
@@ -220,6 +254,23 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
             </span>
           </div>
 
+          {/* Opción de importar desde JSON */}
+          {!initialNodes && !importedData && (
+            <div className="modal__import-option">
+              <p className="modal__label">
+                ¿Quieres importar un diagrama mediante un JSON?
+              </p>
+              <button
+                type="button"
+                className="modal__import-button"
+                onClick={() => setIsImportModalOpen(true)}
+              >
+                <FiUpload />
+                Importar desde JSON
+              </button>
+            </div>
+          )}
+
           {/* Botones */}
           <div className="modal__actions">
             <button
@@ -240,6 +291,14 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated }) {
           </div>
         </form>
       </div>
+
+      {/* Modal de importación */}
+      <ImportJSON
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onImport={handleImport}
+        toast={toast}
+      />
     </div>
   );
 }

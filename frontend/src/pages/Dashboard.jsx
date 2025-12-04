@@ -290,6 +290,7 @@ function Dashboard() {
                     Tus diagramas más recientes
                   </p>
                 </div>
+              <div>
                 <button
                   onClick={() => setIsModalOpen(true)}
                   className="dashboard__boton-nuevo"
@@ -297,6 +298,7 @@ function Dashboard() {
                   <FiPlus className="dashboard__boton-icono" />
                   Nuevo diagrama
                 </button>
+              </div>
               </div>
 
               {loading ? (
@@ -426,6 +428,65 @@ function Dashboard() {
         onClose={() => setIsModalOpen(false)}
         onDiagramCreated={handleDiagramCreated}
       />
+
+      {/* Navegación móvil inferior */}
+      <nav className="dashboard__mobile-nav">
+        <button
+          className={`dashboard__mobile-nav-item ${activeMenu === 'inicio' ? 'dashboard__mobile-nav-item--activo' : ''}`}
+          onClick={() => setActiveMenu('inicio')}
+          aria-label="Inicio"
+        >
+          <FiHome />
+          <span>Inicio</span>
+        </button>
+        <button
+          className={`dashboard__mobile-nav-item ${activeMenu === 'mis-diagramas' ? 'dashboard__mobile-nav-item--activo' : ''}`}
+          onClick={() => setActiveMenu('mis-diagramas')}
+          aria-label="Mis diagramas"
+        >
+          <FiFileText />
+          <span>Diagramas</span>
+        </button>
+        <button
+          className={`dashboard__mobile-nav-item ${activeMenu === 'plantillas' ? 'dashboard__mobile-nav-item--activo' : ''}`}
+          onClick={() => setActiveMenu('plantillas')}
+          aria-label="Plantillas"
+        >
+          <FiLayers />
+          <span>Plantillas</span>
+        </button>
+        <button
+          className="dashboard__mobile-nav-item dashboard__mobile-nav-item--new"
+          onClick={() => setIsModalOpen(true)}
+          aria-label="Nuevo diagrama"
+        >
+          <FiPlus />
+        </button>
+        <button
+          className={`dashboard__mobile-nav-item ${activeMenu === 'comentarios' ? 'dashboard__mobile-nav-item--activo' : ''}`}
+          onClick={() => setActiveMenu('comentarios')}
+          aria-label="Comentarios"
+        >
+          <FiMessageSquare />
+          <span>Comentarios</span>
+        </button>
+        <button
+          className={`dashboard__mobile-nav-item ${activeMenu === 'colaboraciones' ? 'dashboard__mobile-nav-item--activo' : ''}`}
+          onClick={() => setActiveMenu('colaboraciones')}
+          aria-label="Colaboraciones"
+        >
+          <FiUsers />
+          <span>Colaborar</span>
+        </button>
+        <button
+          className={`dashboard__mobile-nav-item ${activeMenu === 'configuracion' ? 'dashboard__mobile-nav-item--activo' : ''}`}
+          onClick={() => navigate('/settings')}
+          aria-label="Configuración"
+        >
+          <FiSettings />
+          <span>Config</span>
+        </button>
+      </nav>
     </div>
   );
 }

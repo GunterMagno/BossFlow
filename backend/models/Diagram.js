@@ -1,5 +1,35 @@
 const mongoose = require('mongoose');
 
+// Esquema de metadata de imagen
+const ImageMetadataSchema = new mongoose.Schema({
+    filename: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    url: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    mimeType: {
+        type: String,
+        required: true,
+        enum: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+        trim: true
+    },
+    size: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5 * 1024 * 1024 // 5MB máximo
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+}, { _id: false });
+
 const DiagramSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -17,6 +47,20 @@ const DiagramSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    isTemplate: {
+        type: Boolean,
+        default: false
+    },
+    images: {
+        type: [ImageMetadataSchema],
+        default: [],
+        validate: {
+            validator: function(images) {
+                return images.length <= 10; // Máximo 10 imágenes por diagrama
+            },
+            message: 'Un diagrama no puede tener más de 10 imágenes'
+        }
     },
     nodes: [{
         id: {
@@ -40,6 +84,10 @@ const DiagramSchema = new mongoose.Schema({
         data: {
             type: mongoose.Schema.Types.Mixed,
             default: {}
+        },
+        image: {
+            type: ImageMetadataSchema,
+            required: false
         }
     }],
     edges: [{

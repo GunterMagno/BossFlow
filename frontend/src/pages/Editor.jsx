@@ -1,25 +1,33 @@
 import "./Editor.css";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { ReactFlowProvider } from 'reactflow'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
 import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
+import MobileNodePanel from "../components/MobileNodePanel/MobileNodePanel";
 import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
 import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
+import UploadImageModal from "../components/UploadImageModal/UploadImageModal";
+import NewDiagramModal from "../components/NewDiagramModal/NewDiagramModal";
+import ExportModal from "../components/ExportModal/ExportModal";
+import { useExportDiagram } from "../hooks/useExportDiagram";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
+import { deleteImage } from '../services/imageService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
+import { FaSave } from 'react-icons/fa';
+import { FiTrash2, FiImage, FiDownload } from 'react-icons/fi';
 
 function Editor() {
   const { diagramId } = useParams();
+  const navigate = useNavigate();
 
   /* Se usa el diagramId para cargar el diagrama desde la base de datos. Se gestiona el estado de carga (loading), el estado de guardado (saving) y errores al obtener el diagrama. Se envían los nodos y conexiones cargados al componente FlowMap. Se muestra feedback al usuario mediante toast. */
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [diagramTitle, setDiagramTitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -27,6 +35,11 @@ function Editor() {
   const [nodesToDelete, setNodesToDelete] = useState([]);
   const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isUploadImageModalOpen, setIsUploadImageModalOpen] = useState(false);
+  const [isNewDiagramModalOpen, setIsNewDiagramModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [recentNodes, setRecentNodes] = useState([]);
   const toast = useToast();
   const autoSaveTimeoutRef = useRef(null);
   const isInitialLoadRef = useRef(true);
@@ -35,14 +48,28 @@ function Editor() {
     setIsSidebarOpen((v) => !v);
   };
 
+  // Efecto para mostrar el modal cuando diagramId === 'new'
   useEffect(() => {
-    if (!diagramId) return; // Nuevo diagrama: estado inicial vacío
+    if (diagramId === 'new') {
+      setIsNewDiagramModalOpen(true);
+    }
+  }, [diagramId]);
 
-    // Indica si el componente sigue activo para evitar actualizar estado 
+
+
+  // Función para cerrar el modal y volver al dashboard
+  const handleCloseNewDiagramModal = () => {
+    setIsNewDiagramModalOpen(false);
+    navigate('/dashboard', { replace: true });
+  };
+
+  useEffect(() => {
+    if (!diagramId || diagramId === 'new') return; // Nuevo diagrama: estado inicial vacío
+
+    // Indica si el componente sigue activo para evitar actualizar estado
     let activo = true;
     const cargarDiagrama = async () => {
       setLoading(true);
-      setError(null);
       try {
         const response = await getDiagramById(diagramId);
         if (!activo) return;
@@ -50,7 +77,39 @@ function Editor() {
         const diagram = response.diagram;
 
         // Si la API devuelve nodos/conexiones se utilizan, si no, se crean vacíos
-        setNodes(Array.isArray(diagram.nodes) ? diagram.nodes : []);
+        // Para nodos de imagen, restaurar la función onDelete y asegurar que tienen dimensiones
+        const nodesWithCallbacks = Array.isArray(diagram.nodes) 
+          ? diagram.nodes.map(node => {
+              if (node.type === 'imageNode') {
+                const imageUrl = node.data.image?.url;
+                return {
+                  ...node,
+                  data: {
+                    ...node.data,
+                    image: {
+                      ...node.data.image,
+                      width: node.data.image?.width || 150,
+                      height: node.data.image?.height || 150
+                    },
+                    onDelete: async () => {
+                      // Eliminar imagen del servidor si es local
+                      try {
+                        await deleteImage(imageUrl);
+                      } catch (error) {
+                        console.error('Error al eliminar imagen del servidor:', error);
+                      }
+                      // Eliminar nodo del canvas
+                      setNodes((nds) => nds.filter((n) => n.id !== node.id));
+                      toast.success('Imagen eliminada');
+                    }
+                  }
+                };
+              }
+              return node;
+            })
+          : [];
+        
+        setNodes(nodesWithCallbacks);
         setEdges(Array.isArray(diagram.edges) ? diagram.edges : []);
 
         // Se guarda el título para futuras actividades
@@ -65,7 +124,7 @@ function Editor() {
       } catch (error) {
         if (!activo) return;
         console.error('Error obteniendo el diagrama:', error);
-        setError(error);
+        toast.error('Error al cargar el diagrama');
         // En caso de error se dejan nodes/edges vacíos
         setNodes([]);
         setEdges([]);
@@ -139,6 +198,8 @@ function Editor() {
         edges
       };
       
+      console.log('💾 Guardando diagrama con nodos:', nodes);
+      
       await updateDiagram(diagramId, diagramData);
       if (!isAutoSave) {
         toast.success('Diagrama guardado correctamente');
@@ -162,13 +223,76 @@ function Editor() {
   };
 
 
-  const handleAddNode = (nodeType) => {
-    console.log('Añadir nodo:', nodeType);
-    // TODO: Implementar lógica para añadir nodo al canvas
-  };
+  const handleGlobalImageUploaded = useCallback((imageData) => {
+    // Crear un nodo especial para la imagen global
+    const imageId = `image-${Date.now()}`;
+    const imageNode = {
+      id: imageId,
+      type: 'imageNode',
+      position: { x: 250, y: 100 },
+      data: {
+        image: {
+          ...imageData,
+          width: 150,
+          height: 150
+        },
+        onDelete: async () => {
+          // Eliminar imagen del servidor si es local
+          try {
+            await deleteImage(imageData.url);
+          } catch (error) {
+            console.error('Error al eliminar imagen del servidor:', error);
+          }
+          // Eliminar nodo del canvas
+          setNodes((nds) => nds.filter((n) => n.id !== imageId));
+          toast.success('Imagen eliminada');
+        }
+      }
+    };
+
+    setNodes((nds) => [...nds, imageNode]);
+    toast.success('Imagen añadida al diagrama');
+  }, [toast]);
+
+
+  const handleAddNode = useCallback((nodeData) => {
+    console.log('Añadir nodo:', nodeData);
+
+    // Generar ID único para el nuevo nodo
+    const newNodeId = `${nodeData.type}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+
+    // Crear nuevo nodo en el centro del canvas con un pequeño offset aleatorio
+    const randomOffset = () => Math.floor(Math.random() * 100) - 50;
+
+    const newNode = {
+      id: newNodeId,
+      type: nodeData.type,
+      position: {
+        x: 250 + randomOffset(),
+        y: 150 + randomOffset()
+      },
+      data: {
+        title: nodeData.label || 'Nuevo nodo',
+        icon: '⚡',
+        description: nodeData.description || '',
+      },
+    };
+
+    // Actualizar el estado directamente para que se refleje inmediatamente
+    setNodes((currentNodes) => {
+      const updatedNodes = [...currentNodes, newNode];
+      console.log('Nodos actualizados:', updatedNodes);
+      return updatedNodes;
+    });
+
+    toast.success(`Nodo "${nodeData.label}" agregado al canvas`);
+  }, [toast]);
 
   // Función para abrir el modal de edición de nodo
   const handleNodeDoubleClick = useCallback((_event, node) => {
+    // No permitir edición de nodos de tipo imagen
+    if (node.type === 'imageNode') return;
+    
     setSelectedNode(node);
     setIsModalOpen(true);
   }, []);
@@ -303,12 +427,15 @@ function Editor() {
   return (
     <ReactFlowProvider>
       <div className="editor__page">
-        <Toolbar onSave={handleSave} saving={saving} onClear={handleClearRequest} onToggleSidebar={toggleSidebar} />
+        <Toolbar 
+          onToggleSidebar={toggleSidebar}
+        />
 
         <EditorSidebar
           onAddNode={handleAddNode}
           className={isSidebarOpen ? 'editor-sidebar--open' : ''}
           onCloseSidebar={() => setIsSidebarOpen(false)}
+          recentNodes={recentNodes}
         />
 
         <main className="editor__canvas">
@@ -326,9 +453,47 @@ function Editor() {
               onSetUpdateNodeFunction={handleSetUpdateNodeFunction}
               onSetDeleteNodesFunction={handleSetDeleteNodesFunction}
               onDeleteRequest={handleDeleteRequest}
+              onRecentNodesChange={setRecentNodes}
             />
           )}
+
+          {/* Botones flotantes */}
+          <div className="editor__floating-actions">
+            <button
+              className="editor__floating-button editor__floating-button--image"
+              onClick={() => setIsUploadImageModalOpen(true)}
+              title="Subir imagen al diagrama"
+            >
+              <FiImage />
+            </button>
+            <button
+              className="editor__floating-button editor__floating-button--save"
+              onClick={() => handleSave()}
+              disabled={saving}
+              title={saving ? 'Guardando...' : 'Guardar diagrama'}
+            >
+              <FaSave />
+            </button>
+            <button
+              className="editor__floating-button editor__floating-button--export"
+              onClick={() => setIsExportModalOpen(true)}
+              disabled={isExporting}
+              title="Exportar diagrama"
+            >
+              <FiDownload />
+            </button>
+            <button
+              className="editor__floating-button editor__floating-button--clear"
+              onClick={handleClearRequest}
+              title="Limpiar canvas"
+            >
+              <FiTrash2 />
+            </button>
+          </div>
         </main>
+
+        {/* Panel móvil de nodos */}
+        <MobileNodePanel onAddNode={handleAddNode} />
 
         <NodeEditModal
           isOpen={isModalOpen}
@@ -336,6 +501,13 @@ function Editor() {
           node={selectedNode}
           onSave={handleSaveNode}
           onDelete={handleDeleteNode}
+        />
+
+        <UploadImageModal
+          isOpen={isUploadImageModalOpen}
+          onClose={() => setIsUploadImageModalOpen(false)}
+          onImageUploaded={handleGlobalImageUploaded}
+          title="Subir imagen al diagrama"
         />
 
         <ConfirmDialog
@@ -363,8 +535,64 @@ function Editor() {
           cancelText="Cancelar"
           type="danger"
         />
+
+        <NewDiagramModal
+          isOpen={isNewDiagramModalOpen}
+          onClose={handleCloseNewDiagramModal}
+        />
+
+        {/* Modal de exportación */}
+        <ExportHandler
+          isOpen={isExportModalOpen}
+          onClose={() => setIsExportModalOpen(false)}
+          diagramTitle={diagramTitle}
+          isExporting={isExporting}
+          setIsExporting={setIsExporting}
+          toast={toast}
+        />
       </div>
     </ReactFlowProvider>
+  );
+}
+
+// Componente interno que usa el hook de ReactFlow
+function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExporting, toast }) {
+  const { exportToPNG, exportToJSON } = useExportDiagram(diagramTitle || 'diagram');
+
+  const handleExportPNG = async () => {
+    setIsExporting(true);
+    try {
+      await exportToPNG();
+      toast.success('Diagrama exportado como PNG');
+      onClose();
+    } catch (error) {
+      toast.error('Error al exportar PNG');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportJSON = async () => {
+    setIsExporting(true);
+    try {
+      await exportToJSON();
+      toast.success('Diagrama exportado como JSON');
+      onClose();
+    } catch (error) {
+      toast.error('Error al exportar JSON: ' + error.message);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  return (
+    <ExportModal
+      isOpen={isOpen}
+      onClose={onClose}
+      onExportPNG={handleExportPNG}
+      onExportJSON={handleExportJSON}
+      isExporting={isExporting}
+    />
   );
 }
 

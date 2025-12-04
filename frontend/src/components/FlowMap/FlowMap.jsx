@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DecisionNode, ActionNode, PhaseNode, EffectNode, StartNode, EndNode, PositionNode, TimerNode, AbilityNode } from "../nodes/Nodes";
+import ImageNode from "../nodes/ImageNode/ImageNode";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -13,7 +14,9 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import "./FlowMap.css";
 import CustomEdge from '../customEdge/CustomEdge';
+import NodeDescriptionPopup from '../NodeDescriptionPopup/NodeDescriptionPopup';
 import { useToast } from '../../context/ToastContext';
+import useRecentNodes from '../../hooks/useRecentNodes';
 
 const tiposNodos = {
   decision: DecisionNode,
@@ -27,19 +30,54 @@ const tiposNodos = {
   position: PositionNode,
   timer: TimerNode,
   mechanic: EffectNode,
-  ability: AbilityNode
+  ability: AbilityNode,
+  imageNode: ImageNode
 };
 // Definir edge types fuera del componente para evitar recrear el objeto en cada render
 const tiposEdges = { default: CustomEdge };
 
 // FlowMap acepta propiedades `initialNodes` e `initialEdges` para iniciar estado vacío o con diagrama cargado. Las propiedades onNodesChange y onEdgesChange son para indicar si cambian
 
-function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onSetUpdateNodeFunction, onSetDeleteNodesFunction, onDeleteRequest }) {
+function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onEdgeDoubleClick, onSetUpdateNodeFunction, onSetDeleteNodesFunction, onDeleteRequest, onRecentNodesChange }) {
   const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
   const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
+  const [selectedNodeForDescription, setSelectedNodeForDescription] = useState(null);
   const toast = useToast();
   const reactFlowWrapper = useRef(null);
   const { screenToFlowPosition } = useReactFlow();
+  const { nodosRecientes, agregarNodoReciente } = useRecentNodes();
+  const hoverTimeoutRef = useRef(null);
+  const isDraggingRef = useRef(false);
+
+  // Wrapper para detectar cuando se está arrastrando
+  const handleNodesChange = useCallback((changes) => {
+    // Detectar si algún cambio es un evento de drag
+    const isDragging = changes.some(change => 
+      change.type === 'position' && change.dragging === true
+    );
+    
+    if (isDragging) {
+      isDraggingRef.current = true;
+      // Cancelar hover mientras se arrastra
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+        hoverTimeoutRef.current = null;
+      }
+      setSelectedNodeForDescription(null);
+    } else if (changes.some(change => change.type === 'position' && change.dragging === false)) {
+      isDraggingRef.current = false;
+    }
+    
+    // Llamar al handler original
+    onNodosChange(changes);
+  }, [onNodosChange]);
+
+  // Notifica al padre cuando cambien los nodos recientes
+  useEffect(() => {
+    if (onRecentNodesChange) {
+      onRecentNodesChange(nodosRecientes);
+    }
+  }, [nodosRecientes, onRecentNodesChange]);
 
   // Función para actualizar un nodo específico
   const updateNode = useCallback((updatedNode) => {
@@ -86,20 +124,67 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   const hasLocalChangesRef = useRef(false);
   const isInitialLoadRef = useRef(true);
 
-  /* Inicializa los nodos cuando llegan del backend. En la carga inicial (isInitialLoadRef=true), siempre carga los datos. Después, solo carga si no hay cambios locales. */
+  /* Inicializa los nodos cuando llegan del backend. Solo actualiza si el cambio viene del padre (diferentes IDs o longitud). */
+  const prevInitialNodesRef = useRef();
+  
   useEffect(() => {
-    if (isInitialLoadRef.current && Array.isArray(initialNodes) && initialNodes.length > 0) {
-      setNodos(initialNodes);
+    if (!Array.isArray(initialNodes)) return;
+    
+    if (isInitialLoadRef.current && initialNodes.length > 0) {
+      // Preservar el estilo (width, height) de los nodos al cargar
+      const nodesWithStyle = initialNodes.map(node => ({
+        ...node,
+        style: node.style || {}
+      }));
+      setNodos(nodesWithStyle);
+      prevInitialNodesRef.current = initialNodes;
       isInitialLoadRef.current = false;
+      return;
     }
-  }, [initialNodes, setNodos]);
+    
+    // Evitar actualizaciones si es la misma referencia
+    if (prevInitialNodesRef.current === initialNodes) {
+      return;
+    }
+    
+    // Solo actualizar si la longitud cambió (nuevo nodo añadido o eliminado desde fuera)
+    if (initialNodes.length !== nodos.length) {
+      const nodesWithStyle = initialNodes.map(node => ({
+        ...node,
+        style: node.style || {}
+      }));
+      setNodos(nodesWithStyle);
+      prevInitialNodesRef.current = initialNodes;
+    }
+  }, [initialNodes]);
 
   // Igual para edges, inicializa en la primera carga
+  const prevInitialEdgesRef = useRef();
+  
   useEffect(() => {
-    if (isInitialLoadRef.current && Array.isArray(initialEdges) && initialEdges.length > 0) {
+    if (!Array.isArray(initialEdges)) return;
+    
+    // Solo actualizar en la carga inicial
+    if (isInitialLoadRef.current && initialEdges.length > 0) {
       setConexiones(initialEdges);
+      prevInitialEdgesRef.current = initialEdges;
+      return;
     }
-  }, [initialEdges, setConexiones]);
+    
+    // Evitar actualizaciones si es la misma referencia
+    if (prevInitialEdgesRef.current === initialEdges) {
+      return;
+    }
+    
+    // Solo actualizar si viene del backend (cambio real desde fuera)
+    // No actualizar si son cambios locales del usuario
+    const hasRealChanges = initialEdges.length !== conexiones.length;
+    
+    if (hasRealChanges) {
+      setConexiones(initialEdges);
+      prevInitialEdgesRef.current = initialEdges;
+    }
+  }, [initialEdges]);
 
 
   // Notifica a Editor.jsx cuando cambien los nodos
@@ -132,21 +217,15 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           return eds;
         }
 
-        // Validación para que no haya más de una conexión entre nodos
-        const connectionBetweenNodes = eds.some(
-          (e) => (e.source === source && e.target === target) || (e.source === target && e.target === source)
+        // Validar que la conexión exacta no exista (mismo source y target)
+        // No validar handles exactos porque pueden variar
+        const duplicateExists = eds.some(
+          (e) => 
+            e.source === source && 
+            e.target === target
         );
 
-        if (connectionBetweenNodes) {
-          toast.warning('Ya existe una conexión entre estos nodos');
-          return eds;
-        }
-
-        const exists = eds.some( (e) =>
-            e.source === source && e.target === target && (e.sourceHandle || null) === (sourceHandle || null) && (e.targetHandle || null) === (targetHandle || null)
-        );
-
-        if (exists) {
+        if (duplicateExists) {
           toast.info('La conexión ya existe');
           return eds;
         }
@@ -212,13 +291,16 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           return updated;
         });
 
+        // Registra el nodo en la lista de recientes
+        agregarNodoReciente(nodeData);
+
         toast.success(`Nodo "${nodeData.label}" agregado al canvas`);
       } catch (error) {
         console.error('Error al procesar el drop:', error);
         toast.error('Error al agregar el nodo');
       }
     },
-    [screenToFlowPosition, setNodos, toast]
+    [screenToFlowPosition, setNodos, toast, agregarNodoReciente]
   );
 
   // Listener para detectar la tecla Suprimir/Delete
@@ -244,21 +326,91 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     };
   }, [nodos, onDeleteRequest]);
 
+  // Manejador de clic en nodo para mostrar descripción (en mobile: tap)
+  const handleNodeClick = useCallback((_event, node) => {
+    // Solo mostrar popup si existe descripción no vacía
+    if (node.data?.description && node.data.description.trim() !== '') {
+      // Calcular posición del nodo en la pantalla
+      const nodeElement = document.querySelector(`[data-id="${node.id}"]`);
+      if (nodeElement) {
+        const rect = nodeElement.getBoundingClientRect();
+        setSelectedNodeForDescription({
+          node,
+          nodePosition: rect,
+        });
+      } else {
+        // Fallback si no se encuentra el elemento
+        setSelectedNodeForDescription({
+          node,
+          nodePosition: null,
+        });
+      }
+    } else {
+      // Cerrar tooltip si hacemos clic en un nodo sin descripción
+      setSelectedNodeForDescription(null);
+    }
+  }, []);
+
+  // Manejador de hover en nodo (solo desktop)
+  const handleNodeMouseEnter = useCallback((_event, node) => {
+    // No mostrar hover si se está arrastrando
+    if (isDraggingRef.current) return;
+    
+    // Detectar si es device con hover (desktop)
+    const hasHover = window.matchMedia('(hover: hover)').matches;
+    
+    if (!hasHover) return; // No hacer nada en mobile
+    
+    // Solo mostrar popup si existe descripción no vacía
+    if (node.data?.description && node.data.description.trim() !== '') {
+      // Calcular posición del nodo en la pantalla
+      const nodeElement = document.querySelector(`[data-id="${node.id}"]`);
+      if (nodeElement) {
+        const rect = nodeElement.getBoundingClientRect();
+        // Añadir delay de 800ms antes de mostrar el popup
+        hoverTimeoutRef.current = setTimeout(() => {
+          setSelectedNodeForDescription({
+            node,
+            nodePosition: rect,
+          });
+        }, 800);
+      }
+    }
+  }, []);
+
+  // Manejador de mouse leave en nodo (solo desktop)
+  const handleNodeMouseLeave = useCallback(() => {
+    // Limpiar timeout si el usuario mueve el ratón antes de 800ms
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    // Cerrar el popup inmediatamente si ya estaba abierto
+    setSelectedNodeForDescription(null);
+  }, []);
+
   return (
     <section className="flowmap">
       <div className="flowmap__wrap" ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodos}
           edges={conexiones}
-          onNodesChange={onNodosChange}
+          onNodesChange={handleNodesChange}
           onEdgesChange={onConexionesChange}
           onConnect={onConnect}
           onDragOver={onDragOver}
           onDrop={onDrop}
           onNodeDoubleClick={onNodeDoubleClick}
+          onEdgeDoubleClick={onEdgeDoubleClick}
+          onNodeClick={handleNodeClick}
+          onNodeMouseEnter={handleNodeMouseEnter}
+          onNodeMouseLeave={handleNodeMouseLeave}
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
           connectionRadius={30}
+          nodesDraggable={true}
+          nodesConnectable={true}
+          elementsSelectable={true}
           fitView
           attributionPosition="bottom-left"
         >
@@ -279,8 +431,17 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           <Background />
         </ReactFlow>
       </div>
+
+      {/* Popup de descripción del nodo */}
+      <NodeDescriptionPopup
+        isOpen={!!selectedNodeForDescription}
+        onClose={() => setSelectedNodeForDescription(null)}
+        node={selectedNodeForDescription?.node}
+        nodePosition={selectedNodeForDescription?.nodePosition}
+      />
     </section>
   );
+
 }
 
 

@@ -112,7 +112,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--hover);
-  border-radius: var(--radio-md);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
   color: var(--blanco);
   text-decoration: none;
   transition: all var(--transicion-rapida);
@@ -178,21 +178,22 @@
 @media (max-width: 768px) {
   .footer {
     padding: var(--espaciado-xl) var(--espaciado-md);
+    padding-bottom: calc(var(--espaciado-xl) + 70px); /* Espacio para navegación móvil */
   }
 
   .footer__superior {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--espaciado-xl);
   }
 
   .footer__seccion--sobre {
     width: 100%;
-    text-align: left;
+    text-align: center;
   }
 
   .footer__marca {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .footer__logo {
@@ -204,18 +205,28 @@
     font-size: 1.5rem;
   }
 
+  .footer__descripcion {
+    text-align: center;
+  }
+
   .footer__enlaces {
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
-    gap: var(--espaciado-xl);
+    gap: var(--espaciado-lg);
+    justify-content: center;
+  }
+
+  .footer__seccion--enlaces {
+    text-align: center;
   }
 
   .footer__seccion--redes {
     width: 100%;
+    text-align: center;
   }
 
   .footer__redes {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .footer__inferior {
@@ -228,6 +239,7 @@
 @media (max-width: 480px) {
   .footer {
     padding: var(--espaciado-lg) var(--espaciado-sm);
+    padding-bottom: calc(var(--espaciado-lg) + 70px); /* Espacio para navegación móvil */
   }
 
   .footer__logo {
@@ -241,6 +253,7 @@
 
   .footer__descripcion {
     font-size: 0.875rem;
+    text-align: center;
   }
 
   .footer__titulo {
@@ -251,12 +264,21 @@
     font-size: 0.875rem;
   }
 
+  .footer__enlaces {
+    flex-direction: column;
+    gap: var(--espaciado-xl);
+  }
+
   .footer__red {
-    width: 35px;
-    height: 35px;
+    width: 42px;
+    height: 42px;
   }
 
   .footer__red-icono {
-    font-size: 0.875rem;
+    font-size: 1rem;
+  }
+
+  .footer__redes {
+    gap: var(--espaciado-lg);
   }
 }

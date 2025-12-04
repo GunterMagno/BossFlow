@@ -1,0 +1,269 @@
+/* ============================================
+   TEMPLATE CARD WRAPPER
+   ============================================ */
+.template-card-wrapper {
+  position: relative;
+}
+
+/* ============================================
+   TEMPLATE CARD
+   ============================================ */
+.template-card {
+  background: var(--focus);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
+  padding: var(--espaciado-lg);
+  transition: all var(--transicion-normal);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-md);
+  position: relative;
+}
+
+.template-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2);
+  border-color: var(--secundario);
+  background: var(--hover);
+}
+
+/* ============================================
+   BADGE
+   ============================================ */
+.template-card__badge {
+  position: absolute;
+  top: var(--espaciado-sm);
+  right: var(--espaciado-sm);
+  background: linear-gradient(135deg, var(--primario), var(--secundario));
+  color: var(--negro);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(234, 179, 8, 0.3);
+  z-index: 2;
+}
+
+/* ============================================
+   CARD ICON
+   ============================================ */
+.template-card__icon {
+  width: 50px;
+  height: 50px;
+  background: var(--primario);
+  border-radius: var(--radio-sm) 0 var(--radio-sm) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secundario);
+  font-size: 1.5rem;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  flex-shrink: 0;
+}
+
+/* ============================================
+   CARD CONTENT
+   ============================================ */
+.template-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-sm);
+  flex: 1;
+}
+
+.template-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--blanco);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.template-card__description {
+  font-size: 0.875rem;
+  color: var(--blanco);
+  opacity: 0.6;
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================
+   CARD FOOTER
+   ============================================ */
+.template-card__footer {
+  margin-top: auto;
+  padding-top: var(--espaciado-sm);
+  border-top: 1px solid var(--gris1);
+}
+
+.template-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-xs);
+}
+
+.template-card__date {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-sm);
+  font-size: 0.85rem;
+  color: var(--blanco);
+  opacity: 0.7;
+}
+
+.template-card__date-icon {
+  font-size: 0.9rem;
+}
+
+.template-card__stats {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-xs);
+  font-size: 0.75rem;
+  color: var(--blanco);
+  opacity: 0.7;
+}
+
+.template-card__stat {
+  font-weight: 400;
+}
+
+.template-card__stat-separator {
+  color: var(--secundario);
+  opacity: 0.5;
+}
+
+/* ============================================
+   DELETE BUTTON (TOP RIGHT)
+   ============================================ */
+.template-card__delete-button {
+  position: absolute;
+  top: var(--espaciado-sm);
+  right: var(--espaciado-sm);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radio-sm) 0 var(--radio-sm) 0;
+  font-size: 1rem;
+  color: #ef4444;
+  cursor: pointer;
+  transition: all var(--transicion-rapida);
+  z-index: 2;
+}
+
+.template-card__delete-button:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  transform: scale(1.05);
+}
+
+.template-card__delete-button:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+   ACTIONS
+   ============================================ */
+.template-card__actions {
+  display: flex;
+  gap: var(--espaciado-sm);
+  margin-top: var(--espaciado-sm);
+  padding-top: var(--espaciado-sm);
+}
+
+.template-card__action-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaciado-xs);
+  padding: var(--espaciado-sm) var(--espaciado-md);
+  border: 1px solid transparent;
+  border-radius: var(--radio-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transicion-normal);
+  background: transparent;
+  color: var(--blanco);
+}
+
+.template-card__action-button--use {
+  border-color: rgba(234, 179, 8, 0.3);
+  color: var(--secundario);
+}
+
+.template-card__action-button--use:hover {
+  background: rgba(234, 179, 8, 0.1);
+  border-color: var(--secundario);
+}
+
+.template-card__action-button--copy {
+  border-color: rgba(234, 179, 8, 0.3);
+  color: var(--secundario);
+}
+
+.template-card__action-button--copy:hover {
+  background: rgba(234, 179, 8, 0.1);
+  border-color: var(--secundario);
+}
+
+.template-card__action-button--edit {
+  border-color: rgba(37, 99, 235, 0.3);
+  color: #2563eb;
+}
+
+.template-card__action-button--edit:hover {
+  background: rgba(37, 99, 235, 0.1);
+  border-color: #2563eb;
+}
+
+.template-card__action-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .template-card {
+    padding: var(--espaciado-md);
+  }
+
+  .template-card__icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  .template-card__title {
+    font-size: 1rem;
+  }
+
+  .template-card__actions {
+    flex-direction: column;
+  }
+
+  .template-card__action-button span {
+    display: none;
+  }
+
+  .template-card__action-button {
+    justify-content: center;
+  }
+
+  /* Mostrar botón eliminar siempre en móvil */
+  .template-card__delete-button {
+    opacity: 1;
+  }
+}

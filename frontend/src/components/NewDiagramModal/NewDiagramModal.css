@@ -123,6 +123,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--gris4);
+  margin-bottom: 0;
 }
 
 .modal__label-icon {
@@ -254,6 +255,48 @@
 }
 
 /* ============================================
+   IMPORT OPCIONES
+   ============================================ */
+.modal__import-option {
+  padding: 0;
+  border-bottom: 1px solid var(--gris-claro);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--espaciado-md);
+  text-align: left;
+}
+
+.modal__import-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--blanco);
+  border: 2px solid var(--secundario);
+  border-radius: var(--radio-md) 0 var(--radio-md) 0;
+  color: var(--secundario);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: var(--transicion-normal);
+  white-space: nowrap;
+  justify-content: flex-start;
+}
+
+.modal__import-button:hover {
+  background-color: rgba(74, 158, 255, 0.05);
+  border-color: var(--secundario-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-sm);
+}
+
+.modal__import-button svg {
+  font-size: 1rem;
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
@@ -280,6 +323,16 @@
 
   .modal__button {
     width: 100%;
+  }
+
+  .modal__import-option {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .modal__import-button {
+    width: 100%;
+    justify-content: center;
   }
 }
 

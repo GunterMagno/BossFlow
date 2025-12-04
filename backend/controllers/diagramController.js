@@ -5,7 +5,7 @@ const { validateDiagramStructure } = require('../validators/diagramValidator');
 
 exports.createDiagram = async (req, res, next) => {
     try {
-        const { title, description, nodes, edges } = req.body;
+        const { title, description, nodes, edges, isTemplate, images } = req.body;
 
         // Validar datos de entrada
         if (!title || title.trim().length < 3) {
@@ -14,8 +14,8 @@ exports.createDiagram = async (req, res, next) => {
             });
         }
 
-        // Validar estructura de nodos y edges
-        const structureValidation = validateDiagramStructure({ nodes, edges });
+        // Validar estructura de nodos, edges e imágenes
+        const structureValidation = validateDiagramStructure({ nodes, edges, images });
         if (!structureValidation.valid) {
             return res.status(400).json({
                 error: 'Error de validación en la estructura del diagrama',
@@ -29,7 +29,9 @@ exports.createDiagram = async (req, res, next) => {
             description: description?.trim() || '',
             userId: req.user.userId, // ID del usuario desde el middleware auth
             nodes: nodes || [],
-            edges: edges || []
+            edges: edges || [],
+            isTemplate: isTemplate || false,
+            images: images || []
         });
 
         // Guardar en BD
@@ -55,6 +57,7 @@ exports.createDiagram = async (req, res, next) => {
                 description: diagram.description,
                 nodes: diagram.nodes,
                 edges: diagram.edges,
+                images: diagram.images,
                 createdAt: diagram.createdAt,
                 updatedAt: diagram.updatedAt
             }
@@ -83,13 +86,16 @@ exports.createDiagram = async (req, res, next) => {
 
 exports.getDiagrams = async (req, res, next) => {
     try {
-        // Obtener diagramas del usuario autenticado
+        // Obtener diagramas del usuario autenticado (solo los que no son plantillas)
         // Optimizaciones aplicadas:
         // 1. Usa índice compuesto { userId: 1, updatedAt: -1 }
         // 2. Proyección: solo campos necesarios (sin __v)
         // 3. lean(): devuelve objetos planos (más rápido que documentos Mongoose)
-        const diagrams = await Diagram.find({ userId: req.user.userId })
-            .select('title description nodes edges createdAt updatedAt') // Proyección
+        const diagrams = await Diagram.find({ 
+            userId: req.user.userId,
+            isTemplate: { $ne: true }
+        })
+            .select('title description nodes edges images createdAt updatedAt isTemplate') // Proyección
             .sort({ updatedAt: -1 })
             .lean();
 
@@ -101,13 +107,47 @@ exports.getDiagrams = async (req, res, next) => {
                 description: diagram.description,
                 nodes: diagram.nodes || [],
                 edges: diagram.edges || [],
+                images: diagram.images || [],
                 createdAt: diagram.createdAt,
-                updatedAt: diagram.updatedAt
+                updatedAt: diagram.updatedAt,
+                isTemplate: diagram.isTemplate || false
             }))
         });
 
     } catch (error) {
         console.error('❌ Error al obtener diagramas:', error);
+        next(error);
+    }
+};
+
+exports.getTemplates = async (req, res, next) => {
+    try {
+        // Obtener plantillas del usuario autenticado
+        const templates = await Diagram.find({ 
+            userId: req.user.userId,
+            isTemplate: true
+        })
+            .select('title description nodes edges images createdAt updatedAt isTemplate') // Proyección
+            .sort({ updatedAt: -1 })
+            .lean();
+
+        // Devolver lista de plantillas
+        res.status(200).json({
+            templates: templates.map(template => ({
+                id: template._id,
+                title: template.title,
+                description: template.description,
+                nodes: template.nodes || [],
+                edges: template.edges || [],
+                images: template.images || [],
+                createdAt: template.createdAt,
+                updatedAt: template.updatedAt,
+                isTemplate: template.isTemplate
+            }))
+        });
+
+    } catch (error) {
+        console.error('❌ Error al obtener plantillas:', error);
         next(error);
     }
 };
@@ -162,7 +202,7 @@ exports.getDiagramById = async (req, res, next) => {
             _id: diagramId, 
             userId: req.user.userId 
         })
-        .select('title description nodes edges createdAt updatedAt')
+        .select('title description nodes edges images createdAt updatedAt')
         .lean();
 
         if (!diagram) {
@@ -179,6 +219,7 @@ exports.getDiagramById = async (req, res, next) => {
                 description: diagram.description,
                 nodes: diagram.nodes,
                 edges: diagram.edges,
+                images: diagram.images,
                 createdAt: diagram.createdAt,
                 updatedAt: diagram.updatedAt
             }
@@ -193,7 +234,7 @@ exports.getDiagramById = async (req, res, next) => {
 exports.updateDiagram = async (req, res, next) => {
     try {
         const diagramId = req.params.id;
-        const { title, description, nodes, edges } = req.body;
+        const { title, description, nodes, edges, images } = req.body;
         
         // Validar que el ID sea un ObjectId válido
         if (!mongoose.Types.ObjectId.isValid(diagramId)) {
@@ -209,8 +250,8 @@ exports.updateDiagram = async (req, res, next) => {
             });
         }
 
-        // Validar estructura de nodos y edges si se proporcionan
-        if (nodes !== undefined || edges !== undefined) {
+        // Validar estructura de nodos, edges e imágenes si se proporcionan
+        if (nodes !== undefined || edges !== undefined || images !== undefined) {
             // Obtener el diagrama actual para combinar con los nuevos datos
             const currentDiagram = await Diagram.findOne({ 
                 _id: diagramId, 
@@ -225,10 +266,12 @@ exports.updateDiagram = async (req, res, next) => {
 
             const updatedNodes = nodes !== undefined ? nodes : currentDiagram.nodes;
             const updatedEdges = edges !== undefined ? edges : currentDiagram.edges;
+            const updatedImages = images !== undefined ? images : currentDiagram.images;
 
             const structureValidation = validateDiagramStructure({ 
                 nodes: updatedNodes, 
-                edges: updatedEdges 
+                edges: updatedEdges,
+                images: updatedImages
             });
             
             if (!structureValidation.valid) {
@@ -264,6 +307,7 @@ exports.updateDiagram = async (req, res, next) => {
         if (description !== undefined) diagram.description = description.trim();
         if (nodes !== undefined) diagram.nodes = nodes;
         if (edges !== undefined) diagram.edges = edges;
+        if (images !== undefined) diagram.images = images;
 
         // Guardar cambios
         await diagram.save();
@@ -285,6 +329,7 @@ exports.updateDiagram = async (req, res, next) => {
                 description: diagram.description,
                 nodes: diagram.nodes,
                 edges: diagram.edges,
+                images: diagram.images,
                 createdAt: diagram.createdAt,
                 updatedAt: diagram.updatedAt
             }
