@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react';
 import './UploadImageModal.css';
+import { FiUploadCloud } from 'react-icons/fi';
 
 const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir imagen" }) => {
-  const [uploadMethod, setUploadMethod] = useState('file'); // 'file' o 'url'
   const [imageUrl, setImageUrl] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -13,7 +13,6 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   if (!isOpen) return null;
 
   const handleClose = () => {
-    setUploadMethod('file');
     setImageUrl('');
     setError('');
     setPreview(null);
@@ -175,28 +174,49 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
         </div>
 
         <div className="upload-image-modal-body">
-          <div className="upload-method-selector">
-            <button
-              className={`method-button ${uploadMethod === 'file' ? 'active' : ''}`}
-              onClick={() => setUploadMethod('file')}
-            >
-              📁 Subir archivo
-            </button>
-            <button
-              className={`method-button ${uploadMethod === 'url' ? 'active' : ''}`}
-              onClick={() => setUploadMethod('url')}
-            >
-              🔗 Desde URL
-            </button>
-          </div>
-
           {error && (
             <div className="upload-error">
               {error}
             </div>
           )}
 
-          {uploadMethod === 'file' ? (
+          {/* Sección URL (primera) */}
+          <div className="upload-url-section">
+            <h3 className="section-title">Desde URL</h3>
+            <label htmlFor="image-url-input">URL de la imagen:</label>
+            <input
+              id="image-url-input"
+              type="text"
+              className="url-input"
+              placeholder="https://ejemplo.com/imagen.jpg"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleUrlSubmit()}
+            />
+            
+            {preview && (
+              <div className="url-preview">
+                <img src={preview} alt="Vista previa" />
+              </div>
+            )}
+
+            <button
+              className="url-submit-button"
+              onClick={handleUrlSubmit}
+              disabled={isUploading || !imageUrl.trim()}
+            >
+              {isUploading ? 'Validando...' : 'Usar esta imagen'}
+            </button>
+          </div>
+
+          {/* Separador visual */}
+          <div className="section-divider">
+            <span>o</span>
+          </div>
+
+          {/* Sección Archivo (segunda) */}
+          <div className="upload-file-section">
+            <h3 className="section-title">Desde archivo</h3>
             <div
               className={`upload-drop-zone ${isDragging ? 'dragging' : ''}`}
               onDragOver={handleDragOver}
@@ -219,7 +239,7 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
                 </div>
               ) : (
                 <>
-                  <div className="upload-icon">📸</div>
+                  <FiUploadCloud className="upload-icon" />
                   <p className="upload-main-text">
                     Arrastra una imagen aquí
                   </p>
@@ -235,34 +255,7 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
                 </>
               )}
             </div>
-          ) : (
-            <div className="upload-url-section">
-              <label htmlFor="image-url-input">URL de la imagen:</label>
-              <input
-                id="image-url-input"
-                type="text"
-                className="url-input"
-                placeholder="https://ejemplo.com/imagen.jpg"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleUrlSubmit()}
-              />
-              
-              {preview && (
-                <div className="url-preview">
-                  <img src={preview} alt="Vista previa" />
-                </div>
-              )}
-
-              <button
-                className="url-submit-button"
-                onClick={handleUrlSubmit}
-                disabled={isUploading || !imageUrl.trim()}
-              >
-                {isUploading ? 'Validando...' : 'Usar esta imagen'}
-              </button>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

@@ -10,6 +10,13 @@
   border-color: #4a90e2;
 }
 
+/* Asegurar que los handles no interfieren con el layout ni el resize */
+.image-node .react-flow__handle {
+  pointer-events: auto;
+  width: 10px;
+  height: 10px;
+}
+
 .image-node-container {
   position: relative;
   width: 100%;

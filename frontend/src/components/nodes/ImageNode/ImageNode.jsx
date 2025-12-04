@@ -64,9 +64,95 @@ const ImageNode = ({ data, selected, id }) => {
         )}
       </div>
 
-      {/* Handles invisibles por si se quieren conectar */}
-      <Handle type="target" position={Position.Top} style={{ opacity: 0 }} />
-      <Handle type="source" position={Position.Bottom} style={{ opacity: 0 }} />
+      {/* Handles target en 4 direcciones - invisibles pero funcionales */}
+      <Handle 
+        type="target" 
+        position={Position.Top}
+        id="top"
+        style={{ 
+          opacity: 0, 
+          width: '10px', 
+          height: '10px',
+          pointerEvents: 'auto'
+        }} 
+      />
+      <Handle 
+        type="target" 
+        position={Position.Right}
+        id="right"
+        style={{ 
+          opacity: 0, 
+          width: '10px', 
+          height: '10px',
+          pointerEvents: 'auto'
+        }} 
+      />
+      <Handle 
+        type="target" 
+        position={Position.Bottom}
+        id="bottom"
+        style={{ 
+          opacity: 0, 
+          width: '10px', 
+          height: '10px',
+          pointerEvents: 'auto'
+        }} 
+      />
+      <Handle 
+        type="target" 
+        position={Position.Left}
+        id="left" 
+        style={{ 
+          opacity: 0, 
+          width: '10px', 
+          height: '10px',
+          pointerEvents: 'auto'
+        }} 
+      />
+      <Handle 
+        type="source" 
+        position={Position.Top}
+        id="top-source"
+        style={{ 
+          opacity: 0, 
+          width: '10px', 
+          height: '10px',
+          pointerEvents: 'auto'
+        }} 
+      />
+      <Handle 
+        type="source" 
+        position={Position.Right}
+        id="right-source"
+        style={{ 
+          opacity: 0, 
+          width: '10px', 
+          height: '10px',
+          pointerEvents: 'auto'
+        }} 
+      />
+      <Handle 
+        type="source" 
+        position={Position.Bottom}
+        id="bottom-source"
+        style={{ 
+          opacity: 0, 
+          width: '10px', 
+          height: '10px',
+          pointerEvents: 'auto'
+        }} 
+      />
+      <Handle 
+        type="source" 
+        position={Position.Left}
+        id="left-source" 
+        style={{ 
+          opacity: 0, 
+          width: '10px', 
+          height: '10px',
+          pointerEvents: 'auto'
+        }} 
+      />
     </div>
   );
 };

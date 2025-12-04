@@ -58,6 +58,44 @@
 
 .upload-image-modal-body {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 15px 0;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.section-divider span {
+  color: #999;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #e0e0e0;
+}
+
+.upload-file-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .upload-method-selector {
@@ -124,6 +162,7 @@
   font-size: 4rem;
   margin-bottom: 15px;
   opacity: 0.7;
+  color: #4a90e2;
 }
 
 .upload-main-text {

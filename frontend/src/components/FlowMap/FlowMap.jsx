@@ -89,33 +89,66 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   const isInitialLoadRef = useRef(true);
 
   /* Inicializa los nodos cuando llegan del backend. Solo actualiza si el cambio viene del padre (diferentes IDs o longitud). */
+  const prevInitialNodesRef = useRef();
+  
   useEffect(() => {
-    if (Array.isArray(initialNodes)) {
-      if (isInitialLoadRef.current && initialNodes.length > 0) {
-        // Preservar el estilo (width, height) de los nodos al cargar
-        const nodesWithStyle = initialNodes.map(node => ({
-          ...node,
-          style: node.style || {}
-        }));
-        setNodos(nodesWithStyle);
-        isInitialLoadRef.current = false;
-      } else if (!isInitialLoadRef.current && initialNodes.length !== nodos.length) {
-        // Solo actualizar si la longitud cambió (nuevo nodo añadido o eliminado)
-        const nodesWithStyle = initialNodes.map(node => ({
-          ...node,
-          style: node.style || {}
-        }));
-        setNodos(nodesWithStyle);
-      }
+    if (!Array.isArray(initialNodes)) return;
+    
+    if (isInitialLoadRef.current && initialNodes.length > 0) {
+      // Preservar el estilo (width, height) de los nodos al cargar
+      const nodesWithStyle = initialNodes.map(node => ({
+        ...node,
+        style: node.style || {}
+      }));
+      setNodos(nodesWithStyle);
+      prevInitialNodesRef.current = initialNodes;
+      isInitialLoadRef.current = false;
+      return;
     }
-  }, [initialNodes, nodos.length, setNodos]);
+    
+    // Evitar actualizaciones si es la misma referencia
+    if (prevInitialNodesRef.current === initialNodes) {
+      return;
+    }
+    
+    // Solo actualizar si la longitud cambió (nuevo nodo añadido o eliminado desde fuera)
+    if (initialNodes.length !== nodos.length) {
+      const nodesWithStyle = initialNodes.map(node => ({
+        ...node,
+        style: node.style || {}
+      }));
+      setNodos(nodesWithStyle);
+      prevInitialNodesRef.current = initialNodes;
+    }
+  }, [initialNodes]);
 
-  // Igual para edges, inicializa en la primera carga y actualiza después
+  // Igual para edges, inicializa en la primera carga
+  const prevInitialEdgesRef = useRef();
+  
   useEffect(() => {
-    if (Array.isArray(initialEdges) && initialEdges.length !== conexiones.length) {
+    if (!Array.isArray(initialEdges)) return;
+    
+    // Solo actualizar en la carga inicial
+    if (isInitialLoadRef.current && initialEdges.length > 0) {
       setConexiones(initialEdges);
+      prevInitialEdgesRef.current = initialEdges;
+      return;
     }
-  }, [initialEdges, conexiones.length, setConexiones]);
+    
+    // Evitar actualizaciones si es la misma referencia
+    if (prevInitialEdgesRef.current === initialEdges) {
+      return;
+    }
+    
+    // Solo actualizar si viene del backend (cambio real desde fuera)
+    // No actualizar si son cambios locales del usuario
+    const hasRealChanges = initialEdges.length !== conexiones.length;
+    
+    if (hasRealChanges) {
+      setConexiones(initialEdges);
+      prevInitialEdgesRef.current = initialEdges;
+    }
+  }, [initialEdges]);
 
 
   // Notifica a Editor.jsx cuando cambien los nodos
@@ -148,21 +181,15 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           return eds;
         }
 
-        // Validación para que no haya más de una conexión entre nodos
-        const connectionBetweenNodes = eds.some(
-          (e) => (e.source === source && e.target === target) || (e.source === target && e.target === source)
+        // Validar que la conexión exacta no exista (mismo source y target)
+        // No validar handles exactos porque pueden variar
+        const duplicateExists = eds.some(
+          (e) => 
+            e.source === source && 
+            e.target === target
         );
 
-        if (connectionBetweenNodes) {
-          toast.warning('Ya existe una conexión entre estos nodos');
-          return eds;
-        }
-
-        const exists = eds.some( (e) =>
-            e.source === source && e.target === target && (e.sourceHandle || null) === (sourceHandle || null) && (e.targetHandle || null) === (targetHandle || null)
-        );
-
-        if (exists) {
+        if (duplicateExists) {
           toast.info('La conexión ya existe');
           return eds;
         }
