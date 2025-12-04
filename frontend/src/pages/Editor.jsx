@@ -1,7 +1,7 @@
 import "./Editor.css";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { ReactFlowProvider } from 'reactflow'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import FlowMap from "../components/FlowMap/FlowMap";
 import Toolbar from "../components/Toolbar/Toolbar";
 import EditorSidebar from "../components/EditorSidebar/EditorSidebar";
@@ -9,22 +9,26 @@ import MobileNodePanel from "../components/MobileNodePanel/MobileNodePanel";
 import NodeEditModal from "../components/NodeEditModal/NodeEditModal";
 import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
 import UploadImageModal from "../components/UploadImageModal/UploadImageModal";
+import NewDiagramModal from "../components/NewDiagramModal/NewDiagramModal";
+import ExportModal from "../components/ExportModal/ExportModal";
+import { useExportDiagram } from "../hooks/useExportDiagram";
 import { getDiagramById, updateDiagram } from '../services/diagramService';
 import { deleteImage } from '../services/imageService';
 import { registerActivity, ACTIVITY_TYPES } from '../services/activityService';
 import { useToast } from '../context/ToastContext';
 import { FaSave } from 'react-icons/fa';
 import { FiTrash2, FiImage } from 'react-icons/fi';
+import { FiTrash2, FiDownload } from 'react-icons/fi';
 
 function Editor() {
   const { diagramId } = useParams();
+  const navigate = useNavigate();
 
   /* Se usa el diagramId para cargar el diagrama desde la base de datos. Se gestiona el estado de carga (loading), el estado de guardado (saving) y errores al obtener el diagrama. Se envían los nodos y conexiones cargados al componente FlowMap. Se muestra feedback al usuario mediante toast. */
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [diagramTitle, setDiagramTitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -33,6 +37,9 @@ function Editor() {
   const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isUploadImageModalOpen, setIsUploadImageModalOpen] = useState(false);
+  const [isNewDiagramModalOpen, setIsNewDiagramModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const toast = useToast();
   const autoSaveTimeoutRef = useRef(null);
   const isInitialLoadRef = useRef(true);
@@ -41,14 +48,26 @@ function Editor() {
     setIsSidebarOpen((v) => !v);
   };
 
+  // Efecto para mostrar el modal cuando diagramId === 'new'
   useEffect(() => {
-    if (!diagramId) return; // Nuevo diagrama: estado inicial vacío
+    if (diagramId === 'new') {
+      setIsNewDiagramModalOpen(true);
+    }
+  }, [diagramId]);
 
-    // Indica si el componente sigue activo para evitar actualizar estado 
+  // Función para cerrar el modal y volver al dashboard
+  const handleCloseNewDiagramModal = () => {
+    setIsNewDiagramModalOpen(false);
+    navigate('/dashboard', { replace: true });
+  };
+
+  useEffect(() => {
+    if (!diagramId || diagramId === 'new') return; // Nuevo diagrama: estado inicial vacío
+
+    // Indica si el componente sigue activo para evitar actualizar estado
     let activo = true;
     const cargarDiagrama = async () => {
       setLoading(true);
-      setError(null);
       try {
         const response = await getDiagramById(diagramId);
         if (!activo) return;
@@ -103,7 +122,7 @@ function Editor() {
       } catch (error) {
         if (!activo) return;
         console.error('Error obteniendo el diagrama:', error);
-        setError(error);
+        toast.error('Error al cargar el diagrama');
         // En caso de error se dejan nodes/edges vacíos
         setNodes([]);
         setEdges([]);
@@ -406,7 +425,9 @@ function Editor() {
   return (
     <ReactFlowProvider>
       <div className="editor__page">
-        <Toolbar onToggleSidebar={toggleSidebar} />
+        <Toolbar 
+          onToggleSidebar={toggleSidebar}
+        />
 
         <EditorSidebar
           onAddNode={handleAddNode}
@@ -448,6 +469,14 @@ function Editor() {
               title={saving ? 'Guardando...' : 'Guardar diagrama'}
             >
               <FaSave />
+            </button>
+            <button
+              className="editor__floating-button editor__floating-button--export"
+              onClick={() => setIsExportModalOpen(true)}
+              disabled={isExporting}
+              title="Exportar diagrama"
+            >
+              <FiDownload />
             </button>
             <button
               className="editor__floating-button editor__floating-button--clear"
@@ -502,8 +531,78 @@ function Editor() {
           cancelText="Cancelar"
           type="danger"
         />
+
+        <NewDiagramModal
+          isOpen={isNewDiagramModalOpen}
+          onClose={handleCloseNewDiagramModal}
+        />
+
+        {/* Modal de exportación */}
+        <ExportHandler
+          isOpen={isExportModalOpen}
+          onClose={() => setIsExportModalOpen(false)}
+          diagramTitle={diagramTitle}
+          isExporting={isExporting}
+          setIsExporting={setIsExporting}
+          toast={toast}
+        />
       </div>
     </ReactFlowProvider>
+  );
+}
+
+// Componente interno que usa el hook de ReactFlow
+function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExporting, toast }) {
+  const { exportToPNG, exportToSVG, exportToPDF } = useExportDiagram(diagramTitle || 'diagram');
+
+  const handleExportPNG = async () => {
+    setIsExporting(true);
+    try {
+      await exportToPNG();
+      toast.success('Diagrama exportado como PNG');
+      onClose();
+    } catch (error) {
+      toast.error('Error al exportar PNG');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportSVG = async () => {
+    setIsExporting(true);
+    try {
+      await exportToSVG();
+      toast.success('Diagrama exportado como SVG');
+      onClose();
+    } catch (error) {
+      toast.error('Error al exportar SVG');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      await exportToPDF();
+      toast.success('Diagrama exportado como PDF');
+      onClose();
+    } catch (error) {
+      toast.error('Error al exportar PDF');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  return (
+    <ExportModal
+      isOpen={isOpen}3
+      onClose={onClose}
+      onExportPNG={handleExportPNG}
+      onExportSVG={handleExportSVG}
+      onExportPDF={handleExportPDF}
+      isExporting={isExporting}
+    />
   );
 }
 
