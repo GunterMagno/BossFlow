@@ -4,11 +4,31 @@ import './NodeDescriptionPopup.css';
 const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
   const tooltipRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0, placement: 'top' });
+  const [isVisible, setIsVisible] = useState(false);
   const isOpenRef = useRef(isOpen);
+  const hoverTimeoutRef = useRef(null);
+  const touchTimeoutRef = useRef(null);
+  const isMobileRef = useRef(false);
+
+  // Detectar si es mobile/touch device
+  useEffect(() => {
+    const isMobile = () => {
+      return (
+        typeof window !== 'undefined' &&
+        (navigator.maxTouchPoints > 0 ||
+          navigator.msMaxTouchPoints > 0 ||
+          (window.matchMedia && window.matchMedia('(hover: none)').matches))
+      );
+    };
+    isMobileRef.current = isMobile();
+  }, []);
 
   // Actualizar ref cuando isOpen cambia
   useEffect(() => {
     isOpenRef.current = isOpen;
+    if (isOpen) {
+      setIsVisible(true);
+    }
   }, [isOpen]);
 
   // Cerrar con clic fuera (en cualquier parte del documento)
@@ -18,13 +38,17 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     const handleClickOutside = (e) => {
       // No cerrar si el clic es dentro del tooltip o si no está abierto
       if (tooltipRef.current && !tooltipRef.current.contains(e.target) && isOpenRef.current) {
-        onClose();
+        // Iniciar animación de cierre
+        setIsVisible(false);
+        // Después de la animación, cerrar completamente
+        setTimeout(() => onClose(), 200);
       }
     };
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isOpenRef.current) {
-        onClose();
+        setIsVisible(false);
+        setTimeout(() => onClose(), 200);
       }
     };
 
@@ -79,10 +103,26 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     return null;
   }
 
+  // Handler para mouse leave (solo en desktop/hover)
+  const handleMouseLeave = () => {
+    if (!isMobileRef.current) {
+      setIsVisible(false);
+      hoverTimeoutRef.current = setTimeout(() => onClose(), 200);
+    }
+  };
+
+  // Handler para mouse enter (solo en desktop/hover)
+  const handleMouseEnter = () => {
+    if (!isMobileRef.current && hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      setIsVisible(true);
+    }
+  };
+
   return (
     <div
       ref={tooltipRef}
-      className={`node-description-tooltip node-description-tooltip--${position.placement}`}
+      className={`node-description-tooltip node-description-tooltip--${position.placement} ${isVisible ? 'is-visible' : ''}`}
       style={{
         position: 'fixed',
         top: `${position.top}px`,
@@ -90,7 +130,8 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
         zIndex: 1000,
         pointerEvents: 'auto',
       }}
-      onMouseLeave={onClose}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
     >
       <div className={`node-description-tooltip__content ${image ? 'has-image' : 'no-image'}`}>
         {/* Imagen a la derecha (si existe) */}
