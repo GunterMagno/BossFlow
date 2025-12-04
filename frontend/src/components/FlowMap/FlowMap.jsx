@@ -46,6 +46,31 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   const reactFlowWrapper = useRef(null);
   const { screenToFlowPosition } = useReactFlow();
   const { nodosRecientes, agregarNodoReciente } = useRecentNodes();
+  const hoverTimeoutRef = useRef(null);
+  const isDraggingRef = useRef(false);
+
+  // Wrapper para detectar cuando se está arrastrando
+  const handleNodesChange = useCallback((changes) => {
+    // Detectar si algún cambio es un evento de drag
+    const isDragging = changes.some(change => 
+      change.type === 'position' && change.dragging === true
+    );
+    
+    if (isDragging) {
+      isDraggingRef.current = true;
+      // Cancelar hover mientras se arrastra
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+        hoverTimeoutRef.current = null;
+      }
+      setSelectedNodeForDescription(null);
+    } else if (changes.some(change => change.type === 'position' && change.dragging === false)) {
+      isDraggingRef.current = false;
+    }
+    
+    // Llamar al handler original
+    onNodosChange(changes);
+  }, [onNodosChange]);
 
   // Notifica al padre cuando cambien los nodos recientes
   useEffect(() => {
@@ -301,7 +326,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     };
   }, [nodos, onDeleteRequest]);
 
-  // Manejador de clic en nodo para mostrar descripción
+  // Manejador de clic en nodo para mostrar descripción (en mobile: tap)
   const handleNodeClick = useCallback((_event, node) => {
     // Solo mostrar popup si existe descripción no vacía
     if (node.data?.description && node.data.description.trim() !== '') {
@@ -326,13 +351,51 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     }
   }, []);
 
+  // Manejador de hover en nodo (solo desktop)
+  const handleNodeMouseEnter = useCallback((_event, node) => {
+    // No mostrar hover si se está arrastrando
+    if (isDraggingRef.current) return;
+    
+    // Detectar si es device con hover (desktop)
+    const hasHover = window.matchMedia('(hover: hover)').matches;
+    
+    if (!hasHover) return; // No hacer nada en mobile
+    
+    // Solo mostrar popup si existe descripción no vacía
+    if (node.data?.description && node.data.description.trim() !== '') {
+      // Calcular posición del nodo en la pantalla
+      const nodeElement = document.querySelector(`[data-id="${node.id}"]`);
+      if (nodeElement) {
+        const rect = nodeElement.getBoundingClientRect();
+        // Añadir delay de 800ms antes de mostrar el popup
+        hoverTimeoutRef.current = setTimeout(() => {
+          setSelectedNodeForDescription({
+            node,
+            nodePosition: rect,
+          });
+        }, 800);
+      }
+    }
+  }, []);
+
+  // Manejador de mouse leave en nodo (solo desktop)
+  const handleNodeMouseLeave = useCallback(() => {
+    // Limpiar timeout si el usuario mueve el ratón antes de 800ms
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    // Cerrar el popup inmediatamente si ya estaba abierto
+    setSelectedNodeForDescription(null);
+  }, []);
+
   return (
     <section className="flowmap">
       <div className="flowmap__wrap" ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodos}
           edges={conexiones}
-          onNodesChange={onNodosChange}
+          onNodesChange={handleNodesChange}
           onEdgesChange={onConexionesChange}
           onConnect={onConnect}
           onDragOver={onDragOver}
@@ -340,6 +403,8 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           onNodeDoubleClick={onNodeDoubleClick}
           onEdgeDoubleClick={onEdgeDoubleClick}
           onNodeClick={handleNodeClick}
+          onNodeMouseEnter={handleNodeMouseEnter}
+          onNodeMouseLeave={handleNodeMouseLeave}
           nodeTypes={tiposNodos}
           edgeTypes={tiposEdges}
           connectionRadius={30}

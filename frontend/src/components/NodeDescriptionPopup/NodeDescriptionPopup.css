@@ -6,9 +6,22 @@
   max-width: 400px;
   width: auto;
   padding: 16px;
-  animation: tooltipFadeIn 0.2s ease-out;
+  
+  /* Animación: invisible por defecto */
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  pointer-events: none;
 }
 
+/* Estado visible */
+.node-description-tooltip.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Animaciones (deprecated pero mantenidas para compatibilidad) */
 @keyframes tooltipFadeIn {
   from {
     opacity: 0;
@@ -17,6 +30,17 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes tooltipFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
   }
 }
 
@@ -101,62 +125,48 @@
   word-break: break-word;
   white-space: pre-wrap;
 }
-  line-height: 1.6;
-  color: var(--popup-text, #cbd5e1);
-  margin: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
 
 /* Responsive: en móviles, imagen arriba, texto abajo */
 @media (max-width: 640px) {
-  .node-description-popup {
+  .node-description-tooltip {
     max-width: 100%;
     padding: 16px;
   }
 
-  .node-description-popup__close {
-    top: 12px;
-    right: 12px;
-    width: 28px;
-    height: 28px;
-    font-size: 20px;
-  }
-
-  .node-description-popup__content.has-image {
+  .node-description-tooltip__content.has-image {
     flex-direction: column;
     align-items: center;
   }
 
-  .node-description-popup__image-container {
+  .node-description-tooltip__image-container {
     width: 100%;
     max-width: 300px;
     max-height: 300px;
   }
 
-  .node-description-popup__text {
+  .node-description-tooltip__text {
     text-align: center;
   }
 
-  .node-description-popup__content.no-image {
+  .node-description-tooltip__content.no-image {
     text-align: center;
   }
 }
 
 /* Scrollbar personalizada */
-.node-description-popup::-webkit-scrollbar {
+.node-description-tooltip::-webkit-scrollbar {
   width: 8px;
 }
 
-.node-description-popup::-webkit-scrollbar-track {
+.node-description-tooltip::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.node-description-popup::-webkit-scrollbar-thumb {
+.node-description-tooltip::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
 
-.node-description-popup::-webkit-scrollbar-thumb:hover {
+.node-description-tooltip::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
