@@ -14,7 +14,7 @@
 
 ## Definición del MVP.
 
-El mínimo producto viable que debe tener nuestra aplicación web es una versión básica en cuanto a la interfaz y las funcionalidades, pero que permita a los usuarios crear, editar y visualizar diagramas. Sin tener una cuenta asociada para poder realizarlas.
+El mínimo producto viable que debe tener nuestra aplicación web es una versión básica en cuanto a la interfaz y las funcionalidades, pero que permita a los usuarios crear, editar y visualizar diagramas. Teniendo que tener una cuenta asociada para poder realizarlas.
 
 - Ampliaciones: 
 
