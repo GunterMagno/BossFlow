@@ -191,7 +191,7 @@ function NewTemplateModal({
   if (!isOpen) return null;
 
   return (
-    <div
+    <section
       className="modal-overlay"
       onClick={handleClose}
       onKeyDown={handleKeyDown}
@@ -199,12 +199,12 @@ function NewTemplateModal({
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div
+      <article
         className="modal"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header del modal */}
-        <div className="modal__header">
+        <header className="modal__header">
           <h2 id="modal-title" className="modal__title">
             {editingTemplateId ? 'Editar plantilla' : 'Crear nueva plantilla'}
           </h2>
@@ -216,19 +216,19 @@ function NewTemplateModal({
           >
             <FiX />
           </button>
-        </div>
+        </header>
 
         {/* Formulario */}
         <form onSubmit={handleSubmit} className="modal__form">
           {/* Error general */}
           {errors.general && (
-            <div className="modal__error-general">
+            <aside className="modal__error-general">
               {errors.general}
-            </div>
+            </aside>
           )}
 
           {/* Campo título */}
-          <div className="modal__form-group">
+          <fieldset className="modal__form-group">
             <label htmlFor="title" className="modal__label">
               <FiFileText className="modal__label-icon" />
               Título de la plantilla
@@ -248,10 +248,10 @@ function NewTemplateModal({
             {errors.title && (
               <span className="modal__error">{errors.title}</span>
             )}
-          </div>
+          </fieldset>
 
           {/* Campo descripción */}
-          <div className="modal__form-group">
+          <fieldset className="modal__form-group">
             <label htmlFor="description" className="modal__label">
               <FiAlignLeft className="modal__label-icon" />
               Descripción (opcional)
@@ -269,10 +269,10 @@ function NewTemplateModal({
             <span className="modal__char-count">
               {formData.description.length}/500
             </span>
-          </div>
+          </fieldset>
 
           {/* Botones */}
-          <div className="modal__actions">
+          <nav className="modal__actions">
             <button
               type="button"
               className="modal__button modal__button--secondary"
@@ -291,10 +291,10 @@ function NewTemplateModal({
                 : (editingTemplateId ? 'Guardar y editar' : 'Crear plantilla')
               }
             </button>
-          </div>
+          </nav>
         </form>
-      </div>
-    </div>
+      </article>
+    </section>
   );
 }
 

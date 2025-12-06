@@ -59,8 +59,8 @@ function TemplateCard({
   };
 
   return (
-    <div className="template-card-wrapper">
-      <div className="template-card">
+    <article className="template-card-wrapper">
+      <article className="template-card">
         
         {/* Botón de eliminar arriba a la derecha (solo para plantillas de usuario) */}
         {!isSystemTemplate && (
@@ -74,18 +74,18 @@ function TemplateCard({
           </button>
         )}
 
-        <div className="template-card__icon">
+        <figure className="template-card__icon">
           <FiFileText />
-        </div>
+        </figure>
 
-        <div className="template-card__content">
+        <section className="template-card__content">
           <h3 className="template-card__title">{template.title}</h3>
           {template.description && (
             <p className="template-card__description">{template.description}</p>
           )}
-        </div>
+        </section>
 
-        <div className="template-card__actions">
+        <nav className="template-card__actions">
           <button
             className="template-card__action-button template-card__action-button--use"
             onClick={handleUseTemplate}
@@ -114,9 +114,9 @@ function TemplateCard({
               <span>Editar</span>
             </button>
           )}
-        </div>
-      </div>
-    </div>
+        </nav>
+      </article>
+    </article>
   );
 }
 

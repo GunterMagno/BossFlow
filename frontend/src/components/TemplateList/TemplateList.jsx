@@ -42,20 +42,20 @@ function TemplateList({
   // Estado de carga
   if (loading) {
     return (
-      <div className="template-list">
-        <div className="template-list__loading">
-          <div className="template-list__spinner"></div>
+      <section className="template-list">
+        <aside className="template-list__loading">
+          <figure className="template-list__spinner"></figure>
           <p>Cargando plantillas...</p>
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
   // Estado de error
   if (error) {
     return (
-      <div className="template-list">
-        <div className="template-list__error">
+      <section className="template-list">
+        <aside className="template-list__error">
           <FiAlertCircle className="template-list__error-icon" />
           <p className="template-list__error-message">{error}</p>
           {onRetry && (
@@ -66,16 +66,16 @@ function TemplateList({
               Reintentar
             </button>
           )}
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
   // Estado vacío
   if (!templates || templates.length === 0) {
     return (
-      <div className="template-list">
-        <div className="template-list__empty">
+      <section className="template-list">
+        <aside className="template-list__empty">
           <FiFileText className="template-list__empty-icon" />
           <h3 className="template-list__empty-title">No hay plantillas disponibles</h3>
           <p className="template-list__empty-message">
@@ -86,16 +86,16 @@ function TemplateList({
               Crear plantilla
             </button>
           )}
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
   // Lista de plantillas
   return (
     <>
-      <div className="template-list">
-        <div className="template-list__grid">
+      <section className="template-list">
+        <section className="template-list__grid">
           {templates.map((template) => (
             <TemplateCard
               key={template.id || template._id}
@@ -106,8 +106,8 @@ function TemplateList({
               isSystemTemplate={isSystemTemplates}
             />
           ))}
-        </div>
-      </div>
+        </section>
+      </section>
 
       <ConfirmModal
         isOpen={!!templateToUse}

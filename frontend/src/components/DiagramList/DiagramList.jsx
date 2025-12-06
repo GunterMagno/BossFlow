@@ -89,20 +89,20 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
   // Estado de carga
   if (loading) {
     return (
-      <div className="diagram-list">
-        <div className="diagram-list__loading">
-          <div className="diagram-list__spinner"></div>
+      <section className="diagram-list">
+        <aside className="diagram-list__loading">
+          <figure className="diagram-list__spinner"></figure>
           <p>Cargando diagramas...</p>
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
   // Estado de error
   if (error) {
     return (
-      <div className="diagram-list">
-        <div className="diagram-list__error">
+      <section className="diagram-list">
+        <aside className="diagram-list__error">
           <FiAlertCircle className="diagram-list__error-icon" />
           <p className="diagram-list__error-message">{error}</p>
           <button
@@ -111,16 +111,16 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
           >
             Reintentar
           </button>
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
   // Estado vacío
   if (diagrams.length === 0) {
     return (
-      <div className="diagram-list">
-        <div className="diagram-list__empty">
+      <section className="diagram-list">
+        <aside className="diagram-list__empty">
           <FiFileText className="diagram-list__empty-icon" />
           <h3 className="diagram-list__empty-title">No tienes diagramas aún</h3>
           <p className="diagram-list__empty-message">
@@ -135,16 +135,16 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
               Crear diagrama
             </Link>
           )}
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
   // Lista de diagramas
   return (
     <>
-      <div className="diagram-list">
-        <div className="diagram-list__grid">
+      <section className="diagram-list">
+        <section className="diagram-list__grid">
           {diagrams.map((diagram) => (
             <DiagramCard
               key={diagram.id}
@@ -153,8 +153,8 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
               onEdit={handleEditClick}
             />
           ))}
-        </div>
-      </div>
+        </section>
+      </section>
 
       <ConfirmModal
         isOpen={!!diagramToDelete}

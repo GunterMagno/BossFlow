@@ -120,7 +120,7 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
   };
 
   return (
-    <div
+    <aside
       ref={tooltipRef}
       className={`node-description-tooltip node-description-tooltip--${position.placement} ${isVisible ? 'is-visible' : ''}`}
       style={{
@@ -133,33 +133,33 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
     >
-      <div className={`node-description-tooltip__content ${image ? 'has-image' : 'no-image'}`}>
+      <section className={`node-description-tooltip__content ${image ? 'has-image' : 'no-image'}`}>
         {/* Imagen a la derecha (si existe) */}
         {image && (
-          <div className="node-description-tooltip__image-container">
+          <figure className="node-description-tooltip__image-container">
             <img
               src={image.url}
               alt={image.filename || 'Imagen del nodo'}
               className="node-description-tooltip__image"
               loading="eager"
             />
-          </div>
+          </figure>
         )}
 
         {/* Descripción a la izquierda o centrada */}
-        <div className="node-description-tooltip__text">
+        <article className="node-description-tooltip__text">
           <h4 className="node-description-tooltip__title">
             {node.data?.title || 'Nodo'}
           </h4>
           <p className="node-description-tooltip__description">
             {description}
           </p>
-        </div>
-      </div>
+        </article>
+      </section>
 
       {/* Triángulo/flecha hacia el nodo */}
-      <div className={`node-description-tooltip__arrow node-description-tooltip__arrow--${position.placement}`} />
-    </div>
+      <figure className={`node-description-tooltip__arrow node-description-tooltip__arrow--${position.placement}`} />
+    </aside>
   );
 };
 

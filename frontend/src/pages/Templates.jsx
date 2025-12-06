@@ -136,13 +136,13 @@ function Templates() {
   const currentError = activeTab === 'mis-plantillas' ? errorTemplates : null;
 
   return (
-    <div className="dashboard">
+    <section className="dashboard">
       {/* Sidebar */}
       <aside className="dashboard__sidebar">
-        <div className="dashboard__sidebar-contenido">
-          <div className="dashboard__logo">
+        <section className="dashboard__sidebar-contenido">
+          <header className="dashboard__logo">
             <h2>BossFlow</h2>
-          </div>
+          </header>
 
           <nav className="dashboard__nav">
             <Link
@@ -198,19 +198,19 @@ function Templates() {
             <FiLogOut className="dashboard__nav-icono" />
             <span>Cerrar sesión</span>
           </button>
-        </div>
+        </section>
       </aside>
 
       {/* Contenido principal */}
       <main className="dashboard__main">
         <section className="dashboard__seccion">
-          <div className="dashboard__seccion-header">
-            <div>
+          <header className="dashboard__seccion-header">
+            <section>
               <h2 className="dashboard__titulo">Plantillas</h2>
               <p className="dashboard__descripcion">
                 Crea diagramas rápidamente usando plantillas predefinidas
               </p>
-            </div>
+            </section>
             <button
               onClick={() => setIsTemplateModalOpen(true)}
               className="dashboard__boton-nuevo"
@@ -218,10 +218,10 @@ function Templates() {
               <FiPlus className="dashboard__boton-icono" />
               Nueva plantilla
             </button>
-          </div>
+          </header>
 
           {/* Pestañas */}
-          <div className="dashboard__tabs">
+          <nav className="dashboard__tabs">
             <button
               className={`dashboard__tab ${activeTab === 'predeterminadas' ? 'dashboard__tab--active' : ''}`}
               onClick={() => setActiveTab('predeterminadas')}
@@ -234,7 +234,7 @@ function Templates() {
             >
               Mis plantillas
             </button>
-          </div>
+          </nav>
 
           <TemplateList
             templates={displayedTemplates}
@@ -299,7 +299,7 @@ function Templates() {
         cancelText="Cancelar"
         type="danger"
       />
-    </div>
+    </section>
   );
 }
 

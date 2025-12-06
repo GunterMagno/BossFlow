@@ -164,24 +164,24 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   return (
-    <div className="upload-image-modal-overlay" onClick={handleClose}>
-      <div className="upload-image-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="upload-image-modal-header">
+    <section className="upload-image-modal-overlay" onClick={handleClose}>
+      <article className="upload-image-modal" onClick={(e) => e.stopPropagation()}>
+        <header className="upload-image-modal-header">
           <h2>{title}</h2>
           <button className="close-button" onClick={handleClose}>
             ✕
           </button>
-        </div>
+        </header>
 
-        <div className="upload-image-modal-body">
+        <section className="upload-image-modal-body">
           {error && (
-            <div className="upload-error">
+            <aside className="upload-error">
               {error}
-            </div>
+            </aside>
           )}
 
           {/* Sección URL (primera) */}
-          <div className="upload-url-section">
+          <section className="upload-url-section">
             <h3 className="section-title">Desde URL</h3>
             <label htmlFor="image-url-input">URL de la imagen:</label>
             <input
@@ -195,9 +195,9 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
             />
             
             {preview && (
-              <div className="url-preview">
+              <figure className="url-preview">
                 <img src={preview} alt="Vista previa" />
-              </div>
+              </figure>
             )}
 
             <button
@@ -207,17 +207,15 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
             >
               {isUploading ? 'Validando...' : 'Usar esta imagen'}
             </button>
-          </div>
+          </section>
 
           {/* Separador visual */}
-          <div className="section-divider">
-            <span>o</span>
-          </div>
+          <section className="section-divider">
 
           {/* Sección Archivo (segunda) */}
-          <div className="upload-file-section">
+          <section className="upload-file-section">
             <h3 className="section-title">Desde archivo</h3>
-            <div
+            <section
               className={`upload-drop-zone ${isDragging ? 'dragging' : ''}`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -233,10 +231,10 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
               />
               
               {isUploading ? (
-                <div className="upload-loading">
-                  <div className="spinner"></div>
+                <aside className="upload-loading">
+                  <figure className="spinner"></figure>
                   <p>Subiendo imagen...</p>
-                </div>
+                </aside>
               ) : (
                 <>
                   <FiUploadCloud className="upload-icon" />
@@ -254,11 +252,12 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
                   </p>
                 </>
               )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              </section>
+            </section>
+          </section>
+        </section>
+      </article>
+    </section>
   );
 };
 

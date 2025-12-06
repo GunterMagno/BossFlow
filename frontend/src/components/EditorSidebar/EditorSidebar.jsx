@@ -134,7 +134,7 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
   };
 
   const renderNodeButton = (node, index) => (
-    <div
+    <button
       key={`${node.type}-${index}`}
       className="editor-sidebar__node-button"
       draggable
@@ -147,12 +147,12 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
         {node.icon}
       </span>
       <span className="editor-sidebar__node-label">{node.label}</span>
-    </div>
+    </button>
   );
 
   return (
     <aside className={`editor-sidebar ${className}`} aria-label="Biblioteca de nodos">
-      <div className="editor-sidebar__header">
+      <header className="editor-sidebar__header">
         <h2 className="editor-sidebar__title">Biblioteca de Nodos</h2>
         {/* Close button for overlay (visible on small screens) */}
         {onCloseSidebar && (
@@ -165,11 +165,11 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
             <FiX />
           </button>
         )}
-      </div>
+      </header>
 
       {/* Demo button removed */}
 
-      <div className="editor-sidebar__content">
+      <section className="editor-sidebar__content">
         {/* Nodos Básicos */}
         <section className="editor-sidebar__section">
           <button
@@ -184,9 +184,9 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
           </button>
 
           {expandedSections.basic && (
-            <div className="editor-sidebar__section-content">
+            <section className="editor-sidebar__section-content">
               {basicNodes.map((node, index) => renderNodeButton(node, index))}
-            </div>
+            </section>
           )}
         </section>
 
@@ -204,9 +204,9 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
           </button>
 
           {expandedSections.game && (
-            <div className="editor-sidebar__section-content">
+            <section className="editor-sidebar__section-content">
               {gameNodes.map((node, index) => renderNodeButton(node, index))}
-            </div>
+            </section>
           )}
         </section>
 
@@ -224,7 +224,7 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
           </button>
 
           {expandedSections.recent && (
-            <div className="editor-sidebar__section-content">
+            <section className="editor-sidebar__section-content">
               {recentNodes.length === 0 ? (
                 <p className="editor-sidebar__empty-message">
                   No hay nodos recientes. Arrastra un nodo al canvas para comenzar.
@@ -239,10 +239,10 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
                   return renderNodeButton(nodeWithIcon, index);
                 })
               )}
-            </div>
+            </section>
           )}
         </section>
-      </div>
+      </section>
 
       {/* Botón Salir */}
       <button className="editor-sidebar__exit-button" onClick={handleExit}>

@@ -95,7 +95,7 @@ function MobileNodePanel({ onAddNode }) {
   };
 
   return (
-    <div className={`mobile-node-panel ${isOpen ? 'mobile-node-panel--open' : ''}`}>
+    <aside className={`mobile-node-panel ${isOpen ? 'mobile-node-panel--open' : ''}`}>
       {/* Toggle button */}
       <button
         className="mobile-node-panel__toggle"
@@ -107,10 +107,10 @@ function MobileNodePanel({ onAddNode }) {
       </button>
 
       {/* Panel content */}
-      <div className="mobile-node-panel__content">
-        <div className="mobile-node-panel__scroll">
+      <section className="mobile-node-panel__content">
+        <section className="mobile-node-panel__scroll">
           {allNodes.map((node, index) => (
-            <div
+            <article
               key={`${node.type}-${index}`}
               className="mobile-node-panel__node"
               draggable
@@ -123,11 +123,11 @@ function MobileNodePanel({ onAddNode }) {
                 {node.icon}
               </span>
               <span className="mobile-node-panel__node-label">{node.label}</span>
-            </div>
+            </article>
           ))}
-        </div>
-      </div>
-    </div>
+        </section>
+      </section>
+    </aside>
   );
 }
 

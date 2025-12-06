@@ -43,29 +43,29 @@ function Status() {
             <section className="status__servicio-body">
               {loading ? (
                 <section className="status__loading">
-                  <div className="status__spinner"></div>
+                  <figure className="status__spinner"></figure>
                   <p>Verificando conexión...</p>
                 </section>
               ) : isConnected ? (
                 <section className="status__info">
-                  <div className="status__info-item">
+                  <article className="status__info-item">
                     <span className="status__info-label">Estado:</span>
                     <span className="status__info-value status__info-value--success">
                       Operativo
                     </span>
-                  </div>
-                  <div className="status__info-item">
+                  </article>
+                  <article className="status__info-item">
                     <span className="status__info-label">Último chequeo:</span>
                     <span className="status__info-value">
                       {new Date().toLocaleTimeString('es-ES')}
                     </span>
-                  </div>
+                  </article>
                 </section>
               ) : (
                 <section className="status__error">
-                  <div className="status__error-icon">
+                  <figure className="status__error-icon">
                     <FiAlertTriangle />
-                  </div>
+                  </figure>
                   <section className="status__error-content">
                     <p className="status__error-titulo">
                       Servicio no disponible
@@ -108,12 +108,12 @@ function Status() {
 
             <section className="status__servicio-body">
               <section className="status__info">
-                <div className="status__info-item">
+                <article className="status__info-item">
                   <span className="status__info-label">Estado:</span>
                   <span className="status__info-value status__info-value--success">
                     {isConnected ? 'Operativo' : 'No disponible'}
                   </span>
-                </div>
+                </article>
               </section>
             </section>
           </article>

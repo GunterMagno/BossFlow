@@ -22,7 +22,7 @@ const ImageNode = ({ data, selected, id }) => {
   const imageHeight = data.image?.height || 150;
 
   return (
-    <div 
+    <article 
       className={`image-node ${selected ? 'selected' : ''}`}
       style={{
         width: imageWidth,
@@ -41,7 +41,7 @@ const ImageNode = ({ data, selected, id }) => {
           backgroundColor: '#4a90e2',
         }}
       />
-      <div className="image-node-container">
+      <figure className="image-node-container">
         {data.image && (
           <img 
             src={data.image.url} 
@@ -62,7 +62,7 @@ const ImageNode = ({ data, selected, id }) => {
             ✕
           </button>
         )}
-      </div>
+      </figure>
 
       {/* Handles target en 4 direcciones - invisibles pero funcionales */}
       <Handle 
@@ -153,7 +153,7 @@ const ImageNode = ({ data, selected, id }) => {
           pointerEvents: 'auto'
         }} 
       />
-    </div>
+    </article>
   );
 };
 

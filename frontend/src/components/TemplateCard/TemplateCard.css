@@ -87,6 +87,7 @@
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -255,11 +256,16 @@
   }
 
   .template-card__action-button span {
-    display: none;
+    display: inline-block;
   }
 
   .template-card__action-button {
     justify-content: center;
+    padding-left: var(--espaciado-sm);
+  }
+
+  .template-card__action-button svg {
+    margin-right: var(--espaciado-xs);
   }
 
   /* Mostrar botón eliminar siempre en móvil */

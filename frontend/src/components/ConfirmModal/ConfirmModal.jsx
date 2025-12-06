@@ -23,7 +23,7 @@ function ConfirmModal({
   if (!isOpen) return null;
 
   return (
-    <div
+    <section
       className="confirm-modal-overlay"
       onClick={!isLoading ? onClose : undefined}
       onKeyDown={handleKeyDown}
@@ -31,15 +31,15 @@ function ConfirmModal({
       aria-modal="true"
       aria-labelledby="confirm-modal-title"
     >
-      <div
+      <article
         className={`confirm-modal confirm-modal--${type}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header con icono */}
-        <div className="confirm-modal__header">
-          <div className="confirm-modal__icon-wrapper">
+        <header className="confirm-modal__header">
+          <figure className="confirm-modal__icon-wrapper">
             <FiAlertTriangle className="confirm-modal__icon" />
-          </div>
+          </figure>
           <button
             type="button"
             className="confirm-modal__close-button"
@@ -49,18 +49,18 @@ function ConfirmModal({
           >
             <FiX />
           </button>
-        </div>
+        </header>
 
         {/* Content */}
-        <div className="confirm-modal__content">
+        <section className="confirm-modal__content">
           <h2 id="confirm-modal-title" className="confirm-modal__title">
             {title}
           </h2>
           <p className="confirm-modal__message">{message}</p>
-        </div>
+        </section>
 
         {/* Actions */}
-        <div className="confirm-modal__actions">
+        <nav className="confirm-modal__actions">
           <button
             type="button"
             className="confirm-modal__button confirm-modal__button--cancel"
@@ -77,9 +77,9 @@ function ConfirmModal({
           >
             {isLoading ? 'Procesando...' : confirmText}
           </button>
-        </div>
-      </div>
-    </div>
+        </nav>
+      </article>
+    </section>
   );
 }
 

@@ -51,7 +51,7 @@ const NodeTitle = ({ value }) => {
 };
 
 export const DecisionNode = ({ id, data, style, selected }) => (
-  <div className={`node decision-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node decision-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -62,11 +62,11 @@ export const DecisionNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-decision)'} />
     <span className="icon"><FiGitBranch className="node-icon icon-decision" role="img" aria-label="Icono de decisión" /></span>
     <NodeTitle value={data.title} />
-  </div>
+  </article>
 );
 
 export const ActionNode = ({ id, data, style, selected }) => (
-  <div className={`node action-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node action-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -77,11 +77,11 @@ export const ActionNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-action)'} />
     <span className="icon"><FiZap className="node-icon icon-action" role="img" aria-label="Icono de acción" /></span>
     <NodeTitle value={data.title} />
-  </div>
+  </article>
 );
 
 export const PhaseNode = ({ id, data, style, selected }) => (
-  <div className={`node phase-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node phase-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -92,11 +92,11 @@ export const PhaseNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-phase)'} />
     <span className="icon"><FiWatch className="node-icon icon-phase" role="img" aria-label="Icono de fase" /></span>
     <NodeTitle value={data.title} />
-  </div>
+  </article>
 );
 
 export const EffectNode = ({ id, data, style, selected }) => (
-  <div className={`node effect-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node effect-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -107,11 +107,11 @@ export const EffectNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-effect)'} />
     <span className="icon"><FiTool className="node-icon icon-effect" role="img" aria-label="Icono de mecánica" /></span>
     <NodeTitle value={data.title} />
-  </div>
+  </article>
 );
 
 export const StartNode = ({ id, data, style, selected }) => (
-  <div className={`node start-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node start-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={80} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -122,11 +122,11 @@ export const StartNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-start-end)'} />
     <span className="icon"><FiCircle className="node-icon icon-start-end" role="img" aria-label="Icono de evento" /></span>
     <NodeTitle value={data?.title || 'Start'} />
-  </div>
+  </article>
 );
 
 export const EndNode = ({ id, data, style, selected }) => (
-  <div className={`node end-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node end-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={80} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -137,12 +137,12 @@ export const EndNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-start-end)'} />
     <span className="icon"><FiCircle className="node-icon icon-start-end" role="img" aria-label="Icono de evento" /></span>
     <NodeTitle value={data?.title || 'End'} />
-  </div>
+  </article>
 );
 
 // Nodos específicos del juego
 export const PositionNode = ({ id, data, style, selected }) => (
-  <div className={`node position-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node position-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -153,11 +153,11 @@ export const PositionNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-position)'} />
     <span className="icon"><FiMapPin className="node-icon icon-position" role="img" aria-label="Icono de posición" /></span>
     <NodeTitle value={data.title} />
-  </div>
+  </article>
 );
 
 export const TimerNode = ({ id, data, style, selected }) => (
-  <div className={`node timer-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node timer-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -168,11 +168,11 @@ export const TimerNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-timer)'} />
     <span className="icon"><FiClock className="node-icon icon-timer" role="img" aria-label="Icono de temporizador" /></span>
     <NodeTitle value={data.title} />
-  </div>
+  </article>
 );
 
 export const AbilityNode = ({ id, data, style, selected }) => (
-  <div className={`node ability-node ${selected ? 'selected' : ''}`} style={style}>
+  <article className={`node ability-node ${selected ? 'selected' : ''}`} style={style}>
     <NodeResizer minWidth={100} minHeight={30} isVisible={selected} handleStyle={{
       width: '8px',
       height: '8px',
@@ -183,5 +183,5 @@ export const AbilityNode = ({ id, data, style, selected }) => (
     <Handles nodeId={id} color={'var(--node-ability)'} />
     <span className="icon"><FiStar className="node-icon icon-ability" role="img" aria-label="Icono de habilidad" /></span>
     <NodeTitle value={data.title} />
-  </div>
+  </article>
 );

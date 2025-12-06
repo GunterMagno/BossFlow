@@ -120,7 +120,7 @@ function Navbar() {
             ) : (
               <section className="navbar__usuario-movil">
                 {/* Opciones de cuenta */}
-                <div className="navbar__seccion-titulo">Cuenta</div>
+                <h3 className="navbar__seccion-titulo">Cuenta</h3>
                 <Link
                   to="/profile"
                   className="navbar__enlace"

@@ -29,7 +29,7 @@ function Toast({ message, type = 'success', onClose, duration = 3000 }) {
   };
 
   return (
-    <div className={`toast toast--${type}`}>
+    <aside className={`toast toast--${type}`}>
       {getIcon()}
       <span className="toast__message">{message}</span>
       <button
@@ -39,7 +39,7 @@ function Toast({ message, type = 'success', onClose, duration = 3000 }) {
       >
         <FiX />
       </button>
-    </div>
+    </aside>
   );
 }
 

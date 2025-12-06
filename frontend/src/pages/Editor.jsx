@@ -55,6 +55,23 @@ function Editor() {
     }
   }, [diagramId]);
 
+  // Efecto para hacer scroll automático al entrar al editor
+  useEffect(() => {
+    // Espera un momento para que el DOM esté completamente cargado
+    const timer = setTimeout(() => {
+      const navbar = document.querySelector('.navbar, nav, header');
+      if (navbar) {
+        const navbarHeight = navbar.offsetHeight;
+        window.scrollTo({
+          top: navbarHeight,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []); // Solo se ejecuta al entrar
+
 
 
   // Función para cerrar el modal y volver al dashboard
@@ -241,7 +258,7 @@ function Editor() {
           try {
             await deleteImage(imageData.url);
           } catch (error) {
-            console.error('Error al eliminar imagen del servidor:', error);
+            console.error('Error al eliminar im (ocultar el header)agen del servidor:', error);
           }
           // Eliminar nodo del canvas
           setNodes((nds) => nds.filter((n) => n.id !== imageId));
@@ -426,10 +443,7 @@ function Editor() {
 
   return (
     <ReactFlowProvider>
-      <div className="editor__page">
-        <Toolbar 
-          onToggleSidebar={toggleSidebar}
-        />
+      <section className="editor__page">
 
         <EditorSidebar
           onAddNode={handleAddNode}
@@ -440,9 +454,9 @@ function Editor() {
 
         <main className="editor__canvas">
           {loading && diagramId ? (
-            <div className="editor__loading">
+            <article className="editor__loading">
               <p>Cargando diagrama...</p>
-            </div>
+            </article>
           ) : (
             <FlowMap
               initialNodes={nodes}
@@ -458,7 +472,7 @@ function Editor() {
           )}
 
           {/* Botones flotantes */}
-          <div className="editor__floating-actions">
+          <aside className="editor__floating-actions">
             <button
               className="editor__floating-button editor__floating-button--image"
               onClick={() => setIsUploadImageModalOpen(true)}
@@ -489,7 +503,7 @@ function Editor() {
             >
               <FiTrash2 />
             </button>
-          </div>
+          </aside>
         </main>
 
         {/* Panel móvil de nodos */}
@@ -550,7 +564,7 @@ function Editor() {
           setIsExporting={setIsExporting}
           toast={toast}
         />
-      </div>
+      </section>
     </ReactFlowProvider>
   );
 }
