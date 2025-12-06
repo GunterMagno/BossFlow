@@ -136,10 +136,10 @@ function ImportJSON({
   };
 
   return (
-    <div className="import-json__overlay" onClick={handleClose}>
-      <div className="import-json__content" onClick={(e) => e.stopPropagation()}>
+    <section className="import-json__overlay" onClick={handleClose}>
+      <article className="import-json__content" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="import-json__header">
+        <header className="import-json__header">
           <h2 className="import-json__title">
             <FiUpload />
             Importar Diagrama desde JSON
@@ -152,17 +152,17 @@ function ImportJSON({
           >
             <FiX />
           </button>
-        </div>
+        </header>
 
         {/* Body */}
-        <div className="import-json__body">
+        <section className="import-json__body">
           {!previewData ? (
             <>
               <p className="import-json__description">
                 Selecciona un archivo JSON para importar el diagrama. El archivo debe estar en formato BossFlow válido.
               </p>
 
-              <div className="import-json__file-input">
+              <section className="import-json__file-input">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -175,76 +175,76 @@ function ImportJSON({
                   <FiUpload />
                   {importFile ? importFile.name : 'Seleccionar archivo JSON'}
                 </label>
-              </div>
+              </section>
 
               {validationError && (
-                <div className="import-json__error">
+                <section className="import-json__error">
                   <FiAlertCircle />
-                  <div>
+                  <article>
                     <strong>Error de validación:</strong>
                     <p>{validationError}</p>
-                  </div>
-                </div>
+                  </article>
+                </section>
               )}
 
-              <div className="import-json__info">
+              <section className="import-json__info">
                 <FiAlertCircle />
-                <div>
+                <article>
                   <p><strong>Importante:</strong> Al importar un diagrama, se reemplazará el contenido actual del canvas.</p>
                   <p className="import-json__info-detail">
                     Asegúrate de guardar tu trabajo antes de importar.
                   </p>
-                </div>
-              </div>
+                </article>
+              </section>
 
-              <div className="import-json__actions">
+              <nav className="import-json__actions">
                 <button
                   className="import-json__button import-json__button--secondary"
                   onClick={handleClose}
                 >
                   Cancelar
                 </button>
-              </div>
+              </nav>
             </>
           ) : (
             <>
               {/* Preview de datos a importar */}
-              <div className="import-json__preview">
-                <div className="import-json__preview-header">
+              <section className="import-json__preview">
+                <header className="import-json__preview-header">
                   <FiCheckCircle className="import-json__preview-icon" />
                   <h3>Vista previa del diagrama</h3>
-                </div>
+                </header>
                 
-                <div className="import-json__preview-content">
-                  <div className="import-json__preview-item">
+                <section className="import-json__preview-content">
+                  <article className="import-json__preview-item">
                     <strong>Título:</strong>
                     <span>{previewData.metadata.title}</span>
-                  </div>
-                  <div className="import-json__preview-item">
+                  </article>
+                  <article className="import-json__preview-item">
                     <strong>Exportado:</strong>
                     <span>{new Date(previewData.metadata.exportedAt).toLocaleString()}</span>
-                  </div>
-                  <div className="import-json__preview-item">
+                  </article>
+                  <article className="import-json__preview-item">
                     <strong>Versión:</strong>
                     <span>{previewData.version}</span>
-                  </div>
-                  <div className="import-json__preview-item">
+                  </article>
+                  <article className="import-json__preview-item">
                     <strong>Nodos:</strong>
                     <span>{previewData.metadata.nodeCount}</span>
-                  </div>
-                  <div className="import-json__preview-item">
+                  </article>
+                  <article className="import-json__preview-item">
                     <strong>Conexiones:</strong>
                     <span>{previewData.metadata.edgeCount}</span>
-                  </div>
-                </div>
-              </div>
+                  </article>
+                </section>
+              </section>
 
-              <div className="import-json__warning import-json__warning--danger">
+              <aside className="import-json__warning import-json__warning--danger">
                 <FiAlertCircle />
                 <p><strong>¿Continuar con la importación?</strong> El contenido actual del canvas será reemplazado.</p>
-              </div>
+              </aside>
 
-              <div className="import-json__actions">
+              <nav className="import-json__actions">
                 <button
                   className="import-json__button import-json__button--secondary"
                   onClick={handleCancelImport}
@@ -259,20 +259,20 @@ function ImportJSON({
                 >
                   {isProcessing ? 'Importando...' : 'Confirmar importación'}
                 </button>
-              </div>
+              </nav>
             </>
           )}
 
           {/* Indicador de carga global */}
           {isProcessing && (
-            <div className="import-json__loading">
-              <div className="import-json__spinner"></div>
+            <aside className="import-json__loading">
+              <figure className="import-json__spinner"></figure>
               <p>Importando diagrama...</p>
-            </div>
+            </aside>
           )}
-        </div>
-      </div>
-    </div>
+        </section>
+      </article>
+    </section>
   );
 }
 

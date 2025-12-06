@@ -129,7 +129,7 @@ function Login() {
           )}
 
           {/* Campo correo */}
-          <section className="login__campo">
+          <fieldset className="login__campo">
             <label htmlFor="correo" className="login__etiqueta">
               Correo Electrónico
             </label>
@@ -148,10 +148,10 @@ function Login() {
                 {errores.correo}
               </span>
             )}
-          </section>
+          </fieldset>
 
           {/* Campo contraseña */}
-          <section className="login__campo">
+          <fieldset className="login__campo">
             <section className="login__etiqueta-con-enlace">
               <label htmlFor="contrasena" className="login__etiqueta">
                 Contraseña
@@ -178,10 +178,10 @@ function Login() {
                 {errores.contrasena}
               </span>
             )}
-          </section>
+          </fieldset>
 
           {/* Checkbox recordarme */}
-          <section className="login__recordar">
+          <fieldset className="login__recordar">
             <label className="login__checkbox">
               <input
                 type="checkbox"
@@ -193,7 +193,7 @@ function Login() {
               />
               <span className="login__checkbox-texto">Recordarme</span>
             </label>
-          </section>
+          </fieldset>
 
           {/* Botón submit */}
           <button type="submit" className="login__boton" disabled={cargando}>

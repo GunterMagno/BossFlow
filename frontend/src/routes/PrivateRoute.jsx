@@ -21,10 +21,10 @@ function PrivateRoute({ children }) {
   // Mientras verifica autenticación, mostrar loading
   if (loading) {
     return (
-      <div className="private-route__loading">
-        <div className="private-route__spinner"></div>
+      <article className="private-route__loading">
+        <figure className="private-route__spinner"></figure>
         <p className="private-route__texto">Verificando autenticación...</p>
-      </div>
+      </article>
     );
   }
 

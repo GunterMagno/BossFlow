@@ -10,18 +10,18 @@ function ConfirmDialog({ isOpen, onClose, onConfirm, title, message, confirmText
   };
 
   return (
-    <div className="confirm-dialog-overlay" onClick={onClose}>
-      <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
-        <div className={`confirm-dialog__header confirm-dialog__header--${type}`}>
+    <section className="confirm-dialog-overlay" onClick={onClose}>
+      <article className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
+        <header className={`confirm-dialog__header confirm-dialog__header--${type}`}>
           <FiAlertTriangle className="confirm-dialog__icon" />
           <h3 className="confirm-dialog__title">{title}</h3>
-        </div>
+        </header>
 
-        <div className="confirm-dialog__body">
+        <section className="confirm-dialog__body">
           <p className="confirm-dialog__message">{message}</p>
-        </div>
+        </section>
 
-        <div className="confirm-dialog__actions">
+        <nav className="confirm-dialog__actions">
           <button
             type="button"
             className="confirm-dialog__button confirm-dialog__button--cancel"
@@ -36,9 +36,9 @@ function ConfirmDialog({ isOpen, onClose, onConfirm, title, message, confirmText
           >
             {confirmText}
           </button>
-        </div>
-      </div>
-    </div>
+        </nav>
+      </article>
+    </section>
   );
 }
 

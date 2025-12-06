@@ -162,7 +162,7 @@ function Register() {
           )}
 
           {/* Campo nombre de usuario */}
-          <section className="register__campo">
+          <fieldset className="register__campo">
             <label htmlFor="nombreUsuario" className="register__etiqueta">
               Nombre de Usuario
             </label>
@@ -181,10 +181,10 @@ function Register() {
                 {errores.nombreUsuario}
               </span>
             )}
-          </section>
+          </fieldset>
 
           {/* Campo correo */}
-          <section className="register__campo">
+          <fieldset className="register__campo">
             <label htmlFor="correo" className="register__etiqueta">
               Correo Electrónico
             </label>
@@ -203,10 +203,10 @@ function Register() {
                 {errores.correo}
               </span>
             )}
-          </section>
+          </fieldset>
 
           {/* Campo contraseña */}
-          <section className="register__campo">
+          <fieldset className="register__campo">
             <label htmlFor="contrasena" className="register__etiqueta">
               Contraseña
             </label>
@@ -225,10 +225,10 @@ function Register() {
                 {errores.contrasena}
               </span>
             )}
-          </section>
+          </fieldset>
 
           {/* Campo confirmar contraseña */}
-          <section className="register__campo">
+          <fieldset className="register__campo">
             <label htmlFor="confirmarContrasena" className="register__etiqueta">
               Confirmar Contraseña
             </label>
@@ -247,10 +247,10 @@ function Register() {
                 {errores.confirmarContrasena}
               </span>
             )}
-          </section>
+          </fieldset>
 
           {/* Checkbox términos y condiciones */}
-          <section className="register__terminos">
+          <fieldset className="register__terminos">
             <label className="register__checkbox">
               <input
                 type="checkbox"
@@ -277,7 +277,7 @@ function Register() {
                 {errores.terminos}
               </span>
             )}
-          </section>
+          </fieldset>
 
           {/* Botón submit */}
           <button type="submit" className="register__boton" disabled={cargando}>

@@ -137,9 +137,9 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   if (!isOpen) return null;
 
   return (
-    <div className="node-edit-modal-overlay" onClick={onClose}>
-      <div className="node-edit-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="node-edit-modal__header">
+    <section className="node-edit-modal-overlay" onClick={onClose}>
+      <article className="node-edit-modal" onClick={(e) => e.stopPropagation()}>
+        <header className="node-edit-modal__header">
           <h2 className="node-edit-modal__title">Editar Nodo</h2>
           <button
             className="node-edit-modal__close"
@@ -148,11 +148,11 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
           >
             <FiX />
           </button>
-        </div>
+        </header>
 
         <form className="node-edit-modal__form" onSubmit={handleSubmit}>
           {/* Campo: Título */}
-          <div className="node-edit-modal__field">
+          <fieldset className="node-edit-modal__field">
             <label htmlFor="title" className="node-edit-modal__label">
               Título <span className="node-edit-modal__required">*</span>
             </label>
@@ -169,10 +169,10 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
             {errors.title && (
               <span className="node-edit-modal__error">{errors.title}</span>
             )}
-          </div>
+          </fieldset>
 
           {/* Campo: Tipo */}
-          <div className="node-edit-modal__field">
+          <fieldset className="node-edit-modal__field">
             <label htmlFor="type" className="node-edit-modal__label">
               Tipo <span className="node-edit-modal__required">*</span>
             </label>
@@ -193,10 +193,10 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
             {errors.type && (
               <span className="node-edit-modal__error">{errors.type}</span>
             )}
-          </div>
+          </fieldset>
 
           {/* Campo: Descripción */}
-          <div className="node-edit-modal__field">
+          <fieldset className="node-edit-modal__field">
             <label htmlFor="description" className="node-edit-modal__label">
               Descripción
             </label>
@@ -210,21 +210,21 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
               rows={4}
               maxLength={200}
             />
-            <div className="node-edit-modal__char-count">
+            <small className="node-edit-modal__char-count">
               {formData.description.length}/200 caracteres
-            </div>
+            </small>
             {errors.description && (
               <span className="node-edit-modal__error">{errors.description}</span>
             )}
-          </div>
+          </fieldset>
 
           {/* Campo: Imagen */}
-          <div className="node-edit-modal__field">
+          <fieldset className="node-edit-modal__field">
             <label className="node-edit-modal__label">
               Imagen
             </label>
             {formData.image ? (
-              <div className="node-edit-modal__image-preview">
+              <figure className="node-edit-modal__image-preview">
                 <img 
                   src={formData.image.url} 
                   alt={formData.image.filename || 'Vista previa'}
@@ -233,7 +233,7 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
                 <p className="node-edit-modal__image-filename">
                   {formData.image.filename}
                 </p>
-                <div className="node-edit-modal__image-actions">
+                <nav className="node-edit-modal__image-actions">
                   <button
                     type="button"
                     className="node-edit-modal__button node-edit-modal__button--change"
@@ -248,8 +248,8 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
                   >
                     <FiTrash2 /> Eliminar
                   </button>
-                </div>
-              </div>
+                </nav>
+              </figure>
             ) : (
               <button
                 type="button"
@@ -259,11 +259,11 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
                 <FiImage /> Añadir imagen
               </button>
             )}
-          </div>
+          </fieldset>
 
           {/* Botones de acción */}
-          <div className="node-edit-modal__actions">
-            <div className="node-edit-modal__actions-left">
+          <nav className="node-edit-modal__actions">
+            <section className="node-edit-modal__actions-left">
               {onDelete && (
                 <button
                   type="button"
@@ -274,8 +274,8 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
                   <FiTrash2 /> Eliminar
                 </button>
               )}
-            </div>
-            <div className="node-edit-modal__actions-right">
+            </section>
+            <section className="node-edit-modal__actions-right">
               <button
                 type="button"
                 className="node-edit-modal__button node-edit-modal__button--cancel"
@@ -289,8 +289,8 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
               >
                 Guardar Cambios
               </button>
-            </div>
-          </div>
+            </section>
+          </nav>
         </form>
 
         {/* Modal de subida de imagen */}
@@ -300,8 +300,8 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
           onImageUploaded={handleImageUploaded}
           title="Añadir imagen al nodo"
         />
-      </div>
-    </div>
+      </article>
+    </section>
   );
 }
 

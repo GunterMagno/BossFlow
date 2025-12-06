@@ -58,7 +58,7 @@ export const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={{ showToast, success, error, warning, info }}>
       {children}
-      <div className="toast-container">
+      <aside className="toast-container">
         {toasts.map((toast) => (
           <Toast
             key={toast.id}
@@ -68,7 +68,7 @@ export const ToastProvider = ({ children }) => {
             onClose={() => removeToast(toast.id)}
           />
         ))}
-      </div>
+      </aside>
     </ToastContext.Provider>
   );
 };

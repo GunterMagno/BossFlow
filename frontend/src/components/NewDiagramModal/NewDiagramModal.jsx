@@ -164,7 +164,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
   if (!isOpen) return null;
 
   return (
-    <div
+    <section
       className="modal-overlay"
       onClick={handleClose}
       onKeyDown={handleKeyDown}
@@ -172,12 +172,12 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div
+      <article
         className="modal"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header del modal */}
-        <div className="modal__header">
+        <header className="modal__header">
           <h2 id="modal-title" className="modal__title">
             {initialNodes ? 'Crear diagrama desde plantilla' : 'Crear nuevo diagrama'}
           </h2>
@@ -189,29 +189,29 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
           >
             <FiX />
           </button>
-        </div>
+        </header>
 
         {/* Indicador de datos importados */}
         {importedData && (
-          <div className="modal__imported-badge">
+          <aside className="modal__imported-badge">
             <FiUpload />
             <span>
               Datos importados: {importedData.nodes?.length || 0} nodos y {importedData.edges?.length || 0} conexiones
             </span>
-          </div>
+          </aside>
         )}
 
         {/* Formulario */}
         <form onSubmit={handleSubmit} className="modal__form">
           {/* Error general */}
           {errors.general && (
-            <div className="modal__error-general">
+            <aside className="modal__error-general">
               {errors.general}
-            </div>
+            </aside>
           )}
 
           {/* Campo título */}
-          <div className="modal__form-group">
+          <fieldset className="modal__form-group">
             <label htmlFor="title" className="modal__label">
               <FiFileText className="modal__label-icon" />
               Título del diagrama
@@ -231,10 +231,10 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
             {errors.title && (
               <span className="modal__error">{errors.title}</span>
             )}
-          </div>
+          </fieldset>
 
           {/* Campo descripción */}
-          <div className="modal__form-group">
+          <fieldset className="modal__form-group">
             <label htmlFor="description" className="modal__label">
               <FiAlignLeft className="modal__label-icon" />
               Descripción (opcional)
@@ -252,11 +252,11 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
             <span className="modal__char-count">
               {formData.description.length}/500
             </span>
-          </div>
+          </fieldset>
 
           {/* Opción de importar desde JSON */}
           {!initialNodes && !importedData && (
-            <div className="modal__import-option">
+            <aside className="modal__import-option">
               <p className="modal__label">
                 ¿Quieres importar un diagrama mediante un JSON?
               </p>
@@ -268,11 +268,11 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
                 <FiUpload />
                 Importar desde JSON
               </button>
-            </div>
+            </aside>
           )}
 
           {/* Botones */}
-          <div className="modal__actions">
+          <nav className="modal__actions">
             <button
               type="button"
               className="modal__button modal__button--secondary"
@@ -288,9 +288,9 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
             >
               {isSubmitting ? 'Creando...' : 'Crear diagrama'}
             </button>
-          </div>
+          </nav>
         </form>
-      </div>
+      </article>
 
       {/* Modal de importación */}
       <ImportJSON
@@ -299,7 +299,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
         onImport={handleImport}
         toast={toast}
       />
-    </div>
+    </section>
   );
 }
 

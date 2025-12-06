@@ -221,8 +221,8 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
         // No validar handles exactos porque pueden variar
         const duplicateExists = eds.some(
           (e) => 
-            e.source === source && 
-            e.target === target
+            (e.source === source && e.target === target) ||
+            (e.source === target && e.target === source)
         );
 
         if (duplicateExists) {
@@ -391,7 +391,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
 
   return (
     <section className="flowmap">
-      <div className="flowmap__wrap" ref={reactFlowWrapper}>
+      <section className="flowmap__wrap" ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodos}
           edges={conexiones}
@@ -413,6 +413,9 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           elementsSelectable={true}
           fitView
           attributionPosition="bottom-left"
+          zoomOnScroll={false}
+          panOnScroll={false}
+          preventScrolling={false}
         >
           {/* Configurar tipos de nodos*/} 
           <MiniMap 
@@ -430,7 +433,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           <Controls />
           <Background />
         </ReactFlow>
-      </div>
+      </section>
 
       {/* Popup de descripción del nodo */}
       <NodeDescriptionPopup

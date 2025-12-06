@@ -3,7 +3,7 @@ import { FiMenu } from 'react-icons/fi';
 
 function Toolbar({ onToggleSidebar }) {
   return (
-    <div className="toolbar" aria-label="toolbar">
+    <nav className="toolbar" aria-label="toolbar">
       {/* Menu button for small screens - toggles sidebar overlay */}
       {onToggleSidebar && (
         <button
@@ -14,7 +14,7 @@ function Toolbar({ onToggleSidebar }) {
           <FiMenu />
         </button>
       )}
-    </div>
+    </nav>
   );
 }
 
