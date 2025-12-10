@@ -2,6 +2,43 @@
 
 ## Diagrama de la arquitectura
 
+![Imagen diagrama de la arquitectura](diagrama-arquitectura.svg)
+
+Para ver y visualizar mejor los componentes de la arquitectura -> [enlace](https://www.mermaidchart.com/d/866864e7-dd42-4dbc-88b3-78e10a11667b)
+
+### Documentación de la arquitectura
+
+#### Frontend (React + Nginx)
+- **Nginx**: Servidor web que sirve archivos estáticos y actúa como proxy reverso
+- **React SPA**: Aplicación de página única construida con Vite
+- **React Flow**: Librería para el editor de diagramas interactivo
+- **Context API**: Estado global (autenticación, notificaciones)
+- **Servicios**: Capa de abstracción para llamadas API
+
+#### Backend (Node.js + Express)
+- **Express Server**: Framework web minimalista
+- **Middleware**: Funciones transversales (auth, CORS, errores)
+- **Rutas**: Definición de endpoints REST
+- **Controladores**: Lógica de negocio por funcionalidad
+- **Modelos**: Esquemas de Mongoose con validaciones
+- **Validadores**: Validaciones personalizadas complejas
+- **Servicios**: Servicios externos (email)
+
+#### Base de Datos (MongoDB)
+- **MongoDB 4.4**: Base de datos NoSQL
+- **Colecciones**: Users, Diagrams
+- **Mongoose**: ODM para modelado y validación
+
+#### Seguridad
+- **JWT**: Tokens de autenticación stateless
+- **bcrypt**: Hash de contraseñas con salt
+- **Validaciones**: Capas de validación
+
+#### Docker
+- **Docker Compose**: Levanta y maneja 3 servicios
+- **Red**: Se usa `app-network` para comunicación interna
+- **Volumes**: Persistencia de datos MongoDB
+
 ## Decisiones Técnicas Clave
 
 ### 1. Stack MERN
@@ -122,4 +159,58 @@ BossFlow/
 - Red `app-network` para comunicación interna
 - Volumen `mongo-data` para persistencia
 
-## Flujos
+## Flujo principal
+
+Diagrama de secuencia del flujo principal (crear diagrama y exportarlo) de la aplicación con login y logout:
+
+![Imagen diagrama del flujo](diagrama-flujo.svg)
+
+Para ver y visualizar mejor los componentes de la arquitectura -> [enlace]([https://www.mermaidchart.com/d/866864e7-dd42-4dbc-88b3-78e10a11667b](https://www.mermaidchart.com/d/fe456e16-7c75-4819-90ff-4e97263744b5))
+
+### Documentación del flujo
+
+#### FASE 1: Autenticación
+1. Usuario introduce credenciales en el componente `Login`
+2. `authService` envía petición POST a `/api/auth/login`
+3. Backend valida credenciales con `bcrypt.compare()`
+4. Backend genera JWT con `{userId, email}` y expiración de 7 días
+5. Frontend guarda token en `localStorage` y actualiza `AuthContext`
+6. Redirección automática a `/dashboard`
+
+#### FASE 2: Crear Diagrama
+1. Dashboard carga diagramas del usuario desde `/api/diagrams`
+2. Usuario hace click en "Nuevo Diagrama" → abre `NewDiagramModal`
+3. Usuario introduce título (min 3 chars) y descripción (max 500 chars)
+4. Frontend envía POST a `/api/diagrams` con JWT en headers
+5. Backend valida campos y crea documento `Diagram` en MongoDB
+6. Redirección automática a `/editor/:id` con el nuevo diagrama
+
+#### FASE 3: Editar Diagrama
+1. Editor carga datos del diagrama desde `/api/diagrams/:id`
+2. `FlowMap` renderiza canvas con React Flow
+3. Usuario añade nodos arrastrando desde `EditorSidebar`
+4. Usuario conecta nodos con edges animados
+5. Usuario añade imágenes a nodos (upload a `/api/images`)
+6. Usuario edita propiedades con `NodeEditModal`
+7. Al guardar, se envía PUT a `/api/diagrams/:id` con nueva estructura
+8. Backend valida con `diagramValidator.js` y actualiza MongoDB
+9. Toast de confirmación en frontend
+
+#### FASE 4: Exportar Diagrama
+1. Usuario hace click en "Exportar" → abre `ExportModal`
+2. Usuario selecciona formato: PNG, PDF o JSON
+3. `useExportDiagram` hook procesa la exportación:
+   - **PNG**: Convierte canvas React Flow a imagen PNG.
+   - **JSON**: Serializa estructura completa del diagrama (nodes, edges, metadata)
+4. Descarga automática del archivo en el navegador
+5. Toast de confirmación
+
+#### FASE 5: Logout
+1. Usuario hace click en "Cerrar Sesión" en `Navbar`
+2. `authService.logout()` envía POST a `/api/auth/logout`
+3. Backend registra logout (opcional, para auditoría)
+4. Frontend limpia token de `localStorage`
+5. Frontend resetea `AuthContext` a estado inicial
+6. Redirección a `/login`
+
+
