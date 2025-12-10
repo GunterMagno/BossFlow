@@ -4,7 +4,7 @@
 
 ![Imagen diagrama de la arquitectura](diagrama-arquitectura.svg)
 
-Para ver y visualizar mejor los componentes de la arquitectura -> [enlace](https://www.mermaidchart.com/d/866864e7-dd42-4dbc-88b3-78e10a11667b)
+Para ver y visualizar mejor los componentes de la arquitectura accede al siguiente enlace -> [enlace](https://www.mermaidchart.com/d/866864e7-dd42-4dbc-88b3-78e10a11667b)
 
 ### Documentación de la arquitectura
 
@@ -165,7 +165,7 @@ Diagrama de secuencia del flujo principal (crear diagrama y exportarlo) de la ap
 
 ![Imagen diagrama del flujo](diagrama-flujo.svg)
 
-Para ver y visualizar mejor los componentes de la arquitectura -> [enlace]([https://www.mermaidchart.com/d/866864e7-dd42-4dbc-88b3-78e10a11667b](https://www.mermaidchart.com/d/fe456e16-7c75-4819-90ff-4e97263744b5))
+Para ver y visualizar mejor el flujo accede al siguiente enlace -> [enlace](https://www.mermaidchart.com/d/fe456e16-7c75-4819-90ff-4e97263744b5)
 
 ### Documentación del flujo
 
