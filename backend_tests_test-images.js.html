@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home - Documentation</title>
+    <title>backend/tests/test-images.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,195 +29,420 @@
 
 <div id="main">
     
+    <h1 class="page-title">backend/tests/test-images.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Tests para validar el esquema de imágenes en Diagrams y Nodos
+ */
 
+const http = require('http');
 
+// Helper para registrar usuario y obtener token
+function registerAndLogin() {
+  return new Promise((resolve, reject) => {
+    const timestamp = Date.now();
+    const userData = {
+      username: `imageuser${timestamp}`,
+      email: `image${timestamp}@example.com`,
+      password: 'password123'
+    };
 
+    const registerData = JSON.stringify(userData);
+    const registerOptions = {
+      hostname: 'localhost',
+      port: 5000,
+      path: '/api/auth/register',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(registerData)
+      }
+    };
 
+    const registerReq = http.request(registerOptions, (res) => {
+      let responseData = '';
+      res.on('data', (chunk) => { responseData += chunk; });
+      res.on('end', () => {
+        try {
+          const response = JSON.parse(responseData);
+          if (response.token) {
+            resolve(response.token);
+          } else {
+            reject('No se pudo obtener token');
+          }
+        } catch (error) {
+          reject('Error al parsear respuesta: ' + error.message);
+        }
+      });
+    });
 
+    registerReq.on('error', reject);
+    registerReq.write(registerData);
+    registerReq.end();
+  });
+}
 
+// Test para crear diagrama con imágenes
+function testCreateDiagramWithImages(testName, diagramData, token, expectedStatus) {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify(diagramData);
 
+    const options = {
+      hostname: 'localhost',
+      port: 5000,
+      path: '/api/diagrams',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(data),
+        'Authorization': `Bearer ${token}`
+      }
+    };
 
+    const req = http.request(options, (res) => {
+      let responseData = '';
+      
+      res.on('data', (chunk) => {
+        responseData += chunk;
+      });
+      
+      res.on('end', () => {
+        const passed = res.statusCode === expectedStatus;
+        let parsedData = null;
+        try {
+          parsedData = JSON.parse(responseData);
+        } catch (e) {}
+        resolve({ testName, passed, status: res.statusCode, expectedStatus, data: parsedData });
+      });
+    });
 
-    
+    req.on('error', (error) => {
+      reject({ testName, passed: false, error: error.message });
+    });
 
+    req.write(data);
+    req.end();
+  });
+}
 
-    <section class="readme">
-        <article><h1>👿 BossFlow ⚔</h1>
-<h2>Descripción</h2>
-<p>BossFlow es una aplicación web para diseñar diagramas de flujo interactivos orientados a planificar estrategias contra jefes (bosses) de videojuegos. Cada nodo representa una acción, decisión o efecto, y las conexiones modelan el flujo de la estrategia. Está pensada para jugadores, diseñadores y equipos que quieren documentar tácticas complejas de forma visual.</p>
-<h2>Índice</h2>
-<ul>
-<li><a href="#tecnolog%C3%ADas-utilizadas">Tecnologías utilizadas</a></li>
-<li><a href="#caracter%C3%ADsticas-principales">Características principales</a></li>
-<li><a href="#instalaci%C3%B3n-y-ejecuci%C3%B3n">Instalación y ejecución</a></li>
-<li><a href="#despliegue-y-demo">Despliegue y demo</a></li>
-<li><a href="#documentaci%C3%B3n-adicional">Documentación adicional</a></li>
-<li><a href="#c%C3%B3mo-contribuir">Cómo contribuir</a></li>
-<li><a href="#contacto">Contacto</a></li>
-<li><a href="#informaci%C3%B3n-del-equipo">Información del equipo</a></li>
-</ul>
-<h2>Tecnologías utilizadas</h2>
-<p>BossFlow está construido sobre el stack MERN como base (MongoDB, Express, React, Node). El enfoque MERN ofrece: <code>MongoDB</code> para el almacenamiento de datos, <code>Express</code> y <code>Node.js</code> para la API backend y <code>React</code> para la interfaz. Dentro se usan herramientas y librerías que facilitan el desarrollo, el despliegue y la experiencia de usuario.</p>
-<h3>MERN (stack principal)</h3>
-<ul>
-<li><code>MongoDB</code>: base de datos NoSQL que almacena usuarios, diagramas y metadatos.</li>
-<li><code>Express</code>: framework minimalista para la API REST del backend.</li>
-<li><code>React</code>: biblioteca para construir la interfaz (frontend) y manejar el estado y la navegación.</li>
-<li><code>Node.js</code>: runtime que ejecuta el servidor backend.</li>
-</ul>
-<h3>Frontend</h3>
-<ul>
-<li><code>Vite</code>: bundler y dev server para React (rápido y moderno).</li>
-<li><code>React Flow</code>: editor de diagramas (lienzo con nodos y conexiones).</li>
-<li><code>react-router-dom</code>: enrutado del frontend.</li>
-<li><code>axios</code>: cliente HTTP para comunicarse con la API.</li>
-<li><code>react-icons</code>: iconos usados en la interfaz.</li>
-</ul>
-<h3>Backend</h3>
-<ul>
-<li><code>mongoose</code>: ODM para modelar y validar documentos en MongoDB.</li>
-<li><code>express</code>: manejo de rutas, middleware y controladores.</li>
-<li><code>jsonwebtoken</code> / JWT: autenticación basada en tokens.</li>
-</ul>
-<h3>DevOps / Infra</h3>
-<ul>
-<li><code>Docker</code>: contenedores para aislar frontend y backend.</li>
-<li><code>Docker Compose</code>: orquestación local y despliegue del stack.</li>
-<li><code>nginx</code>: proxy y servidor estático (configuración en <code>frontend/nginx.conf</code>).</li>
-</ul>
-<h3>Autenticación y seguridad</h3>
-<ul>
-<li><code>JWT (JSON Web Tokens)</code>: gestión de sesiones y rutas protegidas.</li>
-<li>Buenas prácticas: variables de entorno para secretos y URIs.</li>
-</ul>
-<h3>Tests</h3>
-<ul>
-<li>Tests automatizados en <code>backend/tests</code> (comprobaciones de endpoints, validaciones y flujos principales).</li>
-</ul>
-<h2>Características principales</h2>
-<ul>
-<li>Editor visual de diagramas con soporte para nodos personalizados y arrastrar/soltar.</li>
-<li>CRUD completo de diagramas (crear, editar, eliminar, leer).</li>
-<li>Gestión de usuarios y autenticación por JWT (registro/login/protected routes).</li>
-<li>Dashboard completo para moder gestionar los diagramas.</li>
-<li>Exportación de diagramas en formato PNG.</li>
-<li>Exportación / importación de diagramas en JSON.</li>
-<li>Soporte para subir imágenes asociadas a nodos.</li>
-<li>Sistema de plantillas reutilizables.</li>
-</ul>
-<h2>Instalación y ejecución</h2>
-<p>Requisitos previos:</p>
-<ul>
-<li><code>Node.js</code> 18+ y <code>npm</code> (solo para desarrollo local).</li>
-<li><code>Docker</code> y <code>docker-compose</code> (recomendado para despliegue o para levantar todo el stack fácilmente).</li>
-</ul>
-<ol>
-<li>Clonar el repositorio</li>
-</ol>
-<pre class="prettyprint source lang-bash"><code>git clone https://github.com/GunterMagno/BossFlow.git
-cd BossFlow
+// Tests
+async function runTests() {
+    const results = [];
+
+    try {
+        const authToken = await registerAndLogin();
+        const timestamp = Date.now();
+
+        // Test 1: Crear diagrama con imágenes en el diagrama
+        const createWithImages = await testCreateDiagramWithImages(
+            'Crear diagrama con imágenes',
+            {
+                title: `Diagrama con Imágenes ${timestamp}`,
+                description: 'Test de imágenes',
+                images: [
+                    {
+                        filename: 'background.png',
+                        url: '/uploads/diagrams/bg.png',
+                        mimeType: 'image/png',
+                        size: 204800
+                    },
+                    {
+                        filename: 'logo.webp',
+                        url: '/uploads/diagrams/logo.webp',
+                        mimeType: 'image/webp',
+                        size: 51200
+                    }
+                ],
+                nodes: [],
+                edges: []
+            },
+            authToken,
+            201
+        );
+        results.push(createWithImages);
+
+        // Verificar que se guardaron las imágenes correctamente
+        if (createWithImages.passed &amp;&amp; createWithImages.data &amp;&amp; createWithImages.data.diagram) {
+            const diagram = createWithImages.data.diagram;
+            const imagesValid = diagram.images &amp;&amp; 
+                              diagram.images.length === 2 &amp;&amp;
+                              diagram.images[0].filename === 'background.png' &amp;&amp;
+                              diagram.images[1].mimeType === 'image/webp';
+            
+            results.push({
+                testName: 'Verificar imágenes del diagrama guardadas',
+                passed: imagesValid,
+                status: imagesValid ? 200 : 'FAIL',
+                expectedStatus: 200,
+                response: !imagesValid ? JSON.stringify(diagram.images) : undefined
+            });
+        } else {
+            results.push({
+                testName: 'Verificar imágenes del diagrama guardadas',
+                passed: false,
+                status: 'FAIL',
+                expectedStatus: 200,
+                error: 'El test de creación falló o no retornó datos'
+            });
+        }
+
+        // Test 2: Crear diagrama con nodo que tiene imagen
+        const createWithNodeImage = await testCreateDiagramWithImages(
+            'Crear diagrama con nodo con imagen',
+            {
+                title: `Diagrama Nodo Imagen ${timestamp}`,
+                description: 'Test de imagen en nodo',
+                nodes: [
+                    {
+                        id: 'node-1',
+                        type: 'customNode',
+                        position: { x: 100, y: 100 },
+                        data: { label: 'Nodo con imagen' },
+                        image: {
+                            filename: 'node-icon.png',
+                            url: '/uploads/nodes/icon.png',
+                            mimeType: 'image/png',
+                            size: 15360
+                        }
+                    }
+                ],
+                edges: []
+            },
+            authToken,
+            201
+        );
+        results.push(createWithNodeImage);
+
+        // Verificar que se guardó la imagen del nodo
+        if (createWithNodeImage.passed &amp;&amp; createWithNodeImage.data &amp;&amp; createWithNodeImage.data.diagram) {
+            const diagram = createWithNodeImage.data.diagram;
+            const nodeImageValid = diagram.nodes &amp;&amp;
+                                 diagram.nodes.length === 1 &amp;&amp;
+                                 diagram.nodes[0].image &amp;&amp;
+                                 diagram.nodes[0].image.filename === 'node-icon.png' &amp;&amp;
+                                 diagram.nodes[0].image.mimeType === 'image/png';
+            
+            results.push({
+                testName: 'Verificar imagen del nodo guardada',
+                passed: nodeImageValid,
+                status: nodeImageValid ? 200 : 'FAIL',
+                expectedStatus: 200,
+                response: !nodeImageValid ? JSON.stringify(diagram.nodes[0]) : undefined
+            });
+        } else {
+            results.push({
+                testName: 'Verificar imagen del nodo guardada',
+                passed: false,
+                status: 'FAIL',
+                expectedStatus: 200,
+                error: 'El test de creación falló o no retornó datos'
+            });
+        }
+
+        // Test 3: Rechazar mimeType inválido
+        const invalidMimeType = await testCreateDiagramWithImages(
+            'Rechazar mimeType inválido',
+            {
+                title: `Diagrama MimeType Inválido ${timestamp}`,
+                images: [
+                    {
+                        filename: 'document.pdf',
+                        url: '/uploads/doc.pdf',
+                        mimeType: 'application/pdf', // No permitido
+                        size: 50000
+                    }
+                ],
+                nodes: [],
+                edges: []
+            },
+            authToken,
+            400
+        );
+        results.push(invalidMimeType);
+
+        // Test 4: Rechazar tamaño excesivo
+        const invalidSize = await testCreateDiagramWithImages(
+            'Rechazar tamaño excesivo (>5MB)',
+            {
+                title: `Diagrama Tamaño Excesivo ${timestamp}`,
+                images: [
+                    {
+                        filename: 'large-image.jpg',
+                        url: '/uploads/large.jpg',
+                        mimeType: 'image/jpeg',
+                        size: 6 * 1024 * 1024 // 6MB, excede límite
+                    }
+                ],
+                nodes: [],
+                edges: []
+            },
+            authToken,
+            400
+        );
+        results.push(invalidSize);
+
+        // Test 5: Rechazar más de 10 imágenes
+        const tooManyImages = [];
+        for (let i = 0; i &lt; 11; i++) {
+            tooManyImages.push({
+                filename: `image-${i}.jpg`,
+                url: `/uploads/image-${i}.jpg`,
+                mimeType: 'image/jpeg',
+                size: 10240
+            });
+        }
+
+        const exceedLimit = await testCreateDiagramWithImages(
+            'Rechazar más de 10 imágenes',
+            {
+                title: `Diagrama Muchas Imágenes ${timestamp}`,
+                images: tooManyImages,
+                nodes: [],
+                edges: []
+            },
+            authToken,
+            400
+        );
+        results.push(exceedLimit);
+
+        // Test 6: Validar todos los tipos MIME permitidos
+        const validMimeTypes = await testCreateDiagramWithImages(
+            'Aceptar todos los tipos MIME válidos',
+            {
+                title: `Diagrama MIME Válidos ${timestamp}`,
+                images: [
+                    {
+                        filename: 'img1.jpeg',
+                        url: '/uploads/img1.jpeg',
+                        mimeType: 'image/jpeg',
+                        size: 10000
+                    },
+                    {
+                        filename: 'img2.png',
+                        url: '/uploads/img2.png',
+                        mimeType: 'image/png',
+                        size: 10000
+                    },
+                    {
+                        filename: 'img3.gif',
+                        url: '/uploads/img3.gif',
+                        mimeType: 'image/gif',
+                        size: 10000
+                    },
+                    {
+                        filename: 'img4.webp',
+                        url: '/uploads/img4.webp',
+                        mimeType: 'image/webp',
+                        size: 10000
+                    }
+                ],
+                nodes: [],
+                edges: []
+            },
+            authToken,
+            201
+        );
+        results.push(validMimeTypes);
+
+        // Test 7: Diagrama con nodos e imágenes combinados
+        const combinedTest = await testCreateDiagramWithImages(
+            'Crear diagrama con imágenes y nodos con imágenes',
+            {
+                title: `Diagrama Completo ${timestamp}`,
+                images: [
+                    {
+                        filename: 'bg.jpg',
+                        url: '/uploads/bg.jpg',
+                        mimeType: 'image/jpeg',
+                        size: 50000
+                    }
+                ],
+                nodes: [
+                    {
+                        id: 'n1',
+                        type: 'input',
+                        position: { x: 0, y: 0 },
+                        data: { label: 'Inicio' },
+                        image: {
+                            filename: 'start.png',
+                            url: '/uploads/start.png',
+                            mimeType: 'image/png',
+                            size: 5000
+                        }
+                    },
+                    {
+                        id: 'n2',
+                        type: 'output',
+                        position: { x: 200, y: 200 },
+                        data: { label: 'Fin' }
+                        // Este nodo NO tiene imagen (opcional)
+                    }
+                ],
+                edges: [
+                    { id: 'e1', source: 'n1', target: 'n2' }
+                ]
+            },
+            authToken,
+            201
+        );
+        results.push(combinedTest);
+
+        // Verificar estructura completa
+        if (combinedTest.passed &amp;&amp; combinedTest.data &amp;&amp; combinedTest.data.diagram) {
+            const diagram = combinedTest.data.diagram;
+            const completeValid = diagram.images &amp;&amp; diagram.images.length === 1 &amp;&amp;
+                                diagram.nodes &amp;&amp; diagram.nodes.length === 2 &amp;&amp;
+                                diagram.nodes[0].image &amp;&amp; diagram.nodes[0].image.filename === 'start.png' &amp;&amp;
+                                !diagram.nodes[1].image &amp;&amp; // El segundo nodo NO tiene imagen
+                                diagram.edges &amp;&amp; diagram.edges.length === 1;
+            
+            results.push({
+                testName: 'Verificar estructura completa con imágenes',
+                passed: completeValid,
+                status: completeValid ? 200 : 'FAIL',
+                expectedStatus: 200,
+                response: !completeValid ? JSON.stringify({
+                    imagesCount: diagram.images?.length,
+                    nodesCount: diagram.nodes?.length,
+                    node0HasImage: !!diagram.nodes?.[0]?.image,
+                    node1HasImage: !!diagram.nodes?.[1]?.image,
+                    edgesCount: diagram.edges?.length
+                }) : undefined
+            });
+        } else {
+            results.push({
+                testName: 'Verificar estructura completa con imágenes',
+                passed: false,
+                status: 'FAIL',
+                expectedStatus: 200,
+                error: 'El test de creación falló o no retornó datos'
+            });
+        }
+
+    } catch (error) {
+        results.push({ testName: 'Error en setup', passed: false, error: error.message });
+    }
+
+    return results;
+}
+
+// Ejecutar tests si es el archivo principal
+if (require.main === module) {
+  runTests();
+}
+
+module.exports = { runTests };
 </code></pre>
-<p>2.1 Desarrollo local (sin Docker)</p>
-<ul>
-<li>Backend:</li>
-</ul>
-<pre class="prettyprint source lang-bash"><code>cd backend
-npm install
-# configurar variables de entorno (ver sección variables de entorno)
-npm run dev
-</code></pre>
-<ul>
-<li>Frontend:</li>
-</ul>
-<pre class="prettyprint source lang-bash"><code>cd frontend
-npm install
-npm run dev
-</code></pre>
-<p>2.2 Levantar con Docker Compose (modo desarrollo)</p>
-<pre class="prettyprint source lang-bash"><code>docker compose -f docker-compose.dev.yml up --build
-</code></pre>
-<p>2.3 Levantar con Docker Compose (modo desarrollo)</p>
-<pre class="prettyprint source lang-bash"><code>docker compose -f docker-compose.prod.yml up --build -d
-</code></pre>
-<h3>Variables de entorno (ejemplos)</h3>
-<p>Backend (archivo <code>.env</code> en <code>backend/</code>):</p>
-<pre class="prettyprint source"><code>MONGO_URI=mongodb://mongo:27017/bossflow
-JWT_SECRET=tu_secreto_jwt
-PORT=4000
-</code></pre>
-<p>Frontend (archivo <code>.env</code> en <code>frontend/</code> o en tu entorno):</p>
-<pre class="prettyprint source"><code>VITE_API_URL=http://localhost:4000/api
-</code></pre>
-<h2>Enlaces al despliegue y a la demo</h2>
-<p>Enlace al despliegue: <a href="https://bossflow.app/">Despliegue de la aplicación</a>
-- <a href="docs/despliegue/">Documentación de despliegue</a>.</p>
-<p>Enlace a la demo de la aplicación: <a href="https://youtube.com/">Despliegue de la aplicación</a></p>
-<h2>Documentación adicional</h2>
-<p>👉 <strong><a href="docs/README.md">Ver índice completo de documentación</a></strong></p>
-<p>La carpeta <code>docs/</code> contiene la documentación técnica y de proyecto organizada por áreas:</p>
-<ul>
-<li><code>docs/README.md</code>: índice principal y guía de lectura para navegar la documentación.</li>
-<li><code>docs/api/</code>: especificaciones relacionadas con la estructura de los diagramas. Incluye:
-<ul>
-<li><code>estructura-nodos-json.md</code>: esquema JSON y reglas de validación para los nodos.</li>
-<li><code>NODE_TYPES.md</code>: tipos de nodos y su semántica.</li>
-</ul>
-</li>
-<li><code>docs/arquitectura/</code>: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: <code>base-de-datos.md</code>, <code>auth-flujo.md</code>.</li>
-<li><code>docs/despliegue/</code>: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: <code>setup-docker.md</code>, <code>DESPLIEGUE.md</code>, <code>despliegue-vps.md</code>.</li>
-<li><code>docs/proyecto/</code>: información del proyecto (objetivos, problema, viabilidad técnica, recursos).</li>
-<li><code>docs/historias-usuario/</code>: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).</li>
-<li><code>docs/ui-ux/</code>: recursos de diseño, notas de Figma y capturas en <code>docs/ui-ux/capturas/</code>.</li>
-</ul>
-<h3>Documentos Principales del Proyecto</h3>
-<h3>Documentos principales del proyecto</h3>
-<ul>
-<li><a href="docs/proyecto/problema.md">Problema.md (Criterio 2a)</a></li>
-<li><a href="docs/proyecto/viabilidad-tecnica.md">ViabilidadTecnica.md (Criterio 2b)</a></li>
-<li><a href="docs/proyecto/objetivos-alcance.md">ObjetivosAlcance.md (Criterio 2d)</a></li>
-<li><a href="docs/proyecto/recursos.md">Recursos.md (Criterio 2e)</a></li>
-</ul>
-<h3>Documentación técnica</h3>
-<ul>
-<li><a href="docs/api/estructura-nodos-json.md">Estructura JSON de Nodos</a> - JSON Schema, validaciones y ejemplos</li>
-<li><a href="docs/api/NODE_TYPES.md">Tipos de Nodos</a> - Tipos personalizados para BossFlow</li>
-<li><a href="docs/arquitectura/base-de-datos.md">Base de Datos</a> - Diseño MongoDB</li>
-<li><a href="docs/arquitectura/auth-flujo.md">Autenticación</a> - Sistema JWT</li>
-<li><a href="docs/despliegue/setup-docker.md">Despliegue</a> - Configuración Docker</li>
-</ul>
-<h2>Cómo contribuir</h2>
-<ul>
-<li>Crea un fork y abre un Pull Request.</li>
-<li>Sigue las buenas prácticas: prueba correcto funcionamiento, linting y formato.</li>
-<li>Documenta lo realizado.</li>
-</ul>
-<h2>Contacto</h2>
-<p>Para dudas o colaboración abre un Issue o contacta al creador del repositorio.</p>
-<h2>Información del equipo</h2>
-<h3>Documentación profesores</h3>
-<blockquote>
-<p>[!NOTE]
-Esta documentación va dirigida a algunos profesores en específico por los requerimentos de su asignatura.</p>
-</blockquote>
-<h4>Daniel Sánchez Benítez</h4>
-<ul>
-<li><strong><a href="docs/dani/propuesta-inicial.pdf">Propuesta inicial</a></strong></li>
-</ul>
-<h2>Información del equipo</h2>
-<ul>
-<li>Alejandro Borrego Cruz</li>
-<li>Jesús López Pérez</li>
-<li>Daniel Montes Iglesias</li>
-</ul></article>
+        </article>
     </section>
-
-
 
 
 

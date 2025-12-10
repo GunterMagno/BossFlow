@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home - Documentation</title>
+    <title>frontend/src/components/Login/Login.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,195 +29,239 @@
 
 <div id="main">
     
+    <h1 class="page-title">frontend/src/components/Login/Login.jsx</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import './Login.css';
 
+/**
+ * Componente de inicio de sesión con validación de formulario
+ * @returns {JSX.Element} Formulario de login con validación y gestión de errores
+ */
+function Login() {
+  const navigate = useNavigate();
+  const { login, loading: authLoading, isAuthenticated } = useAuth();
 
+  useEffect(() => {
+    document.title = 'Iniciar Sesión | BossFlow';
 
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
 
+  const [datosFormulario, setDatosFormulario] = useState({
+    correo: '',
+    contrasena: '',
+    recordarme: false,
+  });
 
+  const [errores, setErrores] = useState({});
 
+  const [cargando, setCargando] = useState(false);
 
+  /**
+   * Gestiona los cambios en los campos del formulario
+   * @param {Event} e - Evento de cambio del input
+   */
+  const manejoCambios = (e) => {
+    const { name, value, type, checked } = e.target;
+    setDatosFormulario({
+      ...datosFormulario,
+      [name]: type === 'checkbox' ? checked : value,
+    });
 
+    if (errores[name]) {
+      setErrores((prev) => ({
+        ...prev,
+        [name]: '',
+      }));
+    }
+  };
 
-    
+  /**
+   * Valida los campos del formulario de login
+   * @returns {Object} Objeto con los errores de validación encontrados
+   */
+  const validarFormulario = () => {
+    const nuevosErrores = {};
 
+    if (!datosFormulario.correo) {
+      nuevosErrores.correo = 'Es obligatorio introducir un correo electrónico.';
+    } else if (
+      !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+        datosFormulario.correo
+      )
+    ) {
+      nuevosErrores.correo = 'El correo electrónico no es válido.';
+    }
 
-    <section class="readme">
-        <article><h1>👿 BossFlow ⚔</h1>
-<h2>Descripción</h2>
-<p>BossFlow es una aplicación web para diseñar diagramas de flujo interactivos orientados a planificar estrategias contra jefes (bosses) de videojuegos. Cada nodo representa una acción, decisión o efecto, y las conexiones modelan el flujo de la estrategia. Está pensada para jugadores, diseñadores y equipos que quieren documentar tácticas complejas de forma visual.</p>
-<h2>Índice</h2>
-<ul>
-<li><a href="#tecnolog%C3%ADas-utilizadas">Tecnologías utilizadas</a></li>
-<li><a href="#caracter%C3%ADsticas-principales">Características principales</a></li>
-<li><a href="#instalaci%C3%B3n-y-ejecuci%C3%B3n">Instalación y ejecución</a></li>
-<li><a href="#despliegue-y-demo">Despliegue y demo</a></li>
-<li><a href="#documentaci%C3%B3n-adicional">Documentación adicional</a></li>
-<li><a href="#c%C3%B3mo-contribuir">Cómo contribuir</a></li>
-<li><a href="#contacto">Contacto</a></li>
-<li><a href="#informaci%C3%B3n-del-equipo">Información del equipo</a></li>
-</ul>
-<h2>Tecnologías utilizadas</h2>
-<p>BossFlow está construido sobre el stack MERN como base (MongoDB, Express, React, Node). El enfoque MERN ofrece: <code>MongoDB</code> para el almacenamiento de datos, <code>Express</code> y <code>Node.js</code> para la API backend y <code>React</code> para la interfaz. Dentro se usan herramientas y librerías que facilitan el desarrollo, el despliegue y la experiencia de usuario.</p>
-<h3>MERN (stack principal)</h3>
-<ul>
-<li><code>MongoDB</code>: base de datos NoSQL que almacena usuarios, diagramas y metadatos.</li>
-<li><code>Express</code>: framework minimalista para la API REST del backend.</li>
-<li><code>React</code>: biblioteca para construir la interfaz (frontend) y manejar el estado y la navegación.</li>
-<li><code>Node.js</code>: runtime que ejecuta el servidor backend.</li>
-</ul>
-<h3>Frontend</h3>
-<ul>
-<li><code>Vite</code>: bundler y dev server para React (rápido y moderno).</li>
-<li><code>React Flow</code>: editor de diagramas (lienzo con nodos y conexiones).</li>
-<li><code>react-router-dom</code>: enrutado del frontend.</li>
-<li><code>axios</code>: cliente HTTP para comunicarse con la API.</li>
-<li><code>react-icons</code>: iconos usados en la interfaz.</li>
-</ul>
-<h3>Backend</h3>
-<ul>
-<li><code>mongoose</code>: ODM para modelar y validar documentos en MongoDB.</li>
-<li><code>express</code>: manejo de rutas, middleware y controladores.</li>
-<li><code>jsonwebtoken</code> / JWT: autenticación basada en tokens.</li>
-</ul>
-<h3>DevOps / Infra</h3>
-<ul>
-<li><code>Docker</code>: contenedores para aislar frontend y backend.</li>
-<li><code>Docker Compose</code>: orquestación local y despliegue del stack.</li>
-<li><code>nginx</code>: proxy y servidor estático (configuración en <code>frontend/nginx.conf</code>).</li>
-</ul>
-<h3>Autenticación y seguridad</h3>
-<ul>
-<li><code>JWT (JSON Web Tokens)</code>: gestión de sesiones y rutas protegidas.</li>
-<li>Buenas prácticas: variables de entorno para secretos y URIs.</li>
-</ul>
-<h3>Tests</h3>
-<ul>
-<li>Tests automatizados en <code>backend/tests</code> (comprobaciones de endpoints, validaciones y flujos principales).</li>
-</ul>
-<h2>Características principales</h2>
-<ul>
-<li>Editor visual de diagramas con soporte para nodos personalizados y arrastrar/soltar.</li>
-<li>CRUD completo de diagramas (crear, editar, eliminar, leer).</li>
-<li>Gestión de usuarios y autenticación por JWT (registro/login/protected routes).</li>
-<li>Dashboard completo para moder gestionar los diagramas.</li>
-<li>Exportación de diagramas en formato PNG.</li>
-<li>Exportación / importación de diagramas en JSON.</li>
-<li>Soporte para subir imágenes asociadas a nodos.</li>
-<li>Sistema de plantillas reutilizables.</li>
-</ul>
-<h2>Instalación y ejecución</h2>
-<p>Requisitos previos:</p>
-<ul>
-<li><code>Node.js</code> 18+ y <code>npm</code> (solo para desarrollo local).</li>
-<li><code>Docker</code> y <code>docker-compose</code> (recomendado para despliegue o para levantar todo el stack fácilmente).</li>
-</ul>
-<ol>
-<li>Clonar el repositorio</li>
-</ol>
-<pre class="prettyprint source lang-bash"><code>git clone https://github.com/GunterMagno/BossFlow.git
-cd BossFlow
+    if (!datosFormulario.contrasena) {
+      nuevosErrores.contrasena = 'Es obligatorio introducir una contraseña.';
+    } else if (datosFormulario.contrasena.length &lt; 8) {
+      nuevosErrores.contrasena =
+        'La contraseña debe tener al menos 8 caracteres.';
+    }
+
+    return nuevosErrores;
+  };
+
+  /**
+   * Gestiona el envío del formulario de login
+   * @param {Event} e - Evento de submit del formulario
+   */
+  const manejoSubmit = async (e) => {
+    e.preventDefault();
+
+    const nuevosErrores = validarFormulario();
+    if (Object.keys(nuevosErrores).length > 0) {
+      setErrores(nuevosErrores);
+      return;
+    }
+
+    try {
+      setErrores({});
+      setCargando(true);
+
+      const resultado = await login(
+        datosFormulario.correo,
+        datosFormulario.contrasena,
+        datosFormulario.recordarme
+      );
+
+      if (resultado.success) {
+        navigate('/dashboard');
+      } else {
+        setErrores({ submit: resultado.error });
+      }
+    } catch (error) {
+      setErrores({ submit: 'Error al iniciar sesión. Inténtalo de nuevo.' });
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  return (
+    &lt;main className="login">
+      &lt;article className="login__contenedor">
+        &lt;section className="login__encabezado">
+          &lt;h3 className="login__titulo">Iniciar sesión&lt;/h3>
+          &lt;p className="login__subtitulo">
+            Por favor inicia sesión en tu cuenta
+          &lt;/p>
+        &lt;/section>
+
+        &lt;form onSubmit={manejoSubmit} className="login__formulario">
+          {errores.submit &amp;&amp; (
+            &lt;section className="login__error" role="alert">
+              {errores.submit}
+            &lt;/section>
+          )}
+
+          &lt;fieldset className="login__campo">
+            &lt;label htmlFor="correo" className="login__etiqueta">
+              Correo Electrónico
+            &lt;/label>
+            &lt;input
+              type="text"
+              id="correo"
+              name="correo"
+              value={datosFormulario.correo}
+              onChange={manejoCambios}
+              placeholder="tu@ejemplo.com"
+              className={`login__input ${errores.correo ? 'login__input--error' : ''}`}
+              disabled={cargando}
+            />
+            {errores.correo &amp;&amp; (
+              &lt;span className="login__mensaje-error" role="alert">
+                {errores.correo}
+              &lt;/span>
+            )}
+          &lt;/fieldset>
+
+          &lt;fieldset className="login__campo">
+            &lt;section className="login__etiqueta-con-enlace">
+              &lt;label htmlFor="contrasena" className="login__etiqueta">
+                Contraseña
+              &lt;/label>
+              &lt;Link
+                to="/recuperar-contrasena"
+                className="login__enlace-recuperar"
+              >
+                ¿Olvidaste tu contraseña?
+              &lt;/Link>
+            &lt;/section>
+            &lt;input
+              type="password"
+              id="contrasena"
+              name="contrasena"
+              value={datosFormulario.contrasena}
+              onChange={manejoCambios}
+              placeholder="********"
+              className={`login__input ${errores.contrasena ? 'login__input--error' : ''}`}
+              disabled={cargando}
+            />
+            {errores.contrasena &amp;&amp; (
+              &lt;span className="login__mensaje-error" role="alert">
+                {errores.contrasena}
+              &lt;/span>
+            )}
+          &lt;/fieldset>
+
+          &lt;fieldset className="login__recordar">
+            &lt;label className="login__checkbox">
+              &lt;input
+                type="checkbox"
+                id="recordarme"
+                name="recordarme"
+                checked={datosFormulario.recordarme}
+                onChange={manejoCambios}
+                className="login__checkbox-input"
+              />
+              &lt;span className="login__checkbox-texto">Recordarme&lt;/span>
+            &lt;/label>
+          &lt;/fieldset>
+
+          &lt;button type="submit" className="login__boton" disabled={cargando}>
+            {cargando ? (
+              &lt;>
+                &lt;span className="login__spinner" aria-label="Cargando">&lt;/span>
+                Iniciar sesión
+              &lt;/>
+            ) : (
+              'Iniciar sesión'
+            )}
+          &lt;/button>
+
+          &lt;section className="login__pie">
+            &lt;p className="login__pie-texto">
+              ¿Aún no tienes cuenta?{' '}
+              &lt;Link to="/register" className="login__enlace-registro">
+                Regístrate aquí
+              &lt;/Link>
+            &lt;/p>
+          &lt;/section>
+        &lt;/form>
+      &lt;/article>
+    &lt;/main>
+  );
+}
+
+export default Login;
 </code></pre>
-<p>2.1 Desarrollo local (sin Docker)</p>
-<ul>
-<li>Backend:</li>
-</ul>
-<pre class="prettyprint source lang-bash"><code>cd backend
-npm install
-# configurar variables de entorno (ver sección variables de entorno)
-npm run dev
-</code></pre>
-<ul>
-<li>Frontend:</li>
-</ul>
-<pre class="prettyprint source lang-bash"><code>cd frontend
-npm install
-npm run dev
-</code></pre>
-<p>2.2 Levantar con Docker Compose (modo desarrollo)</p>
-<pre class="prettyprint source lang-bash"><code>docker compose -f docker-compose.dev.yml up --build
-</code></pre>
-<p>2.3 Levantar con Docker Compose (modo desarrollo)</p>
-<pre class="prettyprint source lang-bash"><code>docker compose -f docker-compose.prod.yml up --build -d
-</code></pre>
-<h3>Variables de entorno (ejemplos)</h3>
-<p>Backend (archivo <code>.env</code> en <code>backend/</code>):</p>
-<pre class="prettyprint source"><code>MONGO_URI=mongodb://mongo:27017/bossflow
-JWT_SECRET=tu_secreto_jwt
-PORT=4000
-</code></pre>
-<p>Frontend (archivo <code>.env</code> en <code>frontend/</code> o en tu entorno):</p>
-<pre class="prettyprint source"><code>VITE_API_URL=http://localhost:4000/api
-</code></pre>
-<h2>Enlaces al despliegue y a la demo</h2>
-<p>Enlace al despliegue: <a href="https://bossflow.app/">Despliegue de la aplicación</a>
-- <a href="docs/despliegue/">Documentación de despliegue</a>.</p>
-<p>Enlace a la demo de la aplicación: <a href="https://youtube.com/">Despliegue de la aplicación</a></p>
-<h2>Documentación adicional</h2>
-<p>👉 <strong><a href="docs/README.md">Ver índice completo de documentación</a></strong></p>
-<p>La carpeta <code>docs/</code> contiene la documentación técnica y de proyecto organizada por áreas:</p>
-<ul>
-<li><code>docs/README.md</code>: índice principal y guía de lectura para navegar la documentación.</li>
-<li><code>docs/api/</code>: especificaciones relacionadas con la estructura de los diagramas. Incluye:
-<ul>
-<li><code>estructura-nodos-json.md</code>: esquema JSON y reglas de validación para los nodos.</li>
-<li><code>NODE_TYPES.md</code>: tipos de nodos y su semántica.</li>
-</ul>
-</li>
-<li><code>docs/arquitectura/</code>: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: <code>base-de-datos.md</code>, <code>auth-flujo.md</code>.</li>
-<li><code>docs/despliegue/</code>: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: <code>setup-docker.md</code>, <code>DESPLIEGUE.md</code>, <code>despliegue-vps.md</code>.</li>
-<li><code>docs/proyecto/</code>: información del proyecto (objetivos, problema, viabilidad técnica, recursos).</li>
-<li><code>docs/historias-usuario/</code>: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).</li>
-<li><code>docs/ui-ux/</code>: recursos de diseño, notas de Figma y capturas en <code>docs/ui-ux/capturas/</code>.</li>
-</ul>
-<h3>Documentos Principales del Proyecto</h3>
-<h3>Documentos principales del proyecto</h3>
-<ul>
-<li><a href="docs/proyecto/problema.md">Problema.md (Criterio 2a)</a></li>
-<li><a href="docs/proyecto/viabilidad-tecnica.md">ViabilidadTecnica.md (Criterio 2b)</a></li>
-<li><a href="docs/proyecto/objetivos-alcance.md">ObjetivosAlcance.md (Criterio 2d)</a></li>
-<li><a href="docs/proyecto/recursos.md">Recursos.md (Criterio 2e)</a></li>
-</ul>
-<h3>Documentación técnica</h3>
-<ul>
-<li><a href="docs/api/estructura-nodos-json.md">Estructura JSON de Nodos</a> - JSON Schema, validaciones y ejemplos</li>
-<li><a href="docs/api/NODE_TYPES.md">Tipos de Nodos</a> - Tipos personalizados para BossFlow</li>
-<li><a href="docs/arquitectura/base-de-datos.md">Base de Datos</a> - Diseño MongoDB</li>
-<li><a href="docs/arquitectura/auth-flujo.md">Autenticación</a> - Sistema JWT</li>
-<li><a href="docs/despliegue/setup-docker.md">Despliegue</a> - Configuración Docker</li>
-</ul>
-<h2>Cómo contribuir</h2>
-<ul>
-<li>Crea un fork y abre un Pull Request.</li>
-<li>Sigue las buenas prácticas: prueba correcto funcionamiento, linting y formato.</li>
-<li>Documenta lo realizado.</li>
-</ul>
-<h2>Contacto</h2>
-<p>Para dudas o colaboración abre un Issue o contacta al creador del repositorio.</p>
-<h2>Información del equipo</h2>
-<h3>Documentación profesores</h3>
-<blockquote>
-<p>[!NOTE]
-Esta documentación va dirigida a algunos profesores en específico por los requerimentos de su asignatura.</p>
-</blockquote>
-<h4>Daniel Sánchez Benítez</h4>
-<ul>
-<li><strong><a href="docs/dani/propuesta-inicial.pdf">Propuesta inicial</a></strong></li>
-</ul>
-<h2>Información del equipo</h2>
-<ul>
-<li>Alejandro Borrego Cruz</li>
-<li>Jesús López Pérez</li>
-<li>Daniel Montes Iglesias</li>
-</ul></article>
+        </article>
     </section>
-
-
 
 
 

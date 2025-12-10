@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home - Documentation</title>
+    <title>frontend/src/components/DiagramList/DiagramList.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,195 +29,207 @@
 
 <div id="main">
     
+    <h1 class="page-title">frontend/src/components/DiagramList/DiagramList.jsx</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getDiagrams, deleteDiagram } from '../../services/diagramService';
+import { registerActivity, ACTIVITY_TYPES } from '../../services/activityService';
+import { useToast } from '../../context/ToastContext';
+import ConfirmModal from '../ConfirmModal/ConfirmModal';
+import DiagramCard from '../DiagramCard/DiagramCard';
+import { FiFileText, FiAlertCircle } from 'react-icons/fi';
+import './DiagramList.css';
+
+/**
+ * Lista de diagramas del usuario con opciones de gestión
+ * @param {Object} props - Propiedades del componente
+ * @param {Function} props.onCreateClick - Callback ejecutado al crear un nuevo diagrama
+ * @param {Function} props.onDiagramDeleted - Callback ejecutado tras eliminar un diagrama
+ * @returns {JSX.Element} Lista de diagramas con estados de carga, error y vacío
+ */
+function DiagramList({ onCreateClick, onDiagramDeleted }) {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const [diagrams, setDiagrams] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [diagramToDelete, setDiagramToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  /**
+   * Obtiene la lista de diagramas del usuario desde el servidor
+   */
+  const fetchDiagrams = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await getDiagrams();
+      setDiagrams(response.diagrams || []);
+    } catch (err) {
+      console.error('Error al cargar diagramas:', err);
+      setError('No se pudieron cargar los diagramas. Por favor, intenta de nuevo.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDiagrams();
+  }, []);
+
+  /**
+   * Prepara la eliminación de un diagrama mostrando el modal de confirmación
+   * @param {Object} diagram - Diagrama a eliminar
+   */
+  const handleDeleteClick = (diagram) => {
+    setDiagramToDelete(diagram);
+  };
+
+  /**
+   * Navega al editor con el diagrama seleccionado
+   * @param {Object} diagram - Diagrama a editar
+   */
+  const handleEditClick = (diagram) => {
+    navigate(`/editor/${diagram.id}`);
+  };
+
+  /**
+   * Ejecuta la eliminación del diagrama tras la confirmación
+   */
+  const handleConfirmDelete = async () => {
+    if (!diagramToDelete) return;
+
+    try {
+      setIsDeleting(true);
+      await deleteDiagram(diagramToDelete.id);
+
+      registerActivity(
+        ACTIVITY_TYPES.DELETE,
+        diagramToDelete.title,
+        diagramToDelete.id
+      );
+
+      await fetchDiagrams();
+
+      if (onDiagramDeleted) {
+        onDiagramDeleted();
+      }
+
+      toast.success('Diagrama eliminado exitosamente');
+
+      setDiagramToDelete(null);
+    } catch (error) {
+      console.error('Error al eliminar diagrama:', error);
+      toast.error('Error al eliminar el diagrama. Por favor, intenta de nuevo.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  /**
+   * Cancela la operación de eliminación cerrando el modal
+   */
+  const handleCancelDelete = () => {
+    if (!isDeleting) {
+      setDiagramToDelete(null);
+    }
+  };
 
 
+  if (loading) {
+    return (
+      &lt;section className="diagram-list">
+        &lt;aside className="diagram-list__loading">
+          &lt;figure className="diagram-list__spinner">&lt;/figure>
+          &lt;p>Cargando diagramas...&lt;/p>
+        &lt;/aside>
+      &lt;/section>
+    );
+  }
 
+  if (error) {
+    return (
+      &lt;section className="diagram-list">
+        &lt;aside className="diagram-list__error">
+          &lt;FiAlertCircle className="diagram-list__error-icon" />
+          &lt;p className="diagram-list__error-message">{error}&lt;/p>
+          &lt;button
+            className="diagram-list__retry-button"
+            onClick={() => window.location.reload()}
+          >
+            Reintentar
+          &lt;/button>
+        &lt;/aside>
+      &lt;/section>
+    );
+  }
 
+  if (diagrams.length === 0) {
+    return (
+      &lt;section className="diagram-list">
+        &lt;aside className="diagram-list__empty">
+          &lt;FiFileText className="diagram-list__empty-icon" />
+          &lt;h3 className="diagram-list__empty-title">No tienes diagramas aún&lt;/h3>
+          &lt;p className="diagram-list__empty-message">
+            Crea tu primer diagrama para empezar a organizar tus ideas
+          &lt;/p>
+          {onCreateClick ? (
+            &lt;button onClick={onCreateClick} className="diagram-list__create-button">
+              Crear diagrama
+            &lt;/button>
+          ) : (
+            &lt;Link to="/editor" className="diagram-list__create-button">
+              Crear diagrama
+            &lt;/Link>
+          )}
+        &lt;/aside>
+      &lt;/section>
+    );
+  }
 
+  return (
+    &lt;>
+      &lt;section className="diagram-list">
+        &lt;section className="diagram-list__grid">
+          {diagrams.map((diagram) => (
+            &lt;DiagramCard
+              key={diagram.id}
+              diagram={diagram}
+              onDelete={handleDeleteClick}
+              onEdit={handleEditClick}
+            />
+          ))}
+        &lt;/section>
+      &lt;/section>
 
+      &lt;ConfirmModal
+        isOpen={!!diagramToDelete}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        title="¿Eliminar diagrama?"
+        message={`¿Estás seguro de que quieres eliminar "${diagramToDelete?.title}"? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        type="danger"
+        isLoading={isDeleting}
+      />
+    &lt;/>
+  );
+}
 
-
-
-    
-
-
-    <section class="readme">
-        <article><h1>👿 BossFlow ⚔</h1>
-<h2>Descripción</h2>
-<p>BossFlow es una aplicación web para diseñar diagramas de flujo interactivos orientados a planificar estrategias contra jefes (bosses) de videojuegos. Cada nodo representa una acción, decisión o efecto, y las conexiones modelan el flujo de la estrategia. Está pensada para jugadores, diseñadores y equipos que quieren documentar tácticas complejas de forma visual.</p>
-<h2>Índice</h2>
-<ul>
-<li><a href="#tecnolog%C3%ADas-utilizadas">Tecnologías utilizadas</a></li>
-<li><a href="#caracter%C3%ADsticas-principales">Características principales</a></li>
-<li><a href="#instalaci%C3%B3n-y-ejecuci%C3%B3n">Instalación y ejecución</a></li>
-<li><a href="#despliegue-y-demo">Despliegue y demo</a></li>
-<li><a href="#documentaci%C3%B3n-adicional">Documentación adicional</a></li>
-<li><a href="#c%C3%B3mo-contribuir">Cómo contribuir</a></li>
-<li><a href="#contacto">Contacto</a></li>
-<li><a href="#informaci%C3%B3n-del-equipo">Información del equipo</a></li>
-</ul>
-<h2>Tecnologías utilizadas</h2>
-<p>BossFlow está construido sobre el stack MERN como base (MongoDB, Express, React, Node). El enfoque MERN ofrece: <code>MongoDB</code> para el almacenamiento de datos, <code>Express</code> y <code>Node.js</code> para la API backend y <code>React</code> para la interfaz. Dentro se usan herramientas y librerías que facilitan el desarrollo, el despliegue y la experiencia de usuario.</p>
-<h3>MERN (stack principal)</h3>
-<ul>
-<li><code>MongoDB</code>: base de datos NoSQL que almacena usuarios, diagramas y metadatos.</li>
-<li><code>Express</code>: framework minimalista para la API REST del backend.</li>
-<li><code>React</code>: biblioteca para construir la interfaz (frontend) y manejar el estado y la navegación.</li>
-<li><code>Node.js</code>: runtime que ejecuta el servidor backend.</li>
-</ul>
-<h3>Frontend</h3>
-<ul>
-<li><code>Vite</code>: bundler y dev server para React (rápido y moderno).</li>
-<li><code>React Flow</code>: editor de diagramas (lienzo con nodos y conexiones).</li>
-<li><code>react-router-dom</code>: enrutado del frontend.</li>
-<li><code>axios</code>: cliente HTTP para comunicarse con la API.</li>
-<li><code>react-icons</code>: iconos usados en la interfaz.</li>
-</ul>
-<h3>Backend</h3>
-<ul>
-<li><code>mongoose</code>: ODM para modelar y validar documentos en MongoDB.</li>
-<li><code>express</code>: manejo de rutas, middleware y controladores.</li>
-<li><code>jsonwebtoken</code> / JWT: autenticación basada en tokens.</li>
-</ul>
-<h3>DevOps / Infra</h3>
-<ul>
-<li><code>Docker</code>: contenedores para aislar frontend y backend.</li>
-<li><code>Docker Compose</code>: orquestación local y despliegue del stack.</li>
-<li><code>nginx</code>: proxy y servidor estático (configuración en <code>frontend/nginx.conf</code>).</li>
-</ul>
-<h3>Autenticación y seguridad</h3>
-<ul>
-<li><code>JWT (JSON Web Tokens)</code>: gestión de sesiones y rutas protegidas.</li>
-<li>Buenas prácticas: variables de entorno para secretos y URIs.</li>
-</ul>
-<h3>Tests</h3>
-<ul>
-<li>Tests automatizados en <code>backend/tests</code> (comprobaciones de endpoints, validaciones y flujos principales).</li>
-</ul>
-<h2>Características principales</h2>
-<ul>
-<li>Editor visual de diagramas con soporte para nodos personalizados y arrastrar/soltar.</li>
-<li>CRUD completo de diagramas (crear, editar, eliminar, leer).</li>
-<li>Gestión de usuarios y autenticación por JWT (registro/login/protected routes).</li>
-<li>Dashboard completo para moder gestionar los diagramas.</li>
-<li>Exportación de diagramas en formato PNG.</li>
-<li>Exportación / importación de diagramas en JSON.</li>
-<li>Soporte para subir imágenes asociadas a nodos.</li>
-<li>Sistema de plantillas reutilizables.</li>
-</ul>
-<h2>Instalación y ejecución</h2>
-<p>Requisitos previos:</p>
-<ul>
-<li><code>Node.js</code> 18+ y <code>npm</code> (solo para desarrollo local).</li>
-<li><code>Docker</code> y <code>docker-compose</code> (recomendado para despliegue o para levantar todo el stack fácilmente).</li>
-</ul>
-<ol>
-<li>Clonar el repositorio</li>
-</ol>
-<pre class="prettyprint source lang-bash"><code>git clone https://github.com/GunterMagno/BossFlow.git
-cd BossFlow
+export default DiagramList;
 </code></pre>
-<p>2.1 Desarrollo local (sin Docker)</p>
-<ul>
-<li>Backend:</li>
-</ul>
-<pre class="prettyprint source lang-bash"><code>cd backend
-npm install
-# configurar variables de entorno (ver sección variables de entorno)
-npm run dev
-</code></pre>
-<ul>
-<li>Frontend:</li>
-</ul>
-<pre class="prettyprint source lang-bash"><code>cd frontend
-npm install
-npm run dev
-</code></pre>
-<p>2.2 Levantar con Docker Compose (modo desarrollo)</p>
-<pre class="prettyprint source lang-bash"><code>docker compose -f docker-compose.dev.yml up --build
-</code></pre>
-<p>2.3 Levantar con Docker Compose (modo desarrollo)</p>
-<pre class="prettyprint source lang-bash"><code>docker compose -f docker-compose.prod.yml up --build -d
-</code></pre>
-<h3>Variables de entorno (ejemplos)</h3>
-<p>Backend (archivo <code>.env</code> en <code>backend/</code>):</p>
-<pre class="prettyprint source"><code>MONGO_URI=mongodb://mongo:27017/bossflow
-JWT_SECRET=tu_secreto_jwt
-PORT=4000
-</code></pre>
-<p>Frontend (archivo <code>.env</code> en <code>frontend/</code> o en tu entorno):</p>
-<pre class="prettyprint source"><code>VITE_API_URL=http://localhost:4000/api
-</code></pre>
-<h2>Enlaces al despliegue y a la demo</h2>
-<p>Enlace al despliegue: <a href="https://bossflow.app/">Despliegue de la aplicación</a>
-- <a href="docs/despliegue/">Documentación de despliegue</a>.</p>
-<p>Enlace a la demo de la aplicación: <a href="https://youtube.com/">Despliegue de la aplicación</a></p>
-<h2>Documentación adicional</h2>
-<p>👉 <strong><a href="docs/README.md">Ver índice completo de documentación</a></strong></p>
-<p>La carpeta <code>docs/</code> contiene la documentación técnica y de proyecto organizada por áreas:</p>
-<ul>
-<li><code>docs/README.md</code>: índice principal y guía de lectura para navegar la documentación.</li>
-<li><code>docs/api/</code>: especificaciones relacionadas con la estructura de los diagramas. Incluye:
-<ul>
-<li><code>estructura-nodos-json.md</code>: esquema JSON y reglas de validación para los nodos.</li>
-<li><code>NODE_TYPES.md</code>: tipos de nodos y su semántica.</li>
-</ul>
-</li>
-<li><code>docs/arquitectura/</code>: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: <code>base-de-datos.md</code>, <code>auth-flujo.md</code>.</li>
-<li><code>docs/despliegue/</code>: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: <code>setup-docker.md</code>, <code>DESPLIEGUE.md</code>, <code>despliegue-vps.md</code>.</li>
-<li><code>docs/proyecto/</code>: información del proyecto (objetivos, problema, viabilidad técnica, recursos).</li>
-<li><code>docs/historias-usuario/</code>: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).</li>
-<li><code>docs/ui-ux/</code>: recursos de diseño, notas de Figma y capturas en <code>docs/ui-ux/capturas/</code>.</li>
-</ul>
-<h3>Documentos Principales del Proyecto</h3>
-<h3>Documentos principales del proyecto</h3>
-<ul>
-<li><a href="docs/proyecto/problema.md">Problema.md (Criterio 2a)</a></li>
-<li><a href="docs/proyecto/viabilidad-tecnica.md">ViabilidadTecnica.md (Criterio 2b)</a></li>
-<li><a href="docs/proyecto/objetivos-alcance.md">ObjetivosAlcance.md (Criterio 2d)</a></li>
-<li><a href="docs/proyecto/recursos.md">Recursos.md (Criterio 2e)</a></li>
-</ul>
-<h3>Documentación técnica</h3>
-<ul>
-<li><a href="docs/api/estructura-nodos-json.md">Estructura JSON de Nodos</a> - JSON Schema, validaciones y ejemplos</li>
-<li><a href="docs/api/NODE_TYPES.md">Tipos de Nodos</a> - Tipos personalizados para BossFlow</li>
-<li><a href="docs/arquitectura/base-de-datos.md">Base de Datos</a> - Diseño MongoDB</li>
-<li><a href="docs/arquitectura/auth-flujo.md">Autenticación</a> - Sistema JWT</li>
-<li><a href="docs/despliegue/setup-docker.md">Despliegue</a> - Configuración Docker</li>
-</ul>
-<h2>Cómo contribuir</h2>
-<ul>
-<li>Crea un fork y abre un Pull Request.</li>
-<li>Sigue las buenas prácticas: prueba correcto funcionamiento, linting y formato.</li>
-<li>Documenta lo realizado.</li>
-</ul>
-<h2>Contacto</h2>
-<p>Para dudas o colaboración abre un Issue o contacta al creador del repositorio.</p>
-<h2>Información del equipo</h2>
-<h3>Documentación profesores</h3>
-<blockquote>
-<p>[!NOTE]
-Esta documentación va dirigida a algunos profesores en específico por los requerimentos de su asignatura.</p>
-</blockquote>
-<h4>Daniel Sánchez Benítez</h4>
-<ul>
-<li><strong><a href="docs/dani/propuesta-inicial.pdf">Propuesta inicial</a></strong></li>
-</ul>
-<h2>Información del equipo</h2>
-<ul>
-<li>Alejandro Borrego Cruz</li>
-<li>Jesús López Pérez</li>
-<li>Daniel Montes Iglesias</li>
-</ul></article>
+        </article>
     </section>
-
-
 
 
 

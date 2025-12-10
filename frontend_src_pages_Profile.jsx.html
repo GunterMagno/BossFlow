@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home - Documentation</title>
+    <title>frontend/src/pages/Profile.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,195 +29,445 @@
 
 <div id="main">
     
+    <h1 class="page-title">frontend/src/pages/Profile.jsx</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
+import { getProfile, updateProfile, getStats } from '../services/profileService';
+import {
+  FiUser,
+  FiEdit2,
+  FiSave,
+  FiX,
+  FiCalendar,
+  FiMail,
+  FiAward,
+  FiBarChart2,
+  FiFileText,
+  FiUsers,
+  FiTarget,
+} from 'react-icons/fi';
+import './Profile.css';
 
+/**
+ * Página de perfil del usuario.
+ * Permite al usuario ver y editar su información personal, estadísticas y juegos favoritos.
+ * @returns {React.ReactElement} El componente de la página de perfil.
+ */
+function Profile() {
+  const { user: authUser } = useAuth();
+  const toast = useToast();
 
+  const [user, setUser] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
 
+  const [formData, setFormData] = useState({
+    username: '',
+    bio: '',
+    favoriteGames: [],
+    avatar: '',
+  });
 
+  const [newGame, setNewGame] = useState('');
 
+  /**
+   * Carga el perfil del usuario y las estadísticas al montar el componente.
+   */
+  useEffect(() => {
+    document.title = 'Perfil | BossFlow';
+    loadProfile();
+    loadStats();
+  }, []);
 
+  /**
+   * Carga el perfil del usuario desde el servidor.
+   */
+  const loadProfile = async () => {
+    try {
+      const response = await getProfile();
+      setUser(response.user);
+      setFormData({
+        username: response.user.username || '',
+        bio: response.user.bio || '',
+        favoriteGames: response.user.favoriteGames || [],
+        avatar: response.user.avatar || '',
+      });
+    } catch (error) {
+      console.error('Error cargando perfil:', error);
+      toast.error('Error al cargar el perfil');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  /**
+   * Carga las estadísticas del usuario desde el servidor.
+   */
+  const loadStats = async () => {
+    try {
+      const response = await getStats();
+      setStats(response.stats);
+    } catch (error) {
+      console.error('Error cargando estadísticas:', error);
+    }
+  };
 
+  /**
+   * Activa el modo de edición del perfil.
+   */
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
 
-    
+  /**
+   * Cancela la edición del perfil y restaura los datos originales.
+   */
+  const handleCancel = () => {
+    setFormData({
+      username: user.username || '',
+      bio: user.bio || '',
+      favoriteGames: user.favoriteGames || [],
+      avatar: user.avatar || '',
+    });
+    setIsEditing(false);
+  };
 
+  /**
+   * Guarda los cambios realizados en el perfil del usuario.
+   */
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const response = await updateProfile(formData);
+      setUser(response.user);
 
-    <section class="readme">
-        <article><h1>👿 BossFlow ⚔</h1>
-<h2>Descripción</h2>
-<p>BossFlow es una aplicación web para diseñar diagramas de flujo interactivos orientados a planificar estrategias contra jefes (bosses) de videojuegos. Cada nodo representa una acción, decisión o efecto, y las conexiones modelan el flujo de la estrategia. Está pensada para jugadores, diseñadores y equipos que quieren documentar tácticas complejas de forma visual.</p>
-<h2>Índice</h2>
-<ul>
-<li><a href="#tecnolog%C3%ADas-utilizadas">Tecnologías utilizadas</a></li>
-<li><a href="#caracter%C3%ADsticas-principales">Características principales</a></li>
-<li><a href="#instalaci%C3%B3n-y-ejecuci%C3%B3n">Instalación y ejecución</a></li>
-<li><a href="#despliegue-y-demo">Despliegue y demo</a></li>
-<li><a href="#documentaci%C3%B3n-adicional">Documentación adicional</a></li>
-<li><a href="#c%C3%B3mo-contribuir">Cómo contribuir</a></li>
-<li><a href="#contacto">Contacto</a></li>
-<li><a href="#informaci%C3%B3n-del-equipo">Información del equipo</a></li>
-</ul>
-<h2>Tecnologías utilizadas</h2>
-<p>BossFlow está construido sobre el stack MERN como base (MongoDB, Express, React, Node). El enfoque MERN ofrece: <code>MongoDB</code> para el almacenamiento de datos, <code>Express</code> y <code>Node.js</code> para la API backend y <code>React</code> para la interfaz. Dentro se usan herramientas y librerías que facilitan el desarrollo, el despliegue y la experiencia de usuario.</p>
-<h3>MERN (stack principal)</h3>
-<ul>
-<li><code>MongoDB</code>: base de datos NoSQL que almacena usuarios, diagramas y metadatos.</li>
-<li><code>Express</code>: framework minimalista para la API REST del backend.</li>
-<li><code>React</code>: biblioteca para construir la interfaz (frontend) y manejar el estado y la navegación.</li>
-<li><code>Node.js</code>: runtime que ejecuta el servidor backend.</li>
-</ul>
-<h3>Frontend</h3>
-<ul>
-<li><code>Vite</code>: bundler y dev server para React (rápido y moderno).</li>
-<li><code>React Flow</code>: editor de diagramas (lienzo con nodos y conexiones).</li>
-<li><code>react-router-dom</code>: enrutado del frontend.</li>
-<li><code>axios</code>: cliente HTTP para comunicarse con la API.</li>
-<li><code>react-icons</code>: iconos usados en la interfaz.</li>
-</ul>
-<h3>Backend</h3>
-<ul>
-<li><code>mongoose</code>: ODM para modelar y validar documentos en MongoDB.</li>
-<li><code>express</code>: manejo de rutas, middleware y controladores.</li>
-<li><code>jsonwebtoken</code> / JWT: autenticación basada en tokens.</li>
-</ul>
-<h3>DevOps / Infra</h3>
-<ul>
-<li><code>Docker</code>: contenedores para aislar frontend y backend.</li>
-<li><code>Docker Compose</code>: orquestación local y despliegue del stack.</li>
-<li><code>nginx</code>: proxy y servidor estático (configuración en <code>frontend/nginx.conf</code>).</li>
-</ul>
-<h3>Autenticación y seguridad</h3>
-<ul>
-<li><code>JWT (JSON Web Tokens)</code>: gestión de sesiones y rutas protegidas.</li>
-<li>Buenas prácticas: variables de entorno para secretos y URIs.</li>
-</ul>
-<h3>Tests</h3>
-<ul>
-<li>Tests automatizados en <code>backend/tests</code> (comprobaciones de endpoints, validaciones y flujos principales).</li>
-</ul>
-<h2>Características principales</h2>
-<ul>
-<li>Editor visual de diagramas con soporte para nodos personalizados y arrastrar/soltar.</li>
-<li>CRUD completo de diagramas (crear, editar, eliminar, leer).</li>
-<li>Gestión de usuarios y autenticación por JWT (registro/login/protected routes).</li>
-<li>Dashboard completo para moder gestionar los diagramas.</li>
-<li>Exportación de diagramas en formato PNG.</li>
-<li>Exportación / importación de diagramas en JSON.</li>
-<li>Soporte para subir imágenes asociadas a nodos.</li>
-<li>Sistema de plantillas reutilizables.</li>
-</ul>
-<h2>Instalación y ejecución</h2>
-<p>Requisitos previos:</p>
-<ul>
-<li><code>Node.js</code> 18+ y <code>npm</code> (solo para desarrollo local).</li>
-<li><code>Docker</code> y <code>docker-compose</code> (recomendado para despliegue o para levantar todo el stack fácilmente).</li>
-</ul>
-<ol>
-<li>Clonar el repositorio</li>
-</ol>
-<pre class="prettyprint source lang-bash"><code>git clone https://github.com/GunterMagno/BossFlow.git
-cd BossFlow
+      const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const updatedUser = {
+        ...storedUser,
+        username: response.user.username,
+        avatar: response.user.avatar
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      setIsEditing(false);
+      toast.success('Perfil actualizado correctamente. Recarga la página para ver los cambios en el navegador.');
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error('Error actualizando perfil:', error);
+      const errorMessage = error.response?.data?.error || 'Error al actualizar el perfil';
+      toast.error(errorMessage);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  /**
+   * Maneja los cambios en los campos de entrada del formulario.
+   * @param {Event} e - Evento del input.
+   */
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  /**
+   * Agrega un nuevo juego favorito a la lista.
+   */
+  const handleAddGame = () => {
+    if (newGame.trim() &amp;&amp; formData.favoriteGames.length &lt; 10) {
+      setFormData((prev) => ({
+        ...prev,
+        favoriteGames: [...prev.favoriteGames, newGame.trim()],
+      }));
+      setNewGame('');
+    }
+  };
+
+  /**
+   * Elimina un juego favorito de la lista.
+   * @param {number} index - Índice del juego a eliminar.
+   */
+  const handleRemoveGame = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      favoriteGames: prev.favoriteGames.filter((_, i) => i !== index),
+    }));
+  };
+
+  /**
+   * Formatea una fecha al formato local (día, mes, año).
+   * @param {string} dateString - Cadena de fecha a formatear.
+   * @returns {string} Fecha formateada.
+   */
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
+  if (loading) {
+    return (
+      &lt;section className="profile">
+        &lt;section className="profile-loading">
+          &lt;p>Cargando perfil...&lt;/p>
+        &lt;/section>
+      &lt;/section>
+    );
+  }
+
+  if (!user) {
+    return (
+      &lt;section className="profile">
+        &lt;section className="profile-error">
+          &lt;p>No se pudo cargar el perfil&lt;/p>
+        &lt;/section>
+      &lt;/section>
+    );
+  }
+
+  return (
+    &lt;section className="profile">
+      &lt;section className="profile-container">
+        &lt;header className="profile-header">
+          &lt;section className="profile-avatar-section">
+            &lt;figure className="profile-avatar">
+              {formData.avatar ? (
+                &lt;img src={formData.avatar} alt={user.username} />
+              ) : (
+                &lt;FiUser className="profile-avatar-icon" />
+              )}
+            &lt;/figure>
+
+            {isEditing &amp;&amp; (
+              &lt;section className="profile-avatar-edit">
+                &lt;input
+                  type="text"
+                  name="avatar"
+                  value={formData.avatar}
+                  onChange={handleInputChange}
+                  placeholder="URL de la imagen"
+                  className="profile-input"
+                />
+                &lt;small>Introduce la URL de tu imagen de perfil&lt;/small>
+              &lt;/section>
+            )}
+          &lt;/section>
+
+          &lt;section className="profile-header-info">
+            {isEditing ? (
+              &lt;input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                className="profile-input profile-input--username"
+                placeholder="Nombre de usuario"
+              />
+            ) : (
+              &lt;h1 className="profile-username">{user.username}&lt;/h1>
+            )}
+
+            &lt;section className="profile-meta">
+              &lt;span className="profile-meta-item">
+                &lt;FiMail /> {user.email}
+              &lt;/span>
+              &lt;span className="profile-meta-item">
+                &lt;FiCalendar /> Miembro desde {formatDate(user.createdAt)}
+              &lt;/span>
+            &lt;/section>
+          &lt;/section>
+
+          &lt;section className="profile-actions">
+            {!isEditing ? (
+              &lt;button className="profile-button profile-button--edit" onClick={handleEdit}>
+                &lt;FiEdit2 /> Editar perfil
+              &lt;/button>
+            ) : (
+              &lt;section className="profile-edit-actions">
+                &lt;button
+                  className="profile-button profile-button--cancel"
+                  onClick={handleCancel}
+                  disabled={saving}
+                >
+                  &lt;FiX /> Cancelar
+                &lt;/button>
+                &lt;button
+                  className="profile-button profile-button--save"
+                  onClick={handleSave}
+                  disabled={saving}
+                >
+                  &lt;FiSave /> {saving ? 'Guardando...' : 'Guardar'}
+                &lt;/button>
+              &lt;/section>
+            )}
+          &lt;/section>
+        &lt;/header>
+
+        &lt;article className="profile-section">
+          &lt;h2 className="profile-section-title">
+            &lt;FiUser /> Biografía
+          &lt;/h2>
+          {isEditing ? (
+            &lt;textarea
+              name="bio"
+              value={formData.bio}
+              onChange={handleInputChange}
+              className="profile-textarea"
+              placeholder="Cuéntanos sobre ti..."
+              maxLength={500}
+              rows={4}
+            />
+          ) : (
+            &lt;p className="profile-bio">
+              {user.bio || 'No has añadido una biografía todavía.'}
+            &lt;/p>
+          )}
+          {isEditing &amp;&amp; (
+            &lt;small className="profile-char-count">
+              {formData.bio.length}/500 caracteres
+            &lt;/small>
+          )}
+        &lt;/article>
+
+        {stats &amp;&amp; (
+          &lt;article className="profile-section">
+            &lt;h2 className="profile-section-title">
+              &lt;FiBarChart2 /> Estadísticas
+            &lt;/h2>
+            &lt;section className="profile-stats">
+              &lt;article className="profile-stat">
+                &lt;figure className="profile-stat-icon">
+                  &lt;FiFileText />
+                &lt;/figure>
+                &lt;section className="profile-stat-info">
+                  &lt;span className="profile-stat-value">{stats.diagramsCreated}&lt;/span>
+                  &lt;span className="profile-stat-label">Diagramas creados&lt;/span>
+                &lt;/section>
+              &lt;/article>
+              &lt;article className="profile-stat">
+                &lt;figure className="profile-stat-icon">
+                  &lt;FiTarget />
+                &lt;/figure>
+                &lt;section className="profile-stat-info">
+                  &lt;span className="profile-stat-value">{stats.nodesCreated}&lt;/span>
+                  &lt;span className="profile-stat-label">Nodos creados&lt;/span>
+                &lt;/section>
+              &lt;/article>
+              &lt;article className="profile-stat">
+                &lt;figure className="profile-stat-icon">
+                  &lt;FiUsers />
+                &lt;/figure>
+                &lt;section className="profile-stat-info">
+                  &lt;span className="profile-stat-value">{stats.collaborations}&lt;/span>
+                  &lt;span className="profile-stat-label">Colaboraciones&lt;/span>
+                &lt;/section>
+              &lt;/article>
+            &lt;/section>
+          &lt;/article>
+        )}
+
+        &lt;article className="profile-section">
+            &lt;h2 className="profile-section-title">
+              &lt;FiTarget /> Juegos favoritos
+            &lt;/h2>
+
+          {isEditing &amp;&amp; (
+            &lt;section className="profile-game-input">
+              &lt;input
+                type="text"
+                value={newGame}
+                onChange={(e) => setNewGame(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' &amp;&amp; handleAddGame()}
+                placeholder="Añadir juego favorito"
+                className="profile-input"
+                disabled={formData.favoriteGames.length >= 10}
+              />
+              &lt;button
+                onClick={handleAddGame}
+                className="profile-button profile-button--add"
+                disabled={!newGame.trim() || formData.favoriteGames.length >= 10}
+              >
+                Añadir
+              &lt;/button>
+            &lt;/section>
+          )}
+
+          {formData.favoriteGames.length > 0 ? (
+            &lt;ul className="profile-games">
+              {formData.favoriteGames.map((game, index) => (
+                &lt;li key={index} className="profile-game">
+                  &lt;span>{game}&lt;/span>
+                  {isEditing &amp;&amp; (
+                    &lt;button
+                      onClick={() => handleRemoveGame(index)}
+                      className="profile-game-remove"
+                      title="Eliminar"
+                    >
+                      &lt;FiX />
+                    &lt;/button>
+                  )}
+                &lt;/li>
+              ))}
+            &lt;/ul>
+          ) : (
+            &lt;p className="profile-empty">No has añadido juegos favoritos todavía.&lt;/p>
+          )}
+
+          {isEditing &amp;&amp; formData.favoriteGames.length >= 10 &amp;&amp; (
+            &lt;small className="profile-limit">Has alcanzado el límite de 10 juegos favoritos&lt;/small>
+          )}
+        &lt;/article>
+
+        {user.achievements &amp;&amp; user.achievements.length > 0 &amp;&amp; (
+          &lt;article className="profile-section">
+            &lt;h2 className="profile-section-title">
+              &lt;FiAward /> Logros
+            &lt;/h2>
+            &lt;section className="profile-achievements">
+              {user.achievements.map((achievement, index) => (
+                &lt;article key={index} className="profile-achievement">
+                  &lt;figure className="profile-achievement-icon">
+                    {achievement.icon || &lt;FiAward />}
+                  &lt;/figure>
+                  &lt;section className="profile-achievement-info">
+                    &lt;h3>{achievement.name}&lt;/h3>
+                    &lt;p>{achievement.description}&lt;/p>
+                    &lt;small>Desbloqueado: {formatDate(achievement.unlockedAt)}&lt;/small>
+                  &lt;/section>
+                &lt;/article>
+              ))}
+            &lt;/section>
+          &lt;/article>
+        )}
+      &lt;/section>
+    &lt;/section>
+  );
+}
+
+export default Profile;
 </code></pre>
-<p>2.1 Desarrollo local (sin Docker)</p>
-<ul>
-<li>Backend:</li>
-</ul>
-<pre class="prettyprint source lang-bash"><code>cd backend
-npm install
-# configurar variables de entorno (ver sección variables de entorno)
-npm run dev
-</code></pre>
-<ul>
-<li>Frontend:</li>
-</ul>
-<pre class="prettyprint source lang-bash"><code>cd frontend
-npm install
-npm run dev
-</code></pre>
-<p>2.2 Levantar con Docker Compose (modo desarrollo)</p>
-<pre class="prettyprint source lang-bash"><code>docker compose -f docker-compose.dev.yml up --build
-</code></pre>
-<p>2.3 Levantar con Docker Compose (modo desarrollo)</p>
-<pre class="prettyprint source lang-bash"><code>docker compose -f docker-compose.prod.yml up --build -d
-</code></pre>
-<h3>Variables de entorno (ejemplos)</h3>
-<p>Backend (archivo <code>.env</code> en <code>backend/</code>):</p>
-<pre class="prettyprint source"><code>MONGO_URI=mongodb://mongo:27017/bossflow
-JWT_SECRET=tu_secreto_jwt
-PORT=4000
-</code></pre>
-<p>Frontend (archivo <code>.env</code> en <code>frontend/</code> o en tu entorno):</p>
-<pre class="prettyprint source"><code>VITE_API_URL=http://localhost:4000/api
-</code></pre>
-<h2>Enlaces al despliegue y a la demo</h2>
-<p>Enlace al despliegue: <a href="https://bossflow.app/">Despliegue de la aplicación</a>
-- <a href="docs/despliegue/">Documentación de despliegue</a>.</p>
-<p>Enlace a la demo de la aplicación: <a href="https://youtube.com/">Despliegue de la aplicación</a></p>
-<h2>Documentación adicional</h2>
-<p>👉 <strong><a href="docs/README.md">Ver índice completo de documentación</a></strong></p>
-<p>La carpeta <code>docs/</code> contiene la documentación técnica y de proyecto organizada por áreas:</p>
-<ul>
-<li><code>docs/README.md</code>: índice principal y guía de lectura para navegar la documentación.</li>
-<li><code>docs/api/</code>: especificaciones relacionadas con la estructura de los diagramas. Incluye:
-<ul>
-<li><code>estructura-nodos-json.md</code>: esquema JSON y reglas de validación para los nodos.</li>
-<li><code>NODE_TYPES.md</code>: tipos de nodos y su semántica.</li>
-</ul>
-</li>
-<li><code>docs/arquitectura/</code>: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: <code>base-de-datos.md</code>, <code>auth-flujo.md</code>.</li>
-<li><code>docs/despliegue/</code>: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: <code>setup-docker.md</code>, <code>DESPLIEGUE.md</code>, <code>despliegue-vps.md</code>.</li>
-<li><code>docs/proyecto/</code>: información del proyecto (objetivos, problema, viabilidad técnica, recursos).</li>
-<li><code>docs/historias-usuario/</code>: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).</li>
-<li><code>docs/ui-ux/</code>: recursos de diseño, notas de Figma y capturas en <code>docs/ui-ux/capturas/</code>.</li>
-</ul>
-<h3>Documentos Principales del Proyecto</h3>
-<h3>Documentos principales del proyecto</h3>
-<ul>
-<li><a href="docs/proyecto/problema.md">Problema.md (Criterio 2a)</a></li>
-<li><a href="docs/proyecto/viabilidad-tecnica.md">ViabilidadTecnica.md (Criterio 2b)</a></li>
-<li><a href="docs/proyecto/objetivos-alcance.md">ObjetivosAlcance.md (Criterio 2d)</a></li>
-<li><a href="docs/proyecto/recursos.md">Recursos.md (Criterio 2e)</a></li>
-</ul>
-<h3>Documentación técnica</h3>
-<ul>
-<li><a href="docs/api/estructura-nodos-json.md">Estructura JSON de Nodos</a> - JSON Schema, validaciones y ejemplos</li>
-<li><a href="docs/api/NODE_TYPES.md">Tipos de Nodos</a> - Tipos personalizados para BossFlow</li>
-<li><a href="docs/arquitectura/base-de-datos.md">Base de Datos</a> - Diseño MongoDB</li>
-<li><a href="docs/arquitectura/auth-flujo.md">Autenticación</a> - Sistema JWT</li>
-<li><a href="docs/despliegue/setup-docker.md">Despliegue</a> - Configuración Docker</li>
-</ul>
-<h2>Cómo contribuir</h2>
-<ul>
-<li>Crea un fork y abre un Pull Request.</li>
-<li>Sigue las buenas prácticas: prueba correcto funcionamiento, linting y formato.</li>
-<li>Documenta lo realizado.</li>
-</ul>
-<h2>Contacto</h2>
-<p>Para dudas o colaboración abre un Issue o contacta al creador del repositorio.</p>
-<h2>Información del equipo</h2>
-<h3>Documentación profesores</h3>
-<blockquote>
-<p>[!NOTE]
-Esta documentación va dirigida a algunos profesores en específico por los requerimentos de su asignatura.</p>
-</blockquote>
-<h4>Daniel Sánchez Benítez</h4>
-<ul>
-<li><strong><a href="docs/dani/propuesta-inicial.pdf">Propuesta inicial</a></strong></li>
-</ul>
-<h2>Información del equipo</h2>
-<ul>
-<li>Alejandro Borrego Cruz</li>
-<li>Jesús López Pérez</li>
-<li>Daniel Montes Iglesias</li>
-</ul></article>
+        </article>
     </section>
-
-
 
 
 
