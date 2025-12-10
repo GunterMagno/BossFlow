@@ -1,6 +1,20 @@
 import { FiAlertTriangle, FiX } from 'react-icons/fi';
 import './ConfirmModal.css';
 
+/**
+ * Modal de confirmación para acciones que requieren validación del usuario
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Controla la visibilidad del modal
+ * @param {Function} props.onClose - Callback ejecutado al cerrar el modal
+ * @param {Function} props.onConfirm - Callback ejecutado al confirmar la acción
+ * @param {string} [props.title='¿Estás seguro?'] - Título mostrado en el modal
+ * @param {string} [props.message='Esta acción no se puede deshacer.'] - Mensaje descriptivo
+ * @param {string} [props.confirmText='Confirmar'] - Texto del botón de confirmación
+ * @param {string} [props.cancelText='Cancelar'] - Texto del botón de cancelación
+ * @param {string} [props.type='danger'] - Tipo visual del modal (danger, warning, info)
+ * @param {boolean} [props.isLoading=false] - Indica si hay una operación en curso
+ * @returns {JSX.Element|null} Renderiza el modal o null si está cerrado
+ */
 function ConfirmModal({
   isOpen,
   onClose,
@@ -9,21 +23,23 @@ function ConfirmModal({
   message = 'Esta acción no se puede deshacer.',
   confirmText = 'Confirmar',
   cancelText = 'Cancelar',
-  type = 'danger', // danger, warning, info
+  type = 'danger',
   isLoading = false,
 }) {
-  // Manejar tecla Escape para cerrar modal
+  /**
+   * Gestiona el cierre del modal mediante la tecla Escape
+   * @param {KeyboardEvent} e - Evento del teclado
+   */
   const handleKeyDown = (e) => {
     if (e.key === 'Escape' && !isLoading) {
       onClose();
     }
   };
 
-  // No renderizar si el modal no está abierto
   if (!isOpen) return null;
 
   return (
-    <div
+    <section
       className="confirm-modal-overlay"
       onClick={!isLoading ? onClose : undefined}
       onKeyDown={handleKeyDown}
@@ -31,15 +47,14 @@ function ConfirmModal({
       aria-modal="true"
       aria-labelledby="confirm-modal-title"
     >
-      <div
+      <article
         className={`confirm-modal confirm-modal--${type}`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header con icono */}
-        <div className="confirm-modal__header">
-          <div className="confirm-modal__icon-wrapper">
+        <header className="confirm-modal__header">
+          <figure className="confirm-modal__icon-wrapper">
             <FiAlertTriangle className="confirm-modal__icon" />
-          </div>
+          </figure>
           <button
             type="button"
             className="confirm-modal__close-button"
@@ -49,18 +64,16 @@ function ConfirmModal({
           >
             <FiX />
           </button>
-        </div>
+        </header>
 
-        {/* Content */}
-        <div className="confirm-modal__content">
+        <section className="confirm-modal__content">
           <h2 id="confirm-modal-title" className="confirm-modal__title">
             {title}
           </h2>
           <p className="confirm-modal__message">{message}</p>
-        </div>
+        </section>
 
-        {/* Actions */}
-        <div className="confirm-modal__actions">
+        <nav className="confirm-modal__actions">
           <button
             type="button"
             className="confirm-modal__button confirm-modal__button--cancel"
@@ -77,9 +90,9 @@ function ConfirmModal({
           >
             {isLoading ? 'Procesando...' : confirmText}
           </button>
-        </div>
-      </div>
-    </div>
+        </nav>
+      </article>
+    </section>
   );
 }
 

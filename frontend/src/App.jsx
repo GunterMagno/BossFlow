@@ -14,6 +14,11 @@ import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Layout from './layouts/Layout';
 
+/**
+ * Componente principal de la aplicación BossFlow.
+ * Define la estructura de rutas y configura los proveedores de contexto.
+ * @returns {React.ReactElement} El componente principal de la aplicación.
+ */
 function App() {
   return (
     <AuthProvider>
@@ -21,14 +26,12 @@ function App() {
         <Router>
           <Routes>
             <Route element={<Layout />}>
-              {/* Rutas públicas */}
               <Route path="/" element={<Home />} />
               <Route path="/status" element={<Status />} />
               <Route path="/community" element={<Community />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
 
-              {/* Rutas privadas */}
               <Route path="/editor/:diagramId" element={
                 <PrivateRoute>
                   <Editor />
@@ -49,7 +52,6 @@ function App() {
                   <Templates />
                 </PrivateRoute>} />
 
-              {/* Ruta 404 - debe estar al final */}
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

@@ -8,6 +8,13 @@ import DiagramCard from '../DiagramCard/DiagramCard';
 import { FiFileText, FiAlertCircle } from 'react-icons/fi';
 import './DiagramList.css';
 
+/**
+ * Lista de diagramas del usuario con opciones de gestión
+ * @param {Object} props - Propiedades del componente
+ * @param {Function} props.onCreateClick - Callback ejecutado al crear un nuevo diagrama
+ * @param {Function} props.onDiagramDeleted - Callback ejecutado tras eliminar un diagrama
+ * @returns {JSX.Element} Lista de diagramas con estados de carga, error y vacío
+ */
 function DiagramList({ onCreateClick, onDiagramDeleted }) {
   const navigate = useNavigate();
   const toast = useToast();
@@ -17,6 +24,9 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
   const [diagramToDelete, setDiagramToDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  /**
+   * Obtiene la lista de diagramas del usuario desde el servidor
+   */
   const fetchDiagrams = async () => {
     try {
       setLoading(true);
@@ -35,16 +45,25 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
     fetchDiagrams();
   }, []);
 
-  // Función para eliminar diagrama
+  /**
+   * Prepara la eliminación de un diagrama mostrando el modal de confirmación
+   * @param {Object} diagram - Diagrama a eliminar
+   */
   const handleDeleteClick = (diagram) => {
     setDiagramToDelete(diagram);
   };
 
-  // Función para editar diagrama
+  /**
+   * Navega al editor con el diagrama seleccionado
+   * @param {Object} diagram - Diagrama a editar
+   */
   const handleEditClick = (diagram) => {
     navigate(`/editor/${diagram.id}`);
   };
 
+  /**
+   * Ejecuta la eliminación del diagrama tras la confirmación
+   */
   const handleConfirmDelete = async () => {
     if (!diagramToDelete) return;
 
@@ -52,22 +71,18 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
       setIsDeleting(true);
       await deleteDiagram(diagramToDelete.id);
 
-      // Registrar actividad de eliminación
       registerActivity(
         ACTIVITY_TYPES.DELETE,
         diagramToDelete.title,
         diagramToDelete.id
       );
 
-      // Actualizar lista de diagramas local
       await fetchDiagrams();
 
-      // Notificar al Dashboard para que actualice su estado
       if (onDiagramDeleted) {
         onDiagramDeleted();
       }
 
-      // Mostrar mensaje de éxito
       toast.success('Diagrama eliminado exitosamente');
 
       setDiagramToDelete(null);
@@ -79,6 +94,9 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
     }
   };
 
+  /**
+   * Cancela la operación de eliminación cerrando el modal
+   */
   const handleCancelDelete = () => {
     if (!isDeleting) {
       setDiagramToDelete(null);
@@ -86,23 +104,21 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
   };
 
 
-  // Estado de carga
   if (loading) {
     return (
-      <div className="diagram-list">
-        <div className="diagram-list__loading">
-          <div className="diagram-list__spinner"></div>
+      <section className="diagram-list">
+        <aside className="diagram-list__loading">
+          <figure className="diagram-list__spinner"></figure>
           <p>Cargando diagramas...</p>
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
-  // Estado de error
   if (error) {
     return (
-      <div className="diagram-list">
-        <div className="diagram-list__error">
+      <section className="diagram-list">
+        <aside className="diagram-list__error">
           <FiAlertCircle className="diagram-list__error-icon" />
           <p className="diagram-list__error-message">{error}</p>
           <button
@@ -111,16 +127,15 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
           >
             Reintentar
           </button>
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
-  // Estado vacío
   if (diagrams.length === 0) {
     return (
-      <div className="diagram-list">
-        <div className="diagram-list__empty">
+      <section className="diagram-list">
+        <aside className="diagram-list__empty">
           <FiFileText className="diagram-list__empty-icon" />
           <h3 className="diagram-list__empty-title">No tienes diagramas aún</h3>
           <p className="diagram-list__empty-message">
@@ -135,16 +150,15 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
               Crear diagrama
             </Link>
           )}
-        </div>
-      </div>
+        </aside>
+      </section>
     );
   }
 
-  // Lista de diagramas
   return (
     <>
-      <div className="diagram-list">
-        <div className="diagram-list__grid">
+      <section className="diagram-list">
+        <section className="diagram-list__grid">
           {diagrams.map((diagram) => (
             <DiagramCard
               key={diagram.id}
@@ -153,8 +167,8 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
               onEdit={handleEditClick}
             />
           ))}
-        </div>
-      </div>
+        </section>
+      </section>
 
       <ConfirmModal
         isOpen={!!diagramToDelete}

@@ -2,8 +2,20 @@ import { Link } from 'react-router-dom';
 import { FiFileText, FiClock, FiTrash2, FiEdit2 } from 'react-icons/fi';
 import './DiagramCard.css';
 
+/**
+ * Tarjeta que muestra la información resumida de un diagrama
+ * @param {Object} props - Propiedades del componente
+ * @param {Object} props.diagram - Objeto con los datos del diagrama
+ * @param {Function} props.onDelete - Callback ejecutado al eliminar el diagrama
+ * @param {Function} props.onEdit - Callback ejecutado al editar el diagrama
+ * @returns {JSX.Element} Tarjeta interactiva con información del diagrama
+ */
 function DiagramCard({ diagram, onDelete, onEdit }) {
-  // Función para formatear fecha relativa
+  /**
+   * Formatea una fecha en formato relativo (hace X minutos/horas/días)
+   * @param {string|Date} date - Fecha a formatear
+   * @returns {string} Fecha formateada en formato relativo o fecha absoluta
+   */
   const formatRelativeDate = (date) => {
     const now = new Date();
     const diagramDate = new Date(date);
@@ -27,6 +39,10 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
     }
   };
 
+  /**
+   * Gestiona el clic en el botón de eliminar
+   * @param {Event} e - Evento del clic
+   */
   const handleDeleteClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -35,6 +51,10 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
     }
   };
 
+  /**
+   * Gestiona el clic en el botón de editar
+   * @param {Event} e - Evento del clic
+   */
   const handleEditClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -44,26 +64,26 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
   };
 
   return (
-    <div className="diagram-card-wrapper">
+    <article className="diagram-card-wrapper">
       <Link to={`/editor/${diagram.id}`} className="diagram-card">
-        <div className="diagram-card__icon">
+        <figure className="diagram-card__icon">
           <FiFileText />
-        </div>
+        </figure>
 
-        <div className="diagram-card__content">
+        <section className="diagram-card__content">
           <h3 className="diagram-card__title">{diagram.title}</h3>
           {diagram.description && (
             <p className="diagram-card__description">{diagram.description}</p>
           )}
 
-          <div className="diagram-card__footer">
-            <div className="diagram-card__info">
+          <footer className="diagram-card__footer">
+            <section className="diagram-card__info">
               <span className="diagram-card__date">
                 <FiClock className="diagram-card__date-icon" />
                 {formatRelativeDate(diagram.updatedAt)}
               </span>
 
-              <div className="diagram-card__stats">
+              <section className="diagram-card__stats">
                 <span className="diagram-card__stat">
                   {(diagram.nodes ? diagram.nodes.length : 0)} nodos
                 </span>
@@ -71,14 +91,13 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
                 <span className="diagram-card__stat">
                   {(diagram.edges ? diagram.edges.length : 0)} conexiones
                 </span>
-              </div>
-            </div>
-          </div>
-        </div>
+              </section>
+            </section>
+          </footer>
+        </section>
       </Link>
 
-      {/* Botones de acción */}
-      <div className="diagram-card__actions">
+      <nav className="diagram-card__actions">
         <button
           className="diagram-card__action-button diagram-card__action-button--edit"
           onClick={handleEditClick}
@@ -96,8 +115,8 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
         >
           <FiTrash2 />
         </button>
-      </div>
-    </div>
+      </nav>
+    </article>
   );
 }
 

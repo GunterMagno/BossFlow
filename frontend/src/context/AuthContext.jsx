@@ -2,10 +2,15 @@ import { createContext, useState, useContext, useEffect } from 'react';
 import api from '../services/api';
 import authService from '../services/authService';
 
-// Crear el contexto
 const AuthContext = createContext(null);
 
-// Hook personalizado para usar el contexto
+/**
+ * Hook personalizado para acceder al contexto de autenticación.
+ * Proporciona acceso a los datos y funciones de autenticación del usuario.
+ *
+ * @throws {Error} Si se usa fuera de un AuthProvider
+ * @returns {Object} Objeto con datos y métodos de autenticación
+ */
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
@@ -14,33 +19,46 @@ export const useAuth = () => {
     return context;
 };
 
-// Provider del contexto
+/**
+ * Componente proveedor del contexto de autenticación.
+ * Gestiona el estado de autenticación, login, registro y cierre de sesión de usuarios.
+ * Verifica automáticamente la autenticación al cargar y maneja tokens expirados.
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {React.ReactNode} props.children - Componentes hijos envueltos por el proveedor
+ * @returns {JSX.Element} Proveedor del contexto de autenticación
+ */
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    // Verificar si hay un usuario autenticado al cargar la aplicación
     useEffect(() => {
         checkAuth();
 
-        // Escuchar evento de token expirado
+        /**
+         * Maneja el evento de token expirado.
+         * Cierra la sesión del usuario y redirige a la página de login.
+         */
         const handleTokenExpired = () => {
             console.log('Token expirado detectado, cerrando sesión...');
             logout();
-            // Redirigir al login
             window.location.href = '/login';
         };
 
         window.addEventListener('token-expired', handleTokenExpired);
 
-        // Cleanup
         return () => {
             window.removeEventListener('token-expired', handleTokenExpired);
         };
     }, []);
 
-    // Verificar autenticación desde localStorage
+    /**
+     * Verifica la autenticación del usuario desde localStorage.
+     * Recupera los datos del usuario y token guardados, actualizando el estado si son válidos.
+     *
+     * @returns {Promise<void>} Promesa que resuelve cuando se completa la verificación
+     */
     const checkAuth = async () => {
         try {
             const storedUser = localStorage.getItem('user');
@@ -50,13 +68,11 @@ export const AuthProvider = ({ children }) => {
                 const userData = JSON.parse(storedUser);
                 setUser(userData);
                 setIsAuthenticated(true);
-                
-                // Configurar el token en los headers de axios
+
                 api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             }
         } catch (error) {
             console.error('Error al verificar autenticación:', error);
-            // Limpiar datos si hay error
             localStorage.removeItem('user');
             localStorage.removeItem('token');
         } finally {
@@ -64,22 +80,26 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Función de login
+    /**
+     * Inicia sesión de un usuario con correo y contraseña.
+     * Guarda los datos del usuario y token en localStorage y actualiza el estado de autenticación.
+     *
+     * @param {string} correo - Correo electrónico del usuario
+     * @param {string} contrasena - Contraseña del usuario
+     * @param {boolean} recordarme - Indica si se debe recordar la sesión
+     * @returns {Promise<Object>} Promesa que resuelve con resultado del login (success, user o error)
+     */
     const login = async (correo, contrasena, recordarme = false) => {
         try {
             setLoading(true);
 
-            // Usar authService en vez de api directamente
             const { user: userData, token } = await authService.login(correo, contrasena, recordarme);
 
-            // Guardar en localStorage
             localStorage.setItem('user', JSON.stringify(userData));
             localStorage.setItem('token', token);
 
-            // Configurar el token en los headers de axios
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-            // Actualizar estado
             setUser(userData);
             setIsAuthenticated(true);
 
@@ -93,12 +113,20 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Función de register
+    /**
+     * Registra un nuevo usuario en el sistema.
+     * Guarda los datos del usuario y token en localStorage tras el registro exitoso.
+     *
+     * @param {string} nombreUsuario - Nombre de usuario para el nuevo registro
+     * @param {string} correo - Correo electrónico del usuario
+     * @param {string} contrasena - Contraseña del usuario
+     * @param {boolean} recordarme - Indica si se debe recordar la sesión
+     * @returns {Promise<Object>} Promesa que resuelve con resultado del registro (success, user o error)
+     */
     const register = async (nombreUsuario, correo, contrasena, recordarme = false) => {
         try {
             setLoading(true);
 
-            // Usar authService en vez de api directamente
             const { user: userData, token } = await authService.register(
                 nombreUsuario,
                 correo,
@@ -106,14 +134,11 @@ export const AuthProvider = ({ children }) => {
                 recordarme
             );
 
-            // Guardar en localStorage
             localStorage.setItem('user', JSON.stringify(userData));
             localStorage.setItem('token', token);
 
-            // Configurar el token en los headers de axios
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-            // Actualizar estado
             setUser(userData);
             setIsAuthenticated(true);
 
@@ -127,20 +152,22 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Función de logout
+    /**
+     * Cierra la sesión del usuario actual.
+     * Elimina los datos del usuario y token de localStorage y limpia el estado de autenticación.
+     *
+     * @returns {Object} Objeto con el resultado del logout (success o error)
+     */
     const logout = () => {
         try {
-            // Limpiar localStorage
             localStorage.removeItem('user');
             localStorage.removeItem('token');
 
-            // Limpiar headers de axios
             delete api.defaults.headers.common['Authorization'];
 
-            // Actualizar estado
             setUser(null);
             setIsAuthenticated(false);
-            
+
             return { success: true };
         } catch (error) {
             console.error('Error en logout:', error);
@@ -148,7 +175,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Valor del contexto
     const value = {
         user,
         isAuthenticated,

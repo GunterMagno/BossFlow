@@ -2,33 +2,34 @@
  * Utilidades para validar la estructura de archivos JSON de diagramas.
  */
 
-// Versión actual del formato JSON
+/**
+ * Versión actual del formato JSON.
+ */
 export const CURRENT_VERSION = '1.0.0';
 
-// Versiones compatibles (para retrocompatibilidad)
+/**
+ * Versiones compatibles (para retrocompatibilidad).
+ */
 export const COMPATIBLE_VERSIONS = ['1.0.0'];
 
 /**
- * Se valida la estructura completa del JSON importado.
- * @param {Object} data - Datos JSON a validar
- * @returns {Object} - { valid: boolean, errors: string[] }
+ * Valida la estructura completa del JSON importado.
+ * @param {Object} data - Datos JSON a validar.
+ * @returns {Object} Objeto con propiedades valid (boolean) y errors (Array).
  */
 export function validateJSONStructure(data) {
   const errors = [];
 
-  // Se valida que sea un objeto
   if (!data || typeof data !== 'object') {
     return { valid: false, errors: ['El archivo no contiene un objeto JSON válido'] };
   }
 
-  // Se valida la versión
   if (!data.version) {
     errors.push('Falta el campo "version"');
   } else if (!COMPATIBLE_VERSIONS.includes(data.version)) {
     errors.push(`Versión incompatible: ${data.version}. Versiones compatibles: ${COMPATIBLE_VERSIONS.join(', ')}`);
   }
 
-  // Se valida metadata
   if (!data.metadata || typeof data.metadata !== 'object') {
     errors.push('Falta o es inválido el campo "metadata"');
   } else {
@@ -40,15 +41,12 @@ export function validateJSONStructure(data) {
     }
   }
 
-  // Se valida diagram
   if (!data.diagram || typeof data.diagram !== 'object') {
     errors.push('Falta o es inválido el campo "diagram"');
   } else {
-    // Se validan los nodos
     const nodeErrors = validateNodes(data.diagram.nodes);
     errors.push(...nodeErrors);
 
-    // Se validan las conexiones
     const edgeErrors = validateEdges(data.diagram.edges);
     errors.push(...edgeErrors);
   }
@@ -60,9 +58,9 @@ export function validateJSONStructure(data) {
 }
 
 /**
- * Se valida el array de nodos.
- * @param {Array} nodes - Array de nodos a validar
- * @returns {Array} - Array de errores
+ * Valida el array de nodos.
+ * @param {Array} nodes - Array de nodos a validar.
+ * @returns {Array} Array de errores encontrados.
  */
 function validateNodes(nodes) {
   const errors = [];
@@ -95,9 +93,9 @@ function validateNodes(nodes) {
 }
 
 /**
- * Se valida el array de conexiones (edges).
- * @param {Array} edges - Array de conexiones a validar
- * @returns {Array} - Array de errores
+ * Valida el array de conexiones (edges).
+ * @param {Array} edges - Array de conexiones a validar.
+ * @returns {Array} Array de errores encontrados.
  */
 function validateEdges(edges) {
   const errors = [];

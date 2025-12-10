@@ -16,7 +16,6 @@ import {
 } from 'react-icons/fi';
 import './EditorSidebar.css';
 
-// Mapeo de tipos de nodos a iconos
 const nodeIconMap = {
   action: <FiZap />,
   decision: <FiGitBranch />,
@@ -28,6 +27,15 @@ const nodeIconMap = {
   ability: <FiStar />,
 };
 
+/**
+ * Panel lateral del editor con biblioteca de nodos disponibles
+ * @param {Object} props - Propiedades del componente
+ * @param {Function} props.onAddNode - Callback ejecutado al añadir un nodo
+ * @param {string} [props.className=''] - Clases CSS adicionales
+ * @param {Function} props.onCloseSidebar - Callback para cerrar el sidebar en móviles
+ * @param {Array} [props.recentNodes=[]] - Lista de nodos usados recientemente
+ * @returns {JSX.Element} Sidebar con categorías de nodos arrastrables
+ */
 function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes = [] }) {
   const navigate = useNavigate();
   const [expandedSections, setExpandedSections] = useState({
@@ -36,6 +44,10 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
     recent: false,
   });
 
+  /**
+   * Alterna la expansión de una sección del sidebar
+   * @param {string} section - Identificador de la sección a alternar
+   */
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({
       ...prev,
@@ -43,9 +55,6 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
     }));
   };
 
-  // Demo removed: sample node insertion logic has been removed per request
-
-  // Definición de tipos de nodos básicos
   const basicNodes = [
     {
       type: 'action',
@@ -77,7 +86,6 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
     },
   ];
 
-  // Definición de nodos específicos del juego
   const gameNodes = [
     {
       type: 'position',
@@ -109,18 +117,29 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
     },
   ];
 
+  /**
+   * Gestiona el clic sobre un tipo de nodo para añadirlo al canvas
+   * @param {Object} nodeType - Tipo de nodo a añadir
+   */
   const handleNodeClick = (nodeType) => {
     if (onAddNode) {
       onAddNode(nodeType);
     }
   };
 
+  /**
+   * Navega a la página anterior al salir del editor
+   */
   const handleExit = () => {
-    navigate(-1); // Vuelve a la última página visitada
+    navigate(-1);
   };
 
+  /**
+   * Inicia el arrastre de un nodo preparando los datos a transferir
+   * @param {DragEvent} event - Evento de arrastre
+   * @param {Object} nodeData - Datos del nodo a arrastrar
+   */
   const onDragStart = (event, nodeData) => {
-    // Extraer solo los datos serializables (sin el componente React del icono)
     const nodeInfo = {
       type: nodeData.type,
       label: nodeData.label,
@@ -133,8 +152,14 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
     event.dataTransfer.effectAllowed = 'move';
   };
 
+  /**
+   * Renderiza un botón de nodo arrastrable
+   * @param {Object} node - Datos del nodo a renderizar
+   * @param {number} index - Índice del nodo en la lista
+   * @returns {JSX.Element} Botón del nodo con capacidad de arrastre
+   */
   const renderNodeButton = (node, index) => (
-    <div
+    <button
       key={`${node.type}-${index}`}
       className="editor-sidebar__node-button"
       draggable
@@ -147,14 +172,13 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
         {node.icon}
       </span>
       <span className="editor-sidebar__node-label">{node.label}</span>
-    </div>
+    </button>
   );
 
   return (
     <aside className={`editor-sidebar ${className}`} aria-label="Biblioteca de nodos">
-      <div className="editor-sidebar__header">
+      <header className="editor-sidebar__header">
         <h2 className="editor-sidebar__title">Biblioteca de Nodos</h2>
-        {/* Close button for overlay (visible on small screens) */}
         {onCloseSidebar && (
           <button
             className="editor-sidebar__close-button"
@@ -165,12 +189,9 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
             <FiX />
           </button>
         )}
-      </div>
+      </header>
 
-      {/* Demo button removed */}
-
-      <div className="editor-sidebar__content">
-        {/* Nodos Básicos */}
+      <section className="editor-sidebar__content">
         <section className="editor-sidebar__section">
           <button
             className="editor-sidebar__section-header"
@@ -184,13 +205,12 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
           </button>
 
           {expandedSections.basic && (
-            <div className="editor-sidebar__section-content">
+            <section className="editor-sidebar__section-content">
               {basicNodes.map((node, index) => renderNodeButton(node, index))}
-            </div>
+            </section>
           )}
         </section>
 
-        {/* Específicos del Juego */}
         <section className="editor-sidebar__section">
           <button
             className="editor-sidebar__section-header"
@@ -204,13 +224,12 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
           </button>
 
           {expandedSections.game && (
-            <div className="editor-sidebar__section-content">
+            <section className="editor-sidebar__section-content">
               {gameNodes.map((node, index) => renderNodeButton(node, index))}
-            </div>
+            </section>
           )}
         </section>
 
-        {/* Nodos Recientes */}
         <section className="editor-sidebar__section">
           <button
             className="editor-sidebar__section-header"
@@ -224,14 +243,13 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
           </button>
 
           {expandedSections.recent && (
-            <div className="editor-sidebar__section-content">
+            <section className="editor-sidebar__section-content">
               {recentNodes.length === 0 ? (
                 <p className="editor-sidebar__empty-message">
                   No hay nodos recientes. Arrastra un nodo al canvas para comenzar.
                 </p>
               ) : (
                 recentNodes.map((node, index) => {
-                  // Añadir el nodo con su icono
                   const nodeWithIcon = {
                     ...node,
                     icon: nodeIconMap[node.type] || <FiCircle />
@@ -239,12 +257,11 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
                   return renderNodeButton(nodeWithIcon, index);
                 })
               )}
-            </div>
+            </section>
           )}
         </section>
-      </div>
+      </section>
 
-      {/* Botón Salir */}
       <button className="editor-sidebar__exit-button" onClick={handleExit}>
         <FiLogOut className="editor-sidebar__nav-icono" />
         <span>Salir</span>

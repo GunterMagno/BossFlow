@@ -2,19 +2,24 @@ import { useEffect } from 'react';
 import { FiUsers, FiMessageCircle, FiTrendingUp, FiZap } from 'react-icons/fi';
 import './Community.css';
 
+/**
+ * Página de comunidad (próximamente)
+ * Muestra un placeholder con las características futuras de la sección de comunidad
+ * @returns {JSX.Element} Página de comunidad en construcción
+ */
 function Community() {
   useEffect(() => {
     document.title = 'Comunidad | BossFlow';
   }, []);
 
   return (
-    <div className="community">
-      <div className="community-container">
+    <section className="community">
+      <section className="community-container">
         <main className="community-main">
-          <div className="community-hero">
-            <div className="community-icon-wrapper">
+          <header className="community-hero">
+            <figure className="community-icon-wrapper">
               <FiUsers className="community-icon" />
-            </div>
+            </figure>
 
             <h1 className="community-title">Próximamente</h1>
 
@@ -22,41 +27,41 @@ function Community() {
               Estamos trabajando en una increíble sección de comunidad donde podrás:
             </p>
 
-            <div className="community-features">
-              <div className="community-feature">
+            <section className="community-features">
+              <article className="community-feature">
                 <span className="community-feature-icon">
                   <FiMessageCircle />
                 </span>
                 <h3>Compartir estrategias</h3>
                 <p>Comparte tus diagramas de combate con otros jugadores</p>
-              </div>
+              </article>
 
-              <div className="community-feature">
+              <article className="community-feature">
                 <span className="community-feature-icon">
                   <FiTrendingUp />
                 </span>
                 <h3>Explorar contenido popular</h3>
                 <p>Descubre las mejores estrategias de la comunidad</p>
-              </div>
+              </article>
 
-              <div className="community-feature">
+              <article className="community-feature">
                 <span className="community-feature-icon">
                   <FiZap />
                 </span>
                 <h3>Colaborar en tiempo real</h3>
                 <p>Trabaja junto a otros en diagramas compartidos</p>
-              </div>
-            </div>
+              </article>
+            </section>
 
-            <div className="community-cta">
+            <aside className="community-cta">
               <p className="community-cta-text">
                 Mantente atento a las próximas actualizaciones
               </p>
-            </div>
-          </div>
+            </aside>
+          </header>
         </main>
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }
 

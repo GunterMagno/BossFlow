@@ -3,9 +3,17 @@ import { useEffect } from 'react';
 import { FiCheckCircle, FiXCircle, FiAlertTriangle } from 'react-icons/fi';
 import './Status.css';
 
+/**
+ * Página de estado del sistema.
+ * Muestra el estado de los servicios y componentes de BossFlow.
+ * @returns {React.ReactElement} El componente de la página de estado.
+ */
 function Status() {
   const { loading, data, error, isConnected } = useHealthCheck();
 
+  /**
+   * Establece el título de la página cuando el componente se monta.
+   */
   useEffect(() => {
     document.title = 'Estado del Sistema | BossFlow';
   }, []);
@@ -21,7 +29,6 @@ function Status() {
         </header>
 
         <section className="status__main">
-          {/* Estado del Backend */}
           <article className="status__servicio">
             <header className="status__servicio-header">
               <h2 className="status__servicio-titulo">Backend API</h2>
@@ -43,29 +50,29 @@ function Status() {
             <section className="status__servicio-body">
               {loading ? (
                 <section className="status__loading">
-                  <div className="status__spinner"></div>
+                  <figure className="status__spinner"></figure>
                   <p>Verificando conexión...</p>
                 </section>
               ) : isConnected ? (
                 <section className="status__info">
-                  <div className="status__info-item">
+                  <article className="status__info-item">
                     <span className="status__info-label">Estado:</span>
                     <span className="status__info-value status__info-value--success">
                       Operativo
                     </span>
-                  </div>
-                  <div className="status__info-item">
+                  </article>
+                  <article className="status__info-item">
                     <span className="status__info-label">Último chequeo:</span>
                     <span className="status__info-value">
                       {new Date().toLocaleTimeString('es-ES')}
                     </span>
-                  </div>
+                  </article>
                 </section>
               ) : (
                 <section className="status__error">
-                  <div className="status__error-icon">
+                  <figure className="status__error-icon">
                     <FiAlertTriangle />
-                  </div>
+                  </figure>
                   <section className="status__error-content">
                     <p className="status__error-titulo">
                       Servicio no disponible
@@ -87,7 +94,6 @@ function Status() {
             </section>
           </article>
 
-          {/* Estado de la Base de Datos */}
           <article className="status__servicio">
             <header className="status__servicio-header">
               <h2 className="status__servicio-titulo">Base de Datos</h2>
@@ -108,12 +114,12 @@ function Status() {
 
             <section className="status__servicio-body">
               <section className="status__info">
-                <div className="status__info-item">
+                <article className="status__info-item">
                   <span className="status__info-label">Estado:</span>
                   <span className="status__info-value status__info-value--success">
                     {isConnected ? 'Operativo' : 'No disponible'}
                   </span>
-                </div>
+                </article>
               </section>
             </section>
           </article>

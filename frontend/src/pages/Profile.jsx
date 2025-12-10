@@ -17,6 +17,11 @@ import {
 } from 'react-icons/fi';
 import './Profile.css';
 
+/**
+ * Página de perfil del usuario.
+ * Permite al usuario ver y editar su información personal, estadísticas y juegos favoritos.
+ * @returns {React.ReactElement} El componente de la página de perfil.
+ */
 function Profile() {
   const { user: authUser } = useAuth();
   const toast = useToast();
@@ -27,7 +32,6 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // Form data para edición
   const [formData, setFormData] = useState({
     username: '',
     bio: '',
@@ -35,15 +39,20 @@ function Profile() {
     avatar: '',
   });
 
-  // Nuevo juego favorito
   const [newGame, setNewGame] = useState('');
 
+  /**
+   * Carga el perfil del usuario y las estadísticas al montar el componente.
+   */
   useEffect(() => {
     document.title = 'Perfil | BossFlow';
     loadProfile();
     loadStats();
   }, []);
 
+  /**
+   * Carga el perfil del usuario desde el servidor.
+   */
   const loadProfile = async () => {
     try {
       const response = await getProfile();
@@ -62,6 +71,9 @@ function Profile() {
     }
   };
 
+  /**
+   * Carga las estadísticas del usuario desde el servidor.
+   */
   const loadStats = async () => {
     try {
       const response = await getStats();
@@ -71,12 +83,17 @@ function Profile() {
     }
   };
 
+  /**
+   * Activa el modo de edición del perfil.
+   */
   const handleEdit = () => {
     setIsEditing(true);
   };
 
+  /**
+   * Cancela la edición del perfil y restaura los datos originales.
+   */
   const handleCancel = () => {
-    // Restaurar datos originales
     setFormData({
       username: user.username || '',
       bio: user.bio || '',
@@ -86,13 +103,15 @@ function Profile() {
     setIsEditing(false);
   };
 
+  /**
+   * Guarda los cambios realizados en el perfil del usuario.
+   */
   const handleSave = async () => {
     setSaving(true);
     try {
       const response = await updateProfile(formData);
       setUser(response.user);
 
-      // Actualizar el usuario en localStorage para reflejar cambios en el Navbar
       const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
       const updatedUser = {
         ...storedUser,
@@ -104,7 +123,6 @@ function Profile() {
       setIsEditing(false);
       toast.success('Perfil actualizado correctamente. Recarga la página para ver los cambios en el navegador.');
 
-      // Recargar después de 2 segundos para que el usuario vea el toast
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -117,6 +135,10 @@ function Profile() {
     }
   };
 
+  /**
+   * Maneja los cambios en los campos de entrada del formulario.
+   * @param {Event} e - Evento del input.
+   */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -125,6 +147,9 @@ function Profile() {
     }));
   };
 
+  /**
+   * Agrega un nuevo juego favorito a la lista.
+   */
   const handleAddGame = () => {
     if (newGame.trim() && formData.favoriteGames.length < 10) {
       setFormData((prev) => ({
@@ -135,6 +160,10 @@ function Profile() {
     }
   };
 
+  /**
+   * Elimina un juego favorito de la lista.
+   * @param {number} index - Índice del juego a eliminar.
+   */
   const handleRemoveGame = (index) => {
     setFormData((prev) => ({
       ...prev,
@@ -142,6 +171,11 @@ function Profile() {
     }));
   };
 
+  /**
+   * Formatea una fecha al formato local (día, mes, año).
+   * @param {string} dateString - Cadena de fecha a formatear.
+   * @returns {string} Fecha formateada.
+   */
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -152,40 +186,39 @@ function Profile() {
 
   if (loading) {
     return (
-      <div className="profile">
-        <div className="profile-loading">
+      <section className="profile">
+        <section className="profile-loading">
           <p>Cargando perfil...</p>
-        </div>
-      </div>
+        </section>
+      </section>
     );
   }
 
   if (!user) {
     return (
-      <div className="profile">
-        <div className="profile-error">
+      <section className="profile">
+        <section className="profile-error">
           <p>No se pudo cargar el perfil</p>
-        </div>
-      </div>
+        </section>
+      </section>
     );
   }
 
   return (
-    <div className="profile">
-      <div className="profile-container">
-        {/* Header con avatar y botón de editar */}
-        <div className="profile-header">
-          <div className="profile-avatar-section">
-            <div className="profile-avatar">
+    <section className="profile">
+      <section className="profile-container">
+        <header className="profile-header">
+          <section className="profile-avatar-section">
+            <figure className="profile-avatar">
               {formData.avatar ? (
                 <img src={formData.avatar} alt={user.username} />
               ) : (
                 <FiUser className="profile-avatar-icon" />
               )}
-            </div>
+            </figure>
 
             {isEditing && (
-              <div className="profile-avatar-edit">
+              <section className="profile-avatar-edit">
                 <input
                   type="text"
                   name="avatar"
@@ -195,11 +228,11 @@ function Profile() {
                   className="profile-input"
                 />
                 <small>Introduce la URL de tu imagen de perfil</small>
-              </div>
+              </section>
             )}
-          </div>
+          </section>
 
-          <div className="profile-header-info">
+          <section className="profile-header-info">
             {isEditing ? (
               <input
                 type="text"
@@ -213,23 +246,23 @@ function Profile() {
               <h1 className="profile-username">{user.username}</h1>
             )}
 
-            <div className="profile-meta">
+            <section className="profile-meta">
               <span className="profile-meta-item">
                 <FiMail /> {user.email}
               </span>
               <span className="profile-meta-item">
                 <FiCalendar /> Miembro desde {formatDate(user.createdAt)}
               </span>
-            </div>
-          </div>
+            </section>
+          </section>
 
-          <div className="profile-actions">
+          <section className="profile-actions">
             {!isEditing ? (
               <button className="profile-button profile-button--edit" onClick={handleEdit}>
                 <FiEdit2 /> Editar perfil
               </button>
             ) : (
-              <div className="profile-edit-actions">
+              <section className="profile-edit-actions">
                 <button
                   className="profile-button profile-button--cancel"
                   onClick={handleCancel}
@@ -244,13 +277,12 @@ function Profile() {
                 >
                   <FiSave /> {saving ? 'Guardando...' : 'Guardar'}
                 </button>
-              </div>
+              </section>
             )}
-          </div>
-        </div>
+          </section>
+        </header>
 
-        {/* Biografía */}
-        <div className="profile-section">
+        <article className="profile-section">
           <h2 className="profile-section-title">
             <FiUser /> Biografía
           </h2>
@@ -274,54 +306,52 @@ function Profile() {
               {formData.bio.length}/500 caracteres
             </small>
           )}
-        </div>
+        </article>
 
-        {/* Estadísticas */}
         {stats && (
-          <div className="profile-section">
+          <article className="profile-section">
             <h2 className="profile-section-title">
               <FiBarChart2 /> Estadísticas
             </h2>
-            <div className="profile-stats">
-              <div className="profile-stat">
-                <div className="profile-stat-icon">
+            <section className="profile-stats">
+              <article className="profile-stat">
+                <figure className="profile-stat-icon">
                   <FiFileText />
-                </div>
-                <div className="profile-stat-info">
+                </figure>
+                <section className="profile-stat-info">
                   <span className="profile-stat-value">{stats.diagramsCreated}</span>
                   <span className="profile-stat-label">Diagramas creados</span>
-                </div>
-              </div>
-              <div className="profile-stat">
-                <div className="profile-stat-icon">
+                </section>
+              </article>
+              <article className="profile-stat">
+                <figure className="profile-stat-icon">
                   <FiTarget />
-                </div>
-                <div className="profile-stat-info">
+                </figure>
+                <section className="profile-stat-info">
                   <span className="profile-stat-value">{stats.nodesCreated}</span>
                   <span className="profile-stat-label">Nodos creados</span>
-                </div>
-              </div>
-              <div className="profile-stat">
-                <div className="profile-stat-icon">
+                </section>
+              </article>
+              <article className="profile-stat">
+                <figure className="profile-stat-icon">
                   <FiUsers />
-                </div>
-                <div className="profile-stat-info">
+                </figure>
+                <section className="profile-stat-info">
                   <span className="profile-stat-value">{stats.collaborations}</span>
                   <span className="profile-stat-label">Colaboraciones</span>
-                </div>
-              </div>
-            </div>
-          </div>
+                </section>
+              </article>
+            </section>
+          </article>
         )}
 
-        {/* Juegos favoritos */}
-        <div className="profile-section">
-          <h2 className="profile-section-title">
-            <FiTarget /> Juegos favoritos
-          </h2>
+        <article className="profile-section">
+            <h2 className="profile-section-title">
+              <FiTarget /> Juegos favoritos
+            </h2>
 
           {isEditing && (
-            <div className="profile-game-input">
+            <section className="profile-game-input">
               <input
                 type="text"
                 value={newGame}
@@ -338,13 +368,13 @@ function Profile() {
               >
                 Añadir
               </button>
-            </div>
+            </section>
           )}
 
           {formData.favoriteGames.length > 0 ? (
-            <div className="profile-games">
+            <ul className="profile-games">
               {formData.favoriteGames.map((game, index) => (
-                <div key={index} className="profile-game">
+                <li key={index} className="profile-game">
                   <span>{game}</span>
                   {isEditing && (
                     <button
@@ -355,9 +385,9 @@ function Profile() {
                       <FiX />
                     </button>
                   )}
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           ) : (
             <p className="profile-empty">No has añadido juegos favoritos todavía.</p>
           )}
@@ -365,32 +395,31 @@ function Profile() {
           {isEditing && formData.favoriteGames.length >= 10 && (
             <small className="profile-limit">Has alcanzado el límite de 10 juegos favoritos</small>
           )}
-        </div>
+        </article>
 
-        {/* Logros */}
         {user.achievements && user.achievements.length > 0 && (
-          <div className="profile-section">
+          <article className="profile-section">
             <h2 className="profile-section-title">
               <FiAward /> Logros
             </h2>
-            <div className="profile-achievements">
+            <section className="profile-achievements">
               {user.achievements.map((achievement, index) => (
-                <div key={index} className="profile-achievement">
-                  <div className="profile-achievement-icon">
+                <article key={index} className="profile-achievement">
+                  <figure className="profile-achievement-icon">
                     {achievement.icon || <FiAward />}
-                  </div>
-                  <div className="profile-achievement-info">
+                  </figure>
+                  <section className="profile-achievement-info">
                     <h3>{achievement.name}</h3>
                     <p>{achievement.description}</p>
                     <small>Desbloqueado: {formatDate(achievement.unlockedAt)}</small>
-                  </div>
-                </div>
+                  </section>
+                </article>
               ))}
-            </div>
-          </div>
+            </section>
+          </article>
         )}
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }
 

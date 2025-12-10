@@ -1,48 +1,62 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
-// Configuración del transportador de email
+/**
+ * Crea un transportador de email según el entorno.
+ * En producción usa Gmail, en desarrollo usa Ethereal o SMTP local.
+ * @function createTransporter
+ * @returns {Object} Transportador de nodemailer configurado.
+ */
 const createTransporter = () => {
-    // En desarrollo, usar Ethereal Email (emails de prueba)
-    // En producción, usar Gmail u otro servicio real
-
-    if (process.env.NODE_ENV === 'production') {
-        // Configuración para producción (Gmail, SendGrid, etc.)
-        return nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASSWORD, // App password de Gmail
-            },
-        });
-    } else {
-        // Para desarrollo, usar configuración SMTP de prueba
-        // El usuario puede usar mailtrap.io o ethereal.email
-        return nodemailer.createTransport({
-            host: process.env.SMTP_HOST || 'smtp.ethereal.email',
-            port: process.env.SMTP_PORT || 587,
-            secure: false,
-            auth: {
-                user: process.env.SMTP_USER || 'test@example.com',
-                pass: process.env.SMTP_PASSWORD || 'test',
-            },
-        });
-    }
+  if (process.env.NODE_ENV === "production") {
+    return nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  } else {
+    return nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.ethereal.email",
+      port: process.env.SMTP_PORT || 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER || "test@example.com",
+        pass: process.env.SMTP_PASSWORD || "test",
+      },
+    });
+  }
 };
 
-// Función para enviar email de verificación
-const sendVerificationEmail = async (userEmail, userName, verificationToken) => {
-    try {
-        const transporter = createTransporter();
+/**
+ * Envía un email de verificación al usuario para confirmar su dirección de correo.
+ * @async
+ * @function sendVerificationEmail
+ * @param {string} userEmail - Email del usuario.
+ * @param {string} userName - Nombre del usuario.
+ * @param {string} verificationToken - Token único de verificación.
+ * @returns {Promise<Object>} Objeto con success (boolean) y messageId del email enviado.
+ * @throws {Error} Si hay error al enviar el email.
+ */
+const sendVerificationEmail = async (
+  userEmail,
+  userName,
+  verificationToken
+) => {
+  try {
+    const transporter = createTransporter();
 
-        // URL de verificación (ajustar según el frontend)
-        const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email/${verificationToken}`;
+    // URL de verificación (ajustar según el frontend)
+    const verificationUrl = `${
+      process.env.FRONTEND_URL || "http://localhost:5173"
+    }/verify-email/${verificationToken}`;
 
-        // Opciones del email
-        const mailOptions = {
-            from: `"BossFlow" <${process.env.EMAIL_FROM || 'noreply@bossflow.com'}>`,
-            to: userEmail,
-            subject: 'Verifica tu cuenta de BossFlow',
-            html: `
+    // Opciones del email
+    const mailOptions = {
+      from: `"BossFlow" <${process.env.EMAIL_FROM || "noreply@bossflow.com"}>`,
+      to: userEmail,
+      subject: "Verifica tu cuenta de BossFlow",
+      html: `
                 <!DOCTYPE html>
                 <html>
                 <head>
@@ -154,7 +168,7 @@ const sendVerificationEmail = async (userEmail, userName, verificationToken) => 
                 </body>
                 </html>
             `,
-            text: `
+      text: `
 ¡Bienvenido a BossFlow, ${userName}!
 
 Gracias por registrarte en BossFlow. Para completar tu registro y comenzar a crear diagramas de flujo increíbles, necesitamos verificar tu dirección de email.
@@ -168,38 +182,49 @@ Si no creaste esta cuenta, puedes ignorar este email de forma segura.
 
 © ${new Date().getFullYear()} BossFlow. Todos los derechos reservados.
             `,
-        };
+    };
 
-        // Enviar email
-        const info = await transporter.sendMail(mailOptions);
+    // Enviar email
+    const info = await transporter.sendMail(mailOptions);
 
-        console.log('Email de verificación enviado:', info.messageId);
+    console.log("Email de verificación enviado:", info.messageId);
 
-        // En desarrollo con Ethereal, mostrar URL de vista previa
-        if (process.env.NODE_ENV !== 'production') {
-            console.log('Vista previa del email:', nodemailer.getTestMessageUrl(info));
-        }
-
-        return {
-            success: true,
-            messageId: info.messageId,
-        };
-    } catch (error) {
-        console.error('Error al enviar email de verificación:', error);
-        throw new Error('No se pudo enviar el email de verificación');
+    // En desarrollo con Ethereal, mostrar URL de vista previa
+    if (process.env.NODE_ENV !== "production") {
+      console.log(
+        "Vista previa del email:",
+        nodemailer.getTestMessageUrl(info)
+      );
     }
+
+    return {
+      success: true,
+      messageId: info.messageId,
+    };
+  } catch (error) {
+    console.error("Error al enviar email de verificación:", error);
+    throw new Error("No se pudo enviar el email de verificación");
+  }
 };
 
-// Función para enviar email de bienvenida (después de verificar)
+/**
+ * Envía un email de bienvenida al usuario después de que haya verificado su cuenta.
+ * @async
+ * @function sendWelcomeEmail
+ * @param {string} userEmail - Email del usuario.
+ * @param {string} userName - Nombre del usuario.
+ * @returns {Promise<void>} Promesa que se resuelve al enviar el email.
+ * @throws {Error} Si hay error al enviar el email.
+ */
 const sendWelcomeEmail = async (userEmail, userName) => {
-    try {
-        const transporter = createTransporter();
+  try {
+    const transporter = createTransporter();
 
-        const mailOptions = {
-            from: `"BossFlow" <${process.env.EMAIL_FROM || 'noreply@bossflow.com'}>`,
-            to: userEmail,
-            subject: '¡Cuenta verificada! Bienvenido a BossFlow',
-            html: `
+    const mailOptions = {
+      from: `"BossFlow" <${process.env.EMAIL_FROM || "noreply@bossflow.com"}>`,
+      to: userEmail,
+      subject: "¡Cuenta verificada! Bienvenido a BossFlow",
+      html: `
                 <!DOCTYPE html>
                 <html>
                 <head>
@@ -273,7 +298,10 @@ const sendWelcomeEmail = async (userEmail, userName) => {
                             </ul>
 
                             <div style="text-align: center;">
-                                <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/dashboard" class="button">Ir al Dashboard</a>
+                                <a href="${
+                                  process.env.FRONTEND_URL ||
+                                  "http://localhost:5173"
+                                }/dashboard" class="button">Ir al Dashboard</a>
                             </div>
                         </div>
                         <div class="footer">
@@ -283,17 +311,17 @@ const sendWelcomeEmail = async (userEmail, userName) => {
                 </body>
                 </html>
             `,
-        };
+    };
 
-        await transporter.sendMail(mailOptions);
-        console.log('Email de bienvenida enviado a:', userEmail);
-    } catch (error) {
-        console.error('Error al enviar email de bienvenida:', error);
-        // No lanzar error, el email de bienvenida es opcional
-    }
+    await transporter.sendMail(mailOptions);
+    console.log("Email de bienvenida enviado a:", userEmail);
+  } catch (error) {
+    console.error("Error al enviar email de bienvenida:", error);
+    // No lanzar error, el email de bienvenida es opcional
+  }
 };
 
 module.exports = {
-    sendVerificationEmail,
-    sendWelcomeEmail,
+  sendVerificationEmail,
+  sendWelcomeEmail,
 };

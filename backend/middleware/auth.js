@@ -1,32 +1,33 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
+/**
+ * Middleware de autenticación basado en JWT.
+ * Verifica y decodifica el token enviado en el header Authorization.
+ * @param {Object} req - Objeto de solicitud Express.
+ * @param {Object} req.headers - Headers de la solicitud.
+ * @param {string} req.headers.authorization - Header Authorization con formato "Bearer token".
+ * @param {Object} res - Objeto de respuesta Express.
+ * @param {Function} next - Middleware de siguiente en la cadena.
+ * @returns {void} Si el token es válido, continúa con next(). Si es inválido, retorna error 401.
+ * @throws {Object} Error JSON con mensaje si el token no existe, es inválido o ha expirado.
+ */
 function auth(req, res, next) {
-    // Obtiene el header Authorization
-    const header = req.headers.authorization;
+  const header = req.headers.authorization;
 
-    // Comprueba que exista y tenga formato Bearer
-    if (!header || !header.startsWith("Bearer ")) {
-        return res.status(401).json({ error: "Token requerido" });
-    }
+  if (!header || !header.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Token requerido" });
+  }
 
-    // Extrae el token del header
-    const token = header.split(" ")[1];
+  const token = header.split(" ")[1];
 
-    try {
-        // Verifica y decodifica el token
-        const decoded = jwt.verify(token, JWT_SECRET);
-
-        // Guarda los datos del usuario en la request
-        req.user = decoded;
-
-        // Continúa con la ruta protegida
-        next();
-        
-    } catch (err) {
-        // Token inválido o expirado
-        return res.status(401).json({ error: "Token inválido o expirado" });
-    }
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: "Token inválido o expirado" });
+  }
 }
 
 module.exports = auth;

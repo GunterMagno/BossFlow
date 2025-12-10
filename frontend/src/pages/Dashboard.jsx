@@ -22,6 +22,11 @@ import {
 } from 'react-icons/fi';
 import './Dashboard.css';
 
+/**
+ * Página principal del dashboard del usuario
+ * Muestra estadísticas, diagramas, actividades y navegación principal
+ * @returns {JSX.Element} Dashboard con sidebar, menú principal y contenido dinámico
+ */
 function Dashboard() {
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -37,7 +42,9 @@ function Dashboard() {
     document.title = 'Dashboard | BossFlow';
   }, []);
 
-  // Función para cargar diagramas
+  /**
+   * Carga la lista de diagramas del usuario desde el servidor
+   */
   const fetchDiagrams = async () => {
     try {
       setLoading(true);
@@ -53,7 +60,9 @@ function Dashboard() {
     }
   };
 
-  // Función para cargar estadísticas
+  /**
+   * Carga las estadísticas del usuario desde el servidor
+   */
   const fetchStats = async () => {
     try {
       const response = await getStats();
@@ -63,41 +72,51 @@ function Dashboard() {
     }
   };
 
-  // Cargar diagramas, actividades y estadísticas al montar el componente
   useEffect(() => {
     fetchDiagrams();
     loadActivities();
     fetchStats();
   }, []);
 
-  // Función para cargar actividades
+  /**
+   * Carga y formatea las actividades recientes del usuario
+   */
   const loadActivities = () => {
     const formattedActivities = getFormattedActivities();
     setActivities(formattedActivities);
   };
 
+  /**
+   * Ejecuta el logout del usuario y redirige a la página principal
+   */
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  // Handler cuando se crea un nuevo diagrama
+  /**
+   * Refresca los datos tras crear un nuevo diagrama
+   */
   const handleDiagramCreated = () => {
-    // Refrescar la lista de diagramas, actividades y estadísticas
     fetchDiagrams();
     loadActivities();
     fetchStats();
   };
 
-  // Handler cuando se elimina un diagrama
+  /**
+   * Refresca los datos tras eliminar un diagrama
+   */
   const handleDiagramDeleted = () => {
-    // Refrescar la lista de diagramas, actividades y estadísticas
     fetchDiagrams();
     loadActivities();
     fetchStats();
   };
 
-  // Función para formatear fecha relativa
+  /**
+   * Formatea una fecha en formato relativo (hace X tiempo)
+   * @param {string|Date} date - Fecha a formatear
+   * @returns {string} Fecha formateada en formato relativo
+   */
   const formatRelativeDate = (date) => {
     const now = new Date();
     const diagramDate = new Date(date);
@@ -121,13 +140,12 @@ function Dashboard() {
     }
   };
 
-  // Calcular estadísticas desde datos reales o del backend
   const estadisticas = userStats ? {
     totalDiagramas: userStats.diagramsCreated || diagrams.length,
     totalNodos: userStats.nodesCreated || 0,
     colaboraciones: userStats.collaborations || 0,
-    plantillas: 0, // TODO: Cuando se implemente plantillas
-    comentariosPendientes: 0, // TODO: Cuando se implemente comentarios
+    plantillas: 0,
+    comentariosPendientes: 0,
   } : {
     totalDiagramas: diagrams.length,
     totalNodos: 0,
@@ -136,17 +154,15 @@ function Dashboard() {
     comentariosPendientes: 0,
   };
 
-  // Obtener los 3 diagramas más recientes
   const diagramasRecientes = diagrams.slice(0, 3);
 
   return (
-    <div className="dashboard">
-      {/* Sidebar */}
+    <section className="dashboard">
       <aside className="dashboard__sidebar">
-        <div className="dashboard__sidebar-contenido">
-          <div className="dashboard__logo">
+        <section className="dashboard__sidebar-contenido">
+          <header className="dashboard__logo">
             <h2>BossFlow</h2>
-          </div>
+          </header>
 
           <nav className="dashboard__nav">
             <Link
@@ -220,7 +236,7 @@ function Dashboard() {
             <FiLogOut className="dashboard__nav-icono" />
             <span>Cerrar sesión</span>
           </button>
-        </div>
+        </section>
       </aside>
 
       {/* Contenido principal */}
@@ -229,68 +245,68 @@ function Dashboard() {
           <>
             {/* Estadísticas */}
             <section className="dashboard__seccion">
-              <div className="dashboard__seccion-header">
-                <div>
+              <header className="dashboard__seccion-header">
+                <section>
                   <h2 className="dashboard__titulo">Resumen</h2>
                   <p className="dashboard__descripcion">
                     Vista general de tu actividad
                   </p>
-                </div>
-              </div>
+                </section>
+              </header>
 
-              <div className="dashboard__stats-grid">
-                <div className="dashboard__stat-card">
-                  <div className="dashboard__stat-icono">
+              <section className="dashboard__stats-grid">
+                <article className="dashboard__stat-card">
+                  <figure className="dashboard__stat-icono">
                     <FiFileText />
-                  </div>
-                  <div className="dashboard__stat-contenido">
+                  </figure>
+                  <section className="dashboard__stat-contenido">
                     <h3 className="dashboard__stat-numero">{estadisticas.totalDiagramas}</h3>
                     <p className="dashboard__stat-label">Mis diagramas</p>
-                  </div>
-                </div>
+                  </section>
+                </article>
 
-                <div className="dashboard__stat-card">
-                  <div className="dashboard__stat-icono">
+                <article className="dashboard__stat-card">
+                  <figure className="dashboard__stat-icono">
                     <FiUsers />
-                  </div>
-                  <div className="dashboard__stat-contenido">
+                  </figure>
+                  <section className="dashboard__stat-contenido">
                     <h3 className="dashboard__stat-numero">{estadisticas.colaboraciones}</h3>
                     <p className="dashboard__stat-label">Colaboraciones</p>
-                  </div>
-                </div>
+                  </section>
+                </article>
 
-                <div className="dashboard__stat-card">
-                  <div className="dashboard__stat-icono">
+                <article className="dashboard__stat-card">
+                  <figure className="dashboard__stat-icono">
                     <FiCopy />
-                  </div>
-                  <div className="dashboard__stat-contenido">
+                  </figure>
+                  <section className="dashboard__stat-contenido">
                     <h3 className="dashboard__stat-numero">{estadisticas.totalNodos}</h3>
                     <p className="dashboard__stat-label">Nodos creados</p>
-                  </div>
-                </div>
+                  </section>
+                </article>
 
-                <div className="dashboard__stat-card">
-                  <div className="dashboard__stat-icono">
+                <article className="dashboard__stat-card">
+                  <figure className="dashboard__stat-icono">
                     <FiMessageSquare />
-                  </div>
-                  <div className="dashboard__stat-contenido">
+                  </figure>
+                  <section className="dashboard__stat-contenido">
                     <h3 className="dashboard__stat-numero">{estadisticas.comentariosPendientes}</h3>
                     <p className="dashboard__stat-label">Comentarios</p>
-                  </div>
-                </div>
-              </div>
+                  </section>
+                </article>
+              </section>
             </section>
 
             {/* Acceso rápido */}
             <section className="dashboard__seccion">
-              <div className="dashboard__seccion-header">
-                <div>
+              <header className="dashboard__seccion-header">
+                <section>
                   <h2 className="dashboard__titulo">Acceso rápido</h2>
                   <p className="dashboard__descripcion">
                     Tus diagramas más recientes
                   </p>
-                </div>
-              <div>
+                </section>
+              <section>
                 <button
                   onClick={() => setIsModalOpen(true)}
                   className="dashboard__boton-nuevo"
@@ -298,31 +314,31 @@ function Dashboard() {
                   <FiPlus className="dashboard__boton-icono" />
                   Nuevo diagrama
                 </button>
-              </div>
-              </div>
+              </section>
+              </header>
 
               {loading ? (
-                <div className="dashboard__loading">
-                  <div className="dashboard__spinner"></div>
+                <article className="dashboard__loading">
+                  <figure className="dashboard__spinner"></figure>
                   <p>Cargando diagramas...</p>
-                </div>
+                </article>
               ) : error ? (
-                <div className="dashboard__error">
+                <article className="dashboard__error">
                   <p className="dashboard__error-message">{error}</p>
-                </div>
+                </article>
               ) : diagramasRecientes.length > 0 ? (
-                <div className="dashboard__grid">
+                <section className="dashboard__grid">
                   {diagramasRecientes.map((diagrama) => (
                     <Link
                       key={diagrama.id}
                       to={`/editor/${diagrama.id}`}
                       className="dashboard__card"
                     >
-                      <div className="dashboard__card-icono">
+                      <figure className="dashboard__card-icono">
                         <FiFileText />
-                      </div>
+                      </figure>
 
-                      <div className="dashboard__card-contenido">
+                      <article className="dashboard__card-contenido">
                         <h3 className="dashboard__card-titulo">{diagrama.title}</h3>
                         {diagrama.description && (
                           <p className="dashboard__card-descripcion">
@@ -330,49 +346,49 @@ function Dashboard() {
                           </p>
                         )}
 
-                        <div className="dashboard__card-footer">
-                          <div className="dashboard__card-info">
+                        <footer className="dashboard__card-footer">
+                          <section className="dashboard__card-info">
                             <span className="dashboard__card-fecha">
                               <FiClock className="dashboard__info-icono" />
                               {formatRelativeDate(diagrama.updatedAt)}
                             </span>
-                            <div className="dashboard__card-stats">
+                            <section className="dashboard__card-stats">
                               <span>{(diagrama.nodes ? diagrama.nodes.length : 0)} nodos</span>
                               <span className="dashboard__stat-separator">•</span>
                               <span>{(diagrama.edges ? diagrama.edges.length : 0)} conexiones</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                            </section>
+                          </section>
+                        </footer>
+                      </article>
                     </Link>
                   ))}
-                </div>
+                </section>
               ) : (
-                <div className="dashboard__empty">
+                <article className="dashboard__empty">
                   <p>No tienes diagramas todavía. Crea tu primer diagrama para empezar.</p>
-                </div>
+                </article>
               )}
             </section>
 
             {/* Actividad reciente */}
             <section className="dashboard__seccion">
-              <div className="dashboard__seccion-header">
-                <div>
+              <header className="dashboard__seccion-header">
+                <section>
                   <h2 className="dashboard__titulo">Actividad reciente</h2>
                   <p className="dashboard__descripcion">
                     Tus últimas acciones
                   </p>
-                </div>
-              </div>
+                </section>
+              </header>
 
               {activities.length > 0 ? (
-                <div className="dashboard__actividad-lista">
+                <ul className="dashboard__actividad-lista">
                   {activities.map((actividad) => (
-                    <div key={actividad.id} className="dashboard__actividad-item">
-                      <div className="dashboard__actividad-icono">
+                    <li key={actividad.id} className="dashboard__actividad-item">
+                      <figure className="dashboard__actividad-icono">
                         <FiClock />
-                      </div>
-                      <div className="dashboard__actividad-contenido">
+                      </figure>
+                      <article className="dashboard__actividad-contenido">
                         <p className="dashboard__actividad-texto">
                           <span className="dashboard__actividad-accion">
                             {actividad.tipo === 'creacion' && 'Creaste'}
@@ -383,14 +399,14 @@ function Dashboard() {
                           {' '}<span className="dashboard__actividad-diagrama">{actividad.diagrama}</span>
                         </p>
                         <span className="dashboard__actividad-fecha">{actividad.fechaFormateada}</span>
-                      </div>
-                    </div>
+                      </article>
+                    </li>
                   ))}
-                </div>
+                </ul>
               ) : (
-                <div className="dashboard__empty">
+                <article className="dashboard__empty">
                   <p>No hay actividad reciente. Crea o edita diagramas para ver tu actividad aquí.</p>
-                </div>
+                </article>
               )}
             </section>
           </>
@@ -398,13 +414,13 @@ function Dashboard() {
 
         {activeMenu === 'mis-diagramas' && (
           <section className="dashboard__seccion">
-            <div className="dashboard__seccion-header">
-              <div>
+            <header className="dashboard__seccion-header">
+              <section>
                 <h2 className="dashboard__titulo">Mis Diagramas</h2>
                 <p className="dashboard__descripcion">
                   Gestiona y crea tus diagramas
                 </p>
-              </div>
+              </section>
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="dashboard__boton-nuevo"
@@ -412,7 +428,7 @@ function Dashboard() {
                 <FiPlus className="dashboard__boton-icono" />
                 Nuevo diagrama
               </button>
-            </div>
+            </header>
 
             <DiagramList
               onCreateClick={() => setIsModalOpen(true)}
@@ -429,7 +445,6 @@ function Dashboard() {
         onDiagramCreated={handleDiagramCreated}
       />
 
-      {/* Navegación móvil inferior */}
       <nav className="dashboard__mobile-nav">
         <button
           className={`dashboard__mobile-nav-item ${activeMenu === 'inicio' ? 'dashboard__mobile-nav-item--activo' : ''}`}
@@ -449,7 +464,7 @@ function Dashboard() {
         </button>
         <button
           className={`dashboard__mobile-nav-item ${activeMenu === 'plantillas' ? 'dashboard__mobile-nav-item--activo' : ''}`}
-          onClick={() => setActiveMenu('plantillas')}
+          onClick={() => { setActiveMenu('plantillas'); navigate('/dashboard/plantillas'); }}
           aria-label="Plantillas"
         >
           <FiLayers />
@@ -487,7 +502,7 @@ function Dashboard() {
           <span>Config</span>
         </button>
       </nav>
-    </div>
+    </section>
   );
 }
 

@@ -17,15 +17,14 @@ export const ACTIVITY_TYPES = {
 };
 
 /**
- * Obtener el ID del usuario actual desde el token
- * @returns {string|null} ID del usuario o null si no hay sesión
+ * Obtiene el ID del usuario actual desde el token JWT.
+ * @returns {string|null} ID del usuario o null si no hay sesión.
  */
 const getCurrentUserId = () => {
   try {
     const token = localStorage.getItem('token');
     if (!token) return null;
 
-    // Decodificar el token JWT (payload es la segunda parte)
     const payload = token.split('.')[1];
     const decoded = JSON.parse(atob(payload));
     return decoded.userId;
@@ -78,22 +77,18 @@ export const registerActivity = (tipo, diagramaTitle, diagramaId) => {
 
     const activities = getActivities();
 
-    // Crear nueva actividad
     const newActivity = {
-      id: Date.now(), // Usar timestamp como ID único
+      id: Date.now(),
       tipo,
       diagrama: diagramaTitle,
       diagramaId,
       fecha: new Date().toISOString(),
     };
 
-    // Agregar al inicio del array (más reciente primero)
     activities.unshift(newActivity);
 
-    // Mantener solo las últimas MAX_ACTIVITIES actividades
     const trimmedActivities = activities.slice(0, MAX_ACTIVITIES);
 
-    // Guardar en localStorage
     localStorage.setItem(storageKey, JSON.stringify(trimmedActivities));
 
     return newActivity;

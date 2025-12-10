@@ -6,6 +6,10 @@ import {
   FaLinkedinIn,
 } from 'react-icons/fa';
 
+/**
+ * Pie de página de la aplicación con información corporativa y enlaces
+ * @returns {JSX.Element} Footer con marca, enlaces, redes sociales y copyright
+ */
 function Footer() {
   return (
     <footer className="footer">
