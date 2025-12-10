@@ -154,12 +154,13 @@ La carpeta `docs/` contiene la documentación técnica y de proyecto organizada 
 
 
 ### Documentos Principales del Proyecto
+### Documentos principales del proyecto
 - [Problema.md (Criterio 2a)](docs/proyecto/problema.md)
 - [ViabilidadTecnica.md (Criterio 2b)](docs/proyecto/viabilidad-tecnica.md)
 - [ObjetivosAlcance.md (Criterio 2d)](docs/proyecto/objetivos-alcance.md)
 - [Recursos.md (Criterio 2e)](docs/proyecto/recursos.md)
 
-### Documentación Técnica
+### Documentación técnica
 - [Estructura JSON de Nodos](docs/api/estructura-nodos-json.md) - JSON Schema, validaciones y ejemplos
 - [Tipos de Nodos](docs/api/NODE_TYPES.md) - Tipos personalizados para BossFlow
 - [Base de Datos](docs/arquitectura/base-de-datos.md) - Diseño MongoDB
@@ -179,6 +180,14 @@ Para dudas o colaboración abre un Issue o contacta al creador del repositorio.
 
 ## Información del equipo
 
+### Documentación profesores
+> [!NOTE]
+> Esta documentación va dirigida a algunos profesores en específico por los requerimentos de su asignatura.
+
+#### Daniel Sánchez Benítez
+- **[Propuesta inicial](docs/dani/propuesta-inicial.pdf)**
+
+## Información del equipo  
 - Alejandro Borrego Cruz
 - Jesús López Pérez
 - Daniel Montes Iglesias
