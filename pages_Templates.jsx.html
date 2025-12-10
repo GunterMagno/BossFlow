@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>pages/Templates.jsx - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AbilityNode">AbilityNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionIcon">ActionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionNode">ActionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_STORAGE_PREFIX">ACTIVITY_STORAGE_PREFIX</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_TYPES">ACTIVITY_TYPES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#api">api</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#App">App</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AuthProvider">AuthProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#authService">authService</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#baseURL">baseURL</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#clearActivities">clearActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Community">Community</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#COMPATIBLE_VERSIONS">COMPATIBLE_VERSIONS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmDialog">ConfirmDialog</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmModal">ConfirmModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#createDiagram">createDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#CURRENT_VERSION">CURRENT_VERSION</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#CustomEdge">CustomEdge</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Dashboard">Dashboard</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionIcon">DecisionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionNode">DecisionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_TEMPLATES">DEFAULT_TEMPLATES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteDiagram">deleteDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteImage">deleteImage</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteTemplate">deleteTemplate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramCard">DiagramCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramList">DiagramList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Editor">Editor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#EditorSidebar">EditorSidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectIcon">EffectIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectNode">EffectNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EndNode">EndNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportHandler">ExportHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportModal">ExportModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#FlowMap">FlowMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Footer">Footer</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#formatRelativeDate">formatRelativeDate</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getActivities">getActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCurrentUserId">getCurrentUserId</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagramById">getDiagramById</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagrams">getDiagrams</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getFormattedActivities">getFormattedActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getProfile">getProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getStats">getStats</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getStorageKey">getStorageKey</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getTemplates">getTemplates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Handles">Handles</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#healthCheck">healthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Home">Home</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImageNode">ImageNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImportJSON">ImportJSON</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isValidJSONFile">isValidJSONFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isVersionCompatible">isVersionCompatible</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Layout">Layout</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Login">Login</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#MobileNodePanel">MobileNodePanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Navbar">Navbar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewDiagramModal">NewDiagramModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewTemplateModal">NewTemplateModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeDescriptionPopup">NodeDescriptionPopup</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeEditModal">NodeEditModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeTitle">NodeTitle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NotFound">NotFound</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseIcon">PhaseIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseNode">PhaseNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PositionNode">PositionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#PrivateRoute">PrivateRoute</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Profile">Profile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Register">Register</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#registerActivity">registerActivity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Sidebar">Sidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartEndIcon">StartEndIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartNode">StartNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Status">Status</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateCard">TemplateCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateList">TemplateList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Templates">Templates</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#TimerNode">TimerNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toast">Toast</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ToastProvider">ToastProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toolbar">Toolbar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateDiagram">updateDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateProfile">updateProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#UploadImageModal">UploadImageModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useAuth">useAuth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useExportDiagram">useExportDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useHealthCheck">useHealthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useRecentNodes">useRecentNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useToast">useToast</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateEdges">validateEdges</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateJSONStructure">validateJSONStructure</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateNodes">validateNodes</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/Templates.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { getTemplates, deleteTemplate } from '../services/diagramService';
+import TemplateList from '../components/TemplateList/TemplateList';
+import NewDiagramModal from '../components/NewDiagramModal/NewDiagramModal';
+import NewTemplateModal from '../components/NewTemplateModal/NewTemplateModal';
+import ConfirmModal from '../components/ConfirmModal/ConfirmModal';
+import { DEFAULT_TEMPLATES } from '../data/defaultTemplates';
+import { useToast } from '../context/ToastContext';
+import {
+  FiHome,
+  FiFileText,
+  FiLayers,
+  FiUsers,
+  FiMessageSquare,
+  FiSettings,
+  FiLogOut,
+  FiPlus,
+} from 'react-icons/fi';
+import './Dashboard.css';
+
+/**
+ * Página de plantillas de BossFlow.
+ * Muestra plantillas predeterminadas y permite al usuario crear y gestionar sus propias plantillas.
+ * @returns {React.ReactElement} El componente de la página de plantillas.
+ */
+function Templates() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const toast = useToast();
+  const [templates, setTemplates] = useState([]);
+  const [loadingTemplates, setLoadingTemplates] = useState(true);
+  const [errorTemplates, setErrorTemplates] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  const [templateNodes, setTemplateNodes] = useState(null);
+  const [editingTemplate, setEditingTemplate] = useState(null);
+  const [templateToDelete, setTemplateToDelete] = useState(null);
+  const [activeTab, setActiveTab] = useState('predeterminadas');
+
+  /**
+   * Establece el título de la página cuando el componente se monta.
+   */
+  useEffect(() => {
+    document.title = 'Plantillas | BossFlow';
+  }, []);
+
+  /**
+   * Carga las plantillas del usuario desde el servidor.
+   */
+  const fetchTemplates = async () => {
+    try {
+      setLoadingTemplates(true);
+      setErrorTemplates(null);
+      const response = await getTemplates();
+      setTemplates(response.templates || []);
+    } catch (error) {
+      console.error('Error al cargar plantillas:', error);
+      setErrorTemplates('No se pudieron cargar las plantillas.');
+      setTemplates([]);
+    } finally {
+      setLoadingTemplates(false);
+    }
+  };
+
+  /**
+   * Carga las plantillas cuando se cambia a la pestaña de mis plantillas.
+   */
+  useEffect(() => {
+    if (activeTab === 'mis-plantillas') {
+      fetchTemplates();
+    }
+  }, [activeTab]);
+
+  /**
+   * Cierra la sesión del usuario y lo redirige al inicio.
+   */
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  /**
+   * Maneja el uso de una plantilla para crear un nuevo diagrama.
+   * @param {Object} template - Plantilla a utilizar.
+   */
+  const handleUseTemplate = (template) => {
+    setTemplateNodes({
+      nodes: template.nodes || [],
+      edges: template.edges || []
+    });
+    setIsModalOpen(true);
+  };
+
+  /**
+   * Maneja el evento de creación de un nuevo diagrama desde una plantilla.
+   */
+  const handleDiagramCreated = () => {
+    setIsModalOpen(false);
+    setTemplateNodes(null);
+  };
+
+  /**
+   * Maneja el evento de creación de una nueva plantilla.
+   */
+  const handleTemplateCreated = () => {
+    fetchTemplates();
+    setIsTemplateModalOpen(false);
+    setEditingTemplate(null);
+  };
+
+  /**
+   * Prepara una plantilla para edición.
+   * @param {Object} template - Plantilla a editar.
+   */
+  const handleEditTemplate = (template) => {
+    if (activeTab === 'predeterminadas') {
+      setEditingTemplate(template);
+      setIsTemplateModalOpen(true);
+    } else {
+      setEditingTemplate(template);
+      setIsTemplateModalOpen(true);
+    }
+  };
+
+  /**
+   * Prepara una plantilla para eliminación.
+   * @param {Object} template - Plantilla a eliminar.
+   */
+  const handleDeleteTemplate = (template) => {
+    setTemplateToDelete(template);
+  };
+
+  /**
+   * Confirma y ejecuta la eliminación de una plantilla.
+   */
+  const handleConfirmDelete = async () => {
+    if (!templateToDelete) return;
+
+    try {
+      await deleteTemplate(templateToDelete._id);
+      toast.success('Plantilla eliminada correctamente');
+      fetchTemplates();
+    } catch (error) {
+      console.error('Error al eliminar plantilla:', error);
+      toast.error('No se pudo eliminar la plantilla');
+    } finally {
+      setTemplateToDelete(null);
+    }
+  };
+
+  const displayedTemplates = activeTab === 'predeterminadas' 
+    ? DEFAULT_TEMPLATES
+    : templates;
+
+  const isLoading = activeTab === 'mis-plantillas' &amp;&amp; loadingTemplates;
+  const currentError = activeTab === 'mis-plantillas' ? errorTemplates : null;
+
+  return (
+    &lt;section className="dashboard">
+      &lt;aside className="dashboard__sidebar">
+        &lt;section className="dashboard__sidebar-contenido">
+          &lt;header className="dashboard__logo">
+            &lt;h2>BossFlow&lt;/h2>
+          &lt;/header>
+
+          &lt;nav className="dashboard__nav">
+            &lt;Link
+              to="/dashboard"
+              className="dashboard__nav-item"
+            >
+              &lt;FiHome className="dashboard__nav-icono" />
+              &lt;span>Inicio&lt;/span>
+            &lt;/Link>
+
+            &lt;Link
+              to="/dashboard"
+              className="dashboard__nav-item"
+            >
+              &lt;FiFileText className="dashboard__nav-icono" />
+              &lt;span>Mis diagramas&lt;/span>
+            &lt;/Link>
+
+            &lt;Link
+              to="/dashboard/colaboraciones"
+              className="dashboard__nav-item"
+            >
+              &lt;FiUsers className="dashboard__nav-icono" />
+              &lt;span>Colaboraciones&lt;/span>
+            &lt;/Link>
+
+            &lt;Link
+              to="/dashboard/plantillas"
+              className="dashboard__nav-item dashboard__nav-item--activo"
+            >
+              &lt;FiLayers className="dashboard__nav-icono" />
+              &lt;span>Plantillas&lt;/span>
+            &lt;/Link>
+
+            &lt;Link
+              to="/dashboard/comentarios"
+              className="dashboard__nav-item"
+            >
+              &lt;FiMessageSquare className="dashboard__nav-icono" />
+              &lt;span>Comentarios&lt;/span>
+            &lt;/Link>
+
+            &lt;Link
+              to="/settings"
+              className="dashboard__nav-item"
+            >
+              &lt;FiSettings className="dashboard__nav-icono" />
+              &lt;span>Configuración&lt;/span>
+            &lt;/Link>
+          &lt;/nav>
+
+          &lt;button className="dashboard__logout" onClick={handleLogout}>
+            &lt;FiLogOut className="dashboard__nav-icono" />
+            &lt;span>Cerrar sesión&lt;/span>
+          &lt;/button>
+        &lt;/section>
+      &lt;/aside>
+
+      {/* Contenido principal */}
+      &lt;main className="dashboard__main">
+        &lt;section className="dashboard__seccion">
+          &lt;header className="dashboard__seccion-header">
+            &lt;section>
+              &lt;h2 className="dashboard__titulo">Plantillas&lt;/h2>
+              &lt;p className="dashboard__descripcion">
+                Crea diagramas rápidamente usando plantillas predefinidas
+              &lt;/p>
+            &lt;/section>
+            &lt;button
+              onClick={() => setIsTemplateModalOpen(true)}
+              className="dashboard__boton-nuevo"
+            >
+              &lt;FiPlus className="dashboard__boton-icono" />
+              Nueva plantilla
+            &lt;/button>
+          &lt;/header>
+
+          {/* Pestañas */}
+          &lt;nav className="dashboard__tabs">
+            &lt;button
+              className={`dashboard__tab ${activeTab === 'predeterminadas' ? 'dashboard__tab--active' : ''}`}
+              onClick={() => setActiveTab('predeterminadas')}
+            >
+              Predeterminadas
+            &lt;/button>
+            &lt;button
+              className={`dashboard__tab ${activeTab === 'mis-plantillas' ? 'dashboard__tab--active' : ''}`}
+              onClick={() => setActiveTab('mis-plantillas')}
+            >
+              Mis plantillas
+            &lt;/button>
+          &lt;/nav>
+
+          &lt;TemplateList
+            templates={displayedTemplates}
+            loading={isLoading}
+            error={currentError}
+            onUseTemplate={handleUseTemplate}
+            onEditTemplate={handleEditTemplate}
+            onDeleteTemplate={handleDeleteTemplate}
+            onRetry={fetchTemplates}
+            onCreateTemplate={() => setIsTemplateModalOpen(true)}
+            showCreateButton={activeTab === 'mis-plantillas'}
+            isSystemTemplates={activeTab === 'predeterminadas'}
+          />
+        &lt;/section>
+      &lt;/main>
+
+      {/* Modal para crear nuevo diagrama desde plantilla */}
+      &lt;NewDiagramModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setTemplateNodes(null);
+        }}
+        onDiagramCreated={handleDiagramCreated}
+        initialNodes={templateNodes?.nodes}
+        initialEdges={templateNodes?.edges}
+      />
+
+      {/* Modal para crear nueva plantilla */}
+      &lt;NewTemplateModal
+        isOpen={isTemplateModalOpen}
+        onClose={() => {
+          setIsTemplateModalOpen(false);
+          setEditingTemplate(null);
+        }}
+        onTemplateCreated={handleTemplateCreated}
+        initialNodes={editingTemplate?.nodes}
+        initialEdges={editingTemplate?.edges}
+        initialTitle={
+          editingTemplate 
+            ? (activeTab === 'predeterminadas' 
+                ? `Copia de ${editingTemplate.title}` 
+                : editingTemplate.title)
+            : ''
+        }
+        initialDescription={editingTemplate?.description || ''}
+        editingTemplateId={
+          activeTab === 'mis-plantillas' &amp;&amp; editingTemplate 
+            ? editingTemplate.id
+            : null
+        }
+      />
+
+      {/* Modal de confirmación para eliminar */}
+      &lt;ConfirmModal
+        isOpen={!!templateToDelete}
+        onClose={() => setTemplateToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="¿Eliminar plantilla?"
+        message={`¿Estás seguro de que quieres eliminar la plantilla "${templateToDelete?.title}"? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        type="danger"
+      />
+    &lt;/section>
+  );
+}
+
+export default Templates;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Dec 10 2025 17:25:49 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

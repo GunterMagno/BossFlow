@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>components/UploadImageModal/UploadImageModal.jsx - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AbilityNode">AbilityNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionIcon">ActionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionNode">ActionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_STORAGE_PREFIX">ACTIVITY_STORAGE_PREFIX</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_TYPES">ACTIVITY_TYPES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#api">api</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#App">App</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AuthProvider">AuthProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#authService">authService</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#baseURL">baseURL</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#clearActivities">clearActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Community">Community</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#COMPATIBLE_VERSIONS">COMPATIBLE_VERSIONS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmDialog">ConfirmDialog</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmModal">ConfirmModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#createDiagram">createDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#CURRENT_VERSION">CURRENT_VERSION</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#CustomEdge">CustomEdge</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Dashboard">Dashboard</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionIcon">DecisionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionNode">DecisionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_TEMPLATES">DEFAULT_TEMPLATES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteDiagram">deleteDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteImage">deleteImage</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteTemplate">deleteTemplate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramCard">DiagramCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramList">DiagramList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Editor">Editor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#EditorSidebar">EditorSidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectIcon">EffectIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectNode">EffectNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EndNode">EndNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportHandler">ExportHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportModal">ExportModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#FlowMap">FlowMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Footer">Footer</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#formatRelativeDate">formatRelativeDate</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getActivities">getActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCurrentUserId">getCurrentUserId</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagramById">getDiagramById</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagrams">getDiagrams</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getFormattedActivities">getFormattedActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getProfile">getProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getStats">getStats</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getStorageKey">getStorageKey</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getTemplates">getTemplates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Handles">Handles</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#healthCheck">healthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Home">Home</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImageNode">ImageNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImportJSON">ImportJSON</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isValidJSONFile">isValidJSONFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isVersionCompatible">isVersionCompatible</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Layout">Layout</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Login">Login</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#MobileNodePanel">MobileNodePanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Navbar">Navbar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewDiagramModal">NewDiagramModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewTemplateModal">NewTemplateModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeDescriptionPopup">NodeDescriptionPopup</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeEditModal">NodeEditModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeTitle">NodeTitle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NotFound">NotFound</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseIcon">PhaseIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseNode">PhaseNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PositionNode">PositionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#PrivateRoute">PrivateRoute</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Profile">Profile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Register">Register</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#registerActivity">registerActivity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Sidebar">Sidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartEndIcon">StartEndIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartNode">StartNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Status">Status</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateCard">TemplateCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateList">TemplateList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Templates">Templates</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#TimerNode">TimerNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toast">Toast</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ToastProvider">ToastProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toolbar">Toolbar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateDiagram">updateDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateProfile">updateProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#UploadImageModal">UploadImageModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useAuth">useAuth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useExportDiagram">useExportDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useHealthCheck">useHealthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useRecentNodes">useRecentNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useToast">useToast</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateEdges">validateEdges</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateJSONStructure">validateJSONStructure</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateNodes">validateNodes</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/UploadImageModal/UploadImageModal.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useRef } from 'react';
+import './UploadImageModal.css';
+import { FiUploadCloud } from 'react-icons/fi';
+
+/**
+ * Componente modal para subir imágenes desde archivo o URL.
+ * Permite arrastrar y soltar archivos, seleccionar desde el explorador o ingresar una URL.
+ * Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Indica si el modal está abierto
+ * @param {Function} props.onClose - Función callback para cerrar el modal
+ * @param {Function} props.onImageUploaded - Función callback ejecutada cuando se sube una imagen exitosamente
+ * @param {string} props.title - Título del modal
+ * @returns {JSX.Element|null} Elemento modal o null si está cerrado
+ */
+const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir imagen" }) => {
+  const [imageUrl, setImageUrl] = useState('');
+  const [isDragging, setIsDragging] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState('');
+  const [preview, setPreview] = useState(null);
+  const fileInputRef = useRef(null);
+
+  if (!isOpen) return null;
+
+  /**
+   * Cierra el modal y reinicia todos los estados a sus valores iniciales.
+   * Limpia la URL, errores, vista previa y ejecuta el callback de cierre.
+   */
+  const handleClose = () => {
+    setImageUrl('');
+    setError('');
+    setPreview(null);
+    onClose();
+  };
+
+  /**
+   * Valida el tipo y tamaño de un archivo de imagen.
+   * Verifica que sea JPEG, PNG, GIF o WEBP y no exceda los 5MB.
+   *
+   * @param {File} file - Archivo a validar
+   * @returns {boolean} true si el archivo es válido, false en caso contrario
+   */
+  const validateFile = (file) => {
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    const maxSize = 5 * 1024 * 1024;
+
+    if (!validTypes.includes(file.type)) {
+      setError('Tipo de archivo no válido. Use: JPEG, PNG, GIF o WEBP');
+      return false;
+    }
+
+    if (file.size > maxSize) {
+      setError('La imagen excede el tamaño máximo de 5MB');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+
+  /**
+   * Sube un archivo de imagen al backend.
+   * Convierte el archivo a base64 y lo envía al servidor mediante una petición POST.
+   *
+   * @param {File} file - Archivo de imagen a subir
+   * @returns {Promise&lt;Object>} Promesa que resuelve con los datos de la imagen subida
+   */
+  const uploadFileToBackend = async (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      
+      reader.onload = async (e) => {
+        try {
+          const base64Data = e.target.result;
+          
+          const response = await fetch('/api/images/upload', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+              image: base64Data,
+              filename: file.name,
+              mimeType: file.type
+            })
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Error al subir imagen');
+          }
+
+          const data = await response.json();
+          resolve(data.image);
+        } catch (error) {
+          reject(error);
+        }
+      };
+
+      reader.onerror = () => reject(new Error('Error al leer el archivo'));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  /**
+   * Maneja la selección de un archivo de imagen.
+   * Valida el archivo, lo sube al backend y ejecuta el callback con los datos de la imagen.
+   *
+   * @param {File} file - Archivo de imagen seleccionado
+   */
+  const handleFileSelect = async (file) => {
+    if (!validateFile(file)) return;
+
+    setIsUploading(true);
+    setError('');
+
+    try {
+      const imageData = await uploadFileToBackend(file);
+      const fullUrl = imageData.url;
+      setPreview(fullUrl);
+
+      onImageUploaded({
+        ...imageData,
+        url: fullUrl
+      });
+      
+      handleClose();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  /**
+   * Maneja el evento de selección de archivo desde el input.
+   * Extrae el primer archivo seleccionado y lo procesa.
+   *
+   * @param {Event} e - Evento de cambio del input de archivo
+   */
+  const handleFileInput = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      handleFileSelect(file);
+    }
+  };
+
+  /**
+   * Maneja el evento de arrastrar un archivo sobre la zona de soltar.
+   * Previene el comportamiento por defecto y activa el estado de arrastre.
+   *
+   * @param {DragEvent} e - Evento de arrastre
+   */
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  /**
+   * Maneja el evento de salida del archivo de la zona de soltar.
+   * Previene el comportamiento por defecto y desactiva el estado de arrastre.
+   *
+   * @param {DragEvent} e - Evento de arrastre
+   */
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  /**
+   * Maneja el evento de soltar un archivo en la zona designada.
+   * Previene el comportamiento por defecto, desactiva el estado de arrastre y procesa el archivo.
+   *
+   * @param {DragEvent} e - Evento de soltar
+   */
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      handleFileSelect(file);
+    }
+  };
+
+  /**
+   * Maneja el envío de una URL de imagen externa.
+   * Valida la URL con el backend y ejecuta el callback si es válida.
+   *
+   * @returns {Promise&lt;void>} Promesa que resuelve cuando se completa la validación
+   */
+  const handleUrlSubmit = async () => {
+    if (!imageUrl.trim()) {
+      setError('Por favor, ingrese una URL');
+      return;
+    }
+
+    setIsUploading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/images/validate-url', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ url: imageUrl })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al validar URL');
+      }
+
+      const data = await response.json();
+      setPreview(imageUrl);
+      
+      onImageUploaded(data.image);
+      handleClose();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    &lt;section className="upload-image-modal-overlay" onClick={handleClose}>
+      &lt;article className="upload-image-modal" onClick={(e) => e.stopPropagation()}>
+        &lt;header className="upload-image-modal-header">
+          &lt;h2>{title}&lt;/h2>
+          &lt;button className="close-button" onClick={handleClose}>
+            ✕
+          &lt;/button>
+        &lt;/header>
+
+        &lt;section className="upload-image-modal-body">
+          {error &amp;&amp; (
+            &lt;aside className="upload-error">
+              {error}
+            &lt;/aside>
+          )}
+
+          &lt;section className="upload-url-section">
+            &lt;h3 className="section-title">Desde URL&lt;/h3>
+            &lt;label htmlFor="image-url-input">URL de la imagen:&lt;/label>
+            &lt;input
+              id="image-url-input"
+              type="text"
+              className="url-input"
+              placeholder="https://ejemplo.com/imagen.jpg"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' &amp;&amp; handleUrlSubmit()}
+            />
+            
+            {preview &amp;&amp; (
+              &lt;figure className="url-preview">
+                &lt;img src={preview} alt="Vista previa" />
+              &lt;/figure>
+            )}
+
+            &lt;button
+              className="url-submit-button"
+              onClick={handleUrlSubmit}
+              disabled={isUploading || !imageUrl.trim()}
+            >
+              {isUploading ? 'Validando...' : 'Usar esta imagen'}
+            &lt;/button>
+          &lt;/section>
+
+          &lt;section className="section-divider">
+
+          &lt;section className="upload-file-section">
+            &lt;h3 className="section-title">Desde archivo&lt;/h3>
+            &lt;section
+              className={`upload-drop-zone ${isDragging ? 'dragging' : ''}`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              tabIndex={0}
+            >
+              &lt;input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/gif,image/webp"
+                onChange={handleFileInput}
+                style={{ display: 'none' }}
+              />
+              
+              {isUploading ? (
+                &lt;aside className="upload-loading">
+                  &lt;figure className="spinner">&lt;/figure>
+                  &lt;p>Subiendo imagen...&lt;/p>
+                &lt;/aside>
+              ) : (
+                &lt;>
+                  &lt;FiUploadCloud className="upload-icon" />
+                  &lt;p className="upload-main-text">
+                    Arrastra una imagen aquí
+                  &lt;/p>
+                  &lt;button
+                    className="upload-browse-button"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    Seleccionar archivo
+                  &lt;/button>
+                  &lt;p className="upload-info">
+                    Formatos: JPEG, PNG, GIF, WEBP (máx. 5MB)
+                  &lt;/p>
+                &lt;/>
+              )}
+              &lt;/section>
+            &lt;/section>
+          &lt;/section>
+        &lt;/section>
+      &lt;/article>
+    &lt;/section>
+  );
+};
+
+export default UploadImageModal;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Dec 10 2025 17:25:49 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

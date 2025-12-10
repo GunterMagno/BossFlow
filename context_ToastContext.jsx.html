@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>context/ToastContext.jsx - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AbilityNode">AbilityNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionIcon">ActionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionNode">ActionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_STORAGE_PREFIX">ACTIVITY_STORAGE_PREFIX</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_TYPES">ACTIVITY_TYPES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#api">api</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#App">App</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AuthProvider">AuthProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#authService">authService</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#baseURL">baseURL</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#clearActivities">clearActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Community">Community</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#COMPATIBLE_VERSIONS">COMPATIBLE_VERSIONS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmDialog">ConfirmDialog</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmModal">ConfirmModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#createDiagram">createDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#CURRENT_VERSION">CURRENT_VERSION</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#CustomEdge">CustomEdge</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Dashboard">Dashboard</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionIcon">DecisionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionNode">DecisionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_TEMPLATES">DEFAULT_TEMPLATES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteDiagram">deleteDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteImage">deleteImage</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteTemplate">deleteTemplate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramCard">DiagramCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramList">DiagramList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Editor">Editor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#EditorSidebar">EditorSidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectIcon">EffectIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectNode">EffectNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EndNode">EndNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportHandler">ExportHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportModal">ExportModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#FlowMap">FlowMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Footer">Footer</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#formatRelativeDate">formatRelativeDate</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getActivities">getActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCurrentUserId">getCurrentUserId</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagramById">getDiagramById</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagrams">getDiagrams</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getFormattedActivities">getFormattedActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getProfile">getProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getStats">getStats</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getStorageKey">getStorageKey</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getTemplates">getTemplates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Handles">Handles</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#healthCheck">healthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Home">Home</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImageNode">ImageNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImportJSON">ImportJSON</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isValidJSONFile">isValidJSONFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isVersionCompatible">isVersionCompatible</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Layout">Layout</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Login">Login</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#MobileNodePanel">MobileNodePanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Navbar">Navbar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewDiagramModal">NewDiagramModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewTemplateModal">NewTemplateModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeDescriptionPopup">NodeDescriptionPopup</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeEditModal">NodeEditModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeTitle">NodeTitle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NotFound">NotFound</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseIcon">PhaseIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseNode">PhaseNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PositionNode">PositionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#PrivateRoute">PrivateRoute</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Profile">Profile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Register">Register</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#registerActivity">registerActivity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Sidebar">Sidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartEndIcon">StartEndIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartNode">StartNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Status">Status</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateCard">TemplateCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateList">TemplateList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Templates">Templates</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#TimerNode">TimerNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toast">Toast</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ToastProvider">ToastProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toolbar">Toolbar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateDiagram">updateDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateProfile">updateProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#UploadImageModal">UploadImageModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useAuth">useAuth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useExportDiagram">useExportDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useHealthCheck">useHealthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useRecentNodes">useRecentNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useToast">useToast</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateEdges">validateEdges</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateJSONStructure">validateJSONStructure</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateNodes">validateNodes</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">context/ToastContext.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { createContext, useContext, useState, useCallback } from 'react';
+import Toast from '../components/Toast/Toast';
+
+const ToastContext = createContext();
+
+/**
+ * Hook personalizado para acceder al contexto de notificaciones toast.
+ * Proporciona métodos para mostrar notificaciones temporales en la interfaz.
+ *
+ * @throws {Error} Si se usa fuera de un ToastProvider
+ * @returns {Object} Objeto con métodos para mostrar notificaciones toast
+ */
+export const useToast = () => {
+  const context = useContext(ToastContext);
+  if (!context) {
+    throw new Error('useToast debe ser usado dentro de ToastProvider');
+  }
+  return context;
+};
+
+/**
+ * Componente proveedor del contexto de notificaciones toast.
+ * Gestiona el estado y ciclo de vida de las notificaciones emergentes.
+ * Proporciona métodos para mostrar diferentes tipos de notificaciones (success, error, warning, info).
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {React.ReactNode} props.children - Componentes hijos envueltos por el proveedor
+ * @returns {JSX.Element} Proveedor del contexto de notificaciones toast
+ */
+export const ToastProvider = ({ children }) => {
+  const [toasts, setToasts] = useState([]);
+
+  /**
+   * Muestra una notificación toast con mensaje, tipo y duración personalizables.
+   * Añade la notificación al estado y programa su eliminación automática.
+   *
+   * @param {string} message - Mensaje a mostrar en la notificación
+   * @param {string} type - Tipo de notificación (success, error, warning, info)
+   * @param {number} duration - Duración en milisegundos antes de cerrarse automáticamente
+   * @returns {number} ID único de la notificación creada
+   */
+  const showToast = useCallback((message, type = 'success', duration = 3000) => {
+    const id = Date.now();
+    const newToast = { id, message, type, duration };
+
+    setToasts((prev) => [...prev, newToast]);
+
+    if (duration > 0) {
+      setTimeout(() => {
+        removeToast(id);
+      }, duration);
+    }
+
+    return id;
+  }, []);
+
+  /**
+   * Elimina una notificación toast del estado por su ID.
+   * Hace desaparecer la notificación de la interfaz.
+   *
+   * @param {number} id - ID único de la notificación a eliminar
+   */
+  const removeToast = useCallback((id) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  }, []);
+
+  /**
+   * Muestra una notificación toast de tipo éxito.
+   * Método de conveniencia que usa showToast con tipo 'success'.
+   *
+   * @param {string} message - Mensaje a mostrar en la notificación
+   * @param {number} duration - Duración en milisegundos antes de cerrarse automáticamente
+   * @returns {number} ID único de la notificación creada
+   */
+  const success = useCallback(
+    (message, duration) => showToast(message, 'success', duration),
+    [showToast]
+  );
+
+  /**
+   * Muestra una notificación toast de tipo error
+   * Método de conveniencia que usa showToast con tipo 'error'
+   * @param {string} message - Mensaje a mostrar en la notificación
+   * @param {number} duration - Duración en milisegundos antes de cerrarse automáticamente
+   * @returns {number} ID único de la notificación creada
+   */
+  const error = useCallback(
+    (message, duration) => showToast(message, 'error', duration),
+    [showToast]
+  );
+
+  /**
+   * Muestra una notificación toast de tipo advertencia
+   * Método de conveniencia que usa showToast con tipo 'warning'
+   * @param {string} message - Mensaje a mostrar en la notificación
+   * @param {number} duration - Duración en milisegundos antes de cerrarse automáticamente
+   * @returns {number} ID único de la notificación creada
+   */
+  const warning = useCallback(
+    (message, duration) => showToast(message, 'warning', duration),
+    [showToast]
+  );
+
+  /**
+   * Muestra una notificación toast de tipo información
+   * Método de conveniencia que usa showToast con tipo 'info'
+   * @param {string} message - Mensaje a mostrar en la notificación
+   * @param {number} duration - Duración en milisegundos antes de cerrarse automáticamente
+   * @returns {number} ID único de la notificación creada
+   */
+  const info = useCallback(
+    (message, duration) => showToast(message, 'info', duration),
+    [showToast]
+  );
+
+  return (
+    &lt;ToastContext.Provider value={{ showToast, success, error, warning, info }}>
+      {children}
+      &lt;aside className="toast-container">
+        {toasts.map((toast) => (
+          &lt;Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            duration={0}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
+      &lt;/aside>
+    &lt;/ToastContext.Provider>
+  );
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Dec 10 2025 17:25:49 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>components/ImportJSON/ImportJSON.jsx - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AbilityNode">AbilityNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionIcon">ActionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionNode">ActionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_STORAGE_PREFIX">ACTIVITY_STORAGE_PREFIX</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_TYPES">ACTIVITY_TYPES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#api">api</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#App">App</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AuthProvider">AuthProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#authService">authService</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#baseURL">baseURL</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#clearActivities">clearActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Community">Community</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#COMPATIBLE_VERSIONS">COMPATIBLE_VERSIONS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmDialog">ConfirmDialog</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmModal">ConfirmModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#createDiagram">createDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#CURRENT_VERSION">CURRENT_VERSION</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#CustomEdge">CustomEdge</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Dashboard">Dashboard</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionIcon">DecisionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionNode">DecisionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_TEMPLATES">DEFAULT_TEMPLATES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteDiagram">deleteDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteImage">deleteImage</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteTemplate">deleteTemplate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramCard">DiagramCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramList">DiagramList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Editor">Editor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#EditorSidebar">EditorSidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectIcon">EffectIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectNode">EffectNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EndNode">EndNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportHandler">ExportHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportModal">ExportModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#FlowMap">FlowMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Footer">Footer</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#formatRelativeDate">formatRelativeDate</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getActivities">getActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCurrentUserId">getCurrentUserId</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagramById">getDiagramById</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagrams">getDiagrams</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getFormattedActivities">getFormattedActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getProfile">getProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getStats">getStats</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getStorageKey">getStorageKey</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getTemplates">getTemplates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Handles">Handles</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#healthCheck">healthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Home">Home</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImageNode">ImageNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImportJSON">ImportJSON</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isValidJSONFile">isValidJSONFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isVersionCompatible">isVersionCompatible</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Layout">Layout</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Login">Login</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#MobileNodePanel">MobileNodePanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Navbar">Navbar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewDiagramModal">NewDiagramModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewTemplateModal">NewTemplateModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeDescriptionPopup">NodeDescriptionPopup</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeEditModal">NodeEditModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeTitle">NodeTitle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NotFound">NotFound</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseIcon">PhaseIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseNode">PhaseNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PositionNode">PositionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#PrivateRoute">PrivateRoute</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Profile">Profile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Register">Register</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#registerActivity">registerActivity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Sidebar">Sidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartEndIcon">StartEndIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartNode">StartNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Status">Status</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateCard">TemplateCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateList">TemplateList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Templates">Templates</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#TimerNode">TimerNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toast">Toast</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ToastProvider">ToastProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toolbar">Toolbar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateDiagram">updateDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateProfile">updateProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#UploadImageModal">UploadImageModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useAuth">useAuth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useExportDiagram">useExportDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useHealthCheck">useHealthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useRecentNodes">useRecentNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useToast">useToast</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateEdges">validateEdges</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateJSONStructure">validateJSONStructure</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateNodes">validateNodes</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/ImportJSON/ImportJSON.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useRef } from 'react';
+import { FiUpload, FiX, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+import './ImportJSON.css';
+import { validateJSONStructure, isValidJSONFile, COMPATIBLE_VERSIONS } from '../../utils/jsonValidator';
+
+/**
+ * Componente para importar diagramas desde archivos JSON con validación y preview
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Controla la visibilidad del modal
+ * @param {Function} props.onClose - Callback ejecutado al cerrar el modal
+ * @param {Function} props.onImport - Callback ejecutado al importar el diagrama
+ * @param {Object} props.toast - Objeto para mostrar notificaciones
+ * @returns {JSX.Element|null} Modal de importación o null si está cerrado
+ */
+function ImportJSON({ 
+  isOpen, 
+  onClose, 
+  onImport,
+  toast 
+}) {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
+  const [validationError, setValidationError] = useState(null);
+  const [importFile, setImportFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  if (!isOpen) return null;
+
+  /**
+   * Cierra el modal y resetea todo el estado del componente
+   */
+  const handleClose = () => {
+    setPreviewData(null);
+    setValidationError(null);
+    setImportFile(null);
+    setIsProcessing(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    onClose();
+  };
+
+  /**
+   * Gestiona la selección y validación del archivo JSON
+   * @param {Event} event - Evento de selección de archivo
+   */
+  const handleFileSelect = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!isValidJSONFile(file.name)) {
+      setValidationError('Por favor, selecciona un archivo JSON válido (.json)');
+      setPreviewData(null);
+      setImportFile(null);
+      return;
+    }
+
+    setImportFile(file);
+    setValidationError(null);
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target.result;
+        const data = JSON.parse(content);
+        
+        const validation = validateJSONStructure(data);
+        
+        if (!validation.valid) {
+          setValidationError(validation.errors.join(', '));
+          setPreviewData(null);
+          return;
+        }
+
+        setPreviewData(data);
+        setValidationError(null);
+      } catch (error) {
+        setValidationError('Error al leer el archivo: ' + error.message);
+        setPreviewData(null);
+      }
+    };
+    
+    reader.onerror = () => {
+      setValidationError('Error al leer el archivo');
+      setPreviewData(null);
+    };
+    
+    reader.readAsText(file);
+  };
+
+  /**
+   * Confirma y ejecuta la importación del diagrama validado
+   */
+  const handleConfirmImport = () => {
+    if (!previewData) return;
+
+    setIsProcessing(true);
+    
+    try {
+      if (!COMPATIBLE_VERSIONS.includes(previewData.version)) {
+        throw new Error(`Versión incompatible: ${previewData.version}`);
+      }
+
+      const { nodes: importedNodes, edges: importedEdges } = previewData.diagram;
+
+      if (!importedNodes || importedNodes.length === 0) {
+        throw new Error('El archivo no contiene nodos para importar');
+      }
+
+      onImport({
+        nodes: importedNodes,
+        edges: importedEdges || [],
+        metadata: previewData.metadata
+      });
+
+      toast.success(`Diagrama "${previewData.metadata.title}" importado correctamente`);
+      handleClose();
+    } catch (error) {
+      console.error('Error al importar JSON:', error);
+      toast.error('Error al importar el diagrama: ' + error.message);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  /**
+   * Cancela la importación y limpia el estado del preview
+   */
+  const handleCancelImport = () => {
+    setPreviewData(null);
+    setValidationError(null);
+    setImportFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  return (
+    &lt;section className="import-json__overlay" onClick={handleClose}>
+      &lt;article className="import-json__content" onClick={(e) => e.stopPropagation()}>
+        &lt;header className="import-json__header">
+          &lt;h2 className="import-json__title">
+            &lt;FiUpload />
+            Importar Diagrama desde JSON
+          &lt;/h2>
+          &lt;button
+            className="import-json__close"
+            onClick={handleClose}
+            disabled={isProcessing}
+            title="Cerrar"
+          >
+            &lt;FiX />
+          &lt;/button>
+        &lt;/header>
+
+        &lt;section className="import-json__body">
+          {!previewData ? (
+            &lt;>
+              &lt;p className="import-json__description">
+                Selecciona un archivo JSON para importar el diagrama. El archivo debe estar en formato BossFlow válido.
+              &lt;/p>
+
+              &lt;section className="import-json__file-input">
+                &lt;input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".json,application/json"
+                  onChange={handleFileSelect}
+                  id="json-file-input"
+                  className="import-json__file-input-hidden"
+                />
+                &lt;label htmlFor="json-file-input" className="import-json__file-label">
+                  &lt;FiUpload />
+                  {importFile ? importFile.name : 'Seleccionar archivo JSON'}
+                &lt;/label>
+              &lt;/section>
+
+              {validationError &amp;&amp; (
+                &lt;section className="import-json__error">
+                  &lt;FiAlertCircle />
+                  &lt;article>
+                    &lt;strong>Error de validación:&lt;/strong>
+                    &lt;p>{validationError}&lt;/p>
+                  &lt;/article>
+                &lt;/section>
+              )}
+
+              &lt;section className="import-json__info">
+                &lt;FiAlertCircle />
+                &lt;article>
+                  &lt;p>&lt;strong>Importante:&lt;/strong> Al importar un diagrama, se reemplazará el contenido actual del canvas.&lt;/p>
+                  &lt;p className="import-json__info-detail">
+                    Asegúrate de guardar tu trabajo antes de importar.
+                  &lt;/p>
+                &lt;/article>
+              &lt;/section>
+
+              &lt;nav className="import-json__actions">
+                &lt;button
+                  className="import-json__button import-json__button--secondary"
+                  onClick={handleClose}
+                >
+                  Cancelar
+                &lt;/button>
+              &lt;/nav>
+            &lt;/>
+          ) : (
+            &lt;>
+              &lt;section className="import-json__preview">
+                &lt;header className="import-json__preview-header">
+                  &lt;FiCheckCircle className="import-json__preview-icon" />
+                  &lt;h3>Vista previa del diagrama&lt;/h3>
+                &lt;/header>
+                
+                &lt;section className="import-json__preview-content">
+                  &lt;article className="import-json__preview-item">
+                    &lt;strong>Título:&lt;/strong>
+                    &lt;span>{previewData.metadata.title}&lt;/span>
+                  &lt;/article>
+                  &lt;article className="import-json__preview-item">
+                    &lt;strong>Exportado:&lt;/strong>
+                    &lt;span>{new Date(previewData.metadata.exportedAt).toLocaleString()}&lt;/span>
+                  &lt;/article>
+                  &lt;article className="import-json__preview-item">
+                    &lt;strong>Versión:&lt;/strong>
+                    &lt;span>{previewData.version}&lt;/span>
+                  &lt;/article>
+                  &lt;article className="import-json__preview-item">
+                    &lt;strong>Nodos:&lt;/strong>
+                    &lt;span>{previewData.metadata.nodeCount}&lt;/span>
+                  &lt;/article>
+                  &lt;article className="import-json__preview-item">
+                    &lt;strong>Conexiones:&lt;/strong>
+                    &lt;span>{previewData.metadata.edgeCount}&lt;/span>
+                  &lt;/article>
+                &lt;/section>
+              &lt;/section>
+
+              &lt;aside className="import-json__warning import-json__warning--danger">
+                &lt;FiAlertCircle />
+                &lt;p>&lt;strong>¿Continuar con la importación?&lt;/strong> El contenido actual del canvas será reemplazado.&lt;/p>
+              &lt;/aside>
+
+              &lt;nav className="import-json__actions">
+                &lt;button
+                  className="import-json__button import-json__button--secondary"
+                  onClick={handleCancelImport}
+                  disabled={isProcessing}
+                >
+                  Cancelar
+                &lt;/button>
+                &lt;button
+                  className="import-json__button import-json__button--primary"
+                  onClick={handleConfirmImport}
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? 'Importando...' : 'Confirmar importación'}
+                &lt;/button>
+              &lt;/nav>
+            &lt;/>
+          )}
+
+          {isProcessing &amp;&amp; (
+            &lt;aside className="import-json__loading">
+              &lt;figure className="import-json__spinner">&lt;/figure>
+              &lt;p>Importando diagrama...&lt;/p>
+            &lt;/aside>
+          )}
+        &lt;/section>
+      &lt;/article>
+    &lt;/section>
+  );
+}
+
+export default ImportJSON;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Dec 10 2025 17:25:49 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
