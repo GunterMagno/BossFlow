@@ -186,6 +186,7 @@ Para dudas o colaboración abre un Issue o contacta al creador del repositorio.
 
 #### Daniel Sánchez Benítez
 - **[Propuesta inicial](docs/dani/propuesta-inicial.pdf)**
+- **[Requisitos técnicos](docs/dani/requisitos-tecnicos.pdf)**
 
 ## Información del equipo  
 - Alejandro Borrego Cruz
