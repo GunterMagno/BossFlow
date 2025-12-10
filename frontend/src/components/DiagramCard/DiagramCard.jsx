@@ -2,8 +2,20 @@ import { Link } from 'react-router-dom';
 import { FiFileText, FiClock, FiTrash2, FiEdit2 } from 'react-icons/fi';
 import './DiagramCard.css';
 
+/**
+ * Tarjeta que muestra la información resumida de un diagrama
+ * @param {Object} props - Propiedades del componente
+ * @param {Object} props.diagram - Objeto con los datos del diagrama
+ * @param {Function} props.onDelete - Callback ejecutado al eliminar el diagrama
+ * @param {Function} props.onEdit - Callback ejecutado al editar el diagrama
+ * @returns {JSX.Element} Tarjeta interactiva con información del diagrama
+ */
 function DiagramCard({ diagram, onDelete, onEdit }) {
-  // Función para formatear fecha relativa
+  /**
+   * Formatea una fecha en formato relativo (hace X minutos/horas/días)
+   * @param {string|Date} date - Fecha a formatear
+   * @returns {string} Fecha formateada en formato relativo o fecha absoluta
+   */
   const formatRelativeDate = (date) => {
     const now = new Date();
     const diagramDate = new Date(date);
@@ -27,6 +39,10 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
     }
   };
 
+  /**
+   * Gestiona el clic en el botón de eliminar
+   * @param {Event} e - Evento del clic
+   */
   const handleDeleteClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -35,6 +51,10 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
     }
   };
 
+  /**
+   * Gestiona el clic en el botón de editar
+   * @param {Event} e - Evento del clic
+   */
   const handleEditClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -77,7 +97,6 @@ function DiagramCard({ diagram, onDelete, onEdit }) {
         </section>
       </Link>
 
-      {/* Botones de acción */}
       <nav className="diagram-card__actions">
         <button
           className="diagram-card__action-button diagram-card__action-button--edit"

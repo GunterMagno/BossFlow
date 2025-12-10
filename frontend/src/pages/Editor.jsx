@@ -19,6 +19,11 @@ import { useToast } from '../context/ToastContext';
 import { FaSave } from 'react-icons/fa';
 import { FiTrash2, FiImage, FiDownload } from 'react-icons/fi';
 
+/**
+ * Página del editor de diagramas con canvas interactivo
+ * Gestiona la carga, edición, guardado y exportación de diagramas
+ * @returns {JSX.Element} Editor completo con toolbar, sidebar y canvas
+ */
 function Editor() {
   const { diagramId } = useParams();
   const navigate = useNavigate();
@@ -44,20 +49,20 @@ function Editor() {
   const autoSaveTimeoutRef = useRef(null);
   const isInitialLoadRef = useRef(true);
 
+  /**
+   * Alterna la visibilidad del sidebar en modo móvil
+   */
   const toggleSidebar = () => {
     setIsSidebarOpen((v) => !v);
   };
 
-  // Efecto para mostrar el modal cuando diagramId === 'new'
   useEffect(() => {
     if (diagramId === 'new') {
       setIsNewDiagramModalOpen(true);
     }
   }, [diagramId]);
 
-  // Efecto para hacer scroll automático al entrar al editor
   useEffect(() => {
-    // Espera un momento para que el DOM esté completamente cargado
     const timer = setTimeout(() => {
       const navbar = document.querySelector('.navbar, nav, header');
       if (navbar) {
@@ -70,31 +75,27 @@ function Editor() {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, []); // Solo se ejecuta al entrar
+  }, []);
 
-
-
-  // Función para cerrar el modal y volver al dashboard
+  /**
+   * Cierra el modal de nuevo diagrama y redirige al dashboard
+   */
   const handleCloseNewDiagramModal = () => {
     setIsNewDiagramModalOpen(false);
     navigate('/dashboard', { replace: true });
   };
 
   useEffect(() => {
-    if (!diagramId || diagramId === 'new') return; // Nuevo diagrama: estado inicial vacío
+    if (!diagramId || diagramId === 'new') return;
 
-    // Indica si el componente sigue activo para evitar actualizar estado
     let activo = true;
     const cargarDiagrama = async () => {
       setLoading(true);
       try {
         const response = await getDiagramById(diagramId);
         if (!activo) return;
-        // La API devuelve { diagram: {...} }, así que se accede a response.diagram
         const diagram = response.diagram;
 
-        // Si la API devuelve nodos/conexiones se utilizan, si no, se crean vacíos
-        // Para nodos de imagen, restaurar la función onDelete y asegurar que tienen dimensiones
         const nodesWithCallbacks = Array.isArray(diagram.nodes) 
           ? diagram.nodes.map(node => {
               if (node.type === 'imageNode') {
@@ -109,13 +110,11 @@ function Editor() {
                       height: node.data.image?.height || 150
                     },
                     onDelete: async () => {
-                      // Eliminar imagen del servidor si es local
                       try {
                         await deleteImage(imageUrl);
                       } catch (error) {
                         console.error('Error al eliminar imagen del servidor:', error);
                       }
-                      // Eliminar nodo del canvas
                       setNodes((nds) => nds.filter((n) => n.id !== node.id));
                       toast.success('Imagen eliminada');
                     }
@@ -127,22 +126,18 @@ function Editor() {
           : [];
         
         setNodes(nodesWithCallbacks);
-        setEdges(Array.isArray(diagram.edges) ? diagram.edges : []);
+        setDiagrams(Array.isArray(diagram.edges) ? diagram.edges : []);
 
-        // Se guarda el título para futuras actividades
         setDiagramTitle(diagram.title || '');
-        // Se registra la actividad de visualización
         try {
           registerActivity(ACTIVITY_TYPES.VIEW, diagram.title || 'Diagrama', diagram.id);
         } catch (e) {
-          // No se bloquea la carga si falla el registro de actividad
           console.error('Error registrando actividad de visualización:', e);
         }
       } catch (error) {
         if (!activo) return;
         console.error('Error obteniendo el diagrama:', error);
         toast.error('Error al cargar el diagrama');
-        // En caso de error se dejan nodes/edges vacíos
         setNodes([]);
         setEdges([]);
       } finally {
@@ -155,10 +150,11 @@ function Editor() {
     return () => { activo = false; };
   }, [diagramId]);
 
-  // Marca que la carga inicial ha terminado
+  /**
+   * Marca el final de la carga inicial cuando los datos se han cargado completamente.
+   */
   useEffect(() => {
     if (!loading && diagramId) {
-      // Pequeño delay para asegurar que la carga inicial ha terminado
       const timer = setTimeout(() => {
         isInitialLoadRef.current = false;
       }, 500);
@@ -166,22 +162,21 @@ function Editor() {
     }
   }, [loading, diagramId]);
 
-  // Se activa el guardado automático cuando cambian nodos o conexiones
+  /**
+   * Configura el guardado automático cuando cambian los nodos o conexiones.
+   * Se guarda automáticamente 2 segundos después de la última modificación.
+   */
   useEffect(() => {
-    // No se guarda durante la carga inicial
     if (isInitialLoadRef.current || !diagramId) return;
 
-    // Se limpia el timeout anterior si existe
     if (autoSaveTimeoutRef.current) {
       clearTimeout(autoSaveTimeoutRef.current);
     }
 
-    // Se configura un nuevo timeout para guardar después de 2 segundos de inactividad
     autoSaveTimeoutRef.current = setTimeout(() => {
-      handleSave(true); // true indica que es guardado automático
+      handleSave(true);
     }, 2000);
 
-    // Se limpia el timeout al desmontar o cuando cambien las dependencias
     return () => {
       if (autoSaveTimeoutRef.current) {
         clearTimeout(autoSaveTimeoutRef.current);
@@ -189,16 +184,26 @@ function Editor() {
     };
   }, [nodes, edges, diagramId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Se actualizan nodes y edges desde FlowMap
+  /**
+   * Actualiza el estado de los nodos cuando cambian en el mapa de flujo.
+   * @param {Array} updatedNodes - Array de nodos actualizado.
+   */
   const handleNodesChange = useCallback((updatedNodes) => {
     setNodes(updatedNodes);
   }, []);
 
+  /**
+   * Actualiza el estado de las conexiones cuando cambian en el mapa de flujo.
+   * @param {Array} updatedEdges - Array de conexiones actualizado.
+   */
   const handleEdgesChange = useCallback((updatedEdges) => {
     setEdges(updatedEdges);
   }, []);
 
-  // Función asíncrona que guarda el diagrama
+  /**
+   * Guarda el diagrama en el servidor con opción de guardado automático
+   * @param {boolean} [isAutoSave=false] - Indica si es un guardado automático
+   */
   const handleSave = async (isAutoSave = false) => {
     if (!diagramId) {
       if (!isAutoSave) {
@@ -221,7 +226,6 @@ function Editor() {
       if (!isAutoSave) {
         toast.success('Diagrama guardado correctamente');
       }
-        // Se registra la actividad de edición al guardar
         try {
           registerActivity(ACTIVITY_TYPES.EDIT, diagramTitle || 'Diagrama', diagramId);
         } catch (e) {
@@ -230,7 +234,6 @@ function Editor() {
     } catch (error) {
       console.error('Error al guardar diagrama:', error);
       const errorMessage = error.response?.data?.error || 'Error al guardar el diagrama';
-      // Solo se muestra el error si no es guardado automático
       if (!isAutoSave) {
         toast.error(errorMessage);
       }
@@ -239,9 +242,11 @@ function Editor() {
     }
   };
 
-
+  /**
+   * Maneja la subida de una imagen global al diagrama.
+   * @param {Object} imageData - Datos de la imagen subida.
+   */
   const handleGlobalImageUploaded = useCallback((imageData) => {
-    // Crear un nodo especial para la imagen global
     const imageId = `image-${Date.now()}`;
     const imageNode = {
       id: imageId,
@@ -254,13 +259,11 @@ function Editor() {
           height: 150
         },
         onDelete: async () => {
-          // Eliminar imagen del servidor si es local
           try {
             await deleteImage(imageData.url);
           } catch (error) {
-            console.error('Error al eliminar im (ocultar el header)agen del servidor:', error);
+            console.error('Error al eliminar imagen del servidor:', error);
           }
-          // Eliminar nodo del canvas
           setNodes((nds) => nds.filter((n) => n.id !== imageId));
           toast.success('Imagen eliminada');
         }
@@ -271,14 +274,15 @@ function Editor() {
     toast.success('Imagen añadida al diagrama');
   }, [toast]);
 
-
+  /**
+   * Agrega un nuevo nodo al diagrama.
+   * @param {Object} nodeData - Datos del nodo a agregar.
+   */
   const handleAddNode = useCallback((nodeData) => {
     console.log('Añadir nodo:', nodeData);
 
-    // Generar ID único para el nuevo nodo
     const newNodeId = `${nodeData.type}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
 
-    // Crear nuevo nodo en el centro del canvas con un pequeño offset aleatorio
     const randomOffset = () => Math.floor(Math.random() * 100) - 50;
 
     const newNode = {
@@ -295,7 +299,6 @@ function Editor() {
       },
     };
 
-    // Actualizar el estado directamente para que se refleje inmediatamente
     setNodes((currentNodes) => {
       const updatedNodes = [...currentNodes, newNode];
       console.log('Nodos actualizados:', updatedNodes);
@@ -305,34 +308,45 @@ function Editor() {
     toast.success(`Nodo "${nodeData.label}" agregado al canvas`);
   }, [toast]);
 
-  // Función para abrir el modal de edición de nodo
+  /**
+   * Abre el modal de edición cuando se hace doble clic en un nodo.
+   * @param {Event} _event - Evento del doble clic.
+   * @param {Object} node - Objeto del nodo seleccionado.
+   */
   const handleNodeDoubleClick = useCallback((_event, node) => {
-    // No permitir edición de nodos de tipo imagen
     if (node.type === 'imageNode') return;
     
     setSelectedNode(node);
     setIsModalOpen(true);
   }, []);
 
-  // Función para cerrar el modal
+  /**
+   * Cierra el modal de edición de nodo.
+   */
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedNode(null);
   }, []);
 
-  // Ref para almacenar la función de actualización de nodos desde FlowMap
+  /**
+   * Referencia para almacenar la función de actualización de nodos desde FlowMap.
+   */
   const updateNodeInFlowMapRef = useRef(null);
-  // Ref para almacenar la función de eliminación de nodos desde FlowMap
+
+  /**
+   * Referencia para almacenar la función de eliminación de nodos desde FlowMap.
+   */
   const deleteNodesInFlowMapRef = useRef(null);
 
-  // Función para guardar los cambios del nodo editado
+  /**
+   * Guarda los cambios realizados a un nodo editado.
+   * @param {Object} updatedNode - Objeto del nodo actualizado.
+   */
   const handleSaveNode = useCallback((updatedNode) => {
-    // Actualizar directamente en FlowMap si la función está disponible
     if (updateNodeInFlowMapRef.current) {
       updateNodeInFlowMapRef.current(updatedNode);
     }
 
-    // También actualizar en el estado local del Editor
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === updatedNode.id) {
@@ -347,17 +361,26 @@ function Editor() {
     toast.success('Nodo actualizado correctamente');
   }, [toast]);
 
-  // Callback para recibir la función de actualización desde FlowMap
+  /**
+   * Establece la función de actualización de nodos desde el componente FlowMap.
+   * @param {Function} updateFn - Función para actualizar un nodo en el mapa de flujo.
+   */
   const handleSetUpdateNodeFunction = useCallback((updateFn) => {
     updateNodeInFlowMapRef.current = updateFn;
   }, []);
 
-  // Callback para recibir la función de eliminación desde FlowMap
+  /**
+   * Establece la función de eliminación de nodos desde el componente FlowMap.
+   * @param {Function} deleteFn - Función para eliminar nodos en el mapa de flujo.
+   */
   const handleSetDeleteNodesFunction = useCallback((deleteFn) => {
     deleteNodesInFlowMapRef.current = deleteFn;
   }, []);
 
-  // Función para iniciar la eliminación de nodos (desde tecla Suprimir)
+  /**
+   * Inicia el proceso de eliminación de nodos seleccionados.
+   * @param {Array} selectedNodes - Array de nodos seleccionados para eliminar.
+   */
   const handleDeleteRequest = useCallback((selectedNodes) => {
     if (selectedNodes && selectedNodes.length > 0) {
       setNodesToDelete(selectedNodes);
@@ -365,17 +388,18 @@ function Editor() {
     }
   }, []);
 
-  // Función para confirmar la eliminación de nodos
+  /**
+   * Confirma la eliminación de los nodos seleccionados.
+   * Elimina los nodos del mapa de flujo y del estado local.
+   */
   const handleConfirmDelete = useCallback(() => {
     if (nodesToDelete.length > 0) {
       const nodeIdsToDelete = nodesToDelete.map((n) => n.id);
 
-      // Eliminar directamente en FlowMap si la función está disponible
       if (deleteNodesInFlowMapRef.current) {
         deleteNodesInFlowMapRef.current(nodeIdsToDelete);
       }
 
-      // También actualizar en el estado local del Editor
       setNodes((nds) => nds.filter((node) => !nodeIdsToDelete.includes(node.id)));
       setEdges((eds) =>
         eds.filter((edge) =>
@@ -386,33 +410,37 @@ function Editor() {
       const count = nodesToDelete.length;
       toast.success(`${count} ${count === 1 ? 'nodo eliminado' : 'nodos eliminados'} correctamente`);
 
-      // Limpiar estado
       setNodesToDelete([]);
       setIsConfirmDeleteOpen(false);
     }
   }, [nodesToDelete, toast]);
 
-  // Función para cancelar la eliminación
+  /**
+   * Cancela el proceso de eliminación de nodos.
+   */
   const handleCancelDelete = useCallback(() => {
     setNodesToDelete([]);
     setIsConfirmDeleteOpen(false);
   }, []);
 
-  // Función para eliminar un nodo específico (desde el modal de edición)
+  /**
+   * Elimina un nodo específico iniciando el proceso de confirmación de eliminación.
+   * @param {string} nodeId - Identificador del nodo a eliminar.
+   */
   const handleDeleteNode = useCallback((nodeId) => {
     const nodeToDelete = nodes.find((n) => n.id === nodeId);
     if (nodeToDelete) {
       setNodesToDelete([nodeToDelete]);
       setIsConfirmDeleteOpen(true);
-      // Cerrar el modal de edición
       setIsModalOpen(false);
       setSelectedNode(null);
     }
   }, [nodes]);
 
-  // Función para solicitar la limpieza del canvas
+  /**
+   * Solicita la limpieza del lienzo (canvas). Muestra confirmación si hay nodos o conexiones.
+   */
   const handleClearRequest = useCallback(() => {
-    // Solo mostrar confirmación si hay nodos en el canvas
     if (nodes.length > 0 || edges.length > 0) {
       setIsConfirmClearOpen(true);
     } else {
@@ -420,15 +448,15 @@ function Editor() {
     }
   }, [nodes.length, edges.length, toast]);
 
-  // Función para confirmar la limpieza del canvas
+  /**
+   * Confirma la limpieza del lienzo, eliminando todos los nodos y conexiones.
+   */
   const handleConfirmClear = useCallback(() => {
-    // Limpiar nodos y conexiones en FlowMap
     if (deleteNodesInFlowMapRef.current && nodes.length > 0) {
       const allNodeIds = nodes.map((n) => n.id);
       deleteNodesInFlowMapRef.current(allNodeIds);
     }
 
-    // Limpiar estado local
     setNodes([]);
     setEdges([]);
 
@@ -436,7 +464,9 @@ function Editor() {
     setIsConfirmClearOpen(false);
   }, [nodes, toast]);
 
-  // Función para cancelar la limpieza
+  /**
+   * Cancela la limpieza del lienzo.
+   */
   const handleCancelClear = useCallback(() => {
     setIsConfirmClearOpen(false);
   }, []);
@@ -569,10 +599,22 @@ function Editor() {
   );
 }
 
-// Componente interno que usa el hook de ReactFlow
+/**
+ * Componente interno que maneja las operaciones de exportación del diagrama.
+ * @param {Object} props - Props del componente.
+ * @param {boolean} props.isOpen - Indica si el modal de exportación está abierto.
+ * @param {Function} props.onClose - Función para cerrar el modal.
+ * @param {string} props.diagramTitle - Título del diagrama a exportar.
+ * @param {boolean} props.isExporting - Indica si se está exportando.
+ * @param {Function} props.setIsExporting - Función para establecer el estado de exportación.
+ * @param {Object} props.toast - Objeto de notificaciones toast.
+ */
 function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExporting, toast }) {
   const { exportToPNG, exportToJSON } = useExportDiagram(diagramTitle || 'diagram');
 
+  /**
+   * Exporta el diagrama como archivo PNG.
+   */
   const handleExportPNG = async () => {
     setIsExporting(true);
     try {
@@ -586,6 +628,9 @@ function ExportHandler({ isOpen, onClose, diagramTitle, isExporting, setIsExport
     }
   };
 
+  /**
+   * Exporta el diagrama como archivo JSON.
+   */
   const handleExportJSON = async () => {
     setIsExporting(true);
     try {

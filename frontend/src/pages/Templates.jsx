@@ -20,6 +20,11 @@ import {
 } from 'react-icons/fi';
 import './Dashboard.css';
 
+/**
+ * Página de plantillas de BossFlow.
+ * Muestra plantillas predeterminadas y permite al usuario crear y gestionar sus propias plantillas.
+ * @returns {React.ReactElement} El componente de la página de plantillas.
+ */
 function Templates() {
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -32,13 +37,18 @@ function Templates() {
   const [templateNodes, setTemplateNodes] = useState(null);
   const [editingTemplate, setEditingTemplate] = useState(null);
   const [templateToDelete, setTemplateToDelete] = useState(null);
-  const [activeTab, setActiveTab] = useState('predeterminadas'); // 'predeterminadas' o 'mis-plantillas'
+  const [activeTab, setActiveTab] = useState('predeterminadas');
 
+  /**
+   * Establece el título de la página cuando el componente se monta.
+   */
   useEffect(() => {
     document.title = 'Plantillas | BossFlow';
   }, []);
 
-  // Función para cargar plantillas de usuario
+  /**
+   * Carga las plantillas del usuario desde el servidor.
+   */
   const fetchTemplates = async () => {
     try {
       setLoadingTemplates(true);
@@ -54,63 +64,77 @@ function Templates() {
     }
   };
 
-  // Cargar plantillas de usuario solo cuando se cambia a esa pestaña
+  /**
+   * Carga las plantillas cuando se cambia a la pestaña de mis plantillas.
+   */
   useEffect(() => {
     if (activeTab === 'mis-plantillas') {
       fetchTemplates();
     }
   }, [activeTab]);
 
+  /**
+   * Cierra la sesión del usuario y lo redirige al inicio.
+   */
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  // Handler cuando se usa una plantilla
+  /**
+   * Maneja el uso de una plantilla para crear un nuevo diagrama.
+   * @param {Object} template - Plantilla a utilizar.
+   */
   const handleUseTemplate = (template) => {
-    // Guardar los nodos y edges de la plantilla
     setTemplateNodes({
       nodes: template.nodes || [],
       edges: template.edges || []
     });
-    // Abrir el modal para crear el diagrama
     setIsModalOpen(true);
   };
 
-  // Handler cuando se crea un nuevo diagrama desde plantilla
+  /**
+   * Maneja el evento de creación de un nuevo diagrama desde una plantilla.
+   */
   const handleDiagramCreated = () => {
-    // Cerrar modal y limpiar estado
     setIsModalOpen(false);
     setTemplateNodes(null);
   };
 
-  // Handler cuando se crea una nueva plantilla
+  /**
+   * Maneja el evento de creación de una nueva plantilla.
+   */
   const handleTemplateCreated = () => {
-    // Refrescar la lista de plantillas
     fetchTemplates();
     setIsTemplateModalOpen(false);
     setEditingTemplate(null);
   };
 
-  // Handler para editar plantilla (sistema o usuario)
+  /**
+   * Prepara una plantilla para edición.
+   * @param {Object} template - Plantilla a editar.
+   */
   const handleEditTemplate = (template) => {
     if (activeTab === 'predeterminadas') {
-      // Para plantillas del sistema, abrir modal de nueva plantilla con los datos precargados
       setEditingTemplate(template);
       setIsTemplateModalOpen(true);
     } else {
-      // Para plantillas de usuario, abrir modal para editar título/descripción
       setEditingTemplate(template);
       setIsTemplateModalOpen(true);
     }
   };
 
-  // Handler para eliminar plantilla
+  /**
+   * Prepara una plantilla para eliminación.
+   * @param {Object} template - Plantilla a eliminar.
+   */
   const handleDeleteTemplate = (template) => {
     setTemplateToDelete(template);
   };
 
-  // Confirmar eliminación de plantilla
+  /**
+   * Confirma y ejecuta la eliminación de una plantilla.
+   */
   const handleConfirmDelete = async () => {
     if (!templateToDelete) return;
 
@@ -126,18 +150,15 @@ function Templates() {
     }
   };
 
-  // Obtener plantillas según la pestaña activa
   const displayedTemplates = activeTab === 'predeterminadas' 
     ? DEFAULT_TEMPLATES
     : templates;
 
-  // Estados de carga según pestaña activa
   const isLoading = activeTab === 'mis-plantillas' && loadingTemplates;
   const currentError = activeTab === 'mis-plantillas' ? errorTemplates : null;
 
   return (
     <section className="dashboard">
-      {/* Sidebar */}
       <aside className="dashboard__sidebar">
         <section className="dashboard__sidebar-contenido">
           <header className="dashboard__logo">

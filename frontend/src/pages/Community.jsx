@@ -2,6 +2,11 @@ import { useEffect } from 'react';
 import { FiUsers, FiMessageCircle, FiTrendingUp, FiZap } from 'react-icons/fi';
 import './Community.css';
 
+/**
+ * Página de comunidad (próximamente)
+ * Muestra un placeholder con las características futuras de la sección de comunidad
+ * @returns {JSX.Element} Página de comunidad en construcción
+ */
 function Community() {
   useEffect(() => {
     document.title = 'Comunidad | BossFlow';

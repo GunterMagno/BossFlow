@@ -1,6 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import './NodeDescriptionPopup.css';
 
+/**
+ * Componente popup que muestra la descripción e imagen de un nodo.
+ * Se posiciona automáticamente cerca del nodo, ajustándose al espacio disponible.
+ * Incluye soporte para dispositivos móviles y táctiles.
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Indica si el popup está abierto
+ * @param {Function} props.onClose - Función callback para cerrar el popup
+ * @param {Object} props.node - Objeto del nodo con sus datos (título, descripción, imagen)
+ * @param {Object} props.nodePosition - Objeto con la posición del nodo (top, left, bottom, width)
+ * @returns {JSX.Element|null} Elemento popup o null si está cerrado o sin descripción
+ */
 const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
   const tooltipRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0, placement: 'top' });
@@ -10,8 +22,12 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
   const touchTimeoutRef = useRef(null);
   const isMobileRef = useRef(false);
 
-  // Detectar si es mobile/touch device
   useEffect(() => {
+    /**
+     * Detecta si el dispositivo es móvil o táctil.
+     *
+     * @returns {boolean} true si es un dispositivo táctil, false en caso contrario
+     */
     const isMobile = () => {
       return (
         typeof window !== 'undefined' &&
@@ -23,7 +39,6 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     isMobileRef.current = isMobile();
   }, []);
 
-  // Actualizar ref cuando isOpen cambia
   useEffect(() => {
     isOpenRef.current = isOpen;
     if (isOpen) {
@@ -31,20 +46,27 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     }
   }, [isOpen]);
 
-  // Cerrar con clic fuera (en cualquier parte del documento)
   useEffect(() => {
     if (!isOpen) return;
 
+    /**
+     * Maneja los clics fuera del popup para cerrarlo.
+     * Inicia la animación de cierre antes de ejecutar el callback.
+     *
+     * @param {MouseEvent} e - Evento de clic del ratón
+     */
     const handleClickOutside = (e) => {
-      // No cerrar si el clic es dentro del tooltip o si no está abierto
       if (tooltipRef.current && !tooltipRef.current.contains(e.target) && isOpenRef.current) {
-        // Iniciar animación de cierre
         setIsVisible(false);
-        // Después de la animación, cerrar completamente
         setTimeout(() => onClose(), 200);
       }
     };
 
+    /**
+     * Maneja la tecla Escape para cerrar el popup.
+     *
+     * @param {KeyboardEvent} e - Evento de teclado
+     */
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isOpenRef.current) {
         setIsVisible(false);
@@ -52,7 +74,6 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
       }
     };
 
-    // Usar capture phase para que funcione correctamente
     document.addEventListener('click', handleClickOutside, true);
     document.addEventListener('keydown', handleKeyDown);
 
@@ -62,7 +83,6 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     };
   }, [isOpen, onClose]);
 
-  // Calcular posición del tooltip
   useEffect(() => {
     if (!isOpen || !nodePosition || !tooltipRef.current) return;
 
@@ -70,20 +90,16 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     const tooltipRect = tooltip.getBoundingClientRect();
     const nodeRect = nodePosition;
 
-    // Intentar posicionar arriba
-    let top = nodeRect.top - tooltipRect.height - 12; // 12px de margen
+    let top = nodeRect.top - tooltipRect.height - 12;
     let placement = 'top';
 
-    // Si no hay espacio arriba, poner abajo
     if (top < 10) {
       top = nodeRect.bottom + 12;
       placement = 'bottom';
     }
 
-    // Centrar horizontalmente respecto al nodo
     let left = nodeRect.left + nodeRect.width / 2 - tooltipRect.width / 2;
 
-    // Asegurar que no se salga de los bordes
     const padding = 16;
     if (left < padding) left = padding;
     if (left + tooltipRect.width > window.innerWidth - padding) {
@@ -98,12 +114,14 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
   const description = node.data?.description;
   const image = node.data?.image;
 
-  // No renderizar si no hay descripción
   if (!description || description.trim() === '') {
     return null;
   }
 
-  // Handler para mouse leave (solo en desktop/hover)
+  /**
+   * Maneja el evento cuando el ratón sale del popup (solo en escritorio).
+   * Inicia un temporizador para cerrar el popup después de la animación.
+   */
   const handleMouseLeave = () => {
     if (!isMobileRef.current) {
       setIsVisible(false);
@@ -111,7 +129,10 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     }
   };
 
-  // Handler para mouse enter (solo en desktop/hover)
+  /**
+   * Maneja el evento cuando el ratón entra al popup (solo en escritorio).
+   * Cancela el temporizador de cierre si existe y mantiene el popup visible.
+   */
   const handleMouseEnter = () => {
     if (!isMobileRef.current && hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
@@ -134,7 +155,6 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
       onMouseEnter={handleMouseEnter}
     >
       <section className={`node-description-tooltip__content ${image ? 'has-image' : 'no-image'}`}>
-        {/* Imagen a la derecha (si existe) */}
         {image && (
           <figure className="node-description-tooltip__image-container">
             <img
@@ -146,7 +166,6 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
           </figure>
         )}
 
-        {/* Descripción a la izquierda o centrada */}
         <article className="node-description-tooltip__text">
           <h4 className="node-description-tooltip__title">
             {node.data?.title || 'Nodo'}
@@ -157,7 +176,6 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
         </article>
       </section>
 
-      {/* Triángulo/flecha hacia el nodo */}
       <figure className={`node-description-tooltip__arrow node-description-tooltip__arrow--${position.placement}`} />
     </aside>
   );

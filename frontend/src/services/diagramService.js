@@ -1,6 +1,11 @@
 import api from './api';
 
-// Obtener todos los diagramas del usuario autenticado
+/**
+ * Obtiene todos los diagramas del usuario autenticado.
+ * @async
+ * @returns {Promise<Object>} Respuesta con la lista de diagramas.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const getDiagrams = async () => {
   try {
     const response = await api.get('/diagrams');
@@ -11,7 +16,13 @@ export const getDiagrams = async () => {
   }
 };
 
-// Crear un nuevo diagrama
+/**
+ * Crea un nuevo diagrama.
+ * @async
+ * @param {Object} diagramData - Datos del nuevo diagrama.
+ * @returns {Promise<Object>} Respuesta con los datos del diagrama creado.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const createDiagram = async (diagramData) => {
   try {
     const response = await api.post('/diagrams', diagramData);
@@ -22,7 +33,13 @@ export const createDiagram = async (diagramData) => {
   }
 };
 
-// Obtener un diagrama específico por ID
+/**
+ * Obtiene un diagrama específico por su ID.
+ * @async
+ * @param {string} id - ID del diagrama a obtener.
+ * @returns {Promise<Object>} Respuesta con los datos del diagrama.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const getDiagramById = async (id) => {
   try {
     const response = await api.get(`/diagrams/${id}`);
@@ -33,7 +50,14 @@ export const getDiagramById = async (id) => {
   }
 };
 
-// Actualizar un diagrama
+/**
+ * Actualiza un diagrama existente.
+ * @async
+ * @param {string} id - ID del diagrama a actualizar.
+ * @param {Object} diagramData - Nuevos datos del diagrama.
+ * @returns {Promise<Object>} Respuesta con los datos del diagrama actualizado.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const updateDiagram = async (id, diagramData) => {
   try {
     const response = await api.put(`/diagrams/${id}`, diagramData);
@@ -44,7 +68,13 @@ export const updateDiagram = async (id, diagramData) => {
   }
 };
 
-// Eliminar un diagrama
+/**
+ * Elimina un diagrama.
+ * @async
+ * @param {string} id - ID del diagrama a eliminar.
+ * @returns {Promise<Object>} Respuesta de confirmación de eliminación.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const deleteDiagram = async (id) => {
   try {
     const response = await api.delete(`/diagrams/${id}`);
@@ -55,7 +85,12 @@ export const deleteDiagram = async (id) => {
   }
 };
 
-// Obtener todas las plantillas del usuario autenticado
+/**
+ * Obtiene todas las plantillas del usuario autenticado.
+ * @async
+ * @returns {Promise<Object>} Respuesta con la lista de plantillas.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const getTemplates = async () => {
   try {
     const response = await api.get('/templates');
@@ -66,7 +101,13 @@ export const getTemplates = async () => {
   }
 };
 
-// Eliminar una plantilla
+/**
+ * Elimina una plantilla.
+ * @async
+ * @param {string} id - ID de la plantilla a eliminar.
+ * @returns {Promise<Object>} Respuesta de confirmación de eliminación.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const deleteTemplate = async (id) => {
   try {
     const response = await api.delete(`/diagrams/${id}`);

@@ -1,14 +1,33 @@
 import { FiFileText, FiClock, FiEdit2, FiTrash2, FiCopy } from 'react-icons/fi';
 import './TemplateCard.css';
 
-function TemplateCard({ 
-  template, 
-  onUseTemplate, 
-  onEditTemplate, 
+/**
+ * Componente de tarjeta de plantilla de diagrama.
+ * Muestra información de una plantilla con opciones para usarla, editarla o eliminarla.
+ * Diferencia entre plantillas del sistema y plantillas de usuario.
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {Object} props.template - Datos de la plantilla a mostrar
+ * @param {Function} props.onUseTemplate - Callback al usar la plantilla
+ * @param {Function} props.onEditTemplate - Callback al editar la plantilla
+ * @param {Function} props.onDeleteTemplate - Callback al eliminar la plantilla
+ * @param {boolean} props.isSystemTemplate - Indica si es una plantilla del sistema
+ * @returns {JSX.Element} Elemento de tarjeta de plantilla
+ */
+function TemplateCard({
+  template,
+  onUseTemplate,
+  onEditTemplate,
   onDeleteTemplate,
-  isSystemTemplate = false 
+  isSystemTemplate = false
 }) {
-  // Función para formatear fecha relativa
+  /**
+   * Formatea una fecha a formato relativo en español.
+   * Muestra tiempo relativo (minutos, horas, días) o fecha absoluta según antigüedad.
+   *
+   * @param {Date|string} date - Fecha a formatear
+   * @returns {string} Texto con la fecha formateada relativamente
+   */
   const formatRelativeDate = (date) => {
     if (!date) return 'Plantilla del sistema';
     
@@ -34,6 +53,12 @@ function TemplateCard({
     }
   };
 
+  /**
+   * Maneja el evento de usar la plantilla.
+   * Previene el comportamiento por defecto y la propagación del evento.
+   *
+   * @param {Event} e - Evento de clic del ratón
+   */
   const handleUseTemplate = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -42,6 +67,12 @@ function TemplateCard({
     }
   };
 
+  /**
+   * Maneja el evento de editar la plantilla.
+   * Previene el comportamiento por defecto y la propagación del evento.
+   *
+   * @param {Event} e - Evento de clic del ratón
+   */
   const handleEdit = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -50,6 +81,12 @@ function TemplateCard({
     }
   };
 
+  /**
+   * Maneja el evento de eliminar la plantilla.
+   * Previene el comportamiento por defecto y la propagación del evento.
+   *
+   * @param {Event} e - Evento de clic del ratón
+   */
   const handleDelete = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -61,8 +98,7 @@ function TemplateCard({
   return (
     <article className="template-card-wrapper">
       <article className="template-card">
-        
-        {/* Botón de eliminar arriba a la derecha (solo para plantillas de usuario) */}
+
         {!isSystemTemplate && (
           <button
             className="template-card__delete-button"

@@ -1,118 +1,164 @@
 /**
- * @param {Object} image - Metadata de la imagen a validar
- * @param {string} context - Contexto para mensajes de error
- * @returns {Object} { valid: boolean, errors: string[] }
+ * Valida los metadatos de una imagen.
+ * @param {Object} image - Metadatos de la imagen a validar.
+ * @param {string} image.filename - Nombre del archivo.
+ * @param {string} image.url - URL de la imagen.
+ * @param {string} image.mimeType - Tipo MIME (jpeg, png, gif, webp).
+ * @param {number} image.size - Tamaño en bytes (máximo 5MB).
+ * @param {string} context - Contexto para mensajes de error.
+ * @returns {Object} Objeto con propiedades valid (boolean) y errors (array de strings).
  */
 function validateImageMetadata(image, context) {
-    const errors = [];
-    const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+  const errors = [];
+  const ALLOWED_MIME_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+  ];
+  const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
-    // Validar que la imagen es un objeto
-    if (!image || typeof image !== 'object') {
-        return {
-            valid: false,
-            errors: [`${context}: debe ser un objeto válido`]
-        };
-    }
-
-    // Validar filename (obligatorio)
-    if (!image.filename || typeof image.filename !== 'string' || image.filename.trim() === '') {
-        errors.push(`${context}: el campo 'filename' es obligatorio y debe ser un string no vacío`);
-    }
-
-    // Validar url (obligatorio)
-    if (!image.url || typeof image.url !== 'string' || image.url.trim() === '') {
-        errors.push(`${context}: el campo 'url' es obligatorio y debe ser un string no vacío`);
-    }
-
-    // Validar mimeType (obligatorio)
-    if (!image.mimeType || typeof image.mimeType !== 'string') {
-        errors.push(`${context}: el campo 'mimeType' es obligatorio y debe ser un string`);
-    } else if (!ALLOWED_MIME_TYPES.includes(image.mimeType)) {
-        errors.push(`${context}: 'mimeType' debe ser uno de: ${ALLOWED_MIME_TYPES.join(', ')}`);
-    }
-
-    // Validar size (obligatorio)
-    if (typeof image.size !== 'number') {
-        errors.push(`${context}: el campo 'size' es obligatorio y debe ser un número`);
-    } else if (image.size < 0) {
-        errors.push(`${context}: 'size' debe ser mayor o igual a 0`);
-    } else if (image.size > MAX_SIZE) {
-        errors.push(`${context}: 'size' no puede exceder ${MAX_SIZE} bytes (5MB)`);
-    }
-
-    // Validar createdAt (opcional)
-    if (image.createdAt !== undefined && !(image.createdAt instanceof Date) && isNaN(Date.parse(image.createdAt))) {
-        errors.push(`${context}: 'createdAt' debe ser una fecha válida`);
-    }
-
+  // Validar que la imagen es un objeto
+  if (!image || typeof image !== "object") {
     return {
-        valid: errors.length === 0,
-        errors
+      valid: false,
+      errors: [`${context}: debe ser un objeto válido`],
     };
+  }
+
+  // Validar filename (obligatorio)
+  if (
+    !image.filename ||
+    typeof image.filename !== "string" ||
+    image.filename.trim() === ""
+  ) {
+    errors.push(
+      `${context}: el campo 'filename' es obligatorio y debe ser un string no vacío`
+    );
+  }
+
+  // Validar url (obligatorio)
+  if (!image.url || typeof image.url !== "string" || image.url.trim() === "") {
+    errors.push(
+      `${context}: el campo 'url' es obligatorio y debe ser un string no vacío`
+    );
+  }
+
+  // Validar mimeType (obligatorio)
+  if (!image.mimeType || typeof image.mimeType !== "string") {
+    errors.push(
+      `${context}: el campo 'mimeType' es obligatorio y debe ser un string`
+    );
+  } else if (!ALLOWED_MIME_TYPES.includes(image.mimeType)) {
+    errors.push(
+      `${context}: 'mimeType' debe ser uno de: ${ALLOWED_MIME_TYPES.join(", ")}`
+    );
+  }
+
+  // Validar size (obligatorio)
+  if (typeof image.size !== "number") {
+    errors.push(
+      `${context}: el campo 'size' es obligatorio y debe ser un número`
+    );
+  } else if (image.size < 0) {
+    errors.push(`${context}: 'size' debe ser mayor o igual a 0`);
+  } else if (image.size > MAX_SIZE) {
+    errors.push(`${context}: 'size' no puede exceder ${MAX_SIZE} bytes (5MB)`);
+  }
+
+  // Validar createdAt (opcional)
+  if (
+    image.createdAt !== undefined &&
+    !(image.createdAt instanceof Date) &&
+    isNaN(Date.parse(image.createdAt))
+  ) {
+    errors.push(`${context}: 'createdAt' debe ser una fecha válida`);
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
 }
 
 /**
- * Valida la estructura de un nodo
- * @param {Object} node - Nodo a validar
- * @returns {Object} { valid: boolean, errors: string[] }
+ * Valida la estructura de un nodo del diagrama.
+ * @param {Object} node - Nodo a validar.
+ * @param {string} node.id - ID único del nodo.
+ * @param {string} node.type - Tipo de nodo.
+ * @param {Object} node.position - Posición del nodo {x, y}.
+ * @param {Object} node.data - Datos del nodo.
+ * @param {number} index - Índice del nodo en el array.
+ * @returns {Object} Objeto con propiedades valid (boolean) y errors (array de strings).
  */
 function validateNode(node, index) {
-    const errors = [];
+  const errors = [];
 
-    // Validar que el nodo existe
-    if (!node || typeof node !== 'object') {
-        return { 
-            valid: false, 
-            errors: [`Nodo en posición ${index}: debe ser un objeto válido`] 
-        };
-    }
-
-    // Validar campo 'id' (obligatorio)
-    if (!node.id || typeof node.id !== 'string' || node.id.trim() === '') {
-        errors.push(`Nodo en posición ${index}: el campo 'id' es obligatorio y debe ser un string no vacío`);
-    }
-
-    // Validar campo 'type' (obligatorio)
-    if (!node.type || typeof node.type !== 'string' || node.type.trim() === '') {
-        errors.push(`Nodo en posición ${index}: el campo 'type' es obligatorio y debe ser un string no vacío`);
-    }
-
-    // Validar campo 'position' (obligatorio)
-    if (!node.position || typeof node.position !== 'object') {
-        errors.push(`Nodo en posición ${index}: el campo 'position' es obligatorio y debe ser un objeto`);
-    } else {
-        // Validar position.x
-        if (typeof node.position.x !== 'number') {
-            errors.push(`Nodo en posición ${index}: 'position.x' debe ser un número`);
-        }
-
-        // Validar position.y
-        if (typeof node.position.y !== 'number') {
-            errors.push(`Nodo en posición ${index}: 'position.y' debe ser un número`);
-        }
-    }
-
-    // Validar campo 'data' (obligatorio, puede ser objeto vacío)
-    if (node.data === undefined || node.data === null) {
-        errors.push(`Nodo en posición ${index}: el campo 'data' es obligatorio (puede ser un objeto vacío {})`);
-    } else if (typeof node.data !== 'object') {
-        errors.push(`Nodo en posición ${index}: el campo 'data' debe ser un objeto`);
-    }
-
-    // Validar campo 'image'
-    if (node.image !== undefined && node.image !== null) {
-        const imageValidation = validateImageMetadata(node.image, `Nodo en posición ${index}, campo 'image'`);
-        if (!imageValidation.valid) {
-            errors.push(...imageValidation.errors);
-        }
-    }
-
+  // Validar que el nodo existe
+  if (!node || typeof node !== "object") {
     return {
-        valid: errors.length === 0,
-        errors
+      valid: false,
+      errors: [`Nodo en posición ${index}: debe ser un objeto válido`],
     };
+  }
+
+  // Validar campo 'id' (obligatorio)
+  if (!node.id || typeof node.id !== "string" || node.id.trim() === "") {
+    errors.push(
+      `Nodo en posición ${index}: el campo 'id' es obligatorio y debe ser un string no vacío`
+    );
+  }
+
+  // Validar campo 'type' (obligatorio)
+  if (!node.type || typeof node.type !== "string" || node.type.trim() === "") {
+    errors.push(
+      `Nodo en posición ${index}: el campo 'type' es obligatorio y debe ser un string no vacío`
+    );
+  }
+
+  // Validar campo 'position' (obligatorio)
+  if (!node.position || typeof node.position !== "object") {
+    errors.push(
+      `Nodo en posición ${index}: el campo 'position' es obligatorio y debe ser un objeto`
+    );
+  } else {
+    // Validar position.x
+    if (typeof node.position.x !== "number") {
+      errors.push(`Nodo en posición ${index}: 'position.x' debe ser un número`);
+    }
+
+    // Validar position.y
+    if (typeof node.position.y !== "number") {
+      errors.push(`Nodo en posición ${index}: 'position.y' debe ser un número`);
+    }
+  }
+
+  // Validar campo 'data' (obligatorio, puede ser objeto vacío)
+  if (node.data === undefined || node.data === null) {
+    errors.push(
+      `Nodo en posición ${index}: el campo 'data' es obligatorio (puede ser un objeto vacío {})`
+    );
+  } else if (typeof node.data !== "object") {
+    errors.push(
+      `Nodo en posición ${index}: el campo 'data' debe ser un objeto`
+    );
+  }
+
+  // Validar campo 'image'
+  if (node.image !== undefined && node.image !== null) {
+    const imageValidation = validateImageMetadata(
+      node.image,
+      `Nodo en posición ${index}, campo 'image'`
+    );
+    if (!imageValidation.valid) {
+      errors.push(...imageValidation.errors);
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
 }
 
 /**
@@ -122,190 +168,226 @@ function validateNode(node, index) {
  * @returns {Object} { valid: boolean, errors: string[] }
  */
 function validateEdge(edge, index, nodes = []) {
-    const errors = [];
+  const errors = [];
 
-    // Validar que el edge existe
-    if (!edge || typeof edge !== 'object') {
-        return { 
-            valid: false, 
-            errors: [`Edge en posición ${index}: debe ser un objeto válido`] 
-        };
-    }
-
-    // Validar campo 'id' (obligatorio)
-    if (!edge.id || typeof edge.id !== 'string' || edge.id.trim() === '') {
-        errors.push(`Edge en posición ${index}: el campo 'id' es obligatorio y debe ser un string no vacío`);
-    }
-
-    // Validar campo 'source' (obligatorio)
-    if (!edge.source || typeof edge.source !== 'string' || edge.source.trim() === '') {
-        errors.push(`Edge en posición ${index}: el campo 'source' es obligatorio y debe ser un string no vacío`);
-    } else if (nodes.length > 0) {
-        // Validar que el nodo source existe
-        const sourceExists = nodes.some(node => node.id === edge.source);
-        if (!sourceExists) {
-            errors.push(`Edge en posición ${index}: el nodo 'source' con id '${edge.source}' no existe`);
-        }
-    }
-
-    // Validar campo 'target' (obligatorio)
-    if (!edge.target || typeof edge.target !== 'string' || edge.target.trim() === '') {
-        errors.push(`Edge en posición ${index}: el campo 'target' es obligatorio y debe ser un string no vacío`);
-    } else if (nodes.length > 0) {
-        // Validar que el nodo target existe
-        const targetExists = nodes.some(node => node.id === edge.target);
-        if (!targetExists) {
-            errors.push(`Edge en posición ${index}: el nodo 'target' con id '${edge.target}' no existe`);
-        }
-    }
-
-    // Validar que source y target son diferentes
-    if (edge.source && edge.target && edge.source === edge.target) {
-        errors.push(`Edge en posición ${index}: 'source' y 'target' no pueden ser el mismo nodo`);
-    }
-
+  // Validar que el edge existe
+  if (!edge || typeof edge !== "object") {
     return {
-        valid: errors.length === 0,
-        errors
+      valid: false,
+      errors: [`Edge en posición ${index}: debe ser un objeto válido`],
     };
+  }
+
+  // Validar campo 'id' (obligatorio)
+  if (!edge.id || typeof edge.id !== "string" || edge.id.trim() === "") {
+    errors.push(
+      `Edge en posición ${index}: el campo 'id' es obligatorio y debe ser un string no vacío`
+    );
+  }
+
+  // Validar campo 'source' (obligatorio)
+  if (
+    !edge.source ||
+    typeof edge.source !== "string" ||
+    edge.source.trim() === ""
+  ) {
+    errors.push(
+      `Edge en posición ${index}: el campo 'source' es obligatorio y debe ser un string no vacío`
+    );
+  } else if (nodes.length > 0) {
+    // Validar que el nodo source existe
+    const sourceExists = nodes.some((node) => node.id === edge.source);
+    if (!sourceExists) {
+      errors.push(
+        `Edge en posición ${index}: el nodo 'source' con id '${edge.source}' no existe`
+      );
+    }
+  }
+
+  // Validar campo 'target' (obligatorio)
+  if (
+    !edge.target ||
+    typeof edge.target !== "string" ||
+    edge.target.trim() === ""
+  ) {
+    errors.push(
+      `Edge en posición ${index}: el campo 'target' es obligatorio y debe ser un string no vacío`
+    );
+  } else if (nodes.length > 0) {
+    // Validar que el nodo target existe
+    const targetExists = nodes.some((node) => node.id === edge.target);
+    if (!targetExists) {
+      errors.push(
+        `Edge en posición ${index}: el nodo 'target' con id '${edge.target}' no existe`
+      );
+    }
+  }
+
+  // Validar que source y target son diferentes
+  if (edge.source && edge.target && edge.source === edge.target) {
+    errors.push(
+      `Edge en posición ${index}: 'source' y 'target' no pueden ser el mismo nodo`
+    );
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
 }
 
 /**
- * Valida el array completo de nodos
- * @param {Array} nodes - Array de nodos a validar
- * @returns {Object} { valid: boolean, errors: string[] }
+ * Valida el array completo de nodos.
+ * @param {Array} nodes - Array de nodos a validar.
+ * @returns {Object} Objeto con propiedades valid (boolean) y errors (array de strings).
  */
 function validateNodes(nodes) {
-    if (!Array.isArray(nodes)) {
-        return {
-            valid: false,
-            errors: ['El campo "nodes" debe ser un array']
-        };
-    }
-
-    // Validar IDs únicos
-    const nodeIds = nodes.map(n => n?.id).filter(Boolean);
-    const duplicateIds = nodeIds.filter((id, index) => nodeIds.indexOf(id) !== index);
-    
-    if (duplicateIds.length > 0) {
-        return {
-            valid: false,
-            errors: [`IDs de nodos duplicados: ${[...new Set(duplicateIds)].join(', ')}`]
-        };
-    }
-
-    // Validar cada nodo individualmente
-    const allErrors = [];
-    nodes.forEach((node, index) => {
-        const validation = validateNode(node, index);
-        if (!validation.valid) {
-            allErrors.push(...validation.errors);
-        }
-    });
-
+  if (!Array.isArray(nodes)) {
     return {
-        valid: allErrors.length === 0,
-        errors: allErrors
+      valid: false,
+      errors: ['El campo "nodes" debe ser un array'],
     };
+  }
+
+  // Validar IDs únicos
+  const nodeIds = nodes.map((n) => n?.id).filter(Boolean);
+  const duplicateIds = nodeIds.filter(
+    (id, index) => nodeIds.indexOf(id) !== index
+  );
+
+  if (duplicateIds.length > 0) {
+    return {
+      valid: false,
+      errors: [
+        `IDs de nodos duplicados: ${[...new Set(duplicateIds)].join(", ")}`,
+      ],
+    };
+  }
+
+  // Validar cada nodo individualmente
+  const allErrors = [];
+  nodes.forEach((node, index) => {
+    const validation = validateNode(node, index);
+    if (!validation.valid) {
+      allErrors.push(...validation.errors);
+    }
+  });
+
+  return {
+    valid: allErrors.length === 0,
+    errors: allErrors,
+  };
 }
 
 /**
- * Valida el array completo de edges
- * @param {Array} edges - Array de edges a validar
- * @param {Array} nodes - Array de nodos para validar referencias
- * @returns {Object} { valid: boolean, errors: string[] }
+ * Valida el array completo de conexiones (edges).
+ * @param {Array} edges - Array de edges a validar.
+ * @param {Array} nodes - Array de nodos para validar referencias.
+ * @returns {Object} Objeto con propiedades valid (boolean) y errors (array de strings).
  */
 function validateEdges(edges, nodes = []) {
-    if (!Array.isArray(edges)) {
-        return {
-            valid: false,
-            errors: ['El campo "edges" debe ser un array']
-        };
-    }
-
-    // Validar IDs únicos
-    const edgeIds = edges.map(e => e?.id).filter(Boolean);
-    const duplicateIds = edgeIds.filter((id, index) => edgeIds.indexOf(id) !== index);
-    
-    if (duplicateIds.length > 0) {
-        return {
-            valid: false,
-            errors: [`IDs de edges duplicados: ${[...new Set(duplicateIds)].join(', ')}`]
-        };
-    }
-
-    // Validar cada edge individualmente
-    const allErrors = [];
-    edges.forEach((edge, index) => {
-        const validation = validateEdge(edge, index, nodes);
-        if (!validation.valid) {
-            allErrors.push(...validation.errors);
-        }
-    });
-
+  if (!Array.isArray(edges)) {
     return {
-        valid: allErrors.length === 0,
-        errors: allErrors
+      valid: false,
+      errors: ['El campo "edges" debe ser un array'],
     };
+  }
+
+  // Validar IDs únicos
+  const edgeIds = edges.map((e) => e?.id).filter(Boolean);
+  const duplicateIds = edgeIds.filter(
+    (id, index) => edgeIds.indexOf(id) !== index
+  );
+
+  if (duplicateIds.length > 0) {
+    return {
+      valid: false,
+      errors: [
+        `IDs de edges duplicados: ${[...new Set(duplicateIds)].join(", ")}`,
+      ],
+    };
+  }
+
+  // Validar cada edge individualmente
+  const allErrors = [];
+  edges.forEach((edge, index) => {
+    const validation = validateEdge(edge, index, nodes);
+    if (!validation.valid) {
+      allErrors.push(...validation.errors);
+    }
+  });
+
+  return {
+    valid: allErrors.length === 0,
+    errors: allErrors,
+  };
 }
 
 /**
- * Valida la estructura completa del diagrama (nodos + edges + images)
- * @param {Object} diagramData - Datos del diagrama { nodes, edges, images }
- * @returns {Object} { valid: boolean, errors: string[] }
+ * Valida la estructura completa del diagrama (nodos, edges e imágenes).
+ * @param {Object} diagramData - Datos del diagrama.
+ * @param {Array} diagramData.nodes - Array de nodos (opcional, por defecto []).
+ * @param {Array} diagramData.edges - Array de edges (opcional, por defecto []).
+ * @param {Array} diagramData.images - Array de imágenes (opcional, por defecto []).
+ * @returns {Object} Objeto con propiedades valid (boolean) y errors (array de strings).
  */
 function validateDiagramStructure(diagramData) {
-    const { nodes = [], edges = [], images = [] } = diagramData;
-    const allErrors = [];
-    const MAX_IMAGES = 10;
+  const { nodes = [], edges = [], images = [] } = diagramData;
+  const allErrors = [];
+  const MAX_IMAGES = 10;
 
-    // Validar imágenes del diagrama
-    if (!Array.isArray(images)) {
-        allErrors.push('El campo "images" debe ser un array');
-    } else {
-        if (images.length > MAX_IMAGES) {
-            allErrors.push(`Un diagrama no puede tener más de ${MAX_IMAGES} imágenes`);
-        }
-        
-        images.forEach((image, index) => {
-            const imageValidation = validateImageMetadata(image, `Imagen del diagrama en posición ${index}`);
-            if (!imageValidation.valid) {
-                allErrors.push(...imageValidation.errors);
-            }
-        });
+  // Validar imágenes del diagrama
+  if (!Array.isArray(images)) {
+    allErrors.push('El campo "images" debe ser un array');
+  } else {
+    if (images.length > MAX_IMAGES) {
+      allErrors.push(
+        `Un diagrama no puede tener más de ${MAX_IMAGES} imágenes`
+      );
     }
 
-    // Validar nodos
-    const nodesValidation = validateNodes(nodes);
-    if (!nodesValidation.valid) {
-        allErrors.push(...nodesValidation.errors);
-    }
+    images.forEach((image, index) => {
+      const imageValidation = validateImageMetadata(
+        image,
+        `Imagen del diagrama en posición ${index}`
+      );
+      if (!imageValidation.valid) {
+        allErrors.push(...imageValidation.errors);
+      }
+    });
+  }
 
-    // Validar edges (solo si los nodos son válidos para evitar errores en cascada)
-    if (nodesValidation.valid) {
-        const edgesValidation = validateEdges(edges, nodes);
-        if (!edgesValidation.valid) {
-            allErrors.push(...edgesValidation.errors);
-        }
-    } else {
-        // Si los nodos no son válidos, validar edges sin referencias
-        const edgesValidation = validateEdges(edges, []);
-        if (!edgesValidation.valid) {
-            allErrors.push(...edgesValidation.errors);
-        }
-    }
+  // Validar nodos
+  const nodesValidation = validateNodes(nodes);
+  if (!nodesValidation.valid) {
+    allErrors.push(...nodesValidation.errors);
+  }
 
-    return {
-        valid: allErrors.length === 0,
-        errors: allErrors
-    };
+  // Validar edges (solo si los nodos son válidos para evitar errores en cascada)
+  if (nodesValidation.valid) {
+    const edgesValidation = validateEdges(edges, nodes);
+    if (!edgesValidation.valid) {
+      allErrors.push(...edgesValidation.errors);
+    }
+  } else {
+    // Si los nodos no son válidos, validar edges sin referencias
+    const edgesValidation = validateEdges(edges, []);
+    if (!edgesValidation.valid) {
+      allErrors.push(...edgesValidation.errors);
+    }
+  }
+
+  return {
+    valid: allErrors.length === 0,
+    errors: allErrors,
+  };
 }
 
 module.exports = {
-    validateImageMetadata,
-    validateNode,
-    validateEdge,
-    validateNodes,
-    validateEdges,
-    validateDiagramStructure
+  validateImageMetadata,
+  validateNode,
+  validateEdge,
+  validateNodes,
+  validateEdges,
+  validateDiagramStructure,
 };

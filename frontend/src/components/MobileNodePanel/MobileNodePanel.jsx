@@ -13,10 +13,15 @@ import {
 } from 'react-icons/fi';
 import './MobileNodePanel.css';
 
+/**
+ * Panel inferior deslizable para dispositivos móviles con todos los tipos de nodos
+ * @param {Object} props - Propiedades del componente
+ * @param {Function} props.onAddNode - Callback ejecutado al añadir un nodo
+ * @returns {JSX.Element} Panel deslizable con scroll horizontal de nodos
+ */
 function MobileNodePanel({ onAddNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Todos los nodos disponibles en una sola lista horizontal
   const allNodes = [
     {
       type: 'action',
@@ -76,12 +81,21 @@ function MobileNodePanel({ onAddNode }) {
     },
   ];
 
+  /**
+   * Gestiona el clic sobre un tipo de nodo para añadirlo al canvas
+   * @param {Object} nodeData - Datos del nodo a añadir
+   */
   const handleNodeClick = (nodeData) => {
     if (onAddNode) {
       onAddNode(nodeData);
     }
   };
 
+  /**
+   * Inicia el arrastre de un nodo preparando los datos a transferir
+   * @param {DragEvent} event - Evento de arrastre
+   * @param {Object} nodeData - Datos del nodo a arrastrar
+   */
   const onDragStart = (event, nodeData) => {
     const nodeInfo = {
       type: nodeData.type,
@@ -96,7 +110,6 @@ function MobileNodePanel({ onAddNode }) {
 
   return (
     <aside className={`mobile-node-panel ${isOpen ? 'mobile-node-panel--open' : ''}`}>
-      {/* Toggle button */}
       <button
         className="mobile-node-panel__toggle"
         onClick={() => setIsOpen(!isOpen)}
@@ -106,7 +119,6 @@ function MobileNodePanel({ onAddNode }) {
         <span>Nodos</span>
       </button>
 
-      {/* Panel content */}
       <section className="mobile-node-panel__content">
         <section className="mobile-node-panel__scroll">
           {allNodes.map((node, index) => (

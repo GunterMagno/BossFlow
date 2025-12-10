@@ -18,7 +18,6 @@ import './PrivateRoute.css';
 function PrivateRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
 
-  // Mientras verifica autenticación, mostrar loading
   if (loading) {
     return (
       <article className="private-route__loading">
@@ -28,12 +27,10 @@ function PrivateRoute({ children }) {
     );
   }
 
-  // Si no está autenticado, redirigir a login
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Si está autenticado, renderizar el componente protegido
   return children;
 }
 

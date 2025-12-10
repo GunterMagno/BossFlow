@@ -15,9 +15,17 @@ import {
 } from 'react-icons/fi';
 import './Home.css';
 
+/**
+ * Página de inicio de BossFlow.
+ * Muestra información sobre la plataforma y opciones para registrarse o iniciar sesión.
+ * @returns {React.ReactElement} El componente de la página de inicio.
+ */
 function Home() {
   const { isAuthenticated } = useAuth();
 
+  /**
+   * Establece el título de la página cuando el componente se monta.
+   */
   useEffect(() => {
     document.title = 'BossFlow - Planifica tus estrategias contra los mejores bosses';
   }, []);

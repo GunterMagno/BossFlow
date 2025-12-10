@@ -11,6 +11,13 @@ import {
 } from 'react-icons/fi';
 import './Navbar.css';
 
+/**
+ * Componente de barra de navegación principal de la aplicación.
+ * Proporciona navegación entre páginas y gestión de autenticación de usuario.
+ * Incluye menú responsive para dispositivos móviles y menú desplegable de usuario.
+ *
+ * @returns {JSX.Element} Elemento de navegación con enlaces y opciones de usuario
+ */
 function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [menuMovilAbierto, setMenuMovilAbierto] = useState(false);
@@ -18,14 +25,24 @@ function Navbar() {
   const navigate = useNavigate();
   const menuRef = useRef(null);
 
+  /**
+   * Alterna el estado de visibilidad del menú desplegable de usuario en escritorio.
+   */
   const alternarMenu = () => {
     setMenuAbierto(!menuAbierto);
   };
 
+  /**
+   * Alterna el estado de visibilidad del menú hamburguesa en dispositivos móviles.
+   */
   const alternarMenuMovil = () => {
     setMenuMovilAbierto(!menuMovilAbierto);
   };
 
+  /**
+   * Cierra la sesión del usuario actual.
+   * Cierra todos los menús abiertos, ejecuta el logout y redirige a la página de inicio.
+   */
   const cerrarSesion = () => {
     console.log('Cerrando sesión...');
     setMenuAbierto(false);
@@ -34,8 +51,12 @@ function Navbar() {
     navigate('/');
   };
 
-  // Cerrar menú al hacer clic fuera
   useEffect(() => {
+    /**
+     * Maneja los clics fuera del menú desplegable para cerrarlo automáticamente.
+     *
+     * @param {MouseEvent} event - Evento de clic del ratón
+     */
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setMenuAbierto(false);
@@ -58,7 +79,6 @@ function Navbar() {
           <img src="/logo.png" alt="BossFlow" className="navbar__logo-img" />
         </Link>
 
-        {/* Botón hamburguesa para móviles */}
         <button
           className="navbar__hamburguesa"
           onClick={alternarMenuMovil}
@@ -98,7 +118,6 @@ function Navbar() {
             </Link>
           </li>
 
-          {/* Opciones de auth en móvil dentro del menú */}
           <li className="navbar__elemento navbar__elemento--auth-movil">
             {!isAuthenticated ? (
               <section className="navbar__botones-auth-movil">
@@ -119,7 +138,6 @@ function Navbar() {
               </section>
             ) : (
               <section className="navbar__usuario-movil">
-                {/* Opciones de cuenta */}
                 <h3 className="navbar__seccion-titulo">Cuenta</h3>
                 <Link
                   to="/profile"
@@ -148,7 +166,6 @@ function Navbar() {
 
         <section className="navbar__usuario-menu" ref={menuRef}>
           {!isAuthenticated ? (
-            // Usuario NO logueado: botones de login y registro (solo desktop)
               <section className="navbar__botones-auth">
               <Link to="/login" className="navbar__boton-login">
                 Iniciar sesión
@@ -158,7 +175,6 @@ function Navbar() {
               </Link>
             </section>
           ) : (
-            // Usuario logueado: menú desplegable completo (solo desktop)
             <>
               <button className="navbar__usuario" onClick={alternarMenu}>
                 <span className="navbar__avatar">

@@ -4,6 +4,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
+/**
+ * Componente de inicio de sesión con validación de formulario
+ * @returns {JSX.Element} Formulario de login con validación y gestión de errores
+ */
 function Login() {
   const navigate = useNavigate();
   const { login, loading: authLoading, isAuthenticated } = useAuth();
@@ -11,26 +15,25 @@ function Login() {
   useEffect(() => {
     document.title = 'Iniciar Sesión | BossFlow';
 
-    // Redirigir si ya está autenticado
     if (isAuthenticated) {
       navigate('/dashboard');
     }
   }, [isAuthenticated, navigate]);
 
-  // Estado formulario
   const [datosFormulario, setDatosFormulario] = useState({
     correo: '',
     contrasena: '',
     recordarme: false,
   });
 
-  // Estadio validación
   const [errores, setErrores] = useState({});
 
-  // Estado carga
   const [cargando, setCargando] = useState(false);
 
-  // Control de cambios inputs
+  /**
+   * Gestiona los cambios en los campos del formulario
+   * @param {Event} e - Evento de cambio del input
+   */
   const manejoCambios = (e) => {
     const { name, value, type, checked } = e.target;
     setDatosFormulario({
@@ -46,11 +49,13 @@ function Login() {
     }
   };
 
-  // Validar formulario
+  /**
+   * Valida los campos del formulario de login
+   * @returns {Object} Objeto con los errores de validación encontrados
+   */
   const validarFormulario = () => {
     const nuevosErrores = {};
 
-    // Validar correo
     if (!datosFormulario.correo) {
       nuevosErrores.correo = 'Es obligatorio introducir un correo electrónico.';
     } else if (
@@ -61,7 +66,6 @@ function Login() {
       nuevosErrores.correo = 'El correo electrónico no es válido.';
     }
 
-    // Validar contraseña
     if (!datosFormulario.contrasena) {
       nuevosErrores.contrasena = 'Es obligatorio introducir una contraseña.';
     } else if (datosFormulario.contrasena.length < 8) {
@@ -72,7 +76,10 @@ function Login() {
     return nuevosErrores;
   };
 
-  // Control de submits
+  /**
+   * Gestiona el envío del formulario de login
+   * @param {Event} e - Evento de submit del formulario
+   */
   const manejoSubmit = async (e) => {
     e.preventDefault();
 
@@ -86,7 +93,6 @@ function Login() {
       setErrores({});
       setCargando(true);
 
-      // Llamar a la función login del contexto
       const resultado = await login(
         datosFormulario.correo,
         datosFormulario.contrasena,
@@ -94,10 +100,8 @@ function Login() {
       );
 
       if (resultado.success) {
-        // Redirigir al dashboard tras login exitoso
         navigate('/dashboard');
       } else {
-        // Mostrar error del servidor
         setErrores({ submit: resultado.error });
       }
     } catch (error) {
@@ -109,9 +113,7 @@ function Login() {
 
   return (
     <main className="login">
-      {/* Contenedor principal */}
       <article className="login__contenedor">
-        {/* Título */}
         <section className="login__encabezado">
           <h3 className="login__titulo">Iniciar sesión</h3>
           <p className="login__subtitulo">
@@ -119,16 +121,13 @@ function Login() {
           </p>
         </section>
 
-        {/* Formulario*/}
         <form onSubmit={manejoSubmit} className="login__formulario">
-          {/* Error general */}
           {errores.submit && (
             <section className="login__error" role="alert">
               {errores.submit}
             </section>
           )}
 
-          {/* Campo correo */}
           <fieldset className="login__campo">
             <label htmlFor="correo" className="login__etiqueta">
               Correo Electrónico
@@ -150,7 +149,6 @@ function Login() {
             )}
           </fieldset>
 
-          {/* Campo contraseña */}
           <fieldset className="login__campo">
             <section className="login__etiqueta-con-enlace">
               <label htmlFor="contrasena" className="login__etiqueta">
@@ -180,7 +178,6 @@ function Login() {
             )}
           </fieldset>
 
-          {/* Checkbox recordarme */}
           <fieldset className="login__recordar">
             <label className="login__checkbox">
               <input
@@ -195,7 +192,6 @@ function Login() {
             </label>
           </fieldset>
 
-          {/* Botón submit */}
           <button type="submit" className="login__boton" disabled={cargando}>
             {cargando ? (
               <>
@@ -207,7 +203,6 @@ function Login() {
             )}
           </button>
 
-          {/* Link registrarse */}
           <section className="login__pie">
             <p className="login__pie-texto">
               ¿Aún no tienes cuenta?{' '}

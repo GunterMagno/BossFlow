@@ -1,6 +1,11 @@
 import api from './api';
 
-// Obtener perfil del usuario autenticado
+/**
+ * Obtiene el perfil del usuario autenticado.
+ * @async
+ * @returns {Promise<Object>} Respuesta con los datos del perfil del usuario.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const getProfile = async () => {
   try {
     const response = await api.get('/profile');
@@ -11,7 +16,13 @@ export const getProfile = async () => {
   }
 };
 
-// Actualizar perfil del usuario
+/**
+ * Actualiza el perfil del usuario autenticado.
+ * @async
+ * @param {Object} profileData - Nuevos datos del perfil.
+ * @returns {Promise<Object>} Respuesta con los datos del perfil actualizado.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const updateProfile = async (profileData) => {
   try {
     const response = await api.put('/profile', profileData);
@@ -22,7 +33,12 @@ export const updateProfile = async (profileData) => {
   }
 };
 
-// Obtener estadísticas del usuario
+/**
+ * Obtiene las estadísticas del usuario autenticado.
+ * @async
+ * @returns {Promise<Object>} Respuesta con las estadísticas del usuario.
+ * @throws {Error} Si falla la solicitud.
+ */
 export const getStats = async () => {
   try {
     const response = await api.get('/profile/stats');

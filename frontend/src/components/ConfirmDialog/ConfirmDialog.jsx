@@ -1,9 +1,25 @@
 import './ConfirmDialog.css';
 import { FiAlertTriangle } from 'react-icons/fi';
 
+/**
+ * Diálogo modal de confirmación para acciones críticas
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Controla la visibilidad del diálogo
+ * @param {Function} props.onClose - Callback al cerrar el diálogo
+ * @param {Function} props.onConfirm - Callback al confirmar la acción
+ * @param {string} props.title - Título mostrado en la cabecera
+ * @param {string} props.message - Mensaje descriptivo de la acción
+ * @param {string} [props.confirmText='Confirmar'] - Texto del botón de confirmación
+ * @param {string} [props.cancelText='Cancelar'] - Texto del botón de cancelación
+ * @param {string} [props.type='warning'] - Tipo visual del diálogo (warning, error, etc.)
+ * @returns {JSX.Element|null} Renderiza el diálogo o null si está cerrado
+ */
 function ConfirmDialog({ isOpen, onClose, onConfirm, title, message, confirmText = 'Confirmar', cancelText = 'Cancelar', type = 'warning' }) {
   if (!isOpen) return null;
 
+  /**
+   * Procesa la confirmación ejecutando el callback y cerrando el diálogo
+   */
   const handleConfirm = () => {
     onConfirm();
     onClose();

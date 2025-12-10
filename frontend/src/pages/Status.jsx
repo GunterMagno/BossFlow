@@ -3,9 +3,17 @@ import { useEffect } from 'react';
 import { FiCheckCircle, FiXCircle, FiAlertTriangle } from 'react-icons/fi';
 import './Status.css';
 
+/**
+ * Página de estado del sistema.
+ * Muestra el estado de los servicios y componentes de BossFlow.
+ * @returns {React.ReactElement} El componente de la página de estado.
+ */
 function Status() {
   const { loading, data, error, isConnected } = useHealthCheck();
 
+  /**
+   * Establece el título de la página cuando el componente se monta.
+   */
   useEffect(() => {
     document.title = 'Estado del Sistema | BossFlow';
   }, []);
@@ -21,7 +29,6 @@ function Status() {
         </header>
 
         <section className="status__main">
-          {/* Estado del Backend */}
           <article className="status__servicio">
             <header className="status__servicio-header">
               <h2 className="status__servicio-titulo">Backend API</h2>
@@ -87,7 +94,6 @@ function Status() {
             </section>
           </article>
 
-          {/* Estado de la Base de Datos */}
           <article className="status__servicio">
             <header className="status__servicio-header">
               <h2 className="status__servicio-titulo">Base de Datos</h2>

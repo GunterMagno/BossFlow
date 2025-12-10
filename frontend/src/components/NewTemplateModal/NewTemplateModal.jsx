@@ -6,15 +6,30 @@ import { registerActivity, ACTIVITY_TYPES } from '../../services/activityService
 import { useToast } from '../../context/ToastContext';
 import './NewTemplateModal.css';
 
-function NewTemplateModal({ 
-  isOpen, 
-  onClose, 
-  onTemplateCreated, 
+/**
+ * Componente modal para crear o editar plantillas de diagramas.
+ * Permite definir título y descripción para plantillas reutilizables.
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Indica si el modal está abierto
+ * @param {Function} props.onClose - Función callback para cerrar el modal
+ * @param {Function} props.onTemplateCreated - Función callback ejecutada cuando se crea o actualiza una plantilla
+ * @param {string} props.initialTitle - Título inicial de la plantilla (para edición)
+ * @param {string} props.initialDescription - Descripción inicial de la plantilla (para edición)
+ * @param {Array} props.initialNodes - Nodos iniciales de la plantilla
+ * @param {Array} props.initialEdges - Conexiones iniciales de la plantilla
+ * @param {string|null} props.editingTemplateId - ID de la plantilla si es edición, null si es creación
+ * @returns {JSX.Element|null} Elemento modal o null si está cerrado
+ */
+function NewTemplateModal({
+  isOpen,
+  onClose,
+  onTemplateCreated,
   initialTitle = '',
   initialDescription = '',
   initialNodes = [],
   initialEdges = [],
-  editingTemplateId = null // Si existe, es edición; si es null, es creación
+  editingTemplateId = null
 }) {
   const navigate = useNavigate();
   const toast = useToast();
@@ -25,7 +40,6 @@ function NewTemplateModal({
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Actualizar formData cuando cambien los valores iniciales
   useEffect(() => {
     setFormData({
       title: initialTitle,
@@ -33,7 +47,12 @@ function NewTemplateModal({
     });
   }, [initialTitle, initialDescription, isOpen]);
 
-  // Manejar cambios en los inputs
+  /**
+   * Maneja los cambios en los campos de entrada del formulario.
+   * Actualiza el estado del formulario y limpia los errores del campo modificado.
+   *
+   * @param {Event} e - Evento de cambio del input
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -41,7 +60,6 @@ function NewTemplateModal({
       [name]: value,
     }));
 
-    // Limpiar error del campo al escribir
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -50,11 +68,15 @@ function NewTemplateModal({
     }
   };
 
-  // Validar formulario
+  /**
+   * Valida los campos del formulario antes de enviar.
+   * Verifica que el título esté presente y tenga al menos 3 caracteres.
+   *
+   * @returns {boolean} true si el formulario es válido, false en caso contrario
+   */
   const validateForm = () => {
     const newErrors = {};
 
-    // Validar título
     if (!formData.title.trim()) {
       newErrors.title = 'El título es requerido';
     } else if (formData.title.trim().length < 3) {
@@ -65,11 +87,16 @@ function NewTemplateModal({
     return Object.keys(newErrors).length === 0;
   };
 
-  // Manejar envío del formulario
+  /**
+   * Maneja el envío del formulario para crear o actualizar una plantilla.
+   * Determina si se trata de una creación o actualización según editingTemplateId,
+   * registra la actividad correspondiente y redirige al editor.
+   *
+   * @param {Event} e - Evento de envío del formulario
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar antes de enviar
     if (!validateForm()) {
       return;
     }
@@ -78,15 +105,13 @@ function NewTemplateModal({
       setIsSubmitting(true);
 
       let response;
-      
+
       if (editingTemplateId) {
-        // Actualizar plantilla existente
         response = await updateDiagram(editingTemplateId, {
           title: formData.title.trim(),
           description: formData.description.trim(),
         });
 
-        // Registrar actividad de actualización
         if (response.diagram) {
           registerActivity(
             ACTIVITY_TYPES.UPDATE,
@@ -96,21 +121,17 @@ function NewTemplateModal({
         }
 
         toast.success('¡Plantilla actualizada exitosamente!');
-        
-        // Notificar al componente padre
+
         if (onTemplateCreated) {
           onTemplateCreated(response.diagram);
         }
 
-        // Cerrar modal
         handleClose();
 
-        // Redirigir al editor con la plantilla actualizada
         if (response.diagram && response.diagram.id) {
           navigate(`/editor/${response.diagram.id}`);
         }
       } else {
-        // Crear plantilla nueva en el backend (diagrama con isTemplate: true)
         response = await createDiagram({
           title: formData.title.trim(),
           description: formData.description.trim(),
@@ -119,7 +140,6 @@ function NewTemplateModal({
           isTemplate: true
         });
 
-        // Registrar actividad de creación
         if (response.diagram) {
           registerActivity(
             ACTIVITY_TYPES.CREATE,
@@ -130,15 +150,12 @@ function NewTemplateModal({
 
         toast.success('¡Plantilla creada exitosamente!');
 
-        // Notificar al componente padre que se creó una plantilla
         if (onTemplateCreated) {
           onTemplateCreated(response.diagram);
         }
 
-        // Cerrar modal
         handleClose();
 
-        // Redirigir al editor con la nueva plantilla
         if (response.diagram && response.diagram.id) {
           navigate(`/editor/${response.diagram.id}`);
         }
@@ -146,7 +163,6 @@ function NewTemplateModal({
     } catch (error) {
       console.error('Error al crear plantilla:', error);
 
-      // Manejar error de título duplicado
       if (error.response?.status === 409) {
         setErrors({
           title: 'Ya existe una plantilla con ese título',
@@ -170,7 +186,10 @@ function NewTemplateModal({
     }
   };
 
-  // Cerrar modal y limpiar formulario
+  /**
+   * Cierra el modal y reinicia el formulario a su estado inicial.
+   * Limpia todos los campos y errores.
+   */
   const handleClose = () => {
     setFormData({
       title: '',
@@ -180,14 +199,17 @@ function NewTemplateModal({
     onClose();
   };
 
-  // Manejar tecla Escape para cerrar modal
+  /**
+   * Maneja el evento de teclado para cerrar el modal con la tecla Escape.
+   *
+   * @param {KeyboardEvent} e - Evento de teclado
+   */
   const handleKeyDown = (e) => {
     if (e.key === 'Escape') {
       handleClose();
     }
   };
 
-  // No renderizar si el modal no está abierto
   if (!isOpen) return null;
 
   return (
@@ -203,7 +225,6 @@ function NewTemplateModal({
         className="modal"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header del modal */}
         <header className="modal__header">
           <h2 id="modal-title" className="modal__title">
             {editingTemplateId ? 'Editar plantilla' : 'Crear nueva plantilla'}
@@ -218,16 +239,13 @@ function NewTemplateModal({
           </button>
         </header>
 
-        {/* Formulario */}
         <form onSubmit={handleSubmit} className="modal__form">
-          {/* Error general */}
           {errors.general && (
             <aside className="modal__error-general">
               {errors.general}
             </aside>
           )}
 
-          {/* Campo título */}
           <fieldset className="modal__form-group">
             <label htmlFor="title" className="modal__label">
               <FiFileText className="modal__label-icon" />
@@ -250,7 +268,6 @@ function NewTemplateModal({
             )}
           </fieldset>
 
-          {/* Campo descripción */}
           <fieldset className="modal__form-group">
             <label htmlFor="description" className="modal__label">
               <FiAlignLeft className="modal__label-icon" />
@@ -271,7 +288,6 @@ function NewTemplateModal({
             </span>
           </fieldset>
 
-          {/* Botones */}
           <nav className="modal__actions">
             <button
               type="button"

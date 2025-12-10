@@ -1,6 +1,13 @@
 import React from 'react';
 import './icons.css';
 
+/**
+ * Componente de icono para nodos de tipo decisión.
+ * Representa una bifurcación o punto de decisión en el diagrama.
+ *
+ * @param {Object} props - Propiedades SVG del componente
+ * @returns {JSX.Element} Elemento SVG del icono de decisión
+ */
 export const DecisionIcon = (props) => (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" {...props}>
         <path d="M13.5 15.75C14.7426 15.75 15.75 14.7426 15.75 13.5C15.75 12.2574 14.7426 11.25 13.5 11.25C12.2574 11.25 11.25 12.2574 11.25 13.5C11.25 14.7426 12.2574 15.75 13.5 15.75Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
@@ -10,6 +17,13 @@ export const DecisionIcon = (props) => (
 
 );
 
+/**
+ * Componente de icono para nodos de tipo acción.
+ * Representa una acción o actividad en el flujo del diagrama.
+ *
+ * @param {Object} props - Propiedades SVG del componente
+ * @returns {JSX.Element} Elemento SVG del icono de acción
+ */
 export const ActionIcon = (props) => (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" {...props}>
         <path
@@ -23,6 +37,13 @@ export const ActionIcon = (props) => (
 
 );
 
+/**
+ * Componente de icono para nodos de tipo fase.
+ * Representa una fase o etapa del proceso en el diagrama.
+ *
+ * @param {Object} props - Propiedades SVG del componente
+ * @returns {JSX.Element} Elemento SVG del icono de fase
+ */
 export const PhaseIcon = (props) => (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" {...props}>
         <path
@@ -36,6 +57,13 @@ export const PhaseIcon = (props) => (
     </svg>
 );
 
+/**
+ * Componente de icono para nodos de tipo efecto.
+ * Representa un efecto o resultado en el flujo del diagrama.
+ *
+ * @param {Object} props - Propiedades SVG del componente
+ * @returns {JSX.Element} Elemento SVG del icono de efecto
+ */
 export const EffectIcon = (props) => (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" {...props}>
         <path d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
@@ -45,6 +73,13 @@ export const EffectIcon = (props) => (
 
 );
 
+/**
+ * Componente de icono para nodos de inicio o fin.
+ * Representa un punto de inicio o finalización en el diagrama.
+ *
+ * @param {Object} props - Propiedades SVG del componente
+ * @returns {JSX.Element} Elemento SVG del icono de inicio/fin
+ */
 export const StartEndIcon = (props) => (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" {...props}>
         <circle cx="9" cy="9" r="7.5" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>

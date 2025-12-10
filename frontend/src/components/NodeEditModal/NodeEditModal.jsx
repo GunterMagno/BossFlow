@@ -3,6 +3,18 @@ import './NodeEditModal.css';
 import { FiX, FiTrash2, FiImage } from 'react-icons/fi';
 import UploadImageModal from '../UploadImageModal/UploadImageModal';
 
+/**
+ * Componente modal para editar las propiedades de un nodo del diagrama.
+ * Permite modificar título, descripción, tipo e imagen asociada al nodo.
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Indica si el modal está abierto
+ * @param {Function} props.onClose - Función callback para cerrar el modal
+ * @param {Object} props.node - Objeto del nodo a editar con sus datos
+ * @param {Function} props.onSave - Función callback para guardar los cambios del nodo
+ * @param {Function} props.onDelete - Función callback para eliminar el nodo
+ * @returns {JSX.Element|null} Elemento modal o null si está cerrado
+ */
 function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   const [formData, setFormData] = useState({
     title: '',
@@ -14,7 +26,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   const [errors, setErrors] = useState({});
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
-  // Tipos de nodos disponibles
   const nodeTypes = [
     { value: 'action', label: 'Acción' },
     { value: 'decision', label: 'Decisión' },
@@ -26,7 +37,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
     { value: 'ability', label: 'Habilidad' }
   ];
 
-  // Cargar datos del nodo cuando se abre el modal
   useEffect(() => {
     if (isOpen && node) {
       setFormData({
@@ -39,7 +49,12 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
     }
   }, [isOpen, node]);
 
-  // Manejar cambios en los campos del formulario
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * Actualiza el estado del formulario y limpia el error del campo modificado.
+   *
+   * @param {Event} e - Evento de cambio del input
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -47,7 +62,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
       [name]: value
     }));
 
-    // Limpiar error del campo al modificarlo
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -56,7 +70,12 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
     }
   };
 
-  // Validar formulario
+  /**
+   * Valida los campos del formulario antes de guardar.
+   * Verifica título, descripción y tipo del nodo según las reglas establecidas.
+   *
+   * @returns {boolean} true si el formulario es válido, false en caso contrario
+   */
   const validateForm = () => {
     const newErrors = {};
 
@@ -80,7 +99,12 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Manejar envío del formulario
+  /**
+   * Maneja el envío del formulario para guardar los cambios del nodo.
+   * Valida los datos y ejecuta el callback onSave con el nodo actualizado.
+   *
+   * @param {Event} e - Evento de envío del formulario
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -99,7 +123,12 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
     }
   };
 
-  // Manejar imagen subida
+  /**
+   * Maneja la imagen subida desde el modal de carga.
+   * Actualiza el estado del formulario con los datos de la nueva imagen.
+   *
+   * @param {Object} imageData - Objeto con los datos de la imagen (url, filename, etc.)
+   */
   const handleImageUploaded = (imageData) => {
     setFormData(prev => ({
       ...prev,
@@ -107,7 +136,10 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
     }));
   };
 
-  // Eliminar imagen del nodo
+  /**
+   * Elimina la imagen asociada al nodo.
+   * Establece el campo de imagen como null en el estado del formulario.
+   */
   const handleRemoveImage = () => {
     setFormData(prev => ({
       ...prev,
@@ -115,15 +147,22 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
     }));
   };
 
-  // Manejar eliminación del nodo
+  /**
+   * Maneja la eliminación del nodo.
+   * Ejecuta el callback onDelete con el ID del nodo si está disponible.
+   */
   const handleDelete = () => {
     if (onDelete && node) {
       onDelete(node.id);
     }
   };
 
-  // Cerrar modal con ESC
   useEffect(() => {
+    /**
+     * Maneja la tecla Escape para cerrar el modal.
+     *
+     * @param {KeyboardEvent} e - Evento de teclado
+     */
     const handleEsc = (e) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
@@ -151,7 +190,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
         </header>
 
         <form className="node-edit-modal__form" onSubmit={handleSubmit}>
-          {/* Campo: Título */}
           <fieldset className="node-edit-modal__field">
             <label htmlFor="title" className="node-edit-modal__label">
               Título <span className="node-edit-modal__required">*</span>
@@ -171,7 +209,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
             )}
           </fieldset>
 
-          {/* Campo: Tipo */}
           <fieldset className="node-edit-modal__field">
             <label htmlFor="type" className="node-edit-modal__label">
               Tipo <span className="node-edit-modal__required">*</span>
@@ -195,7 +232,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
             )}
           </fieldset>
 
-          {/* Campo: Descripción */}
           <fieldset className="node-edit-modal__field">
             <label htmlFor="description" className="node-edit-modal__label">
               Descripción
@@ -218,7 +254,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
             )}
           </fieldset>
 
-          {/* Campo: Imagen */}
           <fieldset className="node-edit-modal__field">
             <label className="node-edit-modal__label">
               Imagen
@@ -261,7 +296,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
             )}
           </fieldset>
 
-          {/* Botones de acción */}
           <nav className="node-edit-modal__actions">
             <section className="node-edit-modal__actions-left">
               {onDelete && (
@@ -293,7 +327,6 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
           </nav>
         </form>
 
-        {/* Modal de subida de imagen */}
         <UploadImageModal
           isOpen={isUploadModalOpen}
           onClose={() => setIsUploadModalOpen(false)}

@@ -12,7 +12,6 @@ const MAXIMO_NODOS_RECIENTES = 5;
 const useRecentNodes = () => {
   const [nodosRecientes, setNodosRecientes] = useState([]);
 
-  // Carga los nodos recientes desde localStorage al iniciar
   useEffect(() => {
     try {
       const almacenado = localStorage.getItem(CLAVE_ALMACENAMIENTO);
@@ -39,10 +38,8 @@ const useRecentNodes = () => {
     }
 
     setNodosRecientes((previos) => {
-      // Filtra el nodo si ya existe (evita duplicados)
       const filtrados = previos.filter((nodo) => nodo.type !== datosNodo.type);
       
-      // Añade el nuevo nodo al principio
       const actualizados = [
         {
           type: datosNodo.type,
@@ -52,9 +49,8 @@ const useRecentNodes = () => {
           timestamp: Date.now()
         },
         ...filtrados
-      ].slice(0, MAXIMO_NODOS_RECIENTES); // Limita a MAXIMO_NODOS_RECIENTES
+      ].slice(0, MAXIMO_NODOS_RECIENTES);
 
-      // Guarda en localStorage
       try {
         localStorage.setItem(CLAVE_ALMACENAMIENTO, JSON.stringify(actualizados));
       } catch (error) {

@@ -4,8 +4,13 @@ import './ImportJSON.css';
 import { validateJSONStructure, isValidJSONFile, COMPATIBLE_VERSIONS } from '../../utils/jsonValidator';
 
 /**
- * Componente para importar diagramas desde archivos JSON.
- * Se incluye validación, preview y manejo de errores.
+ * Componente para importar diagramas desde archivos JSON con validación y preview
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Controla la visibilidad del modal
+ * @param {Function} props.onClose - Callback ejecutado al cerrar el modal
+ * @param {Function} props.onImport - Callback ejecutado al importar el diagrama
+ * @param {Object} props.toast - Objeto para mostrar notificaciones
+ * @returns {JSX.Element|null} Modal de importación o null si está cerrado
  */
 function ImportJSON({ 
   isOpen, 
@@ -21,7 +26,9 @@ function ImportJSON({
 
   if (!isOpen) return null;
 
-  // Se resetea el estado al cerrar
+  /**
+   * Cierra el modal y resetea todo el estado del componente
+   */
   const handleClose = () => {
     setPreviewData(null);
     setValidationError(null);
@@ -34,13 +41,13 @@ function ImportJSON({
   };
 
   /**
-   * Se maneja la selección de archivo
+   * Gestiona la selección y validación del archivo JSON
+   * @param {Event} event - Evento de selección de archivo
    */
   const handleFileSelect = (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Se valida el tipo de archivo usando el validador
     if (!isValidJSONFile(file.name)) {
       setValidationError('Por favor, selecciona un archivo JSON válido (.json)');
       setPreviewData(null);
@@ -51,14 +58,12 @@ function ImportJSON({
     setImportFile(file);
     setValidationError(null);
     
-    // Se lee y valida el archivo
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
         const content = e.target.result;
         const data = JSON.parse(content);
         
-        // Se valida la estructura usando el validador
         const validation = validateJSONStructure(data);
         
         if (!validation.valid) {
@@ -67,7 +72,6 @@ function ImportJSON({
           return;
         }
 
-        // Se guarda el preview
         setPreviewData(data);
         setValidationError(null);
       } catch (error) {
@@ -85,7 +89,7 @@ function ImportJSON({
   };
 
   /**
-   * Se confirma y ejecuta la importación
+   * Confirma y ejecuta la importación del diagrama validado
    */
   const handleConfirmImport = () => {
     if (!previewData) return;
@@ -93,20 +97,16 @@ function ImportJSON({
     setIsProcessing(true);
     
     try {
-      // Se verifica la versión usando el validador
       if (!COMPATIBLE_VERSIONS.includes(previewData.version)) {
         throw new Error(`Versión incompatible: ${previewData.version}`);
       }
 
-      // Se extraen nodos y edges
       const { nodes: importedNodes, edges: importedEdges } = previewData.diagram;
 
-      // Se valida que existan nodos
       if (!importedNodes || importedNodes.length === 0) {
         throw new Error('El archivo no contiene nodos para importar');
       }
 
-      // Se llama al callback de importación
       onImport({
         nodes: importedNodes,
         edges: importedEdges || [],
@@ -124,7 +124,7 @@ function ImportJSON({
   };
 
   /**
-   * Se cancela la importación y se limpia el estado
+   * Cancela la importación y limpia el estado del preview
    */
   const handleCancelImport = () => {
     setPreviewData(null);
@@ -138,7 +138,6 @@ function ImportJSON({
   return (
     <section className="import-json__overlay" onClick={handleClose}>
       <article className="import-json__content" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
         <header className="import-json__header">
           <h2 className="import-json__title">
             <FiUpload />
@@ -154,7 +153,6 @@ function ImportJSON({
           </button>
         </header>
 
-        {/* Body */}
         <section className="import-json__body">
           {!previewData ? (
             <>
@@ -208,7 +206,6 @@ function ImportJSON({
             </>
           ) : (
             <>
-              {/* Preview de datos a importar */}
               <section className="import-json__preview">
                 <header className="import-json__preview-header">
                   <FiCheckCircle className="import-json__preview-icon" />
@@ -263,7 +260,6 @@ function ImportJSON({
             </>
           )}
 
-          {/* Indicador de carga global */}
           {isProcessing && (
             <aside className="import-json__loading">
               <figure className="import-json__spinner"></figure>

@@ -1,12 +1,8 @@
 /**
- * PLANTILLAS DEL SISTEMA - BossFlow
- * 
- * Estas plantillas están embebidas en el cliente y no se almacenan en MongoDB.
- * Estructura compatible con el modelo Diagram existente.
- * 
- * Los id deben usar prefijo "system-" para evitar colisiones
+ * Plantillas de diagramas predefinidas del sistema
+ * Estas plantillas están embebidas en el cliente y no se almacenan en la base de datos.
+ * @type {Array<Object>}
  */
-
 export const DEFAULT_TEMPLATES = [
   {
     id: "system-estrategia-basica",

@@ -4,6 +4,13 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Register.css';
 
+/**
+ * Componente de página de registro de nuevos usuarios.
+ * Proporciona un formulario completo con validación para crear una cuenta nueva.
+ * Incluye campos para nombre de usuario, correo, contraseña y aceptación de términos.
+ *
+ * @returns {JSX.Element} Elemento de página de registro
+ */
 function Register() {
   const navigate = useNavigate();
   const {
@@ -15,13 +22,11 @@ function Register() {
   useEffect(() => {
     document.title = 'Registrarse | BossFlow';
 
-    // Redirigir si ya está autenticado
     if (isAuthenticated) {
       navigate('/dashboard');
     }
   }, [isAuthenticated, navigate]);
 
-  // Estado formulario
   const [datosFormulario, setDatosFormulario] = useState({
     nombreUsuario: '',
     correo: '',
@@ -29,16 +34,18 @@ function Register() {
     confirmarContrasena: '',
   });
 
-  // Estado validación
   const [errores, setErrores] = useState({});
 
-  // Estado carga
   const [cargando, setCargando] = useState(false);
 
-  // Estado términos y condiciones
   const [aceptarTerminos, setAceptarTerminos] = useState(false);
 
-  // Control de cambios inputs
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * Actualiza el estado del formulario y limpia el error del campo modificado.
+   *
+   * @param {Event} e - Evento de cambio del input
+   */
   const manejoCambios = (e) => {
     const { name, value } = e.target;
     setDatosFormulario({
@@ -54,11 +61,15 @@ function Register() {
     }
   };
 
-  // Validar formulario
+  /**
+   * Valida todos los campos del formulario de registro.
+   * Verifica nombre de usuario, correo, contraseñas y aceptación de términos.
+   *
+   * @returns {Object} Objeto con los errores encontrados en la validación
+   */
   const validarFormulario = () => {
     const nuevosErrores = {};
 
-    // Validar nombre de usuario
     if (!datosFormulario.nombreUsuario) {
       nuevosErrores.nombreUsuario =
         'Es obligatorio introducir un nombre de usuario.';
@@ -70,7 +81,6 @@ function Register() {
         'El nombre de usuario solo puede contener letras, números, guiones y guiones bajos.';
     }
 
-    // Validar correo
     if (!datosFormulario.correo) {
       nuevosErrores.correo = 'Es obligatorio introducir un correo electrónico.';
     } else if (
@@ -81,7 +91,6 @@ function Register() {
       nuevosErrores.correo = 'El correo electrónico no es válido.';
     }
 
-    // Validar contraseña
     if (!datosFormulario.contrasena) {
       nuevosErrores.contrasena = 'Es obligatorio introducir una contraseña.';
     } else if (datosFormulario.contrasena.length < 8) {
@@ -89,7 +98,6 @@ function Register() {
         'La contraseña debe tener al menos 8 caracteres.';
     }
 
-    // Validar confirmar contraseña
     if (!datosFormulario.confirmarContrasena) {
       nuevosErrores.confirmarContrasena =
         'Es obligatorio confirmar la contraseña.';
@@ -99,7 +107,6 @@ function Register() {
       nuevosErrores.confirmarContrasena = 'Las contraseñas no coinciden.';
     }
 
-    // Validar términos y condiciones
     if (!aceptarTerminos) {
       nuevosErrores.terminos = 'Debes aceptar los términos y condiciones.';
     }
@@ -107,7 +114,12 @@ function Register() {
     return nuevosErrores;
   };
 
-  // Control de submits
+  /**
+   * Maneja el envío del formulario de registro.
+   * Valida los datos, registra al usuario y redirige al dashboard si tiene éxito.
+   *
+   * @param {Event} e - Evento de envío del formulario
+   */
   const manejoSubmit = async (e) => {
     e.preventDefault();
 
@@ -121,7 +133,6 @@ function Register() {
       setErrores({});
       setCargando(true);
 
-      // Llamar a la función register del contexto
       const resultado = await registerUser(
         datosFormulario.nombreUsuario,
         datosFormulario.correo,
@@ -129,10 +140,8 @@ function Register() {
       );
 
       if (resultado.success) {
-        // Redirigir al dashboard tras registro exitoso
         navigate('/dashboard');
       } else {
-        // Mostrar error del servidor
         setErrores({ submit: resultado.error });
       }
     } catch (error) {
@@ -144,24 +153,19 @@ function Register() {
 
   return (
     <main className="register">
-      {/* Contenedor del formulario */}
       <article className="register__contenedor">
-        {/* Encabezado */}
         <section className="register__encabezado">
           <h3 className="register__titulo">Crear cuenta</h3>
           <p className="register__subtitulo">Regístrate para comenzar</p>
         </section>
 
-        {/* Formulario*/}
         <form onSubmit={manejoSubmit} className="register__formulario">
-          {/* Error general */}
           {errores.submit && (
             <section className="register__error" role="alert">
               {errores.submit}
             </section>
           )}
 
-          {/* Campo nombre de usuario */}
           <fieldset className="register__campo">
             <label htmlFor="nombreUsuario" className="register__etiqueta">
               Nombre de Usuario
@@ -183,7 +187,6 @@ function Register() {
             )}
           </fieldset>
 
-          {/* Campo correo */}
           <fieldset className="register__campo">
             <label htmlFor="correo" className="register__etiqueta">
               Correo Electrónico
@@ -205,7 +208,6 @@ function Register() {
             )}
           </fieldset>
 
-          {/* Campo contraseña */}
           <fieldset className="register__campo">
             <label htmlFor="contrasena" className="register__etiqueta">
               Contraseña
@@ -227,7 +229,6 @@ function Register() {
             )}
           </fieldset>
 
-          {/* Campo confirmar contraseña */}
           <fieldset className="register__campo">
             <label htmlFor="confirmarContrasena" className="register__etiqueta">
               Confirmar Contraseña
@@ -249,7 +250,6 @@ function Register() {
             )}
           </fieldset>
 
-          {/* Checkbox términos y condiciones */}
           <fieldset className="register__terminos">
             <label className="register__checkbox">
               <input
@@ -279,7 +279,6 @@ function Register() {
             )}
           </fieldset>
 
-          {/* Botón submit */}
           <button type="submit" className="register__boton" disabled={cargando}>
             {cargando ? (
               <>
@@ -292,7 +291,6 @@ function Register() {
           </button>
         </form>
 
-        {/* Footer */}
         <section className="register__pie">
           <p className="register__pie-texto">
             ¿Ya tienes una cuenta?{' '}

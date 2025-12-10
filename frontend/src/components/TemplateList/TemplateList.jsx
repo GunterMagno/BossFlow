@@ -4,26 +4,52 @@ import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { FiFileText, FiAlertCircle } from 'react-icons/fi';
 import './TemplateList.css';
 
-function TemplateList({ 
-  templates, 
-  loading, 
-  error, 
-  onUseTemplate, 
+/**
+ * Componente que muestra una lista de plantillas de diagramas.
+ * Gestiona diferentes estados: carga, error, vacío y lista con plantillas.
+ * Incluye confirmación modal antes de usar una plantilla.
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {Array} props.templates - Array de plantillas a mostrar
+ * @param {boolean} props.loading - Indica si las plantillas están cargando
+ * @param {string} props.error - Mensaje de error si ocurre algún problema
+ * @param {Function} props.onUseTemplate - Callback al usar una plantilla
+ * @param {Function} props.onEditTemplate - Callback al editar una plantilla
+ * @param {Function} props.onDeleteTemplate - Callback al eliminar una plantilla
+ * @param {Function} props.onRetry - Callback para reintentar la carga tras un error
+ * @param {Function} props.onCreateTemplate - Callback para crear una nueva plantilla
+ * @param {boolean} props.showCreateButton - Indica si mostrar el botón de crear plantilla
+ * @param {boolean} props.isSystemTemplates - Indica si son plantillas del sistema
+ * @returns {JSX.Element} Elemento de lista de plantillas
+ */
+function TemplateList({
+  templates,
+  loading,
+  error,
+  onUseTemplate,
   onEditTemplate,
   onDeleteTemplate,
-  onRetry, 
-  onCreateTemplate, 
+  onRetry,
+  onCreateTemplate,
   showCreateButton,
   isSystemTemplates = false
 }) {
   const [templateToUse, setTemplateToUse] = useState(null);
 
-  // Función para manejar clic en plantilla
+  /**
+   * Maneja el clic en una plantilla para iniciar el proceso de uso.
+   * Almacena la plantilla seleccionada para mostrar el modal de confirmación.
+   *
+   * @param {Object} template - Plantilla seleccionada por el usuario
+   */
   const handleTemplateClick = (template) => {
     setTemplateToUse(template);
   };
 
-  // Función para confirmar uso de plantilla
+  /**
+   * Confirma el uso de la plantilla seleccionada.
+   * Ejecuta el callback de uso y cierra el modal de confirmación.
+   */
   const handleConfirmUse = () => {
     if (!templateToUse) return;
     
@@ -34,12 +60,14 @@ function TemplateList({
     setTemplateToUse(null);
   };
 
-  // Función para cancelar
+  /**
+   * Cancela el uso de la plantilla.
+   * Cierra el modal de confirmación sin ejecutar ninguna acción.
+   */
   const handleCancelUse = () => {
     setTemplateToUse(null);
   };
 
-  // Estado de carga
   if (loading) {
     return (
       <section className="template-list">
@@ -51,7 +79,6 @@ function TemplateList({
     );
   }
 
-  // Estado de error
   if (error) {
     return (
       <section className="template-list">
@@ -71,7 +98,6 @@ function TemplateList({
     );
   }
 
-  // Estado vacío
   if (!templates || templates.length === 0) {
     return (
       <section className="template-list">
@@ -91,7 +117,6 @@ function TemplateList({
     );
   }
 
-  // Lista de plantillas
   return (
     <>
       <section className="template-list">

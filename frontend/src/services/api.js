@@ -1,12 +1,15 @@
 import axios from 'axios';
 
-// En desarrollo: si defines VITE_API_URL (por ejemplo http://localhost:5000)
-// se usará como base absoluta. En producción queremos rutas relativas
-// para que el proxy (Nginx) maneje /api. Por eso la convención:
-// - VITE_API_URL= (no definido)  -> base '/api' (rutas relativas al host)
-// - VITE_API_URL=http://host:port -> base absoluta hacia el backend
+/**
+ * Configuración de la URL base para las solicitudes de la API.
+ * En desarrollo se puede usar VITE_API_URL para una URL absoluta.
+ * En producción se usa rutas relativas para que el proxy (Nginx) maneje /api.
+ */
 const baseURL = import.meta.env.VITE_API_URL || '/api';
 
+/**
+ * Instancia de Axios con configuración por defecto.
+ */
 const api = axios.create({
   baseURL,
   timeout: 10000,
@@ -15,9 +18,11 @@ const api = axios.create({
   },
 });
 
+/**
+ * Interceptor de solicitudes para agregar el token de autenticación.
+ */
 api.interceptors.request.use(
   (config) => {
-    // Agregar token de autenticación si existe
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -29,20 +34,20 @@ api.interceptors.request.use(
   }
 );
 
+/**
+ * Interceptor de respuestas para manejar errores de autenticación.
+ * Si el token expira (401), se emite un evento y se limpia localStorage.
+ */
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Detectar si el token ha expirado (401 Unauthorized)
     if (error.response && error.response.status === 401) {
       const errorMessage = error.response.data?.error || '';
 
-      // Si el error indica que el token es inválido o expirado
       if (errorMessage.includes('Token inválido') || errorMessage.includes('expirado')) {
-        // Limpiar localStorage
         localStorage.removeItem('token');
         localStorage.removeItem('user');
 
-        // Emitir evento personalizado para que AuthContext lo detecte
         window.dispatchEvent(new Event('token-expired'));
 
         console.warn('Token expirado. Sesión cerrada automáticamente.');
@@ -60,11 +65,14 @@ api.interceptors.response.use(
   }
 );
 
+/**
+ * Realiza una verificación de salud del servidor.
+ * @async
+ * @returns {Promise<Object>} Datos de salud del servidor.
+ * @throws {Error} Si falla la conexión al servidor.
+ */
 export const healthCheck = async () => {
   try {
-    // Si baseURL ya apunta a '/api', solicitamos solo '/health' para
-    // evitar '/api/api/health'. Si baseURL es absoluto (ej. http://host:5000)
-    // esto hará petición a http://host:5000/health.
     const response = await api.get('/health');
     return response.data;
   } catch (error) {

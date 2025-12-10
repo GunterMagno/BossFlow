@@ -2,11 +2,19 @@ import { useReactFlow, getNodesBounds, getViewportForBounds, getRectOfNodes } fr
 import { toPng, toSvg } from 'html-to-image';
 import { CURRENT_VERSION } from '../utils/jsonValidator';
 
-// Hook personalizado que se usa para manejar la exportación de diagramas
+/**
+ * Hook personalizado para exportar diagramas en diferentes formatos
+ * @param {string} [diagramName='diagrama'] - Nombre base para los archivos exportados
+ * @returns {Object} Objeto con métodos de exportación (PNG, JSON) y referencias a SVG y PDF (desactivados)
+ */
 export function useExportDiagram(diagramName = 'diagrama') {
   const { getNodes, getEdges } = useReactFlow();
 
-  // Se genera el nombre de archivo con fecha/hora
+  /**
+   * Genera un nombre de archivo con marca de fecha y hora
+   * @param {string} extension - Extensión del archivo (png, json, svg, pdf)
+   * @returns {string} Nombre de archivo con formato 'diagrama_YYYY-MM-DD_HH-MM.extension'
+   */
   const generateFileName = (extension) => {
     const now = new Date();
     const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
@@ -14,7 +22,11 @@ export function useExportDiagram(diagramName = 'diagrama') {
     return `${diagramName}_${dateStr}_${timeStr}.${extension}`;
   };
 
-  // Se descarga el archivo
+  /**
+   * Descarga un archivo generado desde una URL de datos
+   * @param {string} dataUrl - URL de datos del archivo a descargar
+   * @param {string} fileName - Nombre del archivo a descargar
+   */
   const downloadFile = (dataUrl, fileName) => {
     const a = document.createElement('a');
     a.setAttribute('download', fileName);
@@ -22,7 +34,10 @@ export function useExportDiagram(diagramName = 'diagrama') {
     a.click();
   };
 
-  // Se calculan las dimensiones y viewport para la exportación
+  /**
+   * Calcula las dimensiones y configuración del viewport para la exportación
+   * @returns {Object|null} Objeto con ancho, alto, viewport y límites de nodos, o null si no hay nodos
+   */
   const getExportConfig = () => {
     const nodes = getNodes();
     if (nodes.length === 0) {
@@ -30,18 +45,14 @@ export function useExportDiagram(diagramName = 'diagrama') {
     }
 
     const nodesBounds = getNodesBounds(nodes);
-    const padding = 20; // Padding alrededor del diagrama
+    const padding = 20;
     
-    // Las dimensiones reales ya incluyen el espacio de los nodos
-    // Solo se añade el padding
     const width = nodesBounds.width + padding * 2;
     const height = nodesBounds.height + padding * 2;
     
-    // Calcula el offset para centrar considerando el padding
     const offsetX = nodesBounds.x - padding;
     const offsetY = nodesBounds.y - padding;
     
-    // Crea el viewport manualmente para mejor control
     const viewport = {
       x: -offsetX,
       y: -offsetY,
@@ -56,7 +67,11 @@ export function useExportDiagram(diagramName = 'diagrama') {
     };
   };
 
-  // Se obtiene el elemento viewport de ReactFlow
+  /**
+   * Obtiene el elemento DOM del viewport de ReactFlow
+   * @returns {Element} Elemento viewport de ReactFlow
+   * @throws {Error} Si no se encuentra el viewport
+   */
   const getViewportElement = () => {
     const viewport = document.querySelector('.react-flow__viewport');
     if (!viewport) {
@@ -65,7 +80,11 @@ export function useExportDiagram(diagramName = 'diagrama') {
     return viewport;
   };
 
-  // Se exporta el diagrama a PNG
+  /**
+   * Exporta el diagrama a formato PNG
+   * @async
+   * @throws {Error} Si no hay nodos para exportar o la exportación falla
+   */
   const exportToPNG = async () => {
     try {
       const nodes = getNodes();
@@ -98,44 +117,11 @@ export function useExportDiagram(diagramName = 'diagrama') {
     }
   };
 
-  // Se exporta el diagrama a SVG
-  /* Desactivado por ahora (No se muestra el fondo correctamente)
-  const exportToSVG = async () => {
-    try {
-      const nodes = getNodes();
-      if (nodes.length === 0) {
-        throw new Error('No hay nodos para exportar');
-      }
+  const exportToSVG = null;
 
-      const config = getExportConfig();
-      if (!config) {
-        throw new Error('No se pudo calcular la configuración de exportación');
-      }
-
-      const viewportElement = getViewportElement();
-      
-      // Exporta a SVG con fondo
-      const svgDataUrl = await toSvg(viewportElement, {
-        backgroundColor: '#1a1a1a',
-        width: config.width,
-        height: config.height,
-        style: {
-          width: `${config.width}px`,
-          height: `${config.height}px`,
-          transform: `translate(${config.viewport.x}px, ${config.viewport.y}px) scale(${config.viewport.zoom})`,
-        },
-      });
-      
-      downloadFile(svgDataUrl, generateFileName('svg'));
-    } catch (error) {
-      console.error('Error al exportar SVG:', error);
-      throw error;
-    }
-  };
-  */
-  const exportToSVG = null; // Función desactivada temporalmente
-
-  // Se exporta el diagrama a PDF (usando PNG como base)
+  /**
+   * Exporta el diagrama a PDF (desactivado temporalmente).
+   */
   /* Desactivado temporalmente
   const exportToPDF = async () => {
     try {
@@ -149,7 +135,6 @@ export function useExportDiagram(diagramName = 'diagrama') {
         throw new Error('No se pudo calcular la configuración de exportación');
       }
 
-      // Primero exporta a PNG
       const viewportElement = getViewportElement();
       
       const dataUrl = await toPng(viewportElement, {
@@ -163,12 +148,10 @@ export function useExportDiagram(diagramName = 'diagrama') {
         },
       });
 
-      // Crea un canvas para convertir a PDF
       const img = new Image();
       img.src = dataUrl;
       
       img.onload = () => {
-        // Importa jsPDF dinámicamente
         import('jspdf').then(({ jsPDF }) => {
           const orientation = config.width > config.height ? 'landscape' : 'portrait';
           
@@ -196,9 +179,11 @@ export function useExportDiagram(diagramName = 'diagrama') {
     }
   };
   */
-  const exportToPDF = null; // Función desactivada temporalmente
+  const exportToPDF = null;
 
-  // Se exporta el diagrama a JSON (estructura de datos del diagrama)
+  /**
+   * Exporta el diagrama a JSON con la estructura de datos del diagrama.
+   */
   const exportToJSON = async () => {
     try {
       const nodes = getNodes();
@@ -208,7 +193,6 @@ export function useExportDiagram(diagramName = 'diagrama') {
         throw new Error('No hay nodos para exportar');
       }
 
-      // Se crea la estructura JSON con metadata
       const exportData = {
         version: CURRENT_VERSION,
         metadata: {
@@ -228,7 +212,6 @@ export function useExportDiagram(diagramName = 'diagrama') {
             },
             data: node.data || {},
             style: node.style || {},
-            // Incluir campos opcionales si existen
             ...(node.width && { width: node.width }),
             ...(node.height && { height: node.height })
           })),
@@ -247,16 +230,13 @@ export function useExportDiagram(diagramName = 'diagrama') {
         }
       };
 
-      // Convertir a JSON con formato legible
       const jsonString = JSON.stringify(exportData, null, 2);
       
-      // Crear blob y descargar
       const blob = new Blob([jsonString], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       
-      // Generar nombre de archivo
       a.download = generateFileName('json');
       
       document.body.appendChild(a);
@@ -271,8 +251,8 @@ export function useExportDiagram(diagramName = 'diagrama') {
 
   return {
     exportToPNG,
-    exportToSVG, // null - desactivada
-    exportToPDF, // null - desactivada
+    exportToSVG,
+    exportToPDF,
     exportToJSON
   };
 }

@@ -22,6 +22,11 @@ import {
 } from 'react-icons/fi';
 import './Dashboard.css';
 
+/**
+ * Página principal del dashboard del usuario
+ * Muestra estadísticas, diagramas, actividades y navegación principal
+ * @returns {JSX.Element} Dashboard con sidebar, menú principal y contenido dinámico
+ */
 function Dashboard() {
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -37,7 +42,9 @@ function Dashboard() {
     document.title = 'Dashboard | BossFlow';
   }, []);
 
-  // Función para cargar diagramas
+  /**
+   * Carga la lista de diagramas del usuario desde el servidor
+   */
   const fetchDiagrams = async () => {
     try {
       setLoading(true);
@@ -53,7 +60,9 @@ function Dashboard() {
     }
   };
 
-  // Función para cargar estadísticas
+  /**
+   * Carga las estadísticas del usuario desde el servidor
+   */
   const fetchStats = async () => {
     try {
       const response = await getStats();
@@ -63,41 +72,51 @@ function Dashboard() {
     }
   };
 
-  // Cargar diagramas, actividades y estadísticas al montar el componente
   useEffect(() => {
     fetchDiagrams();
     loadActivities();
     fetchStats();
   }, []);
 
-  // Función para cargar actividades
+  /**
+   * Carga y formatea las actividades recientes del usuario
+   */
   const loadActivities = () => {
     const formattedActivities = getFormattedActivities();
     setActivities(formattedActivities);
   };
 
+  /**
+   * Ejecuta el logout del usuario y redirige a la página principal
+   */
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  // Handler cuando se crea un nuevo diagrama
+  /**
+   * Refresca los datos tras crear un nuevo diagrama
+   */
   const handleDiagramCreated = () => {
-    // Refrescar la lista de diagramas, actividades y estadísticas
     fetchDiagrams();
     loadActivities();
     fetchStats();
   };
 
-  // Handler cuando se elimina un diagrama
+  /**
+   * Refresca los datos tras eliminar un diagrama
+   */
   const handleDiagramDeleted = () => {
-    // Refrescar la lista de diagramas, actividades y estadísticas
     fetchDiagrams();
     loadActivities();
     fetchStats();
   };
 
-  // Función para formatear fecha relativa
+  /**
+   * Formatea una fecha en formato relativo (hace X tiempo)
+   * @param {string|Date} date - Fecha a formatear
+   * @returns {string} Fecha formateada en formato relativo
+   */
   const formatRelativeDate = (date) => {
     const now = new Date();
     const diagramDate = new Date(date);
@@ -121,7 +140,6 @@ function Dashboard() {
     }
   };
 
-  // Calcular estadísticas desde datos reales o del backend
   const estadisticas = userStats ? {
     totalDiagramas: userStats.diagramsCreated || diagrams.length,
     totalNodos: userStats.nodesCreated || 0,
@@ -136,12 +154,10 @@ function Dashboard() {
     comentariosPendientes: 0,
   };
 
-  // Obtener los 3 diagramas más recientes
   const diagramasRecientes = diagrams.slice(0, 3);
 
   return (
     <section className="dashboard">
-      {/* Sidebar */}
       <aside className="dashboard__sidebar">
         <section className="dashboard__sidebar-contenido">
           <header className="dashboard__logo">
@@ -429,7 +445,6 @@ function Dashboard() {
         onDiagramCreated={handleDiagramCreated}
       />
 
-      {/* Navegación móvil inferior */}
       <nav className="dashboard__mobile-nav">
         <button
           className={`dashboard__mobile-nav-item ${activeMenu === 'inicio' ? 'dashboard__mobile-nav-item--activo' : ''}`}

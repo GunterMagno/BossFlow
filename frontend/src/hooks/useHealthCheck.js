@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { healthCheck } from '../services/api';
 
+/**
+ * Hook personalizado para verificar la salud de la conexión con el backend
+ * Realiza un chequeo de disponibilidad al montarse el componente
+ * @returns {Object} Objeto con el estado de la conexión (loading, data, error, isConnected)
+ */
 export const useHealthCheck = () => {
   const [status, setStatus] = useState({
     loading: true,

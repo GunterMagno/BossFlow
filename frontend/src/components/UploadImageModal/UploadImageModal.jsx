@@ -2,6 +2,18 @@ import { useState, useRef } from 'react';
 import './UploadImageModal.css';
 import { FiUploadCloud } from 'react-icons/fi';
 
+/**
+ * Componente modal para subir imágenes desde archivo o URL.
+ * Permite arrastrar y soltar archivos, seleccionar desde el explorador o ingresar una URL.
+ * Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
+ *
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Indica si el modal está abierto
+ * @param {Function} props.onClose - Función callback para cerrar el modal
+ * @param {Function} props.onImageUploaded - Función callback ejecutada cuando se sube una imagen exitosamente
+ * @param {string} props.title - Título del modal
+ * @returns {JSX.Element|null} Elemento modal o null si está cerrado
+ */
 const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir imagen" }) => {
   const [imageUrl, setImageUrl] = useState('');
   const [isDragging, setIsDragging] = useState(false);
@@ -12,6 +24,10 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
 
   if (!isOpen) return null;
 
+  /**
+   * Cierra el modal y reinicia todos los estados a sus valores iniciales.
+   * Limpia la URL, errores, vista previa y ejecuta el callback de cierre.
+   */
   const handleClose = () => {
     setImageUrl('');
     setError('');
@@ -19,9 +35,16 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
     onClose();
   };
 
+  /**
+   * Valida el tipo y tamaño de un archivo de imagen.
+   * Verifica que sea JPEG, PNG, GIF o WEBP y no exceda los 5MB.
+   *
+   * @param {File} file - Archivo a validar
+   * @returns {boolean} true si el archivo es válido, false en caso contrario
+   */
   const validateFile = (file) => {
     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024;
 
     if (!validTypes.includes(file.type)) {
       setError('Tipo de archivo no válido. Use: JPEG, PNG, GIF o WEBP');
@@ -37,6 +60,13 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
     return true;
   };
 
+  /**
+   * Sube un archivo de imagen al backend.
+   * Convierte el archivo a base64 y lo envía al servidor mediante una petición POST.
+   *
+   * @param {File} file - Archivo de imagen a subir
+   * @returns {Promise<Object>} Promesa que resuelve con los datos de la imagen subida
+   */
   const uploadFileToBackend = async (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -75,6 +105,12 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
     });
   };
 
+  /**
+   * Maneja la selección de un archivo de imagen.
+   * Valida el archivo, lo sube al backend y ejecuta el callback con los datos de la imagen.
+   *
+   * @param {File} file - Archivo de imagen seleccionado
+   */
   const handleFileSelect = async (file) => {
     if (!validateFile(file)) return;
 
@@ -85,8 +121,7 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
       const imageData = await uploadFileToBackend(file);
       const fullUrl = imageData.url;
       setPreview(fullUrl);
-      
-      // Llamar callback con la información de la imagen
+
       onImageUploaded({
         ...imageData,
         url: fullUrl
@@ -100,6 +135,12 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
     }
   };
 
+  /**
+   * Maneja el evento de selección de archivo desde el input.
+   * Extrae el primer archivo seleccionado y lo procesa.
+   *
+   * @param {Event} e - Evento de cambio del input de archivo
+   */
   const handleFileInput = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -107,16 +148,34 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
     }
   };
 
+  /**
+   * Maneja el evento de arrastrar un archivo sobre la zona de soltar.
+   * Previene el comportamiento por defecto y activa el estado de arrastre.
+   *
+   * @param {DragEvent} e - Evento de arrastre
+   */
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
   };
 
+  /**
+   * Maneja el evento de salida del archivo de la zona de soltar.
+   * Previene el comportamiento por defecto y desactiva el estado de arrastre.
+   *
+   * @param {DragEvent} e - Evento de arrastre
+   */
   const handleDragLeave = (e) => {
     e.preventDefault();
     setIsDragging(false);
   };
 
+  /**
+   * Maneja el evento de soltar un archivo en la zona designada.
+   * Previene el comportamiento por defecto, desactiva el estado de arrastre y procesa el archivo.
+   *
+   * @param {DragEvent} e - Evento de soltar
+   */
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
@@ -127,6 +186,12 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
     }
   };
 
+  /**
+   * Maneja el envío de una URL de imagen externa.
+   * Valida la URL con el backend y ejecuta el callback si es válida.
+   *
+   * @returns {Promise<void>} Promesa que resuelve cuando se completa la validación
+   */
   const handleUrlSubmit = async () => {
     if (!imageUrl.trim()) {
       setError('Por favor, ingrese una URL');
@@ -180,7 +245,6 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
             </aside>
           )}
 
-          {/* Sección URL (primera) */}
           <section className="upload-url-section">
             <h3 className="section-title">Desde URL</h3>
             <label htmlFor="image-url-input">URL de la imagen:</label>
@@ -209,10 +273,8 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
             </button>
           </section>
 
-          {/* Separador visual */}
           <section className="section-divider">
 
-          {/* Sección Archivo (segunda) */}
           <section className="upload-file-section">
             <h3 className="section-title">Desde archivo</h3>
             <section

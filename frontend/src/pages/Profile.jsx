@@ -17,6 +17,11 @@ import {
 } from 'react-icons/fi';
 import './Profile.css';
 
+/**
+ * Página de perfil del usuario.
+ * Permite al usuario ver y editar su información personal, estadísticas y juegos favoritos.
+ * @returns {React.ReactElement} El componente de la página de perfil.
+ */
 function Profile() {
   const { user: authUser } = useAuth();
   const toast = useToast();
@@ -27,7 +32,6 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // Form data para edición
   const [formData, setFormData] = useState({
     username: '',
     bio: '',
@@ -35,15 +39,20 @@ function Profile() {
     avatar: '',
   });
 
-  // Nuevo juego favorito
   const [newGame, setNewGame] = useState('');
 
+  /**
+   * Carga el perfil del usuario y las estadísticas al montar el componente.
+   */
   useEffect(() => {
     document.title = 'Perfil | BossFlow';
     loadProfile();
     loadStats();
   }, []);
 
+  /**
+   * Carga el perfil del usuario desde el servidor.
+   */
   const loadProfile = async () => {
     try {
       const response = await getProfile();
@@ -62,6 +71,9 @@ function Profile() {
     }
   };
 
+  /**
+   * Carga las estadísticas del usuario desde el servidor.
+   */
   const loadStats = async () => {
     try {
       const response = await getStats();
@@ -71,12 +83,17 @@ function Profile() {
     }
   };
 
+  /**
+   * Activa el modo de edición del perfil.
+   */
   const handleEdit = () => {
     setIsEditing(true);
   };
 
+  /**
+   * Cancela la edición del perfil y restaura los datos originales.
+   */
   const handleCancel = () => {
-    // Restaurar datos originales
     setFormData({
       username: user.username || '',
       bio: user.bio || '',
@@ -86,13 +103,15 @@ function Profile() {
     setIsEditing(false);
   };
 
+  /**
+   * Guarda los cambios realizados en el perfil del usuario.
+   */
   const handleSave = async () => {
     setSaving(true);
     try {
       const response = await updateProfile(formData);
       setUser(response.user);
 
-      // Actualizar el usuario en localStorage para reflejar cambios en el Navbar
       const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
       const updatedUser = {
         ...storedUser,
@@ -104,7 +123,6 @@ function Profile() {
       setIsEditing(false);
       toast.success('Perfil actualizado correctamente. Recarga la página para ver los cambios en el navegador.');
 
-      // Recargar después de 2 segundos para que el usuario vea el toast
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -117,6 +135,10 @@ function Profile() {
     }
   };
 
+  /**
+   * Maneja los cambios en los campos de entrada del formulario.
+   * @param {Event} e - Evento del input.
+   */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -125,6 +147,9 @@ function Profile() {
     }));
   };
 
+  /**
+   * Agrega un nuevo juego favorito a la lista.
+   */
   const handleAddGame = () => {
     if (newGame.trim() && formData.favoriteGames.length < 10) {
       setFormData((prev) => ({
@@ -135,6 +160,10 @@ function Profile() {
     }
   };
 
+  /**
+   * Elimina un juego favorito de la lista.
+   * @param {number} index - Índice del juego a eliminar.
+   */
   const handleRemoveGame = (index) => {
     setFormData((prev) => ({
       ...prev,
@@ -142,6 +171,11 @@ function Profile() {
     }));
   };
 
+  /**
+   * Formatea una fecha al formato local (día, mes, año).
+   * @param {string} dateString - Cadena de fecha a formatear.
+   * @returns {string} Fecha formateada.
+   */
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -173,7 +207,6 @@ function Profile() {
   return (
     <section className="profile">
       <section className="profile-container">
-        {/* Header con avatar y botón de editar */}
         <header className="profile-header">
           <section className="profile-avatar-section">
             <figure className="profile-avatar">
@@ -249,7 +282,6 @@ function Profile() {
           </section>
         </header>
 
-        {/* Biografía */}
         <article className="profile-section">
           <h2 className="profile-section-title">
             <FiUser /> Biografía
@@ -276,7 +308,6 @@ function Profile() {
           )}
         </article>
 
-        {/* Estadísticas */}
         {stats && (
           <article className="profile-section">
             <h2 className="profile-section-title">
@@ -314,7 +345,6 @@ function Profile() {
           </article>
         )}
 
-        {/* Juegos favoritos */}
         <article className="profile-section">
             <h2 className="profile-section-title">
               <FiTarget /> Juegos favoritos
@@ -367,7 +397,6 @@ function Profile() {
           )}
         </article>
 
-        {/* Logros */}
         {user.achievements && user.achievements.length > 0 && (
           <article className="profile-section">
             <h2 className="profile-section-title">
