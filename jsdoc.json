@@ -1,0 +1,12 @@
+{
+    "source": {
+        "include": [
+            "frontend/src",
+            "backend"
+        ]
+    },
+    "opts": {
+        "recurse": true,
+        "destination": "./out"
+    }
+}
