@@ -3,7 +3,8 @@
         "include": [
             "frontend/src",
             "backend"
-        ]
+        ],
+        "excludePattern": "(^|\\/|\\\\)node_modules"
     },
     "opts": {
         "recurse": true,
