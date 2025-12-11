@@ -12,7 +12,11 @@ import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfUse from './pages/TermsOfUse';
+import CookiesPolicy from './pages/CookiesPolicy';
 import Layout from './layouts/Layout';
+import CookieBanner from './components/CookieBanner/CookieBanner';
 
 /**
  * Componente principal de la aplicación BossFlow.
@@ -24,6 +28,7 @@ function App() {
     <AuthProvider>
       <ToastProvider>
         <Router>
+          <CookieBanner />
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
@@ -31,6 +36,11 @@ function App() {
               <Route path="/community" element={<Community />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+
+              {/* Legal pages */}
+              <Route path="/legal/privacidad" element={<PrivacyPolicy />} />
+              <Route path="/legal/terminos" element={<TermsOfUse />} />
+              <Route path="/legal/cookies" element={<CookiesPolicy />} />
 
               <Route path="/editor/:diagramId" element={
                 <PrivateRoute>

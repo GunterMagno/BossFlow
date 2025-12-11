@@ -1,10 +1,10 @@
 import './Footer.css';
 import {
   FaFacebookF,
-  FaTwitter,
+  FaXTwitter,
   FaInstagram,
-  FaLinkedinIn,
-} from 'react-icons/fa';
+  FaYoutube,
+} from 'react-icons/fa6';
 
 /**
  * Pie de página de la aplicación con información corporativa y enlaces
@@ -57,18 +57,18 @@ function Footer() {
             <h3 className="footer__titulo">Soporte & Legal</h3>
             <ul className="footer__lista">
               <li className="footer__elemento">
-                <a href="/terms" className="footer__enlace">
-                  Términos y Condiciones
+                <a href="/legal/terminos" className="footer__enlace">
+                  Términos de Uso
                 </a>
               </li>
               <li className="footer__elemento">
-                <a href="/privacy" className="footer__enlace">
+                <a href="/legal/privacidad" className="footer__enlace">
                   Política de Privacidad
                 </a>
               </li>
               <li className="footer__elemento">
-                <a href="/help" className="footer__enlace">
-                  Centro de Ayuda
+                <a href="/legal/cookies" className="footer__enlace">
+                  Política de Cookies
                 </a>
               </li>
               <li className="footer__elemento">
@@ -84,7 +84,7 @@ function Footer() {
           <h3 className="footer__titulo">Redes sociales</h3>
           <section className="footer__redes">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/profile.php?id=61585128865474"
               className="footer__red"
               aria-label="Facebook"
               target="_blank"
@@ -92,15 +92,15 @@ function Footer() {
               <FaFacebookF className="footer__red-icono" />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://x.com/Bossflow412981"
               className="footer__red"
-              aria-label="Twitter"
+              aria-label="X"
               target="_blank"
             >
-              <FaTwitter className="footer__red-icono" />
+              <FaXTwitter className="footer__red-icono" />
             </a>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/bossflowpi/"
               className="footer__red"
               aria-label="Instagram"
               target="_blank"
@@ -108,12 +108,12 @@ function Footer() {
               <FaInstagram className="footer__red-icono" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.youtube.com/channel/UC4oVyly7b4UCxzs9ugaDd0w"
               className="footer__red"
-              aria-label="LinkedIn"
+              aria-label="YouTube"
               target="_blank"
             >
-              <FaLinkedinIn className="footer__red-icono" />
+              <FaYoutube className="footer__red-icono" />
             </a>
           </section>
         </section>

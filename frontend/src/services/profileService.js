@@ -48,3 +48,40 @@ export const getStats = async () => {
     throw error;
   }
 };
+
+/**
+ * Exporta todos los datos personales del usuario en formato JSON.
+ * @async
+ * @returns {Promise<Blob>} Archivo JSON con los datos del usuario.
+ * @throws {Error} Si falla la solicitud.
+ */
+export const exportUserData = async () => {
+  try {
+    const response = await api.get('/profile/data-export', {
+      responseType: 'blob',
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al exportar datos:', error);
+    throw error;
+  }
+};
+
+/**
+ * Elimina permanentemente la cuenta del usuario.
+ * @async
+ * @param {string} confirmPassword - Contraseña para confirmar la eliminación.
+ * @returns {Promise<Object>} Respuesta con confirmación de eliminación.
+ * @throws {Error} Si falla la solicitud.
+ */
+export const deleteAccount = async (confirmPassword) => {
+  try {
+    const response = await api.delete('/profile/account', {
+      data: { confirmPassword },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar cuenta:', error);
+    throw error;
+  }
+};

@@ -72,13 +72,13 @@ Número de horas de cada uno estimadas en cada sprint:
 	- Daniel: 20h
 
 5. **Sprint 5**:
-	- Alejandro: 10.5h
+	- Alejandro: 16h
 	- Jesús: 20h
 	- Daniel: 17h
 
 6. **Sprint 6**:
-	- Alejandro: h
-	- Jesús: h
+	- Alejandro: 4h
+	- Jesús: 4h
 	- Daniel: 21h
 
 

@@ -102,6 +102,26 @@ router.put("/profile", auth, (req, res, next) => {
 });
 
 /**
+ * Ruta para exportar datos personales.
+ * Exporta todos los datos del usuario en formato JSON.
+ * @route GET /profile/data-export
+ * @middleware auth - Requiere token JWT válido.
+ */
+router.get("/profile/data-export", auth, (req, res, next) => {
+  profileController.exportUserData(req, res, next);
+});
+
+/**
+ * Ruta para eliminar cuenta de usuario.
+ * Elimina permanentemente la cuenta del usuario y todos sus datos.
+ * @route DELETE /profile/account
+ * @middleware auth - Requiere token JWT válido.
+ */
+router.delete("/profile/account", auth, (req, res, next) => {
+  profileController.deleteAccount(req, res, next);
+});
+
+/**
  * Ruta para actualizar un diagrama
  * Actualiza los datos de un diagrama específico del usuario autenticado.
  * @route PUT /diagrams/:id
