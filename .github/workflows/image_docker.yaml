@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  upload-docker-image:
+  upload-backend-image:
     runs-on: ubuntu-latest
     
     steps:
@@ -22,12 +22,35 @@ jobs:
           username: ${{ secrets.USUARIO_DOCKER }}
           password: ${{ secrets.CONTRASENIA_DOCKER }}
         
-      - name: Generar la imagen y Subirla a DockerHub
+      - name: Generar imagen Backend y Subirla a DockerHub
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
-            context: .
-            file: ./Dockerfile
+            context: ./backend
+            file: ./backend/Dockerfile
             push: true
             tags: |
-              gunterelmagno/bossflow:1.0.1
-              gunterelmagno/bossflow:latest
+              gunterelmagno/bossflow-backend:1.0.1
+              gunterelmagno/bossflow-backend:latest
+
+  upload-frontend-image:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v5
+
+      - name: Login en DockerHub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.USUARIO_DOCKER }}
+          password: ${{ secrets.CONTRASENIA_DOCKER }}
+        
+      - name: Generar imagen Frontend y Subirla a DockerHub
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+            context: ./frontend
+            file: ./frontend/Dockerfile
+            push: true
+            tags: |
+              gunterelmagno/bossflow-frontend:1.0.1
+              gunterelmagno/bossflow-frontend:latest
