@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { getProfile, updateProfile, getStats } from '../services/profileService';
+import {
+  getProfile,
+  updateProfile,
+  getStats,
+  exportUserData,
+  deleteAccount,
+} from '../services/profileService';
 import {
   FiUser,
   FiEdit2,
@@ -14,7 +21,11 @@ import {
   FiFileText,
   FiUsers,
   FiTarget,
+  FiDownload,
+  FiTrash2,
+  FiShield,
 } from 'react-icons/fi';
+import ConfirmModal from '../components/ConfirmModal/ConfirmModal';
 import './Profile.css';
 
 /**
@@ -23,8 +34,9 @@ import './Profile.css';
  * @returns {React.ReactElement} El componente de la página de perfil.
  */
 function Profile() {
-  const { user: authUser } = useAuth();
+  const { user: authUser, logout } = useAuth();
   const toast = useToast();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState(null);
@@ -40,6 +52,12 @@ function Profile() {
   });
 
   const [newGame, setNewGame] = useState('');
+
+  // Estado para gestión de datos
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   /**
    * Carga el perfil del usuario y las estadísticas al montar el componente.
@@ -136,7 +154,7 @@ function Profile() {
   };
 
   /**
-   * Maneja los cambios en los campos de entrada del formulario.
+   * Gestiona los cambios en los campos de entrada del formulario.
    * @param {Event} e - Evento del input.
    */
   const handleInputChange = (e) => {
@@ -169,6 +187,72 @@ function Profile() {
       ...prev,
       favoriteGames: prev.favoriteGames.filter((_, i) => i !== index),
     }));
+  };
+
+  /**
+   * Exporta todos los datos del usuario en formato JSON.
+   */
+  const handleExportData = async () => {
+    setIsExporting(true);
+    try {
+      const blob = await exportUserData();
+
+      // Crear un enlace de descarga temporal
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `bossflow_data_${user.username}_${Date.now()}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast.success('Datos exportados correctamente');
+    } catch (error) {
+      console.error('Error al exportar datos:', error);
+      toast.error('Error al exportar tus datos');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  /**
+   * Elimina permanentemente la cuenta del usuario.
+   */
+  const handleDeleteAccount = async () => {
+    if (!deletePassword.trim()) {
+      toast.error('Debes introducir tu contraseña');
+      return;
+    }
+
+    console.log('Intentando eliminar cuenta con contraseña...');
+    setIsDeleting(true);
+    
+    try {
+      const response = await deleteAccount(deletePassword);
+      console.log('Cuenta eliminada exitosamente:', response);
+      
+      // Cerrar modal primero
+      setShowDeleteModal(false);
+      setDeletePassword('');
+      
+      toast.success('Cuenta eliminada correctamente. Redirigiendo...');
+
+      // Cerrar sesión y redirigir
+      setTimeout(() => {
+        logout();
+        navigate('/');
+      }, 2000);
+    } catch (error) {
+      console.error('Error completo al eliminar cuenta:', error);
+      console.error('Respuesta del error:', error.response);
+      
+      const errorMessage =
+        error.response?.data?.error || 'Error al eliminar la cuenta. Verifica tu contraseña.';
+      toast.error(errorMessage);
+      setIsDeleting(false);
+      // No cerrar el modal en caso de error para que el usuario pueda intentar de nuevo
+    }
   };
 
   /**
@@ -418,7 +502,117 @@ function Profile() {
             </section>
           </article>
         )}
+
+        {/* Sección de Privacidad y Datos */}
+        <article className="profile-section profile-section--danger">
+          <h2 className="profile-section-title">
+            <FiShield /> Privacidad y Gestión de Datos
+          </h2>
+          <p className="profile-section-description">
+            Gestiona tus datos personales. Puedes exportar todos tus datos o solicitar la eliminación permanente de tu
+            cuenta.
+          </p>
+
+          <section className="profile-data-actions">
+            <article className="profile-data-action">
+              <section className="profile-data-action-info">
+                <h3>
+                  <FiDownload /> Exportar mis datos
+                </h3>
+                <p>
+                  Descarga una copia de todos tus datos personales y diagramas en formato JSON.
+                  Incluye tu perfil, estadísticas, diagramas y plantillas creadas.
+                </p>
+              </section>
+              <button
+                onClick={handleExportData}
+                disabled={isExporting}
+                className="profile-data-button profile-data-button--primary"
+              >
+                {isExporting ? 'Exportando...' : 'Exportar Datos'}
+              </button>
+            </article>
+
+            <article className="profile-data-action profile-data-action--danger">
+              <section className="profile-data-action-info">
+                <h3>
+                  <FiTrash2 /> Eliminar mi cuenta
+                </h3>
+                <p>
+                  <strong>Acción permanente e irreversible.</strong> Se eliminarán todos tus datos,
+                  diagramas, imágenes y estadísticas. Esta acción no se puede deshacer.
+                </p>
+              </section>
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="profile-data-button profile-data-button--danger"
+              >
+                Eliminar Cuenta
+              </button>
+            </article>
+          </section>
+        </article>
       </section>
+
+      {/* Modal de confirmación para eliminar cuenta */}
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setDeletePassword('');
+        }}
+        onConfirm={handleDeleteAccount}
+        title="¿Eliminar cuenta permanentemente?"
+        message={
+          <>
+            <p>
+              <strong>Esta acción es irreversible.</strong> Se eliminarán permanentemente:
+            </p>
+            <ul style={{ textAlign: 'left', marginTop: '1rem' }}>
+              <li>Tu perfil y datos personales</li>
+              <li>Todos tus diagramas ({stats?.diagramsCreated || 0})</li>
+              <li>Todas tus plantillas</li>
+              <li>Todas las imágenes subidas</li>
+              <li>Tus estadísticas y logros</li>
+            </ul>
+            <p style={{ marginTop: '1rem' }}>
+              Para confirmar, introduce tu contraseña:
+            </p>
+            <input
+              type="password"
+              value={deletePassword}
+              onChange={(e) => setDeletePassword(e.target.value)}
+              placeholder="Tu contraseña"
+              style={{ 
+                marginTop: '0.5rem', 
+                width: '100%',
+                padding: '0.625rem 0.875rem',
+                background: 'rgba(31, 45, 68, 0.05)',
+                border: '1px solid rgba(31, 45, 68, 0.2)',
+                borderRadius: 'var(--radio-md)',
+                color: 'var(--primario)',
+                fontSize: '0.9rem',
+                transition: 'var(--transicion-normal)'
+              }}
+              onFocus={(e) => {
+                e.target.style.outline = 'none';
+                e.target.style.borderColor = 'var(--primario)';
+                e.target.style.background = 'rgba(31, 45, 68, 0.08)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'rgba(31, 45, 68, 0.2)';
+                e.target.style.background = 'rgba(31, 45, 68, 0.05)';
+              }}
+              disabled={isDeleting}
+              autoFocus
+            />
+          </>
+        }
+        confirmText={isDeleting ? 'Eliminando...' : 'Eliminar Cuenta'}
+        cancelText="Cancelar"
+        type="danger"
+        isLoading={isDeleting}
+      />
     </section>
   );
 }

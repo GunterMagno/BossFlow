@@ -100,6 +100,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Eliminar bordes de fieldsets */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
 /* Estilos globales para la tipografía */
 h1 {
   font-size: 4rem; 
