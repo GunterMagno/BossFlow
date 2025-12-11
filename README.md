@@ -1,19 +1,27 @@
 # 👿 BossFlow ⚔
 
+![Logo](./frontend/public/logo.png)
+
 ## Descripción
 
-BossFlow es una aplicación web para diseñar diagramas de flujo interactivos orientados a planificar estrategias contra jefes (bosses) de videojuegos. Cada nodo representa una acción, decisión o efecto, y las conexiones modelan el flujo de la estrategia. Está pensada para jugadores, diseñadores y equipos que quieren documentar tácticas complejas de forma visual.
+BossFlow es una aplicación web que permite a los jugadores crear, compartir y gestionar diagramas de flujo interactivos con estrategias para derrotar jefes finales (bosses) en videojuegos. La plataforma facilita la colaboración entre gamers, permitiendo documentar de forma visual y estructurada las mecánicas, patrones de ataque, fases de combate y estrategias óptimas para superar los desafíos más difíciles de sus juegos favoritos.
+
+La aplicación combina un editor de diagramas intuitivo con funcionalidades sociales, permitiendo a los usuarios registrarse, crear diagramas personalizados con diferentes tipos de nodos (información, acción, decisión, fase), gestionar sus estrategias y compartirlas con la comunidad. Los usuarios pueden exportar sus diagramas en formato JSON o como imágenes, facilitando el intercambio de conocimiento y la mejora colaborativa de estrategias.
+
+BossFlow resuelve el problema de la fragmentación de información sobre estrategias de videojuegos, ofreciendo una herramienta centralizada y visual que sustituye las guías de texto estático por diagramas interactivos y fáciles de seguir durante las partidas. Ideal para comunidades de jugadores que buscan optimizar su rendimiento y compartir tácticas efectivas de forma clara y accesible.
 
 ## Índice
 
 - [Tecnologías utilizadas](#tecnologías-utilizadas)
 - [Características principales](#características-principales)
+- [Enlace a la aplicación desplegada](#enlace-a-la-aplicación-desplegada)
+- [Capturas de pantalla](#capturas-de-pantalla)
 - [Instalación y ejecución](#instalación-y-ejecución)
-- [Despliegue y demo](#despliegue-y-demo)
-- [Documentación adicional](#documentación-adicional)
+- [Despliegue y demo](#enlaces-despliegue-y-demo)
 - [Cómo contribuir](#cómo-contribuir)
 - [Contacto](#contacto)
 - [Información del equipo](#información-del-equipo)
+- [Documentación adicional](#documentación-adicional)
 
 ## Tecnologías utilizadas
 
@@ -66,6 +74,12 @@ BossFlow está construido sobre el stack MERN como base (MongoDB, Express, React
 - Exportación / importación de diagramas en JSON.
 - Soporte para subir imágenes asociadas a nodos.
 - Sistema de plantillas reutilizables.
+
+## Enlace a la aplicación desplegada
+
+[https://bossflow.app/](https://bossflow.app/)
+
+## Capturas de pantalla
 
 
 ## Instalación y ejecución
@@ -129,43 +143,12 @@ Frontend (archivo `.env` en `frontend/` o en tu entorno):
 VITE_API_URL=http://localhost:4000/api
 ```
 
-## Enlaces al despliegue y a la demo
+## Enlaces despliegue y demo
 
 Enlace al despliegue: [Despliegue de la aplicación](https://bossflow.app/)
     - [Documentación de despliegue](docs/despliegue/).
 
 Enlace a la demo de la aplicación: [Despliegue de la aplicación](https://youtube.com/)
-
-## Documentación adicional
-
-👉 **[Ver índice completo de documentación](docs/README.md)**
-
-La carpeta `docs/` contiene la documentación técnica y de proyecto organizada por áreas:
-
-- `docs/README.md`: índice principal y guía de lectura para navegar la documentación.
-- `docs/api/`: especificaciones relacionadas con la estructura de los diagramas. Incluye:
-	- `estructura-nodos-json.md`: esquema JSON y reglas de validación para los nodos.
-	- `NODE_TYPES.md`: tipos de nodos y su semántica.
-- `docs/arquitectura/`: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: `base-de-datos.md`, `auth-flujo.md`.
-- `docs/despliegue/`: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: `setup-docker.md`, `DESPLIEGUE.md`, `despliegue-vps.md`.
-- `docs/proyecto/`: información del proyecto (objetivos, problema, viabilidad técnica, recursos).
-- `docs/historias-usuario/`: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).
-- `docs/ui-ux/`: recursos de diseño, notas de Figma y capturas en `docs/ui-ux/capturas/`.
-
-
-### Documentos Principales del Proyecto
-### Documentos principales del proyecto
-- [Problema.md (Criterio 2a)](docs/proyecto/problema.md)
-- [ViabilidadTecnica.md (Criterio 2b)](docs/proyecto/viabilidad-tecnica.md)
-- [ObjetivosAlcance.md (Criterio 2d)](docs/proyecto/objetivos-alcance.md)
-- [Recursos.md (Criterio 2e)](docs/proyecto/recursos.md)
-
-### Documentación técnica
-- [Estructura JSON de Nodos](docs/api/estructura-nodos-json.md) - JSON Schema, validaciones y ejemplos
-- [Tipos de Nodos](docs/api/NODE_TYPES.md) - Tipos personalizados para BossFlow
-- [Base de Datos](docs/arquitectura/base-de-datos.md) - Diseño MongoDB
-- [Autenticación](docs/arquitectura/auth-flujo.md) - Sistema JWT
-- [Despliegue](docs/despliegue/setup-docker.md) - Configuración Docker
 
 
 ## Cómo contribuir
@@ -186,11 +169,33 @@ Para dudas o colaboración abre un Issue o contacta al creador del repositorio.
 
 #### Daniel Sánchez Benítez
 - **[Propuesta inicial](docs/dani/propuesta-inicial.pdf)**
+- **[Requisitos técnicos](docs/dani/requisitos-tecnicos.pdf)**
+- **[Evaluación técnica](docs/dani/evaluacion-tecnica.pdf)**
 
 ## Información del equipo  
-- Alejandro Borrego Cruz
-- Jesús López Pérez
-- Daniel Montes Iglesias
+- Alejandro Borrego Cruz - [Perfil Github](https://github.com/GunterMagno)
+- Jesús López Pérez - [Perfil Github](https://github.com/jesuuslopeez)
+- Daniel Montes Iglesias - [Perfil Github](https://github.com/danielmi5)
+
+## Documentación adicional
+
+La documentación adicional se encuentra en [./docs](./docs).
+
+Enlace a la [WIKI](https://github.com/GunterMagno/BossFlow/wiki)
+
+👉 **[Ver índice completo de documentación](docs/README.md)**
+
+La carpeta `docs/` contiene la documentación técnica y de proyecto organizada por áreas:
+
+- `docs/README.md`: índice principal y guía de lectura para navegar la documentación.
+- `docs/api/`: especificaciones relacionadas con la estructura de los diagramas. Incluye:
+	- `estructura-nodos-json.md`: esquema JSON y reglas de validación para los nodos.
+	- `NODE_TYPES.md`: tipos de nodos y su semántica.
+- `docs/arquitectura/`: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: `base-de-datos.md`, `auth-flujo.md`.
+- `docs/despliegue/`: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: `setup-docker.md`, `DESPLIEGUE.md`, `despliegue-vps.md`.
+- `docs/proyecto/`: información del proyecto (objetivos, problema, viabilidad técnica, recursos).
+- `docs/historias-usuario/`: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).
+- `docs/ui-ux/`: recursos de diseño, notas de Figma y capturas en `docs/ui-ux/capturas/`.
 
 
 

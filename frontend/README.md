@@ -2,7 +2,11 @@
 
 Frontend de la aplicación BossFlow desarrollado con **React 18** + **Vite 5.4**.
 
-BossFlow es una aplicación web que permite crear, compartir y gestionar diagramas de flujo interactivos con estrategias para derrotar bosses en videojuegos.
+BossFlow es una aplicación web que permite a los jugadores crear, compartir y gestionar diagramas de flujo interactivos con estrategias para derrotar jefes finales (bosses) en videojuegos. La plataforma facilita la colaboración entre gamers, permitiendo documentar de forma visual y estructurada las mecánicas, patrones de ataque, fases de combate y estrategias óptimas para superar los desafíos más difíciles de sus juegos favoritos.
+
+La aplicación combina un editor de diagramas intuitivo con funcionalidades sociales, permitiendo a los usuarios registrarse, crear diagramas personalizados con diferentes tipos de nodos (información, acción, decisión, fase), gestionar sus estrategias y compartirlas con la comunidad. Los usuarios pueden exportar sus diagramas en formato JSON o como imágenes, facilitando el intercambio de conocimiento y la mejora colaborativa de estrategias.
+
+BossFlow resuelve el problema de la fragmentación de información sobre estrategias de videojuegos, ofreciendo una herramienta centralizada y visual que sustituye las guías de texto estático por diagramas interactivos y fáciles de seguir durante las partidas. Ideal para comunidades de jugadores que buscan optimizar su rendimiento y compartir tácticas efectivas de forma clara y accesible.
 
 ---
 
