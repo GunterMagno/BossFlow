@@ -1,0 +1,33 @@
+name: Subir imagen Docker a DockerHub
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  upload-docker-image:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v5
+
+      - name: Login en DockerHub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.USUARIO_DOCKER }}
+          password: ${{ secrets.CONTRASENIA_DOCKER }}
+        
+      - name: Generar la imagen y Subirla a DockerHub
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+            context: .
+            file: ./Dockerfile
+            push: true
+            tags: |
+              gunterelmagno/bossflow:1.0.1
+              gunterelmagno/bossflow:latest
