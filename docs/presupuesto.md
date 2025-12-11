@@ -1,4 +1,13 @@
 # Presupuesto
+## Coste por hora
+Como programadores junior (Junior Dev) hemos estimado y acordado un precio de 15€/h trabajada, ya que al ser principiantes en el sector y aún no hemos obtenido una titulación válida.
+
+## Tareas más complicadas
+Hemos tenido varias tareas que han supuesto un gran esfuerzo, algunas de ellas han sido:
+- Creación de diagramas
+- Ajustes de cuenta
+- Incio de sesión y registro
+
 ## Tabla horas
 | Sprint | Estimación (h) | Horas Reales (h) | Estado |
 | :--- | :---: | :---: | :--- |
@@ -20,3 +29,7 @@
 | **Sprint 5** | 900 € | X € |
 | **Sprint 6** | 900 € | X € |
 | **TOTAL** | **5.400 €** | **X €** |
+
+## Presupuesto del proyecto
+- Desarrollo:
+- Marketing: 
