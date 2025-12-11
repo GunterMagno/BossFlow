@@ -49,18 +49,23 @@
 
     <section class="readme">
         <article><h1>👿 BossFlow ⚔</h1>
+<p><img src="./frontend/public/logo.png" alt="Logo"></p>
 <h2>Descripción</h2>
-<p>BossFlow es una aplicación web para diseñar diagramas de flujo interactivos orientados a planificar estrategias contra jefes (bosses) de videojuegos. Cada nodo representa una acción, decisión o efecto, y las conexiones modelan el flujo de la estrategia. Está pensada para jugadores, diseñadores y equipos que quieren documentar tácticas complejas de forma visual.</p>
+<p>BossFlow es una aplicación web que permite a los jugadores crear, compartir y gestionar diagramas de flujo interactivos con estrategias para derrotar jefes finales (bosses) en videojuegos. La plataforma facilita la colaboración entre gamers, permitiendo documentar de forma visual y estructurada las mecánicas, patrones de ataque, fases de combate y estrategias óptimas para superar los desafíos más difíciles de sus juegos favoritos.</p>
+<p>La aplicación combina un editor de diagramas intuitivo con funcionalidades sociales, permitiendo a los usuarios registrarse, crear diagramas personalizados con diferentes tipos de nodos (información, acción, decisión, fase), gestionar sus estrategias y compartirlas con la comunidad. Los usuarios pueden exportar sus diagramas en formato JSON o como imágenes, facilitando el intercambio de conocimiento y la mejora colaborativa de estrategias.</p>
+<p>BossFlow resuelve el problema de la fragmentación de información sobre estrategias de videojuegos, ofreciendo una herramienta centralizada y visual que sustituye las guías de texto estático por diagramas interactivos y fáciles de seguir durante las partidas. Ideal para comunidades de jugadores que buscan optimizar su rendimiento y compartir tácticas efectivas de forma clara y accesible.</p>
 <h2>Índice</h2>
 <ul>
 <li><a href="#tecnolog%C3%ADas-utilizadas">Tecnologías utilizadas</a></li>
 <li><a href="#caracter%C3%ADsticas-principales">Características principales</a></li>
+<li><a href="#enlace-a-la-aplicaci%C3%B3n-desplegada">Enlace a la aplicación desplegada</a></li>
+<li><a href="#capturas-de-pantalla">Capturas de pantalla</a></li>
 <li><a href="#instalaci%C3%B3n-y-ejecuci%C3%B3n">Instalación y ejecución</a></li>
-<li><a href="#despliegue-y-demo">Despliegue y demo</a></li>
-<li><a href="#documentaci%C3%B3n-adicional">Documentación adicional</a></li>
+<li><a href="#enlaces-despliegue-y-demo">Despliegue y demo</a></li>
 <li><a href="#c%C3%B3mo-contribuir">Cómo contribuir</a></li>
 <li><a href="#contacto">Contacto</a></li>
 <li><a href="#informaci%C3%B3n-del-equipo">Información del equipo</a></li>
+<li><a href="#documentaci%C3%B3n-adicional">Documentación adicional</a></li>
 </ul>
 <h2>Tecnologías utilizadas</h2>
 <p>BossFlow está construido sobre el stack MERN como base (MongoDB, Express, React, Node). El enfoque MERN ofrece: <code>MongoDB</code> para el almacenamiento de datos, <code>Express</code> y <code>Node.js</code> para la API backend y <code>React</code> para la interfaz. Dentro se usan herramientas y librerías que facilitan el desarrollo, el despliegue y la experiencia de usuario.</p>
@@ -111,6 +116,9 @@
 <li>Soporte para subir imágenes asociadas a nodos.</li>
 <li>Sistema de plantillas reutilizables.</li>
 </ul>
+<h2>Enlace a la aplicación desplegada</h2>
+<p><a href="https://bossflow.app/">https://bossflow.app/</a></p>
+<h2>Capturas de pantalla</h2>
 <h2>Instalación y ejecución</h2>
 <p>Requisitos previos:</p>
 <ul>
@@ -154,43 +162,10 @@ PORT=4000
 <p>Frontend (archivo <code>.env</code> en <code>frontend/</code> o en tu entorno):</p>
 <pre class="prettyprint source"><code>VITE_API_URL=http://localhost:4000/api
 </code></pre>
-<h2>Enlaces al despliegue y a la demo</h2>
+<h2>Enlaces despliegue y demo</h2>
 <p>Enlace al despliegue: <a href="https://bossflow.app/">Despliegue de la aplicación</a>
 - <a href="docs/despliegue/">Documentación de despliegue</a>.</p>
 <p>Enlace a la demo de la aplicación: <a href="https://youtube.com/">Despliegue de la aplicación</a></p>
-<h2>Documentación adicional</h2>
-<p>👉 <strong><a href="docs/README.md">Ver índice completo de documentación</a></strong></p>
-<p>La carpeta <code>docs/</code> contiene la documentación técnica y de proyecto organizada por áreas:</p>
-<ul>
-<li><code>docs/README.md</code>: índice principal y guía de lectura para navegar la documentación.</li>
-<li><code>docs/api/</code>: especificaciones relacionadas con la estructura de los diagramas. Incluye:
-<ul>
-<li><code>estructura-nodos-json.md</code>: esquema JSON y reglas de validación para los nodos.</li>
-<li><code>NODE_TYPES.md</code>: tipos de nodos y su semántica.</li>
-</ul>
-</li>
-<li><code>docs/arquitectura/</code>: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: <code>base-de-datos.md</code>, <code>auth-flujo.md</code>.</li>
-<li><code>docs/despliegue/</code>: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: <code>setup-docker.md</code>, <code>DESPLIEGUE.md</code>, <code>despliegue-vps.md</code>.</li>
-<li><code>docs/proyecto/</code>: información del proyecto (objetivos, problema, viabilidad técnica, recursos).</li>
-<li><code>docs/historias-usuario/</code>: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).</li>
-<li><code>docs/ui-ux/</code>: recursos de diseño, notas de Figma y capturas en <code>docs/ui-ux/capturas/</code>.</li>
-</ul>
-<h3>Documentos Principales del Proyecto</h3>
-<h3>Documentos principales del proyecto</h3>
-<ul>
-<li><a href="docs/proyecto/problema.md">Problema.md (Criterio 2a)</a></li>
-<li><a href="docs/proyecto/viabilidad-tecnica.md">ViabilidadTecnica.md (Criterio 2b)</a></li>
-<li><a href="docs/proyecto/objetivos-alcance.md">ObjetivosAlcance.md (Criterio 2d)</a></li>
-<li><a href="docs/proyecto/recursos.md">Recursos.md (Criterio 2e)</a></li>
-</ul>
-<h3>Documentación técnica</h3>
-<ul>
-<li><a href="docs/api/estructura-nodos-json.md">Estructura JSON de Nodos</a> - JSON Schema, validaciones y ejemplos</li>
-<li><a href="docs/api/NODE_TYPES.md">Tipos de Nodos</a> - Tipos personalizados para BossFlow</li>
-<li><a href="docs/arquitectura/base-de-datos.md">Base de Datos</a> - Diseño MongoDB</li>
-<li><a href="docs/arquitectura/auth-flujo.md">Autenticación</a> - Sistema JWT</li>
-<li><a href="docs/despliegue/setup-docker.md">Despliegue</a> - Configuración Docker</li>
-</ul>
 <h2>Cómo contribuir</h2>
 <ul>
 <li>Crea un fork y abre un Pull Request.</li>
@@ -213,9 +188,28 @@ Esta documentación va dirigida a algunos profesores en específico por los requ
 </ul>
 <h2>Información del equipo</h2>
 <ul>
-<li>Alejandro Borrego Cruz</li>
-<li>Jesús López Pérez</li>
-<li>Daniel Montes Iglesias</li>
+<li>Alejandro Borrego Cruz - <a href="https://github.com/GunterMagno">Perfil Github</a></li>
+<li>Jesús López Pérez - <a href="https://github.com/jesuuslopeez">Perfil Github</a></li>
+<li>Daniel Montes Iglesias - <a href="https://github.com/danielmi5">Perfil Github</a></li>
+</ul>
+<h2>Documentación adicional</h2>
+<p>La documentación adicional se encuentra en <a href="./docs">./docs</a>.</p>
+<p>Enlace a la <a href="https://github.com/GunterMagno/BossFlow/wiki">WIKI</a></p>
+<p>👉 <strong><a href="docs/README.md">Ver índice completo de documentación</a></strong></p>
+<p>La carpeta <code>docs/</code> contiene la documentación técnica y de proyecto organizada por áreas:</p>
+<ul>
+<li><code>docs/README.md</code>: índice principal y guía de lectura para navegar la documentación.</li>
+<li><code>docs/api/</code>: especificaciones relacionadas con la estructura de los diagramas. Incluye:
+<ul>
+<li><code>estructura-nodos-json.md</code>: esquema JSON y reglas de validación para los nodos.</li>
+<li><code>NODE_TYPES.md</code>: tipos de nodos y su semántica.</li>
+</ul>
+</li>
+<li><code>docs/arquitectura/</code>: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: <code>base-de-datos.md</code>, <code>auth-flujo.md</code>.</li>
+<li><code>docs/despliegue/</code>: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: <code>setup-docker.md</code>, <code>DESPLIEGUE.md</code>, <code>despliegue-vps.md</code>.</li>
+<li><code>docs/proyecto/</code>: información del proyecto (objetivos, problema, viabilidad técnica, recursos).</li>
+<li><code>docs/historias-usuario/</code>: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).</li>
+<li><code>docs/ui-ux/</code>: recursos de diseño, notas de Figma y capturas en <code>docs/ui-ux/capturas/</code>.</li>
 </ul></article>
     </section>
 
@@ -229,7 +223,7 @@ Esta documentación va dirigida a algunos profesores en específico por los requ
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Dec 11 2025 21:30:34 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Dec 11 2025 22:01:32 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
