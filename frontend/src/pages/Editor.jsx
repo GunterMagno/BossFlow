@@ -126,7 +126,7 @@ function Editor() {
           : [];
         
         setNodes(nodesWithCallbacks);
-        setDiagrams(Array.isArray(diagram.edges) ? diagram.edges : []);
+        setEdges(Array.isArray(diagram.edges) ? diagram.edges : []);
 
         setDiagramTitle(diagram.title || '');
         try {
