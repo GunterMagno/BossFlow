@@ -108,7 +108,7 @@ function Register() {
     }
 
     if (!aceptarTerminos) {
-      nuevosErrores.terminos = 'Debes aceptar los términos y condiciones.';
+      nuevosErrores.terminos = 'Debes aceptar los Términos de Uso y la Política de Privacidad.';
     }
 
     return nuevosErrores;
@@ -267,8 +267,12 @@ function Register() {
               />
               <span className="register__checkbox-texto">
                 Acepto los{' '}
-                <Link to="/terminos" className="register__enlace-terminos">
-                  Términos y Condiciones
+                <Link to="/legal/terminos" className="register__enlace-terminos" target="_blank">
+                  Términos de Uso
+                </Link>{' '}
+                y la{' '}
+                <Link to="/legal/privacidad" className="register__enlace-terminos" target="_blank">
+                  Política de Privacidad
                 </Link>
               </span>
             </label>
