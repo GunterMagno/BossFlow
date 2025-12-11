@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>frontend/src/components/ConfirmModal/ConfirmModal.jsx - Documentation</title>
+    <title>frontend/src/pages/CookiesPolicy.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">frontend/src/components/ConfirmModal/ConfirmModal.jsx</h1>
+    <h1 class="page-title">frontend/src/pages/CookiesPolicy.jsx</h1>
     
 
     
@@ -39,105 +39,362 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { FiAlertTriangle, FiX } from 'react-icons/fi';
-import './ConfirmModal.css';
+            <pre class="prettyprint source linenums"><code>import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './LegalPages.css';
 
 /**
- * Modal de confirmación para acciones que requieren validación del usuario
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Controla la visibilidad del modal
- * @param {Function} props.onClose - Callback ejecutado al cerrar el modal
- * @param {Function} props.onConfirm - Callback ejecutado al confirmar la acción
- * @param {string} [props.title='¿Estás seguro?'] - Título mostrado en el modal
- * @param {string} [props.message='Esta acción no se puede deshacer.'] - Mensaje descriptivo
- * @param {string} [props.confirmText='Confirmar'] - Texto del botón de confirmación
- * @param {string} [props.cancelText='Cancelar'] - Texto del botón de cancelación
- * @param {string} [props.type='danger'] - Tipo visual del modal (danger, warning, info)
- * @param {boolean} [props.isLoading=false] - Indica si hay una operación en curso
- * @returns {JSX.Element|null} Renderiza el modal o null si está cerrado
+ * Página de Política de Cookies.
+ * Explica el uso (o no uso) de cookies en BossFlow.
  */
-function ConfirmModal({
-  isOpen,
-  onClose,
-  onConfirm,
-  title = '¿Estás seguro?',
-  message = 'Esta acción no se puede deshacer.',
-  confirmText = 'Confirmar',
-  cancelText = 'Cancelar',
-  type = 'danger',
-  isLoading = false,
-}) {
-  /**
-   * Gestiona el cierre del modal mediante la tecla Escape
-   * @param {KeyboardEvent} e - Evento del teclado
-   */
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape' &amp;&amp; !isLoading) {
-      onClose();
-    }
-  };
-
-  if (!isOpen) return null;
+function CookiesPolicy() {
+  useEffect(() => {
+    document.title = 'Política de Cookies | BossFlow';
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    &lt;section
-      className="confirm-modal-overlay"
-      onClick={!isLoading ? onClose : undefined}
-      onKeyDown={handleKeyDown}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-    >
-      &lt;article
-        className={`confirm-modal confirm-modal--${type}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        &lt;header className="confirm-modal__header">
-          &lt;figure className="confirm-modal__icon-wrapper">
-            &lt;FiAlertTriangle className="confirm-modal__icon" />
-          &lt;/figure>
-          &lt;button
-            type="button"
-            className="confirm-modal__close-button"
-            onClick={onClose}
-            disabled={isLoading}
-            aria-label="Cerrar modal"
-          >
-            &lt;FiX />
-          &lt;/button>
+    &lt;main className="legal-page">
+      &lt;article className="legal-page__container">
+        &lt;header className="legal-page__header">
+          &lt;h1 className="legal-page__title">Política de Cookies&lt;/h1>
+          &lt;p className="legal-page__subtitle">
+            Última actualización: 11 de diciembre de 2025
+          &lt;/p>
         &lt;/header>
 
-        &lt;section className="confirm-modal__content">
-          &lt;h2 id="confirm-modal-title" className="confirm-modal__title">
-            {title}
-          &lt;/h2>
-          &lt;p className="confirm-modal__message">{message}&lt;/p>
+        &lt;section className="legal-page__content">
+          &lt;section className="legal-page__section">
+            &lt;h2>1. ¿Qué son las cookies?&lt;/h2>
+            &lt;p>
+              Las cookies son pequeños archivos de texto que los sitios web almacenan en el
+              navegador del usuario para recordar información sobre su visita. Las cookies pueden
+              utilizarse para diversos fines, como autenticación, personalización de la experiencia,
+              análisis de tráfico o publicidad.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>2. BossFlow NO utiliza cookies&lt;/h2>
+            &lt;p className="legal-page__highlight">
+              &lt;strong>
+                BossFlow NO utiliza cookies tradicionales (archivos de texto enviados por el
+                servidor) para ningún propósito.
+              &lt;/strong>
+            &lt;/p>
+            &lt;p>
+              Nos tomamos muy en serio tu privacidad y hemos decidido implementar nuestro sistema
+              de autenticación y gestión de preferencias sin depender de cookies. Esto significa
+              que:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>No rastreamos tu actividad&lt;/strong> con cookies de terceros
+              &lt;/li>
+              &lt;li>
+                &lt;strong>No utilizamos cookies de publicidad&lt;/strong>
+              &lt;/li>
+              &lt;li>
+                &lt;strong>No utilizamos cookies de análisis&lt;/strong> (Google Analytics, Facebook
+                Pixel, etc.)
+              &lt;/li>
+              &lt;li>
+                &lt;strong>No compartimos información&lt;/strong> con redes publicitarias o empresas de
+                analítica mediante cookies
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>3. Tecnologías alternativas: localStorage&lt;/h2>
+            &lt;p>
+              En lugar de cookies, BossFlow utiliza &lt;strong>localStorage&lt;/strong>, una tecnología
+              nativa de los navegadores web modernos que permite almacenar información localmente en
+              tu dispositivo de forma más segura y transparente.
+            &lt;/p>
+
+            &lt;h3>3.1. ¿Qué almacenamos en localStorage?&lt;/h3>
+            &lt;p>Únicamente almacenamos la información estrictamente necesaria para que funcione el servicio:&lt;/p>
+
+            &lt;h4>Token de autenticación (JWT)&lt;/h4>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Propósito:&lt;/strong> Mantener tu sesión iniciada de forma segura sin
+                necesidad de introducir usuario y contraseña en cada visita
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Contenido:&lt;/strong> Token JWT cifrado que contiene tu identificador de
+                usuario y fecha de expiración
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Duración:&lt;/strong> El token expira automáticamente tras un periodo de
+                inactividad (configurable, generalmente 7-30 días)
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Control del usuario:&lt;/strong> Puedes cerrar sesión en cualquier momento
+                desde el menú de usuario, lo que eliminará el token inmediatamente
+              &lt;/li>
+            &lt;/ul>
+
+            &lt;h4>Preferencias de interfaz (opcional)&lt;/h4>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Propósito:&lt;/strong> Recordar tus preferencias de configuración de la
+                interfaz (por ejemplo, modo oscuro/claro, idioma preferido)
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Contenido:&lt;/strong> Configuraciones de personalización seleccionadas por ti
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Duración:&lt;/strong> Indefinida, hasta que limpies los datos de tu navegador
+                o cambies las preferencias
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Control del usuario:&lt;/strong> Puedes restablecer las preferencias por
+                defecto en cualquier momento desde la configuración de tu perfil
+              &lt;/li>
+            &lt;/ul>
+
+            &lt;h3>3.2. ¿En qué se diferencia localStorage de las cookies?&lt;/h3>
+            &lt;table className="legal-page__table">
+              &lt;thead>
+                &lt;tr>
+                  &lt;th>Característica&lt;/th>
+                  &lt;th>Cookies&lt;/th>
+                  &lt;th>localStorage (BossFlow)&lt;/th>
+                &lt;/tr>
+              &lt;/thead>
+              &lt;tbody>
+                &lt;tr>
+                  &lt;td>Envío al servidor&lt;/td>
+                  &lt;td>Sí, en cada petición HTTP&lt;/td>
+                  &lt;td>No, permanece en el navegador&lt;/td>
+                &lt;/tr>
+                &lt;tr>
+                  &lt;td>Capacidad de almacenamiento&lt;/td>
+                  &lt;td>~4 KB por cookie&lt;/td>
+                  &lt;td>~5-10 MB por dominio&lt;/td>
+                &lt;/tr>
+                &lt;tr>
+                  &lt;td>Acceso desde JavaScript&lt;/td>
+                  &lt;td>Limitado (HttpOnly cookies)&lt;/td>
+                  &lt;td>Completo y transparente&lt;/td>
+                &lt;/tr>
+                &lt;tr>
+                  &lt;td>Rastreo de terceros&lt;/td>
+                  &lt;td>Posible (cookies de terceros)&lt;/td>
+                  &lt;td>Imposible (solo accesible por BossFlow)&lt;/td>
+                &lt;/tr>
+                &lt;tr>
+                  &lt;td>Expiración automática&lt;/td>
+                  &lt;td>Configurable por el servidor&lt;/td>
+                  &lt;td>Gestionada por el usuario o la app&lt;/td>
+                &lt;/tr>
+              &lt;/tbody>
+            &lt;/table>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>4. Cookies de terceros&lt;/h2>
+            &lt;p>
+              &lt;strong>BossFlow NO incluye scripts de terceros que utilicen cookies.&lt;/strong>
+            &lt;/p>
+            &lt;p>Sin embargo, es importante que sepas que:&lt;/p>
+
+            &lt;h3>4.1. Google Fonts&lt;/h3>
+            &lt;p>
+              Utilizamos fuentes tipográficas de Google Fonts cargadas desde servidores de Google.
+              Esto implica que tu navegador realiza peticiones HTTP a{' '}
+              &lt;code>fonts.googleapis.com&lt;/code> y &lt;code>fonts.gstatic.com&lt;/code>, lo que puede
+              incluir tu dirección IP y metadatos del navegador (User-Agent). Google puede
+              registrar esta información conforme a su propia{' '}
+              &lt;a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Política de Privacidad
+              &lt;/a>.
+            &lt;/p>
+            &lt;p>
+              &lt;strong>Nota:&lt;/strong> Estamos trabajando en alojar las fuentes directamente en
+              nuestros servidores para eliminar esta dependencia externa.
+            &lt;/p>
+
+            &lt;h3>4.2. Hosting y CDN&lt;/h3>
+            &lt;p>
+              Nuestros servidores de hosting y CDN (Content Delivery Network) pueden registrar
+              información técnica básica (dirección IP, fecha/hora de acceso, páginas visitadas)
+              para fines de seguridad, rendimiento y cumplimiento de obligaciones legales. Esta
+              información NO se utiliza para rastrearte con fines publicitarios.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>5. Control y gestión de localStorage&lt;/h2>
+
+            &lt;h3>5.1. Cómo ver qué datos almacena BossFlow&lt;/h3>
+            &lt;p>Puedes inspeccionar en cualquier momento los datos almacenados en tu navegador:&lt;/p>
+            &lt;ol>
+              &lt;li>
+                Abre las &lt;strong>Herramientas de Desarrollador&lt;/strong> de tu navegador (F12 en la
+                mayoría de navegadores)
+              &lt;/li>
+              &lt;li>
+                Ve a la pestaña &lt;strong>Application&lt;/strong> (Chrome/Edge) o{' '}
+                &lt;strong>Storage&lt;/strong> (Firefox)
+              &lt;/li>
+              &lt;li>
+                En el menú lateral, expande &lt;strong>Local Storage&lt;/strong> y selecciona{' '}
+                &lt;code>https://bossflow.app&lt;/code>
+              &lt;/li>
+              &lt;li>
+                Verás una lista de todas las claves y valores almacenados (por ejemplo,{' '}
+                &lt;code>token&lt;/code>, &lt;code>userPreferences&lt;/code>)
+              &lt;/li>
+            &lt;/ol>
+
+            &lt;h3>5.2. Cómo eliminar los datos almacenados&lt;/h3>
+            &lt;p>Tienes varias opciones para eliminar los datos de localStorage:&lt;/p>
+
+            &lt;h4>Opción 1: Cerrar sesión en BossFlow&lt;/h4>
+            &lt;ul>
+              &lt;li>Haz clic en tu avatar/menú de usuario&lt;/li>
+              &lt;li>Selecciona "Cerrar sesión"&lt;/li>
+              &lt;li>
+                Esto eliminará automáticamente el token de autenticación (pero conservará las
+                preferencias de interfaz)
+              &lt;/li>
+            &lt;/ul>
+
+            &lt;h4>Opción 2: Limpiar datos del sitio (navegador)&lt;/h4>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Chrome/Edge:&lt;/strong> Configuración {'>'} Privacidad y seguridad {'>'}{' '}
+                Configuración de sitios {'>'} Ver permisos y datos almacenados en sitios {'>'}{' '}
+                Buscar "bossflow.app" {'>'} Eliminar datos
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Firefox:&lt;/strong> Configuración {'>'} Privacidad y seguridad {'>'} Cookies
+                y datos del sitio {'>'} Gestionar datos {'>'} Buscar "bossflow.app" {'>'} Eliminar
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Safari:&lt;/strong> Preferencias {'>'} Privacidad {'>'} Gestionar datos de
+                sitios web {'>'} Buscar "bossflow.app" {'>'} Eliminar
+              &lt;/li>
+            &lt;/ul>
+
+            &lt;h4>Opción 3: Modo incógnito/privado&lt;/h4>
+            &lt;p>
+              Si utilizas BossFlow en una ventana de navegación privada o modo incógnito, todos los
+              datos almacenados (incluido el token de sesión) se eliminarán automáticamente al
+              cerrar la ventana.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>6. ¿Necesito aceptar cookies para usar BossFlow?&lt;/h2>
+            &lt;p>
+              &lt;strong>No.&lt;/strong> Como BossFlow no utiliza cookies, no necesitas aceptar ningún
+              banner de cookies tradicional.
+            &lt;/p>
+            &lt;p>
+              Sin embargo, el uso de localStorage (para mantener tu sesión iniciada) es esencial
+              para el funcionamiento del servicio. Al registrarte y utilizar BossFlow, aceptas
+              implícitamente el uso de localStorage conforme a esta política y a nuestra{' '}
+              &lt;Link to="/legal/privacidad" className="legal-page__link">
+                Política de Privacidad
+              &lt;/Link>.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>7. Cambios en esta Política de Cookies&lt;/h2>
+            &lt;p>
+              Si en el futuro decidimos implementar cookies (por ejemplo, para integrar funcionalidades
+              de terceros como mapas interactivos, chat en vivo, etc.), actualizaremos esta política
+              y te notificaremos mediante:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>Email a la dirección registrada en tu cuenta&lt;/li>
+              &lt;li>Aviso destacado en la plataforma&lt;/li>
+              &lt;li>
+                Banner de consentimiento de cookies (si es requerido por normativa RGPD/ePrivacy)
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>
+              Puedes consultar siempre la versión más actualizada de esta política en{' '}
+              &lt;Link to="/legal/cookies" className="legal-page__link">
+                https://bossflow.app/legal/cookies
+              &lt;/Link>.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>8. Normativa aplicable&lt;/h2>
+            &lt;p>Esta Política de Cookies cumple con:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Reglamento General de Protección de Datos (RGPD)&lt;/strong> — Reglamento UE
+                2016/679
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Directiva ePrivacy (Directiva 2002/58/CE)&lt;/strong> y legislación nacional
+                española de implementación
+              &lt;/li>
+              &lt;li>
+                &lt;strong>
+                  Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de
+                  Comercio Electrónico (LSSI-CE)
+                &lt;/strong>
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>9. Contacto&lt;/h2>
+            &lt;p>
+              Si tienes alguna duda sobre esta Política de Cookies, el uso de localStorage o
+              cualquier aspecto relacionado con la privacidad en BossFlow, puedes contactarnos en:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Email:&lt;/strong>{' '}
+                &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a>
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Asunto del email:&lt;/strong> "Política de Cookies - [Tu consulta]"
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>
+              Responderemos a tu consulta en un plazo máximo de 30 días naturales.
+            &lt;/p>
+          &lt;/section>
         &lt;/section>
 
-        &lt;nav className="confirm-modal__actions">
-          &lt;button
-            type="button"
-            className="confirm-modal__button confirm-modal__button--cancel"
-            onClick={onClose}
-            disabled={isLoading}
-          >
-            {cancelText}
-          &lt;/button>
-          &lt;button
-            type="button"
-            className={`confirm-modal__button confirm-modal__button--confirm confirm-modal__button--${type}`}
-            onClick={onConfirm}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Procesando...' : confirmText}
-          &lt;/button>
-        &lt;/nav>
+        &lt;footer className="legal-page__footer">
+          &lt;p>
+            &lt;strong>Resumen:&lt;/strong> BossFlow respeta tu privacidad y NO utiliza cookies de
+            rastreo, publicidad ni analítica. Solo almacenamos datos esenciales en localStorage
+            para mantener tu sesión activa y tus preferencias de interfaz.
+          &lt;/p>
+          &lt;p>
+            Consulta también nuestra{' '}
+            &lt;Link to="/legal/privacidad" className="legal-page__link">
+              Política de Privacidad
+            &lt;/Link>{' '}
+            y{' '}
+            &lt;Link to="/legal/terminos" className="legal-page__link">
+              Términos de Uso
+            &lt;/Link>.
+          &lt;/p>
+        &lt;/footer>
       &lt;/article>
-    &lt;/section>
+    &lt;/main>
   );
 }
 
-export default ConfirmModal;
+export default CookiesPolicy;
 </code></pre>
         </article>
     </section>

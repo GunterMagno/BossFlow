@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>frontend/src/components/ConfirmModal/ConfirmModal.jsx - Documentation</title>
+    <title>frontend/src/components/CookieBanner/CookieBanner.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">frontend/src/components/ConfirmModal/ConfirmModal.jsx</h1>
+    <h1 class="page-title">frontend/src/components/CookieBanner/CookieBanner.jsx</h1>
     
 
     
@@ -39,105 +39,117 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { FiAlertTriangle, FiX } from 'react-icons/fi';
-import './ConfirmModal.css';
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './CookieBanner.css';
 
 /**
- * Modal de confirmación para acciones que requieren validación del usuario
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Controla la visibilidad del modal
- * @param {Function} props.onClose - Callback ejecutado al cerrar el modal
- * @param {Function} props.onConfirm - Callback ejecutado al confirmar la acción
- * @param {string} [props.title='¿Estás seguro?'] - Título mostrado en el modal
- * @param {string} [props.message='Esta acción no se puede deshacer.'] - Mensaje descriptivo
- * @param {string} [props.confirmText='Confirmar'] - Texto del botón de confirmación
- * @param {string} [props.cancelText='Cancelar'] - Texto del botón de cancelación
- * @param {string} [props.type='danger'] - Tipo visual del modal (danger, warning, info)
- * @param {boolean} [props.isLoading=false] - Indica si hay una operación en curso
- * @returns {JSX.Element|null} Renderiza el modal o null si está cerrado
+ * Componente de banner de consentimiento de cookies/localStorage.
+ * Se muestra en la primera visita del usuario y puede ser aceptado o rechazado.
  */
-function ConfirmModal({
-  isOpen,
-  onClose,
-  onConfirm,
-  title = '¿Estás seguro?',
-  message = 'Esta acción no se puede deshacer.',
-  confirmText = 'Confirmar',
-  cancelText = 'Cancelar',
-  type = 'danger',
-  isLoading = false,
-}) {
-  /**
-   * Gestiona el cierre del modal mediante la tecla Escape
-   * @param {KeyboardEvent} e - Evento del teclado
-   */
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape' &amp;&amp; !isLoading) {
-      onClose();
+function CookieBanner() {
+  const [showBanner, setShowBanner] = useState(false);
+
+  useEffect(() => {
+    // Verifica si el usuario ya aceptó o rechazó el banner
+    const cookieConsent = localStorage.getItem('cookieConsent');
+    
+    // Si fue rechazado, usa sessionStorage para que vuelva a aparecer en nueva sesión
+    if (cookieConsent === 'rejected') {
+      const sessionConsent = sessionStorage.getItem('cookieConsentSession');
+      
+      if (!sessionConsent) {
+        // Muestra el banner de nuevo en esta sesión
+        const timer = setTimeout(() => {
+          setShowBanner(true);
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
+    } else if (!cookieConsent) {
+      // Primera visita - muestra el banner después de un pequeño delay para mejor UX
+      const timer = setTimeout(() => {
+        setShowBanner(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
     }
+  }, []);
+
+  /**
+   * Gestiona la aceptación del uso de localStorage
+   */
+  const handleAccept = () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    setShowBanner(false);
   };
 
-  if (!isOpen) return null;
+  /**
+   * Gestiona el rechazo del uso de localStorage
+   * Nota: El rechazo se registra para esta sesión, pero volverá a aparecer en la próxima visita
+   */
+  const handleReject = () => {
+    localStorage.setItem('cookieConsent', 'rejected');
+    sessionStorage.setItem('cookieConsentSession', 'rejected');
+    setShowBanner(false);
+  };
+
+  if (!showBanner) {
+    return null;
+  }
 
   return (
-    &lt;section
-      className="confirm-modal-overlay"
-      onClick={!isLoading ? onClose : undefined}
-      onKeyDown={handleKeyDown}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-    >
-      &lt;article
-        className={`confirm-modal confirm-modal--${type}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        &lt;header className="confirm-modal__header">
-          &lt;figure className="confirm-modal__icon-wrapper">
-            &lt;FiAlertTriangle className="confirm-modal__icon" />
-          &lt;/figure>
-          &lt;button
-            type="button"
-            className="confirm-modal__close-button"
-            onClick={onClose}
-            disabled={isLoading}
-            aria-label="Cerrar modal"
-          >
-            &lt;FiX />
-          &lt;/button>
-        &lt;/header>
+    &lt;aside className="cookie-banner" role="dialog" aria-label="Aviso de uso de localStorage">
+      &lt;div className="cookie-banner__container">
+        &lt;div className="cookie-banner__content">
+          &lt;h3 className="cookie-banner__title">Aviso de Privacidad&lt;/h3>
+          &lt;p className="cookie-banner__text">
+            BossFlow &lt;strong>NO utiliza cookies&lt;/strong> de rastreo ni publicidad. Solo utilizamos{' '}
+            &lt;strong>localStorage&lt;/strong> para mantener tu sesión iniciada y guardar tus
+            preferencias de interfaz. Esto es esencial para el funcionamiento del servicio.
+          &lt;/p>
+          &lt;p className="cookie-banner__text">
+            Al continuar usando BossFlow, aceptas el uso de localStorage conforme a nuestra{' '}
+            &lt;Link to="/legal/privacidad" className="cookie-banner__link">
+              Política de Privacidad
+            &lt;/Link>{' '}
+            y{' '}
+            &lt;Link to="/legal/cookies" className="cookie-banner__link">
+              Política de Cookies
+            &lt;/Link>.
+          &lt;/p>
+        &lt;/div>
 
-        &lt;section className="confirm-modal__content">
-          &lt;h2 id="confirm-modal-title" className="confirm-modal__title">
-            {title}
-          &lt;/h2>
-          &lt;p className="confirm-modal__message">{message}&lt;/p>
-        &lt;/section>
-
-        &lt;nav className="confirm-modal__actions">
+        &lt;div className="cookie-banner__actions">
           &lt;button
             type="button"
-            className="confirm-modal__button confirm-modal__button--cancel"
-            onClick={onClose}
-            disabled={isLoading}
+            onClick={handleAccept}
+            className="cookie-banner__button cookie-banner__button--accept"
+            aria-label="Aceptar uso de localStorage"
           >
-            {cancelText}
+            Aceptar
           &lt;/button>
           &lt;button
             type="button"
-            className={`confirm-modal__button confirm-modal__button--confirm confirm-modal__button--${type}`}
-            onClick={onConfirm}
-            disabled={isLoading}
+            onClick={handleReject}
+            className="cookie-banner__button cookie-banner__button--reject"
+            aria-label="Rechazar y continuar con funcionalidad limitada"
           >
-            {isLoading ? 'Procesando...' : confirmText}
+            Rechazar
           &lt;/button>
-        &lt;/nav>
-      &lt;/article>
-    &lt;/section>
+          &lt;Link
+            to="/legal/cookies"
+            className="cookie-banner__button cookie-banner__button--info"
+            aria-label="Más información sobre cookies"
+          >
+            Más información
+          &lt;/Link>
+        &lt;/div>
+      &lt;/div>
+    &lt;/aside>
   );
 }
 
-export default ConfirmModal;
+export default CookieBanner;
 </code></pre>
         </article>
     </section>

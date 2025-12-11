@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>frontend/src/pages/TermsOfUse.jsx - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AbilityNode">AbilityNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionIcon">ActionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ActionNode">ActionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_STORAGE_PREFIX">ACTIVITY_STORAGE_PREFIX</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ACTIVITY_TYPES">ACTIVITY_TYPES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#allowedOrigins">allowedOrigins</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#api">api</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#App">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#auth">auth</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#AuthProvider">AuthProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#authService">authService</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#baseURL">baseURL</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#clearActivities">clearActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Community">Community</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#COMPATIBLE_VERSIONS">COMPATIBLE_VERSIONS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmDialog">ConfirmDialog</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ConfirmModal">ConfirmModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#connectDB">connectDB</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#CookieBanner">CookieBanner</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#CookiesPolicy">CookiesPolicy</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#createDiagram">createDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createTransporter">createTransporter</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#CURRENT_VERSION">CURRENT_VERSION</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#CustomEdge">CustomEdge</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Dashboard">Dashboard</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionIcon">DecisionIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DecisionNode">DecisionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_TEMPLATES">DEFAULT_TEMPLATES</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteAccount">deleteAccount</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteDiagram">deleteDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteImage">deleteImage</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#deleteTemplate">deleteTemplate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramCard">DiagramCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#DiagramList">DiagramList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Editor">Editor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#EditorSidebar">EditorSidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectIcon">EffectIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EffectNode">EffectNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#EndNode">EndNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportHandler">ExportHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ExportModal">ExportModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#exportUserData">exportUserData</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#FlowMap">FlowMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Footer">Footer</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#formatRelativeDate">formatRelativeDate</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getActivities">getActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCurrentUserId">getCurrentUserId</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagramById">getDiagramById</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getDiagrams">getDiagrams</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getFormattedActivities">getFormattedActivities</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getProfile">getProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getStats">getStats</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getStorageKey">getStorageKey</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#getTemplates">getTemplates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Handles">Handles</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#healthCheck">healthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Home">Home</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#http">http</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImageNode">ImageNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ImportJSON">ImportJSON</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isValidJSONFile">isValidJSONFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isVersionCompatible">isVersionCompatible</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Layout">Layout</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Login">Login</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#login">login</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#logout">logout</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#MobileNodePanel">MobileNodePanel</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#mongoose">mongoose</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Navbar">Navbar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewDiagramModal">NewDiagramModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NewTemplateModal">NewTemplateModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeDescriptionPopup">NodeDescriptionPopup</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeEditModal">NodeEditModal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NodeTitle">NodeTitle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#NotFound">NotFound</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseIcon">PhaseIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PhaseNode">PhaseNode</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#PositionNode">PositionNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#PrivacyPolicy">PrivacyPolicy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#PrivateRoute">PrivateRoute</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Profile">Profile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Register">Register</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#register">register</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#registerActivity">registerActivity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#sendVerificationEmail">sendVerificationEmail</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#sendWelcomeEmail">sendWelcomeEmail</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Sidebar">Sidebar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartEndIcon">StartEndIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#StartNode">StartNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#startServer">startServer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Status">Status</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateCard">TemplateCard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TemplateList">TemplateList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Templates">Templates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#TermsOfUse">TermsOfUse</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#TimerNode">TimerNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toast">Toast</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ToastProvider">ToastProvider</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Toolbar">Toolbar</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateDiagram">updateDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#updateProfile">updateProfile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#uploadImage">uploadImage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#UploadImageModal">UploadImageModal</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useAuth">useAuth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useExportDiagram">useExportDiagram</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useHealthCheck">useHealthCheck</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#useRecentNodes">useRecentNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#useToast">useToast</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateDiagramStructure">validateDiagramStructure</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateEdge">validateEdge</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateEdges">validateEdges</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateImageMetadata">validateImageMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateImageUrl">validateImageUrl</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateJSONStructure">validateJSONStructure</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateNode">validateNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#validateNodes">validateNodes</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">frontend/src/pages/TermsOfUse.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './LegalPages.css';
+
+/**
+ * Página de Términos de Uso y Condiciones de Servicio.
+ * Muestra los términos y condiciones completos para el uso de BossFlow.
+ */
+function TermsOfUse() {
+  useEffect(() => {
+    document.title = 'Términos de Uso | BossFlow';
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    &lt;main className="legal-page">
+      &lt;article className="legal-page__container">
+        &lt;header className="legal-page__header">
+          &lt;h1 className="legal-page__title">Términos de Uso y Condiciones de Servicio&lt;/h1>
+          &lt;p className="legal-page__subtitle">
+            Fecha de entrada en vigor: 11 de diciembre de 2025&lt;br />
+            Última actualización: 11 de diciembre de 2025
+          &lt;/p>
+        &lt;/header>
+
+        &lt;section className="legal-page__content">
+          &lt;section className="legal-page__section">
+            &lt;h2>1. Aceptación de los Términos&lt;/h2>
+            &lt;p>
+              Bienvenido/a a &lt;strong>BossFlow&lt;/strong>, una aplicación web para crear, editar y
+              compartir diagramas de flujo interactivos. Al acceder, registrarse o utilizar
+              cualquier función de BossFlow (en adelante, "el Servicio" o "la Plataforma"), usted
+              acepta y se compromete a cumplir estos Términos de Uso (en adelante, "los Términos").
+              Si no está de acuerdo con alguna de las disposiciones aquí establecidas,{' '}
+              &lt;strong>no utilice el Servicio&lt;/strong>.
+            &lt;/p>
+            &lt;p>
+              Estos Términos constituyen un acuerdo legal vinculante entre usted (el "Usuario") y
+              los responsables de BossFlow (en adelante, "BossFlow", "nosotros", "nuestro"). Nos
+              reservamos el derecho de modificar estos Términos en cualquier momento. Las
+              modificaciones entrarán en vigor tras su publicación en la Plataforma. El uso
+              continuado del Servicio tras la publicación de cambios implica la aceptación de los
+              mismos.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>2. Descripción del Servicio&lt;/h2>
+            &lt;p>BossFlow es una plataforma web (SaaS) que ofrece las siguientes funcionalidades:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Creación y edición de diagramas de flujo:&lt;/strong> Herramientas
+                interactivas para diseñar diagramas con nodos, conexiones (edges), texto, imágenes
+                y estilos personalizados.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Gestión de plantillas:&lt;/strong> Los usuarios pueden crear diagramas basados
+                en plantillas predefinidas o marcar sus propios diagramas como plantillas públicas.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Almacenamiento en la nube:&lt;/strong> Los diagramas se guardan en nuestros
+                servidores y están accesibles desde cualquier dispositivo con acceso a Internet.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Carga de imágenes:&lt;/strong> Subida de imágenes (JPEG, PNG, GIF, WebP)
+                hasta un máximo de 5 MB por archivo y 10 imágenes por diagrama.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Perfil de usuario:&lt;/strong> Gestión de datos personales (nombre de usuario,
+                email, avatar, bio, juegos favoritos) y estadísticas de uso.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Autenticación y seguridad:&lt;/strong> Sistema de registro y login con
+                cifrado de contraseñas (bcrypt) y autenticación mediante tokens JWT.
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>
+              El Servicio se proporciona &lt;strong>"tal cual" y "según disponibilidad"&lt;/strong>.
+              BossFlow no garantiza que el Servicio estará disponible de forma ininterrumpida,
+              segura o libre de errores.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>3. Registro y Cuenta de Usuario&lt;/h2>
+
+            &lt;h3>3.1. Elegibilidad&lt;/h3>
+            &lt;p>Para utilizar BossFlow, debe:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                Ser mayor de &lt;strong>13 años&lt;/strong>. Si es menor de 18 años, debe contar con el
+                consentimiento de sus padres o tutores legales.
+              &lt;/li>
+              &lt;li>Proporcionar información veraz, completa y actualizada durante el registro.&lt;/li>
+              &lt;li>
+                Ser responsable de mantener la confidencialidad de su contraseña y de todas las
+                actividades que se realicen bajo su cuenta.
+              &lt;/li>
+            &lt;/ul>
+
+            &lt;h3>3.2. Obligaciones del Usuario&lt;/h3>
+            &lt;p>Al crear una cuenta, usted se compromete a:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>No compartir su contraseña&lt;/strong> ni permitir que terceros accedan a su
+                cuenta.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Notificar inmediatamente&lt;/strong> a BossFlow (
+                &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a>) si sospecha un
+                acceso no autorizado a su cuenta.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Proporcionar información precisa&lt;/strong> y actualizar sus datos de perfil
+                cuando sea necesario.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Utilizar un email válido&lt;/strong> para recibir comunicaciones importantes
+                (verificación de cuenta, notificaciones de seguridad, cambios en los Términos).
+              &lt;/li>
+            &lt;/ul>
+
+            &lt;h3>3.3. Suspensión y Cancelación de Cuenta&lt;/h3>
+            &lt;p>
+              BossFlow se reserva el derecho de &lt;strong>suspender o cancelar&lt;/strong> su cuenta en
+              cualquier momento, sin previo aviso, si:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>Infringe estos Términos de Uso.&lt;/li>
+              &lt;li>Proporciona información falsa o engañosa durante el registro.&lt;/li>
+              &lt;li>Utiliza el Servicio para actividades ilegales o fraudulentas.&lt;/li>
+              &lt;li>
+                Realiza actividades que pongan en riesgo la seguridad, integridad o disponibilidad
+                de la Plataforma o de otros usuarios.
+              &lt;/li>
+              &lt;li>
+                Permanece inactivo durante un periodo prolongado (definido por BossFlow).
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>
+              El Usuario puede solicitar la &lt;strong>eliminación de su cuenta&lt;/strong> desde su{' '}
+              &lt;Link to="/profile" className="legal-page__link">perfil&lt;/Link> o enviando un email a{' '}
+              &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a>. La eliminación de la
+              cuenta conlleva la supresión permanente de todos los datos personales y contenidos
+              asociados (diagramas, imágenes), sin posibilidad de recuperación.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>4. Uso Permitido del Servicio&lt;/h2>
+            &lt;p>El Usuario puede utilizar BossFlow para:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                Crear, editar, almacenar y exportar diagramas de flujo para fines personales,
+                educativos o profesionales.
+              &lt;/li>
+              &lt;li>
+                Compartir diagramas con otros usuarios (si esta funcionalidad está habilitada).
+              &lt;/li>
+              &lt;li>Utilizar plantillas públicas creadas por otros usuarios o por BossFlow.&lt;/li>
+              &lt;li>
+                Personalizar su perfil de usuario y gestionar sus estadísticas de uso.
+              &lt;/li>
+              &lt;li>
+                Cargar imágenes propias o con licencia de uso legal para incluir en los diagramas.
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>5. Uso Prohibido y Conductas Inaceptables&lt;/h2>
+            &lt;p>
+              Queda &lt;strong>estrictamente prohibido&lt;/strong>:
+            &lt;/p>
+
+            &lt;h3>5.1. Contenido ilegal o inapropiado&lt;/h3>
+            &lt;p>Subir, publicar o compartir contenido que:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                Infrinja derechos de propiedad intelectual de terceros (marcas, derechos de autor,
+                patentes).
+              &lt;/li>
+              &lt;li>
+                Sea ilegal, obsceno, difamatorio, amenazante, acosador, discriminatorio, violento o
+                pornográfico.
+              &lt;/li>
+              &lt;li>
+                Promueva actividades ilegales (fraude, phishing, venta de drogas, etc.).
+              &lt;/li>
+              &lt;li>
+                Contenga virus, malware, scripts maliciosos o cualquier código dañino.
+              &lt;/li>
+              &lt;li>
+                Incluya información personal o confidencial de terceros sin su consentimiento.
+              &lt;/li>
+            &lt;/ul>
+
+            &lt;h3>5.2. Actividades prohibidas&lt;/h3>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Ingeniería inversa, modificación o descompilación&lt;/strong> del código
+                fuente de BossFlow.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Acceso no autorizado&lt;/strong> a sistemas, servidores, bases de datos o
+                áreas restringidas de la Plataforma.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Automatización no autorizada:&lt;/strong> Uso de bots, scrapers, scripts
+                automáticos o herramientas de extracción masiva de datos sin permiso expreso de
+                BossFlow.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Sobrecarga del sistema:&lt;/strong> Envío de peticiones masivas (ataques DDoS,
+                spam) que puedan afectar el rendimiento o disponibilidad del Servicio.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Suplantación de identidad:&lt;/strong> Hacerse pasar por otro usuario,
+                administrador de BossFlow o cualquier otra persona o entidad.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Venta o reventa del Servicio:&lt;/strong> Redistribuir, revender o
+                comercializar el acceso a BossFlow sin autorización previa por escrito.
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Interferencia con otros usuarios:&lt;/strong> Acosar, intimidar, amenazar o
+                perjudicar la experiencia de otros usuarios.
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>6. Propiedad Intelectual&lt;/h2>
+
+            &lt;h3>6.1. Propiedad de BossFlow&lt;/h3>
+            &lt;p>
+              Todos los derechos de propiedad intelectual sobre el código fuente, diseño, interfaz,
+              logotipo, marca, documentación y cualquier otro elemento de BossFlow son propiedad
+              exclusiva de los creadores de BossFlow o de sus licenciantes. Estos Términos no le
+              otorgan ningún derecho de propiedad sobre dichos elementos, únicamente una{' '}
+              &lt;strong>
+                licencia limitada, no exclusiva, revocable y no transferible
+              &lt;/strong>{' '}
+              para utilizar el Servicio conforme a estos Términos.
+            &lt;/p>
+
+            &lt;h3>6.2. Contenido generado por el Usuario&lt;/h3>
+            &lt;p>
+              El Usuario conserva todos los derechos de propiedad intelectual sobre los diagramas,
+              textos, imágenes y demás contenidos que cree o suba a BossFlow.
+            &lt;/p>
+            &lt;p>
+              No obstante, al subir contenido a la Plataforma, usted otorga a BossFlow una{' '}
+              &lt;strong>
+                licencia mundial, no exclusiva, libre de regalías, sublicenciable y transferible
+              &lt;/strong>{' '}
+              para:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>
+                Almacenar, reproducir, procesar y mostrar su contenido con el fin de prestar el
+                Servicio.
+              &lt;/li>
+              &lt;li>
+                Realizar copias de seguridad y operaciones técnicas necesarias (backups,
+                migraciones de servidor).
+              &lt;/li>
+              &lt;li>
+                Permitir que otros usuarios accedan a su contenido si usted elige hacerlo público o
+                compartirlo (por ejemplo, al marcar un diagrama como plantilla pública).
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>7. Limitación de Responsabilidad&lt;/h2>
+
+            &lt;h3>7.1. Exclusión de garantías&lt;/h3>
+            &lt;p>
+              El Servicio se proporciona &lt;strong>"tal cual" y "según disponibilidad"&lt;/strong>, sin
+              garantías de ningún tipo, expresas o implícitas.
+            &lt;/p>
+
+            &lt;h3>7.2. Limitación de responsabilidad&lt;/h3>
+            &lt;p>En la máxima medida permitida por la ley aplicable:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                La responsabilidad total de BossFlow se limita a un importe total de{' '}
+                &lt;strong>€100 (cien euros)&lt;/strong> por reclamación.
+              &lt;/li>
+              &lt;li>
+                BossFlow no será responsable de daños indirectos, pérdida de beneficios, pérdida de
+                datos, interrupciones del servicio o acciones de terceros.
+              &lt;/li>
+            &lt;/ul>
+
+            &lt;h3>7.3. Indemnización&lt;/h3>
+            &lt;p>
+              El Usuario acepta indemnizar y mantener indemne a BossFlow frente a cualquier
+              reclamación derivada de:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>Incumplimiento de estos Términos de Uso.&lt;/li>
+              &lt;li>Infracción de derechos de terceros.&lt;/li>
+              &lt;li>Uso ilegal o no autorizado del Servicio.&lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>8. Privacidad y Protección de Datos&lt;/h2>
+            &lt;p>
+              BossFlow se compromete a proteger la privacidad de sus usuarios conforme al{' '}
+              &lt;strong>Reglamento General de Protección de Datos (RGPD)&lt;/strong> y a las leyes de
+              privacidad aplicables.
+            &lt;/p>
+            &lt;p>
+              Para información detallada sobre qué datos recogemos, cómo los utilizamos y cuáles
+              son sus derechos, consulte nuestra{' '}
+              &lt;Link to="/legal/privacidad" className="legal-page__link">
+                Política de Privacidad
+              &lt;/Link>.
+            &lt;/p>
+            &lt;p>
+              Para consultas de privacidad o ejercicio de derechos, contacte con{' '}
+              &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a>.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>9. Modificación y Terminación del Servicio&lt;/h2>
+
+            &lt;h3>9.1. Modificaciones del Servicio&lt;/h3>
+            &lt;p>BossFlow se reserva el derecho de:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                Modificar, suspender o discontinuar cualquier funcionalidad del Servicio, de forma
+                temporal o permanente.
+              &lt;/li>
+              &lt;li>Actualizar estos Términos de Uso en cualquier momento.&lt;/li>
+            &lt;/ul>
+
+            &lt;h3>9.2. Terminación por parte del Usuario&lt;/h3>
+            &lt;p>
+              El Usuario puede dejar de utilizar el Servicio en cualquier momento y solicitar la
+              eliminación de su cuenta desde su{' '}
+              &lt;Link to="/profile" className="legal-page__link">perfil&lt;/Link>.
+            &lt;/p>
+
+            &lt;h3>9.3. Terminación por parte de BossFlow&lt;/h3>
+            &lt;p>
+              Podemos suspender o cancelar su acceso al Servicio si infringe estos Términos o
+              realiza actividades perjudiciales. En caso de terminación, perderá el acceso a su
+              cuenta y a todo el contenido almacenado.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>10. Resolución de Disputas&lt;/h2>
+
+            &lt;h3>10.1. Ley aplicable&lt;/h3>
+            &lt;p>
+              Estos Términos se rigen e interpretan de acuerdo con las leyes de &lt;strong>España&lt;/strong>.
+            &lt;/p>
+
+            &lt;h3>10.2. Jurisdicción&lt;/h3>
+            &lt;p>
+              Las partes intentarán primero resolver de forma amistosa cualquier disputa mediante
+              negociaciones informales durante un plazo de 30 días. Si no se alcanza un acuerdo, la
+              disputa será sometida a los tribunales competentes de España.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>11. Causas de Suspensión o Cancelación de Cuenta&lt;/h2>
+            &lt;p>
+              BossFlow se reserva el derecho de suspender o cancelar cuentas en los siguientes
+              casos:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>Violación de los Términos de Uso&lt;/li>
+              &lt;li>Actividades ilegales o fraudulentas&lt;/li>
+              &lt;li>Infracción de derechos de terceros&lt;/li>
+              &lt;li>Comportamiento abusivo o acoso&lt;/li>
+              &lt;li>Spam y abuso del sistema&lt;/li>
+              &lt;li>Inactividad prolongada&lt;/li>
+              &lt;li>Información falsa o engañosa&lt;/li>
+              &lt;li>Violación de seguridad&lt;/li>
+            &lt;/ul>
+            &lt;p>
+              &lt;strong>Consecuencias:&lt;/strong> Pérdida inmediata del acceso al Servicio y a todo el
+              contenido almacenado, sin derecho a reembolso ni compensación.
+            &lt;/p>
+            &lt;p>
+              &lt;strong>Apelación:&lt;/strong> Puede contactar con{' '}
+              &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a> en un plazo de 30
+              días para solicitar una revisión.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>12. Contacto&lt;/h2>
+            &lt;p>Para consultas relacionadas con estos Términos de Uso, contacte con:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Email:&lt;/strong>{' '}
+                &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a>
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Plazo de respuesta:&lt;/strong> 30 días hábiles tras la recepción de su
+                solicitud
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>13. Actualizaciones de estos Términos&lt;/h2>
+            &lt;p>
+              Estos Términos pueden ser actualizados periódicamente. Si realizamos cambios
+              significativos, le notificaremos por email o mediante un aviso visible en la
+              Plataforma con al menos 15 días de antelación.
+            &lt;/p>
+            &lt;p>
+              El uso continuado del Servicio tras la entrada en vigor de los cambios constituye su
+              aceptación de los nuevos Términos.
+            &lt;/p>
+          &lt;/section>
+        &lt;/section>
+
+        &lt;footer className="legal-page__footer">
+          &lt;p>
+            &lt;strong>Gracias por utilizar BossFlow.&lt;/strong>
+          &lt;/p>
+          &lt;p>
+            Consulta también nuestra{' '}
+            &lt;Link to="/legal/privacidad" className="legal-page__link">
+              Política de Privacidad
+            &lt;/Link>{' '}
+            y{' '}
+            &lt;Link to="/legal/cookies" className="legal-page__link">
+              Política de Cookies
+            &lt;/Link>.
+          &lt;/p>
+        &lt;/footer>
+      &lt;/article>
+    &lt;/main>
+  );
+}
+
+export default TermsOfUse;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Dec 11 2025 21:30:34 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

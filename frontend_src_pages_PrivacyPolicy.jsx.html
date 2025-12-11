@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>frontend/src/components/ConfirmModal/ConfirmModal.jsx - Documentation</title>
+    <title>frontend/src/pages/PrivacyPolicy.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">frontend/src/components/ConfirmModal/ConfirmModal.jsx</h1>
+    <h1 class="page-title">frontend/src/pages/PrivacyPolicy.jsx</h1>
     
 
     
@@ -39,105 +39,403 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { FiAlertTriangle, FiX } from 'react-icons/fi';
-import './ConfirmModal.css';
+            <pre class="prettyprint source linenums"><code>import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './LegalPages.css';
 
 /**
- * Modal de confirmación para acciones que requieren validación del usuario
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Controla la visibilidad del modal
- * @param {Function} props.onClose - Callback ejecutado al cerrar el modal
- * @param {Function} props.onConfirm - Callback ejecutado al confirmar la acción
- * @param {string} [props.title='¿Estás seguro?'] - Título mostrado en el modal
- * @param {string} [props.message='Esta acción no se puede deshacer.'] - Mensaje descriptivo
- * @param {string} [props.confirmText='Confirmar'] - Texto del botón de confirmación
- * @param {string} [props.cancelText='Cancelar'] - Texto del botón de cancelación
- * @param {string} [props.type='danger'] - Tipo visual del modal (danger, warning, info)
- * @param {boolean} [props.isLoading=false] - Indica si hay una operación en curso
- * @returns {JSX.Element|null} Renderiza el modal o null si está cerrado
+ * Página de Política de Privacidad.
+ * Muestra la política de privacidad y protección de datos de BossFlow.
  */
-function ConfirmModal({
-  isOpen,
-  onClose,
-  onConfirm,
-  title = '¿Estás seguro?',
-  message = 'Esta acción no se puede deshacer.',
-  confirmText = 'Confirmar',
-  cancelText = 'Cancelar',
-  type = 'danger',
-  isLoading = false,
-}) {
-  /**
-   * Gestiona el cierre del modal mediante la tecla Escape
-   * @param {KeyboardEvent} e - Evento del teclado
-   */
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape' &amp;&amp; !isLoading) {
-      onClose();
-    }
-  };
-
-  if (!isOpen) return null;
+function PrivacyPolicy() {
+  useEffect(() => {
+    document.title = 'Política de Privacidad | BossFlow';
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    &lt;section
-      className="confirm-modal-overlay"
-      onClick={!isLoading ? onClose : undefined}
-      onKeyDown={handleKeyDown}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-    >
-      &lt;article
-        className={`confirm-modal confirm-modal--${type}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        &lt;header className="confirm-modal__header">
-          &lt;figure className="confirm-modal__icon-wrapper">
-            &lt;FiAlertTriangle className="confirm-modal__icon" />
-          &lt;/figure>
-          &lt;button
-            type="button"
-            className="confirm-modal__close-button"
-            onClick={onClose}
-            disabled={isLoading}
-            aria-label="Cerrar modal"
-          >
-            &lt;FiX />
-          &lt;/button>
+    &lt;main className="legal-page">
+      &lt;article className="legal-page__container">
+        &lt;header className="legal-page__header">
+          &lt;h1 className="legal-page__title">Política de Privacidad&lt;/h1>
+          &lt;p className="legal-page__subtitle">
+            Última actualización: 11 de diciembre de 2025
+          &lt;/p>
         &lt;/header>
 
-        &lt;section className="confirm-modal__content">
-          &lt;h2 id="confirm-modal-title" className="confirm-modal__title">
-            {title}
-          &lt;/h2>
-          &lt;p className="confirm-modal__message">{message}&lt;/p>
+        &lt;section className="legal-page__content">
+          &lt;section className="legal-page__section">
+            &lt;h2>1. Introducción&lt;/h2>
+            &lt;p>
+              En &lt;strong>BossFlow&lt;/strong> (accesible desde{' '}
+              &lt;a href="https://bossflow.app/" target="_blank" rel="noopener noreferrer">
+                https://bossflow.app/
+              &lt;/a>
+              ), nos tomamos muy en serio la privacidad y la protección de tus datos personales.
+              Esta Política de Privacidad describe cómo recopilamos, utilizamos, almacenamos y
+              protegemos tu información cuando utilizas nuestro servicio de creación y gestión de
+              diagramas de flujo.
+            &lt;/p>
+            &lt;p>
+              Al registrarte y utilizar BossFlow, aceptas las prácticas descritas en esta Política
+              de Privacidad. Si no estás de acuerdo con alguna parte de esta política, por favor no
+              utilices nuestro servicio.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>2. Responsable del Tratamiento&lt;/h2>
+            &lt;p>El responsable del tratamiento de tus datos personales es:&lt;/p>
+            &lt;ul>
+              &lt;li>&lt;strong>Nombre del servicio:&lt;/strong> BossFlow&lt;/li>
+              &lt;li>&lt;strong>Sitio web:&lt;/strong> https://bossflow.app/&lt;/li>
+              &lt;li>
+                &lt;strong>Email de contacto:&lt;/strong>{' '}
+                &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a>
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>3. Datos Personales que Recopilamos&lt;/h2>
+            &lt;p>Recopilamos y procesamos los siguientes tipos de datos personales:&lt;/p>
+
+            &lt;h3>3.1. Datos de registro y autenticación&lt;/h3>
+            &lt;ul>
+              &lt;li>&lt;strong>Nombre de usuario:&lt;/strong> Identificador único elegido por el usuario&lt;/li>
+              &lt;li>&lt;strong>Correo electrónico:&lt;/strong> Utilizado para autenticación, recuperación de cuenta y comunicaciones&lt;/li>
+              &lt;li>&lt;strong>Contraseña:&lt;/strong> Cifrada mediante bcrypt (nunca almacenamos contraseñas en texto plano)&lt;/li>
+            &lt;/ul>
+
+            &lt;h3>3.2. Datos de perfil&lt;/h3>
+            &lt;ul>
+              &lt;li>&lt;strong>Avatar:&lt;/strong> URL de imagen de perfil (opcional)&lt;/li>
+              &lt;li>&lt;strong>Biografía:&lt;/strong> Descripción personal (máximo 500 caracteres, opcional)&lt;/li>
+              &lt;li>&lt;strong>Juegos favoritos:&lt;/strong> Lista de hasta 10 juegos (opcional)&lt;/li>
+            &lt;/ul>
+
+            &lt;h3>3.3. Contenido generado por el usuario&lt;/h3>
+            &lt;ul>
+              &lt;li>&lt;strong>Diagramas:&lt;/strong> Estructura JSON de diagramas de flujo (nodos, conexiones, estilos)&lt;/li>
+              &lt;li>&lt;strong>Imágenes subidas:&lt;/strong> Archivos de imagen (JPEG, PNG, GIF, WebP) hasta 5 MB por archivo&lt;/li>
+              &lt;li>&lt;strong>Plantillas públicas:&lt;/strong> Diagramas marcados como plantillas para compartir con otros usuarios&lt;/li>
+            &lt;/ul>
+
+            &lt;h3>3.4. Datos de uso y estadísticas&lt;/h3>
+            &lt;ul>
+              &lt;li>&lt;strong>Fecha de registro:&lt;/strong> Timestamp de creación de cuenta&lt;/li>
+              &lt;li>&lt;strong>Última actividad:&lt;/strong> Fecha de último acceso&lt;/li>
+              &lt;li>&lt;strong>Estadísticas de uso:&lt;/strong> Número de diagramas creados, nodos totales, plantillas creadas&lt;/li>
+              &lt;li>&lt;strong>Logros:&lt;/strong> Hitos alcanzados en la plataforma&lt;/li>
+            &lt;/ul>
+
+            &lt;h3>3.5. Datos técnicos&lt;/h3>
+            &lt;ul>
+              &lt;li>&lt;strong>Dirección IP:&lt;/strong> Registrada temporalmente para seguridad y prevención de abusos&lt;/li>
+              &lt;li>&lt;strong>Información del navegador:&lt;/strong> User-agent para compatibilidad técnica&lt;/li>
+              &lt;li>&lt;strong>Tokens de sesión (JWT):&lt;/strong> Para mantener tu sesión activa de forma segura&lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>4. Base Legal para el Tratamiento de Datos&lt;/h2>
+            &lt;p>Tratamos tus datos personales en base a las siguientes bases legales (RGPD Art. 6):&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Ejecución de contrato (Art. 6.1.b):&lt;/strong> Para proporcionar el servicio
+                solicitado (creación de cuenta, almacenamiento de diagramas, gestión de perfil)
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Consentimiento (Art. 6.1.a):&lt;/strong> Para datos opcionales como avatar,
+                biografía y juegos favoritos
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Interés legítimo (Art. 6.1.f):&lt;/strong> Para seguridad del servicio,
+                prevención de fraudes y mejora de funcionalidades
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Obligación legal (Art. 6.1.c):&lt;/strong> Para cumplir con requisitos legales
+                (conservación de datos fiscales, respuesta a requerimientos judiciales)
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>5. Finalidades del Tratamiento de Datos&lt;/h2>
+            &lt;p>Utilizamos tus datos personales para:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Gestión de cuentas:&lt;/strong> Crear, autenticar y gestionar tu cuenta de
+                usuario
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Prestación del servicio:&lt;/strong> Permitir la creación, edición,
+                almacenamiento y exportación de diagramas
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Comunicaciones:&lt;/strong> Enviar notificaciones importantes (verificación de
+                cuenta, cambios en términos, alertas de seguridad)
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Seguridad:&lt;/strong> Proteger la plataforma contra fraudes, abusos y accesos
+                no autorizados
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Mejoras del servicio:&lt;/strong> Analizar estadísticas anónimas para mejorar
+                la experiencia de usuario
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Cumplimiento legal:&lt;/strong> Responder a requerimientos judiciales o de
+                autoridades competentes
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>6. Compartición de Datos con Terceros&lt;/h2>
+            &lt;p>
+              &lt;strong>BossFlow no vende ni comparte tus datos personales con terceros con fines
+              comerciales.&lt;/strong>
+            &lt;/p>
+            &lt;p>Únicamente compartimos datos en los siguientes casos:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Proveedores de servicios:&lt;/strong> Empresas que nos ayudan a operar la
+                plataforma (hosting, bases de datos, almacenamiento) bajo estrictos acuerdos de
+                confidencialidad
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Obligaciones legales:&lt;/strong> Cuando sea requerido por ley, orden judicial
+                o autoridad competente
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Contenido público:&lt;/strong> Si marcas un diagrama como "plantilla pública",
+                será visible para otros usuarios de BossFlow
+              &lt;/li>
+            &lt;/ul>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>7. Transferencias Internacionales de Datos&lt;/h2>
+            &lt;p>
+              Nuestros servidores están ubicados en la Unión Europea. En caso de que algunos
+              servicios de terceros (por ejemplo, proveedores de hosting) estén fuera de la UE,
+              garantizamos que se aplican las salvaguardias adecuadas (Cláusulas Contractuales Tipo
+              de la Comisión Europea, Privacy Shield, etc.) para proteger tus datos.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>8. Conservación de Datos&lt;/h2>
+            &lt;p>Conservamos tus datos personales durante los siguientes periodos:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Datos de cuenta activa:&lt;/strong> Mientras tu cuenta esté activa y utilices
+                el servicio
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Datos de cuenta eliminada:&lt;/strong> 30 días tras solicitar la eliminación
+                de tu cuenta (para permitir recuperación en caso de error)
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Logs de seguridad:&lt;/strong> Hasta 90 días para prevención de fraudes
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Datos fiscales/legales:&lt;/strong> Según obligaciones legales aplicables
+                (generalmente 5-10 años)
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>
+              Transcurridos estos plazos, eliminamos o anonimizamos tus datos personales de forma
+              permanente.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>9. Tus Derechos (RGPD)&lt;/h2>
+            &lt;p>Como usuario de la Unión Europea, tienes los siguientes derechos:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Derecho de acceso (Art. 15):&lt;/strong> Solicitar una copia de tus datos
+                personales
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Derecho de rectificación (Art. 16):&lt;/strong> Corregir datos inexactos o
+                incompletos
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Derecho de supresión (Art. 17):&lt;/strong> Solicitar la eliminación de tus
+                datos ("derecho al olvido")
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Derecho de limitación del tratamiento (Art. 18):&lt;/strong> Restringir el
+                procesamiento de tus datos en ciertos casos
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Derecho de portabilidad (Art. 20):&lt;/strong> Recibir tus datos en formato
+                JSON estructurado
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Derecho de oposición (Art. 21):&lt;/strong> Oponerte al tratamiento de tus
+                datos en determinadas circunstancias
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Derecho a retirar el consentimiento:&lt;/strong> En cualquier momento, sin
+                afectar tratamientos previos
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Derecho a presentar reclamación:&lt;/strong> Ante la Agencia Española de
+                Protección de Datos (AEPD) u otra autoridad competente
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>
+              Para ejercer estos derechos, accede a tu{' '}
+              &lt;Link to="/profile" className="legal-page__link">perfil de usuario&lt;/Link> o
+              contacta con nosotros en{' '}
+              &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a>.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>10. Seguridad de los Datos&lt;/h2>
+            &lt;p>Implementamos medidas técnicas y organizativas para proteger tus datos:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Cifrado de contraseñas:&lt;/strong> Utilizamos bcrypt con salt rounds para
+                almacenar contraseñas de forma segura
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Autenticación JWT:&lt;/strong> Tokens seguros con expiración automática
+              &lt;/li>
+              &lt;li>
+                &lt;strong>HTTPS:&lt;/strong> Todas las comunicaciones están cifradas con TLS/SSL
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Validación de datos:&lt;/strong> Filtrado y sanitización de inputs para
+                prevenir inyecciones SQL/XSS
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Backups regulares:&lt;/strong> Copias de seguridad cifradas y almacenadas de
+                forma segura
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Control de acceso:&lt;/strong> Acceso restringido a datos personales solo para
+                personal autorizado
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>
+              Sin embargo, ningún sistema es 100% seguro. En caso de brecha de seguridad que afecte
+              a tus datos, te notificaremos en un plazo de 72 horas según lo establecido por el
+              RGPD.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>11. Cookies y Tecnologías de Rastreo&lt;/h2>
+            &lt;p>
+              &lt;strong>BossFlow NO utiliza cookies de terceros ni tecnologías de rastreo para
+              publicidad o analítica.&lt;/strong>
+            &lt;/p>
+            &lt;p>Solo utilizamos:&lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Tokens JWT (almacenados en localStorage):&lt;/strong> Para mantener tu sesión
+                iniciada de forma segura
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Preferencias de usuario (localStorage):&lt;/strong> Para guardar configuraciones
+                de la interfaz (modo oscuro, idioma, etc.)
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>
+              Para más información, consulta nuestra{' '}
+              &lt;Link to="/legal/cookies" className="legal-page__link">
+                Política de Cookies
+              &lt;/Link>.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>12. Menores de Edad&lt;/h2>
+            &lt;p>
+              BossFlow está dirigido a usuarios mayores de &lt;strong>13 años&lt;/strong>. Si eres menor
+              de 18 años, necesitas el consentimiento de tus padres o tutores legales para utilizar
+              el servicio.
+            &lt;/p>
+            &lt;p>
+              No recopilamos intencionadamente datos de menores de 13 años. Si detectamos que un
+              usuario es menor de 13 años, eliminaremos su cuenta y datos de forma inmediata.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>13. Modificaciones de esta Política&lt;/h2>
+            &lt;p>
+              Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier
+              momento. Te notificaremos de cambios significativos mediante:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>Email a la dirección registrada en tu cuenta&lt;/li>
+              &lt;li>Aviso destacado en la plataforma&lt;/li>
+              &lt;li>Actualización de la fecha "Última actualización" al inicio de este documento&lt;/li>
+            &lt;/ul>
+            &lt;p>
+              El uso continuado del servicio tras la publicación de cambios implica la aceptación de
+              la nueva Política de Privacidad.
+            &lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>14. Contacto&lt;/h2>
+            &lt;p>
+              Para cualquier consulta, solicitud o reclamación relacionada con la privacidad y
+              protección de datos, puedes contactarnos en:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>
+                &lt;strong>Email:&lt;/strong>{' '}
+                &lt;a href="mailto:bosslflow1@gmail.com">bosslflow1@gmail.com&lt;/a>
+              &lt;/li>
+              &lt;li>
+                &lt;strong>Asunto del email:&lt;/strong> "Privacidad - [Tu solicitud]"
+              &lt;/li>
+            &lt;/ul>
+            &lt;p>Responderemos a tu solicitud en un plazo máximo de 30 días naturales.&lt;/p>
+          &lt;/section>
+
+          &lt;section className="legal-page__section">
+            &lt;h2>15. Datos de Contacto de la Autoridad de Control&lt;/h2>
+            &lt;p>
+              Si consideras que tus derechos de protección de datos han sido vulnerados, puedes
+              presentar una reclamación ante:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>&lt;strong>Agencia Española de Protección de Datos (AEPD)&lt;/strong>&lt;/li>
+              &lt;li>Sitio web: https://www.aepd.es/&lt;/li>
+              &lt;li>Dirección: C/ Jorge Juan, 6, 28001 Madrid, España&lt;/li>
+              &lt;li>Teléfono: +34 901 100 099&lt;/li>
+            &lt;/ul>
+          &lt;/section>
         &lt;/section>
 
-        &lt;nav className="confirm-modal__actions">
-          &lt;button
-            type="button"
-            className="confirm-modal__button confirm-modal__button--cancel"
-            onClick={onClose}
-            disabled={isLoading}
-          >
-            {cancelText}
-          &lt;/button>
-          &lt;button
-            type="button"
-            className={`confirm-modal__button confirm-modal__button--confirm confirm-modal__button--${type}`}
-            onClick={onConfirm}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Procesando...' : confirmText}
-          &lt;/button>
-        &lt;/nav>
+        &lt;footer className="legal-page__footer">
+          &lt;p>
+            ¿Tienes dudas? Consulta también nuestros{' '}
+            &lt;Link to="/legal/terminos" className="legal-page__link">
+              Términos de Uso
+            &lt;/Link>{' '}
+            y la{' '}
+            &lt;Link to="/legal/cookies" className="legal-page__link">
+              Política de Cookies
+            &lt;/Link>.
+          &lt;/p>
+        &lt;/footer>
       &lt;/article>
-    &lt;/section>
+    &lt;/main>
   );
 }
 
-export default ConfirmModal;
+export default PrivacyPolicy;
 </code></pre>
         </article>
     </section>
