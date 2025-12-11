@@ -81,6 +81,46 @@ BossFlow está construido sobre el stack MERN como base (MongoDB, Express, React
 
 ## Capturas de pantalla
 
+1. Al acceder a la aplicación (home y banner):
+
+![Imagen 1](./docs/img-app/img1.png)
+
+2. Pantalla de registro:
+
+![Imagen 2](./docs/img-app/img2.png)
+
+3. Polica de privacidad (vista a página políticas):
+
+![Imagen 3](./docs/img-app/img3.png)
+
+4. Modal para crear diagrama:
+
+![Imagen 4](./docs/img-app/img4.png)
+
+5. Editor:
+
+![Imagen 5](./docs/img-app/img5.png)
+
+6. Modal de exportación de diagramas:
+
+![Imagen 6](./docs/img-app/img6.png.png)
+
+7. Modal de importación de diagramas:
+
+![Imagen 7](./docs/img-app/img7.png)
+
+8. Vista Dashboard: 
+
+![Imagen 8](./docs/img-app/img10.png)
+
+9. Perfil de usuario:
+
+![Imagen 0](./docs/img-app/img8.png)
+
+10. Modal eliminación de cuenta:
+
+![Imagen 10](./docs/img-app/img9.png) 
+
 
 ## Instalación y ejecución
 
@@ -187,15 +227,68 @@ Enlace a la [WIKI](https://github.com/GunterMagno/BossFlow/wiki)
 
 La carpeta `docs/` contiene la documentación técnica y de proyecto organizada por áreas:
 
-- `docs/README.md`: índice principal y guía de lectura para navegar la documentación.
-- `docs/api/`: especificaciones relacionadas con la estructura de los diagramas. Incluye:
-	- `estructura-nodos-json.md`: esquema JSON y reglas de validación para los nodos.
-	- `NODE_TYPES.md`: tipos de nodos y su semántica.
-- `docs/arquitectura/`: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: `base-de-datos.md`, `auth-flujo.md`.
-- `docs/despliegue/`: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: `setup-docker.md`, `DESPLIEGUE.md`, `despliegue-vps.md`.
-- `docs/proyecto/`: información del proyecto (objetivos, problema, viabilidad técnica, recursos).
-- `docs/historias-usuario/`: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).
-- `docs/ui-ux/`: recursos de diseño, notas de Figma y capturas en `docs/ui-ux/capturas/`.
+### Estructura de la documentación
+
+#### Documentos Raíz
+- `docs/README.md`: índice principal y guía de lectura para navegar la documentación
+- `docs/analisis-competencia.md`: análisis de aplicaciones similares y competencia
+- `docs/estructura-organizativa.md`: organización del equipo y roles
+- `docs/recursos.md`: recursos materiales, herramientas y servicios utilizados
+- `docs/financiacion.md`: plan de financiación y costes del proyecto
+- `docs/presupuesto.md`: desglose detallado del presupuesto
+- `docs/legislacion.md`: marco legal y normativa aplicable
+- `docs/documentacion-legislacion.md`: documentación legal detallada
+- `docs/retrospectiva.md`: retrospectivas de sprints y lecciones aprendidas
+
+#### API (`docs/api/`)
+Especificaciones relacionadas con la estructura de los diagramas:
+- `estructura-nodos-json.md`: esquema JSON y reglas de validación para los nodos
+- `NODE_TYPES.md`: tipos de nodos y su semántica
+
+#### Arquitectura (`docs/arquitectura/`)
+Detalles arquitectónicos del sistema:
+- `arquitectura-tecnica.md`: diseño general de la arquitectura
+- `base-de-datos.md`: esquema y modelo de datos MongoDB
+- `auth-flujo.md`: flujo de autenticación y autorización JWT
+- `estrategia-logout.md`: implementación del cierre de sesión
+
+#### Despliegue (`docs/despliegue/`)
+Guías para desplegar la aplicación:
+- `DESPLIEGUE.md`: guía rápida de despliegue
+- `despliegue-vps.md`: despliegue en VPS con Docker
+- `setup-docker.md`: configuración de Docker y Docker Compose
+
+#### Proyecto (`docs/proyecto/`)
+Información del proyecto y planificación:
+- `objetivos-alcance.md`: objetivos y alcance del proyecto
+- `problema.md`: definición del problema a resolver
+- `viabilidad-tecnica.md`: análisis de viabilidad técnica
+- `asignacion.md`: asignación de tareas y responsabilidades
+- `recursos.md`: recursos del proyecto (duplicado, ver raíz)
+
+#### Historias de Usuario (`docs/historias-usuario/`)
+Historias de usuario y criterios de aceptación:
+- `crud-diagramas.md`: historias de usuario para el CRUD de diagramas
+
+#### Sprints (`docs/sprints/`)
+Planificación y seguimiento de sprints:
+- `planificacion-sprints.md`: planificación general de sprints
+- `product-backlog.md`: backlog de producto
+- `sprint1/`, `sprint2/`, `sprint3/`...: ceremonias y documentación de cada sprint
+
+#### UI/UX (`docs/ui-ux/`)
+Recursos de diseño y experiencia de usuario:
+- `figma.md`: enlaces y notas de diseño en Figma
+- `capturas/`: capturas de pantalla del diseño
+
+#### Capturas de aplicación (`docs/img-app/`)
+Capturas de pantalla de la aplicación funcionando
+
+#### Políticas (`docs/politicas/`)
+Documentos legales y políticas de privacidad
+
+#### 👨Documentación para rofesores (`docs/dani/`)
+Documentación específica para evaluación académica
 
 
 
