@@ -237,20 +237,73 @@ Esta documentación va dirigida a algunos profesores en específico por los requ
 <p>Enlace a la <a href="https://github.com/GunterMagno/BossFlow/wiki">WIKI</a></p>
 <p>👉 <strong><a href="docs/README.md">Ver índice completo de documentación</a></strong></p>
 <p>La carpeta <code>docs/</code> contiene la documentación técnica y de proyecto organizada por áreas:</p>
+<h3>Estructura de la documentación</h3>
+<h4>Documentos Raíz</h4>
 <ul>
-<li><code>docs/README.md</code>: índice principal y guía de lectura para navegar la documentación.</li>
-<li><code>docs/api/</code>: especificaciones relacionadas con la estructura de los diagramas. Incluye:
-<ul>
-<li><code>estructura-nodos-json.md</code>: esquema JSON y reglas de validación para los nodos.</li>
-<li><code>NODE_TYPES.md</code>: tipos de nodos y su semántica.</li>
+<li><code>docs/README.md</code>: índice principal y guía de lectura para navegar la documentación</li>
+<li><code>docs/analisis-competencia.md</code>: análisis de aplicaciones similares y competencia</li>
+<li><code>docs/estructura-organizativa.md</code>: organización del equipo y roles</li>
+<li><code>docs/recursos.md</code>: recursos materiales, herramientas y servicios utilizados</li>
+<li><code>docs/financiacion.md</code>: plan de financiación y costes del proyecto</li>
+<li><code>docs/presupuesto.md</code>: desglose detallado del presupuesto</li>
+<li><code>docs/legislacion.md</code>: marco legal y normativa aplicable</li>
+<li><code>docs/documentacion-legislacion.md</code>: documentación legal detallada</li>
+<li><code>docs/retrospectiva.md</code>: retrospectivas de sprints y lecciones aprendidas</li>
 </ul>
-</li>
-<li><code>docs/arquitectura/</code>: detalles arquitectónicos (diseño de la base de datos, flujo de autenticación, estrategias de logout, etc.). Ej.: <code>base-de-datos.md</code>, <code>auth-flujo.md</code>.</li>
-<li><code>docs/despliegue/</code>: guías para desplegar la aplicación (VPS, Docker, setup). Ej.: <code>setup-docker.md</code>, <code>DESPLIEGUE.md</code>, <code>despliegue-vps.md</code>.</li>
-<li><code>docs/proyecto/</code>: información del proyecto (objetivos, problema, viabilidad técnica, recursos).</li>
-<li><code>docs/historias-usuario/</code>: historias de usuario y criterios (CRUD de diagramas, flujos de usuario).</li>
-<li><code>docs/ui-ux/</code>: recursos de diseño, notas de Figma y capturas en <code>docs/ui-ux/capturas/</code>.</li>
-</ul></article>
+<h4>API (<code>docs/api/</code>)</h4>
+<p>Especificaciones relacionadas con la estructura de los diagramas:</p>
+<ul>
+<li><code>estructura-nodos-json.md</code>: esquema JSON y reglas de validación para los nodos</li>
+<li><code>NODE_TYPES.md</code>: tipos de nodos y su semántica</li>
+</ul>
+<h4>Arquitectura (<code>docs/arquitectura/</code>)</h4>
+<p>Detalles arquitectónicos del sistema:</p>
+<ul>
+<li><code>arquitectura-tecnica.md</code>: diseño general de la arquitectura</li>
+<li><code>base-de-datos.md</code>: esquema y modelo de datos MongoDB</li>
+<li><code>auth-flujo.md</code>: flujo de autenticación y autorización JWT</li>
+<li><code>estrategia-logout.md</code>: implementación del cierre de sesión</li>
+</ul>
+<h4>Despliegue (<code>docs/despliegue/</code>)</h4>
+<p>Guías para desplegar la aplicación:</p>
+<ul>
+<li><code>DESPLIEGUE.md</code>: guía rápida de despliegue</li>
+<li><code>despliegue-vps.md</code>: despliegue en VPS con Docker</li>
+<li><code>setup-docker.md</code>: configuración de Docker y Docker Compose</li>
+</ul>
+<h4>Proyecto (<code>docs/proyecto/</code>)</h4>
+<p>Información del proyecto y planificación:</p>
+<ul>
+<li><code>objetivos-alcance.md</code>: objetivos y alcance del proyecto</li>
+<li><code>problema.md</code>: definición del problema a resolver</li>
+<li><code>viabilidad-tecnica.md</code>: análisis de viabilidad técnica</li>
+<li><code>asignacion.md</code>: asignación de tareas y responsabilidades</li>
+<li><code>recursos.md</code>: recursos del proyecto (duplicado, ver raíz)</li>
+</ul>
+<h4>Historias de Usuario (<code>docs/historias-usuario/</code>)</h4>
+<p>Historias de usuario y criterios de aceptación:</p>
+<ul>
+<li><code>crud-diagramas.md</code>: historias de usuario para el CRUD de diagramas</li>
+</ul>
+<h4>Sprints (<code>docs/sprints/</code>)</h4>
+<p>Planificación y seguimiento de sprints:</p>
+<ul>
+<li><code>planificacion-sprints.md</code>: planificación general de sprints</li>
+<li><code>product-backlog.md</code>: backlog de producto</li>
+<li><code>sprint1/</code>, <code>sprint2/</code>, <code>sprint3/</code>...: ceremonias y documentación de cada sprint</li>
+</ul>
+<h4>UI/UX (<code>docs/ui-ux/</code>)</h4>
+<p>Recursos de diseño y experiencia de usuario:</p>
+<ul>
+<li><code>figma.md</code>: enlaces y notas de diseño en Figma</li>
+<li><code>capturas/</code>: capturas de pantalla del diseño</li>
+</ul>
+<h4>Capturas de aplicación (<code>docs/img-app/</code>)</h4>
+<p>Capturas de pantalla de la aplicación funcionando</p>
+<h4>Políticas (<code>docs/politicas/</code>)</h4>
+<p>Documentos legales y políticas de privacidad</p>
+<h4>👨Documentación para rofesores (<code>docs/dani/</code>)</h4>
+<p>Documentación específica para evaluación académica</p></article>
     </section>
 
 
@@ -263,7 +316,7 @@ Esta documentación va dirigida a algunos profesores en específico por los requ
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Dec 11 2025 23:17:46 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Dec 11 2025 23:24:26 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
