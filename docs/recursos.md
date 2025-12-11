@@ -1,4 +1,5 @@
-# Recursos  
+# Recursos materiales
+
 ## 1. Distribución de Roles y Responsabilidades
 
 | Sprint | Fechas | Jesús | Alejandro | Daniel |
@@ -185,8 +186,7 @@ VITE_API_URL=http://localhost:5000
 | **Gmail SMTP** | App password | Bitwarden vault |
 | **Dominio** | Credenciales DNS | GitHub Student Pack account |
 
+
 ## 7. Servicios externos y APIs a utilizar.  
+
 - Vamos a hacer uso de una **API** llamada [**Rawg.io**](https://rawg.io/), la cual nos proporcionará nombres e información sobre videojuegos (Aún no implementada). 
-
-  
-
