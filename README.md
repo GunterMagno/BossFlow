@@ -287,9 +287,11 @@ Capturas de pantalla de la aplicación funcionando
 #### Políticas (`docs/politicas/`)
 Documentos legales y políticas de privacidad
 
-#### 👨Documentación para rofesores (`docs/dani/`)
+#### Documentación para profesores (`docs/dani/`)
 Documentación específica para evaluación académica
 
+### Enlace video demo
 
+[https://youtu.be/gMY0KOfktd0](https://youtu.be/gMY0KOfktd0)
 
 
