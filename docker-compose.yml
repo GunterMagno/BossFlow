@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
     environment:
+      SENTRY_DSN: ${SENTRY_DSN}
       NODE_ENV: production
       BACKEND_PORT: 5000
       MONGO_URI: mongodb://mongo:27017/bossflow

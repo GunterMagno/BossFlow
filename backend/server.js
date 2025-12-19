@@ -1,5 +1,15 @@
 const path = require("path");
 
+// Sentry instrumentation must be imported before other modules initialize.
+try {
+  require("./instrument.js");
+} catch (e) {
+  // If instrument.js is not found or fails, continue without crashing here.
+  console.warn("⚠️  instrument.js could not be loaded:", e.message);
+}
+
+const Sentry = require("@sentry/node");
+
 /**
  * Carga variables de entorno desde archivo .env.
  * Solo se ejecuta en desarrollo local, en Docker se usan variables de environment.
@@ -23,6 +33,18 @@ const cors = require("cors");
 const connectDB = require("./config/database");
 
 const app = express();
+
+// Initialize Sentry (DSN from env). Adjust tracesSampleRate as needed.
+Sentry.init({
+  dsn: process.env.SENTRY_DSN || "",
+  tracesSampleRate: process.env.SENTRY_TRACES_SAMPLE_RATE
+    ? Number(process.env.SENTRY_TRACES_SAMPLE_RATE)
+    : 0.0,
+});
+
+console.log("🟢 Sentry inicializado con DSN:", process.env.SENTRY_DSN);
+
+
 const PORT = process.env.BACKEND_PORT || 5000;
 
 /**
@@ -93,6 +115,13 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const routes = require("./routes/index");
 app.use("/api", routes);
+
+
+
+// Ruta de depuración para comprobar la integración con Sentry
+app.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
 
 /**
  * Middleware para capturar y manejar errores de la aplicación.
