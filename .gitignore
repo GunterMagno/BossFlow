@@ -23,6 +23,7 @@ coverage/
 
 # Variables de entorno / secretos
 .env
+.env.production
 .env.local
 .env.*.local
 
