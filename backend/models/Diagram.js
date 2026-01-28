@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 /**
- * Esquema de metadatos de imagen para diagramas.
+ * Image metadata schema for diagrams.
  * @typedef {Object} ImageMetadata
- * @property {string} filename - Nombre del archivo.
- * @property {string} url - URL de la imagen.
- * @property {string} mimeType - Tipo MIME (jpeg, png, gif, webp).
- * @property {number} size - Tamaño en bytes (máximo 5MB).
- * @property {Date} createdAt - Fecha de creación.
+ * @property {string} filename - File name.
+ * @property {string} url - Image URL.
+ * @property {string} mimeType - MIME type (jpeg, png, gif, webp).
+ * @property {number} size - Size in bytes (maximum 5MB).
+ * @property {Date} createdAt - Creation date.
  */
 const ImageMetadataSchema = new mongoose.Schema(
   {
@@ -42,15 +42,15 @@ const ImageMetadataSchema = new mongoose.Schema(
 );
 
 /**
- * Esquema de diagrama con nodos, edges e imágenes.
+ * Diagram schema with nodes, edges and images.
  * @typedef {Object} Diagram
- * @property {string} title - Título del diagrama (mínimo 3 caracteres).
- * @property {string} description - Descripción (máximo 500 caracteres).
- * @property {ObjectId} userId - ID del usuario propietario.
- * @property {boolean} isTemplate - Si es una plantilla pública.
- * @property {Array<ImageMetadata>} images - Imágenes del diagrama (máximo 10).
- * @property {Array<Object>} nodes - Nodos del diagrama.
- * @property {Array<Object>} edges - Conexiones entre nodos.
+ * @property {string} title - Diagram title (minimum 3 characters).
+ * @property {string} description - Description (maximum 500 characters).
+ * @property {ObjectId} userId - Owner user ID.
+ * @property {boolean} isTemplate - Whether it is a public template.
+ * @property {Array<ImageMetadata>} images - Diagram images (maximum 10).
+ * @property {Array<Object>} nodes - Diagram nodes.
+ * @property {Array<Object>} edges - Connections between nodes.
  */
 const DiagramSchema = new mongoose.Schema(
   {
@@ -82,7 +82,7 @@ const DiagramSchema = new mongoose.Schema(
         validator: function (images) {
           return images.length <= 10;
         },
-        message: "Un diagrama no puede tener más de 10 imágenes",
+        message: "A diagram cannot have more than 10 images",
       },
     },
     nodes: [

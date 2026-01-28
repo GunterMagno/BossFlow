@@ -3,19 +3,19 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 
 /**
- * Esquema de usuario con campos de autenticación, perfil y estadísticas.
+ * User schema with authentication, profile and statistics fields.
  * @typedef {Object} User
- * @property {string} username - Nombre de usuario único (mínimo 3 caracteres).
- * @property {string} email - Email único validado.
- * @property {string} password - Contraseña hasheada (mínimo 8 caracteres).
- * @property {string} avatar - URL del avatar (opcional).
- * @property {string} bio - Biografía del usuario (máximo 500 caracteres).
- * @property {Array<string>} favoriteGames - Lista de juegos favoritos (máximo 10).
- * @property {Array<Object>} achievements - Logros desbloqueados.
- * @property {Object} stats - Estadísticas del usuario.
- * @property {boolean} isVerified - Si el email ha sido verificado.
- * @property {string} verificationToken - Token para verificar email.
- * @property {Date} verificationTokenExpires - Fecha de expiración del token.
+ * @property {string} username - Unique username (minimum 3 characters).
+ * @property {string} email - Validated unique email.
+ * @property {string} password - Hashed password (minimum 8 characters).
+ * @property {string} avatar - Avatar URL (optional).
+ * @property {string} bio - User biography (maximum 500 characters).
+ * @property {Array<string>} favoriteGames - List of favourite games (maximum 10).
+ * @property {Array<Object>} achievements - Unlocked achievements.
+ * @property {Object} stats - User statistics.
+ * @property {boolean} isVerified - Whether the email has been verified.
+ * @property {string} verificationToken - Token to verify email.
+ * @property {Date} verificationTokenExpires - Token expiry date.
  */
 const UserSchema = new mongoose.Schema(
   {
@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       validate: {
         validator: (value) => validator.isEmail(value),
-        message: "EL email no es válido",
+        message: "The email is not valid",
       },
     },
     password: {
@@ -55,7 +55,7 @@ const UserSchema = new mongoose.Schema(
         validator: function (v) {
           return v.length <= 10;
         },
-        message: "No puedes tener más de 10 juegos favoritos",
+        message: "You cannot have more than 10 favourite games",
       },
     },
     achievements: {
@@ -91,7 +91,7 @@ const UserSchema = new mongoose.Schema(
 );
 
 /**
- * Hook de pre-guardado que hashea la contraseña antes de guardar.
+ * Pre-save hook that hashes the password before saving.
  * @async
  * @private
  */
@@ -110,10 +110,10 @@ UserSchema.pre("save", async function (next) {
 });
 
 /**
- * Método para comparar la contraseña ingresada con la contraseña hasheada almacenada.
+ * Method to compare the provided password with the stored hashed password.
  * @async
- * @param {string} password - Contraseña en texto plano a comparar.
- * @returns {Promise<boolean>} True si las contraseñas coinciden, false en caso contrario.
+ * @param {string} password - Plain text password to compare.
+ * @returns {Promise<boolean>} True if passwords match, false otherwise.
  */
 UserSchema.methods.comparePassword = async function (password) {
   return bcrypt.compare(password, this.password);

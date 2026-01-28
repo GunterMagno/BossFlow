@@ -1,4 +1,4 @@
-// Test para el endpoint de registro
+// Tests for the register endpoint
 const http = require('http');
 
 function testRegister(testName, userData, expectedStatus) {
@@ -41,57 +41,57 @@ function testRegister(testName, userData, expectedStatus) {
 async function runTests() {
   const results = [];
   
-  // Generar datos únicos para evitar conflictos
+  // Generate unique data to avoid conflicts
   const timestamp = Date.now();
   const uniqueEmail = `test${timestamp}@example.com`;
   const uniqueUsername = 'user' + timestamp;
   
-  // Test 1: Registro exitoso
+  // Test 1: Successful registration
   const registerResult = await testRegister(
-    'Registro exitoso',
+    'Successful registration',
     { username: uniqueUsername, email: uniqueEmail, password: 'password123' },
     201
   );
   results.push(registerResult);
   
-  // Test 2: Email duplicado (usar el mismo email del test 1)
+  // Test 2: Duplicate email (use the same email from test 1)
   results.push(await testRegister(
-    'Email duplicado',
+    'Duplicate email',
     { username: 'anotheruser' + timestamp, email: uniqueEmail, password: 'password123' },
     400
   ));
   
-  // Test 3: Username duplicado (usar el mismo username del test 1)
+  // Test 3: Duplicate username (use the same username from test 1)
   results.push(await testRegister(
-    'Username duplicado',
+    'Duplicate username',
     { username: uniqueUsername, email: `nuevo${timestamp}@example.com`, password: 'password123' },
     400
   ));
   
-  // Test 4: Password muy corto
+  // Test 4: Password too short
   results.push(await testRegister(
-    'Password corto',
+    'Password too short',
     { username: 'user5' + timestamp, email: `user5${timestamp}@example.com`, password: 'short' },
     400
   ));
   
-  // Test 5: Email inválido
+  // Test 5: Invalid email
   results.push(await testRegister(
-    'Email inválido',
+    'Invalid email',
     { username: 'user6' + timestamp, email: 'emailinvalido', password: 'password123' },
     400
   ));
   
-  // Test 6: Username muy corto
+  // Test 6: Username too short
   results.push(await testRegister(
-    'Username corto',
+    'Username too short',
     { username: 'ab', email: `user7${timestamp}@example.com`, password: 'password123' },
     400
   ));
   
-  // Test 7: Sin campos
+  // Test 7: Missing fields
   results.push(await testRegister(
-    'Campos faltantes',
+    'Missing fields',
     { email: `user8${timestamp}@example.com` },
     400
   ));

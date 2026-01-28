@@ -1,4 +1,4 @@
-// Test para los endpoints básicos (health, echo, etc)
+// Tests for basic endpoints (health, echo, etc)
 const http = require('http');
 
 function testEndpoint(testName, path, method = 'GET', body = null, expectedStatus = 200) {
@@ -11,7 +11,7 @@ function testEndpoint(testName, path, method = 'GET', body = null, expectedStatu
       headers: {
         'Content-Type': 'application/json'
       },
-      timeout: 5000 // Timeout de 5 segundos
+      timeout: 5000 // 5 second timeout
     };
 
     if (body) {

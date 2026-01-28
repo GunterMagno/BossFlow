@@ -1,158 +1,158 @@
 # BossFlow - Backend
 
-Backend de la aplicación BossFlow desarrollado con Node.js, Express y MongoDB.
+Backend for the BossFlow application developed with Node.js, Express and MongoDB.
 
-## Requisitos previos
+## Prerequisites
 
 - Node.js v24.11.0
 - MongoDB
 - npm
 
-## Instalación
+## Installation
 
-### 1. Instalar MongoDB (si no lo tienes)
+### 1. Install MongoDB (if you don't have it)
 
-**Opción 1: MongoDB Community Server (Recomendado)**
+**Option 1: MongoDB Community Server (Recommended)**
 
-1. Descarga MongoDB desde: https://www.mongodb.com/try/download/community
-2. Selecciona tu sistema operativo (Windows)
-3. Descarga el instalador MSI
-4. Ejecuta el instalador y sigue los pasos:
-   - Selecciona "Complete" installation
-   - Marca "Install MongoDB as a Service"
-   - Deja las opciones por defecto (puerto 27017)
-5. El servicio de MongoDB se iniciará automáticamente
+1. Download MongoDB from: https://www.mongodb.com/try/download/community
+2. Select your operating system (Windows)
+3. Download the MSI installer
+4. Run the installer and follow the steps:
+   - Choose "Complete" installation
+   - Check "Install MongoDB as a Service"
+   - Keep default options (port 27017)
+5. The MongoDB service will start automatically
 
-**Opción 2: MongoDB Compass (Interfaz gráfica incluida)**
+**Option 2: MongoDB Compass (GUI included)**
 
-Si instalaste MongoDB Community Server con las opciones por defecto, MongoDB Compass ya está instalado. Si no:
+If you installed MongoDB Community Server with default options, MongoDB Compass is already installed. If not:
 
-1. Descarga desde: https://www.mongodb.com/try/download/compass
-2. Instala y ejecuta MongoDB Compass
-3. Conéctate a `mongodb://localhost:27017`
+1. Download from: https://www.mongodb.com/try/download/compass
+2. Install and run MongoDB Compass
+3. Connect to `mongodb://localhost:27017`
 
-**Verificar instalación:**
+**Verify installation:**
 
 ```powershell
 Get-Service -Name MongoDB
 ```
 
-Debería mostrar "Running". Si muestra "Stopped", inícialo:
+It should show "Running". If it shows "Stopped", start it:
 
 ```powershell
 Start-Service -Name MongoDB
 ```
 
-### 2. Instalar dependencias del proyecto
+### 2. Install project dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Configurar MongoDB
+### 3. Configure MongoDB
 
-**Verificar que MongoDB está activo:**
+**Verify MongoDB is running:**
 
 Windows:
 ```powershell
 Get-Service -Name MongoDB
 ```
 
-Si no está activo, inícialo desde **MongoDB Compass** o desde los servicios de Windows.
+If it is not running, start it from **MongoDB Compass** or from Windows Services.
 
-**Configuración de la base de datos:**
+**Database configuration:**
 
-El backend se conecta por defecto a:
+The backend connects by default to:
 - Host: `127.0.0.1`
-- Puerto: `27017`
-- Base de datos: `bossflowDB`
+- Port: `27017`
+- Database: `bossflowDB`
 
-La base de datos `bossflowDB` se creará automáticamente la primera vez que ejecutes el servidor.
+The `bossflowDB` database will be created automatically the first time you run the server.
 
-Si necesitas cambiar la configuración, edita el archivo `config/db.js`:
+If you need to change the configuration, edit `config/db.js`:
 
 ```javascript
 await mongoose.connect("mongodb://127.0.0.1:27017/bossflowDB", {
-  // Cambia la URL si necesitas otro host/puerto/base de datos
+  // Change the URL if you need a different host/port/database
 });
 ```
 
-## Ejecutar el servidor
+## Run the server
 
-### Modo desarrollo (con auto-reload)
+### Development mode (with auto-reload)
 
 ```bash
 npm run dev
 ```
 
-### Modo producción
+### Production mode
 
 ```bash
 npm start
 ```
 
-El servidor se iniciará en `http://localhost:8080`
+The server will start at `http://localhost:8080`
 
-## Endpoints disponibles
+## Available endpoints
 
-- `GET /api` - Verificar que la API está funcionando
-- `POST /api/eco` - Endpoint de prueba que devuelve lo que recibe
+- `GET /api` - Verify the API is working
+- `POST /api/eco` - Test endpoint that returns what it receives
 
-## Estructura del proyecto
+## Project structure
 
 ```
 backend/
 ├── config/
-│   └── db.js           # Configuración de MongoDB
+│   └── db.js           # MongoDB configuration
 ├── routes/
-│   └── index.js        # Rutas de la API
-├── server.js           # Punto de entrada del servidor
-└── package.json        # Dependencias y scripts
+│   └── index.js        # API routes
+├── server.js           # Server entry point
+└── package.json        # Dependencies and scripts
 ```
 
 ## Troubleshooting
 
 ### Error: MongoDB connection failed
 
-**Problema:** `❌ Error al conectar con MongoDB`
+**Issue:** `❌ Error connecting to MongoDB`
 
-**Soluciones:**
+**Solutions:**
 
-1. Verifica que MongoDB esté ejecutándose:
+1. Verify MongoDB is running:
 ```powershell
 Get-Service -Name MongoDB
 ```
 
-2. Si no está corriendo, inícialo:
+2. If it is not running, start it:
 ```powershell
 Start-Service -Name MongoDB
 ```
 
-3. Verifica la conexión con MongoDB Compass:
-   - Abre MongoDB Compass
-   - Conéctate a `mongodb://localhost:27017`
-   - Si conecta, el problema está en la configuración del backend
+3. Verify connection with MongoDB Compass:
+   - Open MongoDB Compass
+   - Connect to `mongodb://localhost:27017`
+   - If it connects, the issue is in the backend configuration
 
-4. Si MongoDB no está instalado, sigue la sección "Instalar MongoDB" de este README
+4. If MongoDB is not installed, follow the "Install MongoDB" section of this README
 
 ### Error: Port 8080 already in use
 
-**Problema:** El puerto 8080 ya está en uso
+**Issue:** Port 8080 is already in use
 
-**Solución:**
+**Solution:**
 
-Cambia el puerto en el archivo `server.js`:
+Change the port in `server.js`:
 
 ```javascript
-const PORT = process.env.PORT || 3000; // Cambia 8080 por el puerto que quieras
+const PORT = process.env.PORT || 3000; // Change 8080 to your preferred port
 ```
 
-## Scripts disponibles
+## Available scripts
 
-- `npm start` - Ejecuta el servidor en modo producción
-- `npm run dev` - Ejecuta el servidor con nodemon (auto-reload)
+- `npm start` - Run server in production mode
+- `npm run dev` - Run server with nodemon (auto-reload)
 
-## Tecnologías
+## Technologies
 
 - Node.js v24.11.0
 - Express v5.1.0

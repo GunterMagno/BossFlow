@@ -1,7 +1,7 @@
 {
   "name": "bossflow",
   "version": "1.0.0",
-  "description": "El proyecto trata sobre una aplicación web que te permite crear diagramas de flujo interactivos para poder planificar estrategias contra diferentes jefes (Bosses) de videojuegos, donde cada nodo represente una accion/decisión a tomar contra el jefe.",
+  "description": "This project is a web application that allows you to create interactive flow diagrams to plan strategies against different videogame bosses, where each node represents an action/decision to take against the boss.",
   "keywords": [],
   "homepage": "https://github.com/GunterMagno/BossFlow#readme",
   "bugs": {

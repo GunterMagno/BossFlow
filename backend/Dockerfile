@@ -2,14 +2,14 @@ FROM node:20
 
 WORKDIR /app
 
-# Copiar archivos de dependencias
+# Copy dependency files
 COPY package*.json ./
 RUN npm install --production
 
-# Copiar código fuente (SIN el .env de la raíz)
+# Copy source code (WITHOUT the root .env)
 COPY . .
 
 EXPOSE 5000
 
-# Usar npm start en producción (no dev)
+# Use npm start in production (not dev)
 CMD ["npm", "start"]

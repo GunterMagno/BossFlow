@@ -59,7 +59,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/auth/register
-    name: Register Email Duplicado
+    name: Register Duplicate Email
     meta:
       id: req_325e11c698f14d03ac98cda916f9c20d
       created: 1763457688956
@@ -96,43 +96,43 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/auth/login
-    name: Login Exitoso
+    name: Create Diagram
     meta:
-      id: req_482780bde3f345f8a6be2912e5c1ab0a
-      created: 1763457759048
-      modified: 1763465311727
-      isPrivate: false
-      description: ""
-      sortKey: -1763457613294
-    method: POST
-    body:
-      mimeType: application/json
-      text: |-
         {
-          "email": "usertest@example.com",
-          "password": "password123"
+        "title": "My First Diagram",
+        "description": "Test diagram description",
+         "nodes": [],
+         "edges": []
         }
-    parameters:
-      - id: pair_19d3ad9d42b84f6caff5cb9637de53d8
-        name: ""
-        value: ""
-        description: ""
+    method: POST
+     name: Get Specific Diagram
+      mimeType: application/json
+     name: Delete Diagram
+        {
+     name: Create Diagram without Token
+          "password": "password123"
+        {
+         "title": "My First Diagram",
+         "description": "Test diagram description",
+         "nodes": [],
+         "edges": []
+        }
         disabled: false
-    headers:
+     name: Create Diagram without Title
       - name: Content-Type
-        value: application/json
+     name: Delete Diagram without Token
       - name: User-Agent
-        value: insomnia/12.0.0
+     name: Full Flow - Create Complex Diagram
     settings:
-      renderRequestBody: true
-      encodeUrl: true
+      description: "Create complex diagram with 4 nodes, 4 edges and nested data for
+        testing"
       followRedirects: global
       cookies:
         send: true
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/auth/login
-    name: Login Contraseña Incorrecta
+    name: Login - Incorrect Password
     meta:
       id: req_1f2ae99e58a94d3ba99f7fb6e776726f
       created: 1763457861182
@@ -146,7 +146,7 @@ collection:
       text: |-
         {
           "email": "usertest@example.com",
-          "password": "contraseñaMALA"
+          "password": "weakPassword"
         }
     parameters:
       - id: pair_dbbdfe7f0885457090f36f10cd8c8b5d
@@ -168,7 +168,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/perfil
-    name: Ruta Protegida con Token
+    name: Protected Route with Token
     meta:
       id: req_3903f199780e4d528cee925c440544d5
       created: 1763457981268
@@ -196,7 +196,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/perfil
-    name: Ruta Protegida sin Token
+    name: Protected Route without Token
     meta:
       id: req_5ecdac8c40594549bfc841a10e2e68e8
       created: 1763458029686
@@ -245,7 +245,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/auth/login
-    name: Login Email Incorrecto
+    name: Login - Incorrect Email
     meta:
       id: req_c83d46ffdf174fca9f3d5e66aa36799c
       created: 1763465326167
@@ -275,7 +275,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/perfil
-    name: Ruta Con Token Invalido
+    name: Protected Route With Invalid Token
     meta:
       id: req_bceff35ce56b43dcb08900d963cb364b
       created: 1763465404746
@@ -290,7 +290,7 @@ collection:
         id: pair_c2093804ff75442fb704b92e94039428
       - id: pair_6dd4cea1ff2d4c12abae08e68148f99d
         name: Authorization
-        value: Bearer token_invalido_123
+        value: Bearer invalid_token_123
         description: ""
         disabled: false
     settings:
@@ -302,7 +302,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams
-    name: Crear Diagrama
+    name: Create Diagram
     meta:
       id: req_7ec08d713ecb498ba019a0b657f00502
       created: 1763640283391
@@ -315,14 +315,14 @@ collection:
       mimeType: application/json
       text: |-
         {
-          "title": "Mi Primer Diagrama",
-          "description": "Descripción del diagrama de prueba",
+          "title": "My First Diagram",
+          "description": "Test diagram description",
           "nodes": [
             {
               "id": "1",
               "type": "default",
               "position": { "x": 100, "y": 100 },
-              "data": { "label": "Nodo 1" }
+              "data": { "label": "Node 1" }
             }
           ],
           "edges": []
@@ -349,7 +349,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams
-    name: Listar Diagramas
+    name: List Diagrams
     meta:
       id: req_ef20dd75d131487a9d049e063756089d
       created: 1763640707694
@@ -377,7 +377,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams/691f0e3c11ad1447b1d8b083
-    name: Obtener Diagrama Especifico
+    name: Get Specific Diagram
     meta:
       id: req_c49502cba1fb40dfa3ae4b6de79b3a69
       created: 1763641053080
@@ -405,7 +405,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams/691f0e3c11ad1447b1d8b083
-    name: Eliminar Diagrama
+    name: Delete Diagram
     meta:
       id: req_97ba727e836541f1bb956c7f36cecab5
       created: 1763641186103
@@ -433,7 +433,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams
-    name: Crear Diagrama sin Token
+    name: Create Diagram without Token
     meta:
       id: req_0046ec1725eb47afbb8a359994b19aae
       created: 1763641302505
@@ -446,14 +446,14 @@ collection:
       mimeType: application/json
       text: |-
         {
-          "title": "Mi Primer Diagrama",
-          "description": "Descripción del diagrama de prueba",
+          "title": "My First Diagram",
+          "description": "Test diagram description",
           "nodes": [
             {
               "id": "1",
               "type": "default",
               "position": { "x": 100, "y": 100 },
-              "data": { "label": "Nodo 1" }
+              "data": { "label": "Node 1" }
             }
           ],
           "edges": []
@@ -474,7 +474,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams
-    name: Crear Diagrama sin Nombre
+    name: Create Diagram without Title
     meta:
       id: req_03248b867af845b183b826faf9c22725
       created: 1763641334920
@@ -487,13 +487,13 @@ collection:
       mimeType: application/json
       text: |-
         {
-          "description": "Diagrama sin nombre",
+          "description": "Diagram without title",
           "nodes": [
             {
               "id": "1",
               "type": "default",
               "position": { "x": 100, "y": 100 },
-              "data": { "label": "Nodo 1" }
+              "data": { "label": "Node 1" }
             }
           ],
           "edges": []
@@ -520,7 +520,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams/1858932567985672586725867258
-    name: Obtener Diagrama Inexistente
+    name: Get Nonexistent Diagram
     meta:
       id: req_7a73fe42da3048aa9cf7ecea3b4702f9
       created: 1763641416377
@@ -548,7 +548,7 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams/1
-    name: Eliminar Diagrama sin Token
+    name: Delete Diagram without Token
     meta:
       id: req_0b6aa111af7c46158764b4dc4f7244cd
       created: 1763641469240
@@ -570,33 +570,33 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams
-    name: Flujo Completo - Crear Diagrama Complejo
+    name: Full Flow - Create Complex Diagram
     meta:
       id: req_8f3b9d4c2e1a4f5b8c7d6e9a0b1c2d3e
       created: 1763645000000
       modified: 1763645000000
       isPrivate: false
-      description: "Crear diagrama complejo con 4 nodos, 4 edges y datos anidados para
-        probar integridad"
+      description: "Create complex diagram with 4 nodes, 4 edges and nested data to
+        test integrity"
       sortKey: -1763457611844
     method: POST
     body:
       mimeType: application/json
       text: |-
         {
-          "title": "Diagrama de Flujo de Pedidos",
-          "description": "Flujo completo del proceso de pedidos con validaciones y pagos",
+          "title": "Order Flow Diagram",
+          "description": "Complete order process flow with validations and payments",
           "nodes": [
             {
               "id": "start-node",
               "type": "input",
               "position": { "x": 100, "y": 100 },
               "data": {
-                "label": "Inicio del Pedido",
+                "label": "Order Start",
                 "color": "#4CAF50",
                 "priority": "high",
                 "metadata": {
-                  "department": "ventas",
+                  "department": "sales",
                   "version": "2.0"
                 }
               }
@@ -606,7 +606,7 @@ collection:
               "type": "process",
               "position": { "x": 300, "y": 100 },
               "data": {
-                "label": "Validar Inventario",
+                "label": "Validate Inventory",
                 "timeout": 5000,
                 "retries": 3,
                 "config": {
@@ -620,7 +620,7 @@ collection:
               "type": "process",
               "position": { "x": 500, "y": 100 },
               "data": {
-                "label": "Procesar Pago",
+                "label": "Process Payment",
                 "gateway": "stripe",
                 "methods": ["card", "paypal"],
                 "limits": {
@@ -634,7 +634,7 @@ collection:
               "type": "output",
               "position": { "x": 700, "y": 100 },
               "data": {
-                "label": "Pedido Completado",
+                "label": "Order Completed",
                 "status": "success",
                 "notifications": {
                   "email": true,
@@ -707,15 +707,14 @@ collection:
         send: true
         store: true
       rebuildPath: true
-  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_AQUI
-    name: Flujo Completo - Cargar y Verificar Diagrama
+  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_HERE
+    name: Full Flow - Load and Verify Diagram
     meta:
       id: req_9a4c8d5f3b2e6a7d1c9f0e8b5a4c3d2e
       created: 1763645100000
       modified: 1763645100000
       isPrivate: false
-      description: "Cargar diagrama guardado y verificar que todos los datos se
-        mantienen intactos (reemplazar DIAGRAM_ID_AQUI con ID real)"
+      description: "Load saved diagram and verify that all data remains intact (replace DIAGRAM_ID_HERE with a real ID)"
       sortKey: -1763457611744
     method: GET
     headers:
@@ -736,34 +735,33 @@ collection:
         send: true
         store: true
       rebuildPath: true
-  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_AQUI
-    name: Flujo Completo - Actualizar Diagrama
+  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_HERE
+    name: Full Flow - Update Diagram
     meta:
       id: req_7e5d9c8b4a3f6e2d1b0c9a8f7e6d5c4b
       created: 1763645200000
       modified: 1763645200000
       isPrivate: false
-      description: "Actualizar diagrama agregando nuevo nodo y edge, verificar
-        persistencia (reemplazar DIAGRAM_ID_AQUI con ID real)"
+      description: "Update diagram by adding a new node and edge, verify persistence (replace DIAGRAM_ID_HERE with a real ID)"
       sortKey: -1763457611644
     method: PUT
     body:
       mimeType: application/json
       text: |-
         {
-          "title": "Diagrama de Flujo de Pedidos - v2",
-          "description": "Flujo completo con notificaciones agregadas",
+          "title": "Order Flow Diagram - v2",
+          "description": "Complete flow with added notifications",
           "nodes": [
             {
               "id": "start-node",
               "type": "input",
               "position": { "x": 100, "y": 100 },
               "data": {
-                "label": "Inicio del Pedido",
+                "label": "Order Start",
                 "color": "#4CAF50",
                 "priority": "high",
                 "metadata": {
-                  "department": "ventas",
+                  "department": "sales",
                   "version": "2.0"
                 }
               }
@@ -773,7 +771,7 @@ collection:
               "type": "process",
               "position": { "x": 300, "y": 100 },
               "data": {
-                "label": "Validar Inventario",
+                "label": "Validate Inventory",
                 "timeout": 5000,
                 "retries": 3,
                 "config": {
@@ -787,7 +785,7 @@ collection:
               "type": "process",
               "position": { "x": 500, "y": 100 },
               "data": {
-                "label": "Procesar Pago",
+                "label": "Process Payment",
                 "gateway": "stripe",
                 "methods": ["card", "paypal"],
                 "limits": {
@@ -801,7 +799,7 @@ collection:
               "type": "process",
               "position": { "x": 700, "y": 200 },
               "data": {
-                "label": "Enviar Notificaciones",
+                "label": "Send Notifications",
                 "channels": ["email", "sms", "push"],
                 "template": "order_complete"
               }
@@ -811,7 +809,7 @@ collection:
               "type": "output",
               "position": { "x": 900, "y": 100 },
               "data": {
-                "label": "Pedido Completado",
+                "label": "Order Completed",
                 "status": "success",
                 "notifications": {
                   "email": true,
@@ -894,13 +892,13 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams/invalidIDformat
-    name: Flujo Completo - Error ID Invalido
+    name: Full Flow - Invalid ID Error
     meta:
       id: req_6d8c9a7b5e4f3d2c1a0b9e8f7d6c5a4b
       created: 1763645300000
       modified: 1763645300000
       isPrivate: false
-      description: "Intentar cargar diagrama con ID inválido (error 400)"
+      description: "Attempt to load diagram with invalid ID (error 400)"
       sortKey: -1763457611544
     method: GET
     headers:
@@ -922,13 +920,13 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:5000/api/diagrams/507f1f77bcf86cd799439011
-    name: Flujo Completo - Error Diagrama No Existe
+    name: Full Flow - Diagram Not Found Error
     meta:
       id: req_5c7b8a6d9e4f3c2b1a0e9d8c7f6b5a4c
       created: 1763645400000
       modified: 1763645400000
       isPrivate: false
-      description: "Intentar cargar diagrama inexistente (error 404)"
+      description: "Attempt to load a nonexistent diagram (error 404)"
       sortKey: -1763457611444
     method: GET
     headers:
@@ -949,15 +947,14 @@ collection:
         send: true
         store: true
       rebuildPath: true
-  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_OTRO_USUARIO
-    name: Flujo Completo - Error Acceso Denegado
+  - url: http://localhost:5000/api/diagrams/DIAGRAM_ID_OTHER_USER
+    name: Full Flow - Access Denied Error
     meta:
       id: req_4b6a9c8d7e5f3d2c1b0a9e8f7d6c5b4a
       created: 1763645500000
       modified: 1763645500000
       isPrivate: false
-      description: "Intentar acceder a diagrama de otro usuario (error 403,
-        reemplazar con ID de diagrama de otro usuario)"
+      description: "Attempt to access another user's diagram (error 403, replace with a diagram ID that belongs to another user)"
       sortKey: -1763457611344
     method: GET
     headers:

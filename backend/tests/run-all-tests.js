@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// Script para ejecutar todos los tests
-// Uso: node tests/run-all-tests.js
+// Script to run all tests
+// Usage: node tests/run-all-tests.js
 
 const { spawn } = require('child_process');
 const http = require('http');
 
 let serverProcess;
 
-// Función para verificar si el servidor está listo
+// Function to verify the server is ready
 function waitForServer(maxAttempts = 20, delay = 500) {
   return new Promise((resolve, reject) => {
     let attempts = 0;
@@ -16,13 +16,13 @@ function waitForServer(maxAttempts = 20, delay = 500) {
       attempts++;
       
       const req = http.get('http://localhost:5000/api/health', (res) => {
-        console.log('✅ Servidor listo\n');
+        console.log('✅ Server ready\n');
         resolve();
       });
       
       req.on('error', () => {
         if (attempts >= maxAttempts) {
-          reject(new Error('Servidor no disponible'));
+          reject(new Error('Server not available'));
         } else {
           setTimeout(checkServer, delay);
         }
@@ -39,45 +39,45 @@ function waitForServer(maxAttempts = 20, delay = 500) {
 
 async function runTests() {
   try {
-    // Iniciar el servidor
-    console.log('🚀 Iniciando servidor...\n');
+    // Start the server
+    console.log('🚀 Starting server...\n');
     serverProcess = spawn('node', ['server.js'], {
       cwd: __dirname + '/..',
       env: { ...process.env, NODE_ENV: 'test' },
       stdio: 'pipe'
     });
 
-    // Capturar salida del servidor solo para errores críticos
+    // Capture server stderr for critical errors
     serverProcess.stderr.on('data', (data) => {
-      console.error(`❌ Error del servidor: ${data}`);
+      console.error(`❌ Server error: ${data}`);
     });
 
-    // Esperar a que el servidor esté listo
+    // Wait for the server to be ready
     await waitForServer();
 
-    // Ejecutar los tests
-    console.log('🧪 Ejecutando tests...\n');
+    // Run the tests
+    console.log('🧪 Running tests...\n');
     const testRunner = require('./test-runner');
     await testRunner.runAllTests();
 
-    // Finalizar
-    console.log('\n✅ Tests completados\n');
+    // Finish
+    console.log('\n✅ Tests completed\n');
     process.exit(0);
 
   } catch (error) {
     console.error('❌ Error:', error.message);
     process.exit(1);
   } finally {
-    // Siempre cerrar el servidor
+    // Always close the server
     if (serverProcess) {
       serverProcess.kill();
     }
   }
 }
 
-// Manejar señales de terminación
+// Handle termination signals
 process.on('SIGINT', () => {
-  console.log('\n⚠️  Interrumpido por usuario');
+  console.log('\n⚠️  Interrupted by user');
   if (serverProcess) {
     serverProcess.kill();
   }
@@ -91,5 +91,5 @@ process.on('SIGTERM', () => {
   process.exit(1);
 });
 
-// Ejecutar
+// Run
 runTests();

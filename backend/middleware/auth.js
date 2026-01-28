@@ -2,21 +2,21 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 /**
- * Middleware de autenticación basado en JWT.
- * Verifica y decodifica el token enviado en el header Authorization.
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.headers - Headers de la solicitud.
- * @param {string} req.headers.authorization - Header Authorization con formato "Bearer token".
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {void} Si el token es válido, continúa con next(). Si es inválido, retorna error 401.
- * @throws {Object} Error JSON con mensaje si el token no existe, es inválido o ha expirado.
+ * JWT-based authentication middleware.
+ * Verifies and decodes the token sent in the Authorization header.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.headers - Request headers.
+ * @param {string} req.headers.authorization - Authorization header in the format "Bearer token".
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {void} If the token is valid, calls next(). If invalid, returns 401.
+ * @throws {Object} JSON error with message if the token is missing, invalid or expired.
  */
 function auth(req, res, next) {
   const header = req.headers.authorization;
 
   if (!header || !header.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Token requerido" });
+    return res.status(401).json({ error: "Token required" });
   }
 
   const token = header.split(" ")[1];
@@ -26,7 +26,7 @@ function auth(req, res, next) {
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Token inválido o expirado" });
+    return res.status(401).json({ error: "Token invalid or expired" });
   }
 }
 

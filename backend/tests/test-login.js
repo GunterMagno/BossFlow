@@ -1,4 +1,4 @@
-// Test para el endpoint de login
+// Tests for the login endpoint
 const http = require('http');
 
 function testLogin(testName, email, password, expectedStatus) {
@@ -41,7 +41,7 @@ function testLogin(testName, email, password, expectedStatus) {
 async function runTests() {
   const results = [];
   
-  // Primero crear un usuario para las pruebas de login
+  // First create a user for login tests
   const timestamp = Date.now();
   const testEmail = `logintest${timestamp}@example.com`;
   const testPassword = 'password123';
@@ -67,22 +67,22 @@ async function runTests() {
     req.end();
   });
   
-  // Test 1: Login exitoso
-  results.push(await testLogin('Login exitoso', testEmail, testPassword, 200));
-  
-  // Test 2: Email en mayúsculas (debe funcionar por la normalización)
-  results.push(await testLogin('Email mayúsculas', testEmail.toUpperCase(), testPassword, 200));
-  
-  // Test 3: Password incorrecta
-  results.push(await testLogin('Password incorrecta', testEmail, 'wrongpass', 401));
-  
-  // Test 4: Email inexistente
-  results.push(await testLogin('Email inexistente', `noexiste${timestamp}@example.com`, testPassword, 401));
-  
-  // Test 5: Email inválido
-  results.push(await testLogin('Email inválido', 'emailinvalido', testPassword, 400));
-  
-  // Test 6: Sin email
+  // Test 1: Successful login
+  results.push(await testLogin('Successful login', testEmail, testPassword, 200));
+
+  // Test 2: Uppercase email (should work due to normalization)
+  results.push(await testLogin('Uppercase email', testEmail.toUpperCase(), testPassword, 200));
+
+  // Test 3: Incorrect password
+  results.push(await testLogin('Incorrect password', testEmail, 'wrongpass', 401));
+
+  // Test 4: Non-existent email
+  results.push(await testLogin('Non-existent email', `noexiste${timestamp}@example.com`, testPassword, 401));
+
+  // Test 5: Invalid email
+  results.push(await testLogin('Invalid email', 'emailinvalido', testPassword, 400));
+
+  // Test 6: Missing email
   const test6 = await new Promise((resolve) => {
     const data = JSON.stringify({ password: 'password123' });
     const options = {
@@ -96,16 +96,16 @@ async function runTests() {
       }
     };
     
-    const req = http.request(options, (res) => {
+      const req = http.request(options, (res) => {
       const passed = res.statusCode === 400;
-      resolve({ testName: 'Sin email', passed, status: res.statusCode, expectedStatus: 400 });
+      resolve({ testName: 'Missing email', passed, status: res.statusCode, expectedStatus: 400 });
     });
     req.write(data);
     req.end();
   });
   results.push(test6);
   
-  // Test 7: Sin password
+  // Test 7: Missing password
   const test7 = await new Promise((resolve) => {
     const data = JSON.stringify({ email: 'test@example.com' });
     const options = {
@@ -121,7 +121,7 @@ async function runTests() {
     
     const req = http.request(options, (res) => {
       const passed = res.statusCode === 400;
-      resolve({ testName: 'Sin password', passed, status: res.statusCode, expectedStatus: 400 });
+      resolve({ testName: 'Missing password', passed, status: res.statusCode, expectedStatus: 400 });
     });
     req.write(data);
     req.end();

@@ -4,17 +4,17 @@ const mongoose = require("mongoose");
 const { validateDiagramStructure } = require("../validators/diagramValidator");
 
 /**
- * Crea un nuevo diagrama para el usuario autenticado.
+ * Creates a new diagram for the authenticated user.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.body - Datos del diagrama.
- * @param {string} req.body.title - Título del diagrama.
- * @param {Array} req.body.nodes - Nodos del diagrama.
- * @param {Array} req.body.edges - Conexiones del diagrama.
- * @param {string} req.user.userId - ID del usuario autenticado.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Object} Diagrama creado con ID generado.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Diagram data.
+ * @param {string} req.body.title - Diagram title.
+ * @param {Array} req.body.nodes - Diagram nodes.
+ * @param {Array} req.body.edges - Diagram connections.
+ * @param {string} req.user.userId - Authenticated user ID.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} Created diagram with generated ID.
  */
 exports.createDiagram = async (req, res, next) => {
   try {
@@ -22,7 +22,7 @@ exports.createDiagram = async (req, res, next) => {
 
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
-        error: "El título es requerido y debe tener al menos 3 caracteres",
+        error: "Title is required and must be at least 3 characters",
       });
     }
 
@@ -33,7 +33,7 @@ exports.createDiagram = async (req, res, next) => {
     });
     if (!structureValidation.valid) {
       return res.status(400).json({
-        error: "Error de validación en la estructura del diagrama",
+        error: "Diagram structure validation error",
         details: structureValidation.errors,
       });
     }
@@ -57,9 +57,9 @@ exports.createDiagram = async (req, res, next) => {
       },
     });
 
-    // Retornar diagrama creado
+    // Return created diagram
     res.status(201).json({
-      message: "Diagrama creado exitosamente",
+      message: "Diagram created successfully",
       diagram: {
         id: diagram._id,
         title: diagram.title,
@@ -74,7 +74,7 @@ exports.createDiagram = async (req, res, next) => {
   } catch (error) {
     if (error.code === 11000) {
       return res.status(409).json({
-        error: "Ya existe un diagrama con ese título",
+        error: "A diagram with that title already exists",
       });
     }
 
@@ -84,20 +84,20 @@ exports.createDiagram = async (req, res, next) => {
       });
     }
 
-    console.error("❌ Error al crear diagrama:", error);
+    console.error("❌ Error creating diagram:", error);
     next(error);
   }
 };
 
 /**
- * Obtiene todos los diagramas del usuario autenticado.
+ * Retrieves all diagrams of the authenticated user.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.user - Usuario autenticado.
- * @param {string} req.user.userId - ID del usuario.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Array} Lista de diagramas del usuario.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.user - Authenticated user.
+ * @param {string} req.user.userId - User ID.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Array} List of the user's diagrams.
  */
 exports.getDiagrams = async (req, res, next) => {
   try {
@@ -124,21 +124,21 @@ exports.getDiagrams = async (req, res, next) => {
         isTemplate: diagram.isTemplate || false,
       })),
     });
-  } catch (error) {
-    console.error("❌ Error al obtener diagramas:", error);
+    } catch (error) {
+    console.error("❌ Error fetching diagrams:", error);
     next(error);
   }
 };
 
 /**
- * Obtiene todas las plantillas del usuario autenticado.
+ * Retrieves all templates of the authenticated user.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.user - Usuario autenticado.
- * @param {string} req.user.userId - ID del usuario.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Array} Lista de plantillas del usuario.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.user - Authenticated user.
+ * @param {string} req.user.userId - User ID.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Array} List of the user's templates.
  */
 exports.getTemplates = async (req, res, next) => {
   try {
@@ -165,22 +165,22 @@ exports.getTemplates = async (req, res, next) => {
         isTemplate: template.isTemplate,
       })),
     });
-  } catch (error) {
-    console.error("❌ Error al obtener plantillas:", error);
+    } catch (error) {
+    console.error("❌ Error fetching templates:", error);
     next(error);
   }
 };
 
 /**
- * Elimina un diagrama del usuario autenticado.
+ * Deletes a diagram of the authenticated user.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {string} req.params.id - ID del diagrama a eliminar.
- * @param {Object} req.user - Usuario autenticado.
- * @param {string} req.user.userId - ID del usuario.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Object} Mensaje de confirmación de eliminación.
+ * @param {Object} req - Express request object.
+ * @param {string} req.params.id - ID of the diagram to delete.
+ * @param {Object} req.user - Authenticated user.
+ * @param {string} req.user.userId - User ID.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} Deletion confirmation message.
  */
 exports.deleteDiagram = async (req, res, next) => {
   try {
@@ -188,7 +188,7 @@ exports.deleteDiagram = async (req, res, next) => {
 
     if (!mongoose.Types.ObjectId.isValid(diagramId)) {
       return res.status(404).json({
-        error: "Diagrama no encontrado o no autorizado",
+        error: "Diagram not found or not authorised",
       });
     }
 
@@ -199,27 +199,27 @@ exports.deleteDiagram = async (req, res, next) => {
 
     if (!diagram) {
       return res.status(404).json({
-        error: "Diagrama no encontrado o no autorizado",
+        error: "Diagram not found or not authorised",
       });
     }
 
     res.status(200).json({
-      message: "Diagrama eliminado exitosamente",
+      message: "Diagram deleted successfully",
     });
   } catch (error) {
-    console.error("❌ Error al eliminar diagrama:", error);
+    console.error("❌ Error deleting diagram:", error);
     next(error);
   }
 };
 
 /**
- * Obtiene un diagrama específico por ID.
+ * Retrieves a specific diagram by ID.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {string} req.params.id - ID del diagrama.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Object} Datos completos del diagrama.
+ * @param {Object} req - Express request object.
+ * @param {string} req.params.id - Diagram ID.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} Full diagram data.
  */
 exports.getDiagramById = async (req, res, next) => {
   try {
@@ -227,7 +227,7 @@ exports.getDiagramById = async (req, res, next) => {
 
     if (!mongoose.Types.ObjectId.isValid(diagramId)) {
       return res.status(404).json({
-        error: "Diagrama no encontrado o no autorizado",
+        error: "Diagram not found or not authorised",
       });
     }
 
@@ -240,7 +240,7 @@ exports.getDiagramById = async (req, res, next) => {
 
     if (!diagram) {
       return res.status(404).json({
-        error: "Diagrama no encontrado o no autorizado",
+        error: "Diagram not found or not authorised",
       });
     }
 
@@ -257,48 +257,48 @@ exports.getDiagramById = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.error("❌ Error al obtener diagrama por ID:", error);
+    console.error("❌ Error fetching diagram by ID:", error);
     next(error);
   }
 };
 
 /**
- * Actualiza un diagrama existente del usuario autenticado.
+ * Updates an existing diagram of the authenticated user.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {string} req.params.id - ID del diagrama a actualizar.
- * @param {Object} req.body - Nuevos datos del diagrama.
- * @param {string} req.body.title - Nuevo título.
- * @param {Array} req.body.nodes - Nuevos nodos.
- * @param {Array} req.body.edges - Nuevas conexiones.
- * @param {Object} req.user - Usuario autenticado.
- * @param {string} req.user.userId - ID del usuario.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Object} Diagrama actualizado.
+ * @param {Object} req - Express request object.
+ * @param {string} req.params.id - ID of the diagram to update.
+ * @param {Object} req.body - New diagram data.
+ * @param {string} req.body.title - New title.
+ * @param {Array} req.body.nodes - New nodes.
+ * @param {Array} req.body.edges - New connections.
+ * @param {Object} req.user - Authenticated user.
+ * @param {string} req.user.userId - User ID.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} Updated diagram.
  */
 exports.updateDiagram = async (req, res, next) => {
   try {
     const diagramId = req.params.id;
     const { title, description, nodes, edges, images } = req.body;
 
-    // Validar que el ID sea un ObjectId válido
+    // Validate that the ID is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(diagramId)) {
       return res.status(404).json({
-        error: "Diagrama no encontrado o no autorizado",
+        error: "Diagram not found or not authorised",
       });
     }
 
-    // Validar título si se proporciona
+    // Validate title if provided
     if (title !== undefined && (!title || title.trim().length < 3)) {
       return res.status(400).json({
-        error: "El título debe tener al menos 3 caracteres",
+        error: "The title must be at least 3 characters",
       });
     }
 
-    // Validar estructura de nodos, edges e imágenes si se proporcionan
+    // Validate structure of nodes, edges and images if provided
     if (nodes !== undefined || edges !== undefined || images !== undefined) {
-      // Obtener el diagrama actual para combinar con los nuevos datos
+      // Retrieve current diagram to merge with the new data
       const currentDiagram = await Diagram.findOne({
         _id: diagramId,
         userId: req.user.userId,
@@ -306,7 +306,7 @@ exports.updateDiagram = async (req, res, next) => {
 
       if (!currentDiagram) {
         return res.status(404).json({
-          error: "Diagrama no encontrado o no autorizado",
+          error: "Diagram not found or not authorised",
         });
       }
 
@@ -323,13 +323,13 @@ exports.updateDiagram = async (req, res, next) => {
 
       if (!structureValidation.valid) {
         return res.status(400).json({
-          error: "Error de validación en la estructura del diagrama",
+          error: "Diagram structure validation error",
           details: structureValidation.errors,
         });
       }
     }
 
-    // Buscar diagrama por ID y userId
+    // Find diagram by ID and userId
     const diagram = await Diagram.findOne({
       _id: diagramId,
       userId: req.user.userId,
@@ -337,11 +337,11 @@ exports.updateDiagram = async (req, res, next) => {
 
     if (!diagram) {
       return res.status(404).json({
-        error: "Diagrama no encontrado o no autorizado",
+        error: "Diagram not found or not authorised",
       });
     }
 
-    // Calcular cambio en número de nodos si se actualizan
+    // Calculate change in number of nodes if they are updated
     let nodeDifference = 0;
     if (nodes !== undefined) {
       const oldNodeCount = diagram.nodes.length;
@@ -349,26 +349,26 @@ exports.updateDiagram = async (req, res, next) => {
       nodeDifference = newNodeCount - oldNodeCount;
     }
 
-    // Actualizar campos del diagrama
+    // Update diagram fields
     if (title !== undefined) diagram.title = title.trim();
     if (description !== undefined) diagram.description = description.trim();
     if (nodes !== undefined) diagram.nodes = nodes;
     if (edges !== undefined) diagram.edges = edges;
     if (images !== undefined) diagram.images = images;
 
-    // Guardar cambios
+    // Save changes
     await diagram.save();
 
-    // Actualizar estadísticas del usuario si hay cambio en nodos
+    // Update user statistics if there is a change in nodes
     if (nodeDifference !== 0) {
       await User.findByIdAndUpdate(req.user.userId, {
         $inc: { "stats.nodesCreated": nodeDifference },
       });
     }
 
-    // Retornar diagrama actualizado
+    // Return updated diagram
     res.status(200).json({
-      message: "Diagrama actualizado exitosamente",
+      message: "Diagram updated successfully",
       diagram: {
         id: diagram._id,
         title: diagram.title,
@@ -381,21 +381,21 @@ exports.updateDiagram = async (req, res, next) => {
       },
     });
   } catch (error) {
-    // Manejar error de título duplicado
+    // Handle duplicate title error
     if (error.code === 11000) {
       return res.status(409).json({
-        error: "Ya existe un diagrama con ese título",
+        error: "A diagram with that title already exists",
       });
     }
 
-    // Manejar errores de validación de Mongoose
+    // Handle Mongoose validation errors
     if (error.name === "ValidationError") {
       return res.status(400).json({
         error: error.message,
       });
     }
 
-    console.error("❌ Error al actualizar diagrama:", error);
+    console.error("❌ Error updating diagram:", error);
     next(error);
   }
 };

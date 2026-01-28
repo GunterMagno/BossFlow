@@ -1,21 +1,21 @@
-# Ignorar dependencias y builds
+# Ignore dependency folders and build artifacts
 node_modules
 npm-debug.log
 yarn-error.log
 *.log
 
-# Variables de entorno y secretos
+# Environment files and secrets
 .env
 .env.local
 .env.*.local
 
-# IDE / sistema
+# IDE / system files
 .vscode
 .idea
 .DS_Store
 Thumbs.db
 
-# Cachés y cobertura
+# Caches and coverage
 coverage
 dist
 build

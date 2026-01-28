@@ -1,10 +1,10 @@
 /**
- * Tests para validar el esquema de imágenes en Diagrams y Nodos
+ * Tests to validate the image schema in Diagrams and Nodes
  */
 
 const http = require('http');
 
-// Helper para registrar usuario y obtener token
+// Helper to register a user and obtain a token
 function registerAndLogin() {
   return new Promise((resolve, reject) => {
     const timestamp = Date.now();
@@ -32,13 +32,13 @@ function registerAndLogin() {
       res.on('end', () => {
         try {
           const response = JSON.parse(responseData);
-          if (response.token) {
-            resolve(response.token);
-          } else {
-            reject('No se pudo obtener token');
-          }
-        } catch (error) {
-          reject('Error al parsear respuesta: ' + error.message);
+                    if (response.token) {
+                        resolve(response.token);
+                    } else {
+                        reject('Could not obtain token');
+                    }
+                } catch (error) {
+                    reject('Error parsing response: ' + error.message);
         }
       });
     });
@@ -49,7 +49,7 @@ function registerAndLogin() {
   });
 }
 
-// Test para crear diagrama con imágenes
+// Test to create a diagram with images
 function testCreateDiagramWithImages(testName, diagramData, token, expectedStatus) {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify(diagramData);
@@ -100,12 +100,12 @@ async function runTests() {
         const authToken = await registerAndLogin();
         const timestamp = Date.now();
 
-        // Test 1: Crear diagrama con imágenes en el diagrama
+        // Test 1: Create diagram with images in the diagram
         const createWithImages = await testCreateDiagramWithImages(
-            'Crear diagrama con imágenes',
+            'Create diagram with images',
             {
-                title: `Diagrama con Imágenes ${timestamp}`,
-                description: 'Test de imágenes',
+                title: `Diagram with Images ${timestamp}`,
+                description: 'Image test',
                 images: [
                     {
                         filename: 'background.png',
@@ -128,7 +128,7 @@ async function runTests() {
         );
         results.push(createWithImages);
 
-        // Verificar que se guardaron las imágenes correctamente
+        // Verify diagram images were saved correctly
         if (createWithImages.passed && createWithImages.data && createWithImages.data.diagram) {
             const diagram = createWithImages.data.diagram;
             const imagesValid = diagram.images && 
@@ -137,7 +137,7 @@ async function runTests() {
                               diagram.images[1].mimeType === 'image/webp';
             
             results.push({
-                testName: 'Verificar imágenes del diagrama guardadas',
+                testName: 'Verify saved diagram images',
                 passed: imagesValid,
                 status: imagesValid ? 200 : 'FAIL',
                 expectedStatus: 200,
@@ -145,26 +145,26 @@ async function runTests() {
             });
         } else {
             results.push({
-                testName: 'Verificar imágenes del diagrama guardadas',
+                testName: 'Verify saved diagram images',
                 passed: false,
                 status: 'FAIL',
                 expectedStatus: 200,
-                error: 'El test de creación falló o no retornó datos'
+                error: 'Creation test failed or did not return data'
             });
         }
 
-        // Test 2: Crear diagrama con nodo que tiene imagen
+        // Test 2: Create diagram with a node that has an image
         const createWithNodeImage = await testCreateDiagramWithImages(
-            'Crear diagrama con nodo con imagen',
+            'Create diagram with node image',
             {
-                title: `Diagrama Nodo Imagen ${timestamp}`,
-                description: 'Test de imagen en nodo',
+                title: `Diagram Node Image ${timestamp}`,
+                description: 'Node image test',
                 nodes: [
                     {
                         id: 'node-1',
                         type: 'customNode',
                         position: { x: 100, y: 100 },
-                        data: { label: 'Nodo con imagen' },
+                        data: { label: 'Node with image' },
                         image: {
                             filename: 'node-icon.png',
                             url: '/uploads/nodes/icon.png',
@@ -180,7 +180,7 @@ async function runTests() {
         );
         results.push(createWithNodeImage);
 
-        // Verificar que se guardó la imagen del nodo
+        // Verify that the node image was saved
         if (createWithNodeImage.passed && createWithNodeImage.data && createWithNodeImage.data.diagram) {
             const diagram = createWithNodeImage.data.diagram;
             const nodeImageValid = diagram.nodes &&
@@ -190,7 +190,7 @@ async function runTests() {
                                  diagram.nodes[0].image.mimeType === 'image/png';
             
             results.push({
-                testName: 'Verificar imagen del nodo guardada',
+                testName: 'Verify node image saved',
                 passed: nodeImageValid,
                 status: nodeImageValid ? 200 : 'FAIL',
                 expectedStatus: 200,
@@ -198,19 +198,19 @@ async function runTests() {
             });
         } else {
             results.push({
-                testName: 'Verificar imagen del nodo guardada',
+                testName: 'Verify node image saved',
                 passed: false,
                 status: 'FAIL',
                 expectedStatus: 200,
-                error: 'El test de creación falló o no retornó datos'
+                error: 'Creation test failed or did not return data'
             });
         }
 
-        // Test 3: Rechazar mimeType inválido
+        // Test 3: Reject invalid mimeType
         const invalidMimeType = await testCreateDiagramWithImages(
-            'Rechazar mimeType inválido',
+            'Reject invalid mimeType',
             {
-                title: `Diagrama MimeType Inválido ${timestamp}`,
+                title: `Diagram Invalid MimeType ${timestamp}`,
                 images: [
                     {
                         filename: 'document.pdf',
@@ -227,11 +227,11 @@ async function runTests() {
         );
         results.push(invalidMimeType);
 
-        // Test 4: Rechazar tamaño excesivo
+        // Test 4: Reject excessive size
         const invalidSize = await testCreateDiagramWithImages(
-            'Rechazar tamaño excesivo (>5MB)',
+            'Reject excessive size (>5MB)',
             {
-                title: `Diagrama Tamaño Excesivo ${timestamp}`,
+                title: `Diagram Excessive Size ${timestamp}`,
                 images: [
                     {
                         filename: 'large-image.jpg',
@@ -248,7 +248,7 @@ async function runTests() {
         );
         results.push(invalidSize);
 
-        // Test 5: Rechazar más de 10 imágenes
+        // Test 5: Reject more than 10 images
         const tooManyImages = [];
         for (let i = 0; i < 11; i++) {
             tooManyImages.push({
@@ -260,9 +260,9 @@ async function runTests() {
         }
 
         const exceedLimit = await testCreateDiagramWithImages(
-            'Rechazar más de 10 imágenes',
+            'Reject more than 10 images',
             {
-                title: `Diagrama Muchas Imágenes ${timestamp}`,
+                title: `Many Images Diagram ${timestamp}`,
                 images: tooManyImages,
                 nodes: [],
                 edges: []
@@ -272,11 +272,11 @@ async function runTests() {
         );
         results.push(exceedLimit);
 
-        // Test 6: Validar todos los tipos MIME permitidos
+        // Test 6: Validate all allowed MIME types
         const validMimeTypes = await testCreateDiagramWithImages(
-            'Aceptar todos los tipos MIME válidos',
+            'Accept all valid MIME types',
             {
-                title: `Diagrama MIME Válidos ${timestamp}`,
+                title: `Valid MIME Diagram ${timestamp}`,
                 images: [
                     {
                         filename: 'img1.jpeg',
@@ -311,11 +311,11 @@ async function runTests() {
         );
         results.push(validMimeTypes);
 
-        // Test 7: Diagrama con nodos e imágenes combinados
+        // Test 7: Diagram with combined nodes and images
         const combinedTest = await testCreateDiagramWithImages(
-            'Crear diagrama con imágenes y nodos con imágenes',
+            'Create diagram with images and nodes with images',
             {
-                title: `Diagrama Completo ${timestamp}`,
+                title: `Complete Diagram ${timestamp}`,
                 images: [
                     {
                         filename: 'bg.jpg',
@@ -329,7 +329,7 @@ async function runTests() {
                         id: 'n1',
                         type: 'input',
                         position: { x: 0, y: 0 },
-                        data: { label: 'Inicio' },
+                        data: { label: 'Start' },
                         image: {
                             filename: 'start.png',
                             url: '/uploads/start.png',
@@ -341,8 +341,8 @@ async function runTests() {
                         id: 'n2',
                         type: 'output',
                         position: { x: 200, y: 200 },
-                        data: { label: 'Fin' }
-                        // Este nodo NO tiene imagen (opcional)
+                        data: { label: 'End' }
+                        // This node does NOT have an image (optional)
                     }
                 ],
                 edges: [
@@ -354,17 +354,17 @@ async function runTests() {
         );
         results.push(combinedTest);
 
-        // Verificar estructura completa
+        // Verify complete structure
         if (combinedTest.passed && combinedTest.data && combinedTest.data.diagram) {
             const diagram = combinedTest.data.diagram;
             const completeValid = diagram.images && diagram.images.length === 1 &&
                                 diagram.nodes && diagram.nodes.length === 2 &&
                                 diagram.nodes[0].image && diagram.nodes[0].image.filename === 'start.png' &&
-                                !diagram.nodes[1].image && // El segundo nodo NO tiene imagen
+                                !diagram.nodes[1].image && // The second node does NOT have an image
                                 diagram.edges && diagram.edges.length === 1;
             
             results.push({
-                testName: 'Verificar estructura completa con imágenes',
+                testName: 'Verify complete structure with images',
                 passed: completeValid,
                 status: completeValid ? 200 : 'FAIL',
                 expectedStatus: 200,
@@ -378,7 +378,7 @@ async function runTests() {
             });
         } else {
             results.push({
-                testName: 'Verificar estructura completa con imágenes',
+                testName: 'Verify complete structure with images',
                 passed: false,
                 status: 'FAIL',
                 expectedStatus: 200,
@@ -387,15 +387,15 @@ async function runTests() {
         }
 
     } catch (error) {
-        results.push({ testName: 'Error en setup', passed: false, error: error.message });
+        results.push({ testName: 'Setup error', passed: false, error: error.message });
     }
 
     return results;
 }
 
-// Ejecutar tests si es el archivo principal
+// Run tests if this is the main module
 if (require.main === module) {
-  runTests();
+    runTests();
 }
 
 module.exports = { runTests };

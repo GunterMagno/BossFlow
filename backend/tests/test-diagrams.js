@@ -1,7 +1,7 @@
-// Test para el endpoint de creación de diagramas
+// Tests for the diagrams endpoint
 const http = require('http');
 
-// Helper para registrar usuario y obtener token
+// Helper to register a user and obtain a token
 function registerAndLogin() {
   return new Promise((resolve, reject) => {
     const timestamp = Date.now();
@@ -32,10 +32,10 @@ function registerAndLogin() {
           if (response.token) {
             resolve(response.token);
           } else {
-            reject('No se pudo obtener token');
+            reject('Could not obtain token');
           }
         } catch (error) {
-          reject('Error al parsear respuesta: ' + error.message);
+          reject('Error parsing response: ' + error.message);
         }
       });
     });
@@ -46,7 +46,7 @@ function registerAndLogin() {
   });
 }
 
-// Test para crear diagrama
+// Test to create a diagram
 function testCreateDiagram(testName, diagramData, token, expectedStatus) {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify(diagramData);
@@ -62,7 +62,7 @@ function testCreateDiagram(testName, diagramData, token, expectedStatus) {
       }
     };
 
-    // Solo añadir header de autorización si hay token
+    // Only add Authorization header if a token is provided
     if (token) {
       options.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -121,7 +121,7 @@ function testGetDiagrams(testName, token, expectedStatus) {
         try {
           parsedData = JSON.parse(responseData);
         } catch (e) {
-          // Ignorar error de parsing
+          // Ignore parsing error
         }
         resolve({ 
           testName, 
@@ -141,7 +141,7 @@ function testGetDiagrams(testName, token, expectedStatus) {
   });
 }
 
-// Test para obtener diagrama por ID (GET by ID)
+// Test to get a diagram by ID (GET by ID)
 function testGetDiagramById(testName, diagramId, token, expectedStatus) {
   return new Promise((resolve, reject) => {
     const options = {
@@ -187,7 +187,7 @@ function testGetDiagramById(testName, diagramId, token, expectedStatus) {
   });
 }
 
-// Test para actualizar diagrama (PUT)
+// Test to update a diagram (PUT)
 function testUpdateDiagram(testName, diagramId, updateData, token, expectedStatus) {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify(updateData);
@@ -243,21 +243,21 @@ async function runTests() {
   const results = [];
   
   try {
-    // Obtener token de autenticación
+    // Obtain authentication token
     const authToken = await registerAndLogin();
 
-    // Generar timestamp para títulos únicos
+    // Generate timestamp for unique titles
     const timestamp = Date.now();
 
-    // Test 1: Crear diagrama exitoso con nodes y edges
+    // Test 1: Create diagram successful with nodes and edges
     const createTest = await testCreateDiagram(
-      'Crear diagrama con nodes y edges',
+      'Create diagram with nodes and edges',
       {
-        title: `Diagrama Test ${timestamp}`,
-        description: 'Descripción de prueba',
+        title: `Diagram Test ${timestamp}`,
+        description: 'Test description',
         nodes: [
-          { id: 'node-1', type: 'start', position: { x: 100, y: 100 }, data: { label: 'Inicio' } },
-          { id: 'node-2', type: 'activity', position: { x: 300, y: 100 }, data: { label: 'Proceso' } }
+          { id: 'node-1', type: 'start', position: { x: 100, y: 100 }, data: { label: 'Start' } },
+          { id: 'node-2', type: 'activity', position: { x: 300, y: 100 }, data: { label: 'Process' } }
         ],
         edges: [
           { id: 'edge-1', source: 'node-1', target: 'node-2' }
@@ -268,7 +268,7 @@ async function runTests() {
     );
     results.push(createTest);
 
-    // Verificar que se guardaron correctamente los nodes y edges
+    // Verify nodes and edges were saved correctly
     if (createTest.passed && createTest.data && createTest.data.diagram) {
       const diagram = createTest.data.diagram;
       const nodesValid = diagram.nodes && diagram.nodes.length === 2 &&
@@ -276,7 +276,7 @@ async function runTests() {
                         diagram.nodes[0].type === 'start' &&
                         diagram.nodes[0].position.x === 100 &&
                         diagram.nodes[0].position.y === 100 &&
-                        diagram.nodes[0].data.label === 'Inicio';
+                        diagram.nodes[0].data.label === 'Start';
       
       const edgesValid = diagram.edges && diagram.edges.length === 1 &&
                         diagram.edges[0].id === 'edge-1' &&
@@ -284,25 +284,25 @@ async function runTests() {
                         diagram.edges[0].target === 'node-2';
       
       results.push({
-        testName: 'Verificar estructura nodes guardada',
+        testName: 'Verify saved nodes structure',
         passed: nodesValid,
         status: nodesValid ? 200 : 'FAIL',
         expectedStatus: 200
       });
 
       results.push({
-        testName: 'Verificar estructura edges guardada',
+        testName: 'Verify saved edges structure',
         passed: edgesValid,
         status: edgesValid ? 200 : 'FAIL',
         expectedStatus: 200
       });
     }
 
-    // Test 2: Crear diagrama sin título
+    // Test 2: Create diagram without title
     results.push(await testCreateDiagram(
-      'Sin título',
+      'Without title',
       {
-        description: 'Sin título',
+        description: 'No title',
         nodes: [],
         edges: []
       },
@@ -310,12 +310,12 @@ async function runTests() {
       400
     ));
 
-    // Test 2.5: Crear diagrama con nodes sin campos requeridos
+    // Test 2.5: Create diagram with nodes missing required fields
     results.push(await testCreateDiagram(
-      'Nodes sin id',
+      'Nodes missing id',
       {
-        title: `Test nodes invalidos ${Date.now()}`,
-        description: 'Nodes sin id',
+        title: `Test nodes invalid ${Date.now()}`,
+        description: 'Nodes missing id',
         nodes: [{ type: 'start', position: { x: 0, y: 0 } }],
         edges: []
       },
@@ -324,10 +324,10 @@ async function runTests() {
     ));
 
     results.push(await testCreateDiagram(
-      'Nodes sin type',
+      'Nodes missing type',
       {
-        title: `Test nodes invalidos 2 ${Date.now()}`,
-        description: 'Nodes sin type',
+        title: `Test nodes invalid 2 ${Date.now()}`,
+        description: 'Nodes missing type',
         nodes: [{ id: 'node-1', position: { x: 0, y: 0 } }],
         edges: []
       },
@@ -336,10 +336,10 @@ async function runTests() {
     ));
 
     results.push(await testCreateDiagram(
-      'Nodes sin position',
+      'Nodes missing position',
       {
-        title: `Test nodes invalidos 3 ${Date.now()}`,
-        description: 'Nodes sin position',
+        title: `Test nodes invalid 3 ${Date.now()}`,
+        description: 'Nodes missing position',
         nodes: [{ id: 'node-1', type: 'start' }],
         edges: []
       },
@@ -347,12 +347,12 @@ async function runTests() {
       400
     ));
 
-    // Test 2.6: Crear diagrama con edges sin campos requeridos
+    // Test 2.6: Create diagram with edges missing required fields
     results.push(await testCreateDiagram(
-      'Edges sin id',
+      'Edges missing id',
       {
-        title: `Test edges invalidos ${Date.now()}`,
-        description: 'Edges sin id',
+        title: `Test edges invalid ${Date.now()}`,
+        description: 'Edges missing id',
         nodes: [],
         edges: [{ source: 'a', target: 'b' }]
       },
@@ -361,10 +361,10 @@ async function runTests() {
     ));
 
     results.push(await testCreateDiagram(
-      'Edges sin source',
+      'Edges missing source',
       {
-        title: `Test edges invalidos 2 ${Date.now()}`,
-        description: 'Edges sin source',
+        title: `Test edges invalid 2 ${Date.now()}`,
+        description: 'Edges missing source',
         nodes: [],
         edges: [{ id: 'edge-1', target: 'b' }]
       },
@@ -373,10 +373,10 @@ async function runTests() {
     ));
 
     results.push(await testCreateDiagram(
-      'Edges sin target',
+      'Edges missing target',
       {
-        title: `Test edges invalidos 3 ${Date.now()}`,
-        description: 'Edges sin target',
+        title: `Test edges invalid 3 ${Date.now()}`,
+        description: 'Edges missing target',
         nodes: [],
         edges: [{ id: 'edge-1', source: 'a' }]
       },
@@ -384,12 +384,12 @@ async function runTests() {
       400
     ));
 
-    // Test 3: Crear diagrama con título muy corto
+    // Test 3: Create diagram with a very short title
     results.push(await testCreateDiagram(
-      'Título muy corto',
+      'Title too short',
       {
         title: 'AB',
-        description: 'Título de solo 2 caracteres',
+        description: 'Title with only 2 characters',
         nodes: [],
         edges: []
       },
@@ -397,12 +397,12 @@ async function runTests() {
       400
     ));
 
-    // Test 4: Crear diagrama sin token
+    // Test 4: Create diagram without token
     results.push(await testCreateDiagram(
-      'Sin autenticación',
+      'Without authentication',
       {
-        title: 'Diagrama sin token',
-        description: 'Debe fallar',
+        title: 'Diagram without token',
+        description: 'Should fail',
         nodes: [],
         edges: []
       },
@@ -410,25 +410,25 @@ async function runTests() {
       401
     ));
 
-    // Test 5: Crear diagrama con token inválido
+    // Test 5: Create diagram with invalid token
     results.push(await testCreateDiagram(
-      'Token inválido',
+      'Invalid token',
       {
-        title: 'Diagrama token inválido',
-        description: 'Debe fallar',
+        title: 'Diagram with invalid token',
+        description: 'Should fail',
         nodes: [],
         edges: []
       },
-      'token_invalido_12345',
+      'invalid_token_12345',
       401
     ));
 
-    // Test 6: Crear diagrama con título duplicado
-    const duplicateTitle = `Diagrama Duplicado ${Date.now()}`;
+    // Test 6: Create diagram with duplicate title
+    const duplicateTitle = `Duplicate Diagram ${Date.now()}`;
     
-    // Primero crear el diagrama original
+    // First create the original diagram
     await testCreateDiagram(
-      'Crear diagrama original',
+      'Create original diagram',
       {
         title: duplicateTitle,
         description: 'Original',
@@ -439,12 +439,12 @@ async function runTests() {
       201
     );
 
-    // Intentar crear con el mismo título
+    // Attempt to create a diagram with the same title
     results.push(await testCreateDiagram(
-      'Título duplicado',
+      'Duplicate title',
       {
         title: duplicateTitle,
-        description: 'Duplicado',
+        description: 'Duplicate',
         nodes: [],
         edges: []
       },
@@ -452,15 +452,15 @@ async function runTests() {
       409
     ));
 
-    // ========== TESTS DE GET /api/diagrams ==========
-    
-    // Crear varios diagramas para probar GET
+    // ========== TESTS FOR GET /api/diagrams ==========
+
+    // Create several diagrams to test GET
     const timestamp2 = Date.now();
     await testCreateDiagram(
-      'Setup GET: Diagrama 1',
+      'Setup GET: Diagram 1',
       {
         title: `GET Test 1 ${timestamp2}`,
-        description: 'Primer diagrama para GET',
+        description: 'First diagram for GET',
         nodes: [],
         edges: []
       },
@@ -468,14 +468,14 @@ async function runTests() {
       201
     );
     
-    // Pequeña espera para asegurar diferente createdAt
+    // Small wait to ensure different createdAt timestamps
     await new Promise(resolve => setTimeout(resolve, 100));
     
     await testCreateDiagram(
-      'Setup GET: Diagrama 2',
+      'Setup GET: Diagram 2',
       {
         title: `GET Test 2 ${timestamp2}`,
-        description: 'Segundo diagrama para GET',
+        description: 'Second diagram for GET',
         nodes: [],
         edges: []
       },
@@ -486,10 +486,10 @@ async function runTests() {
     await new Promise(resolve => setTimeout(resolve, 100));
     
     await testCreateDiagram(
-      'Setup GET: Diagrama 3',
+      'Setup GET: Diagram 3',
       {
         title: `GET Test 3 ${timestamp2}`,
-        description: 'Tercer diagrama para GET',
+        description: 'Third diagram for GET',
         nodes: [],
         edges: []
       },
@@ -497,8 +497,8 @@ async function runTests() {
       201
     );
 
-    // Test 7: GET diagramas con token válido
-    const getTest = await testGetDiagrams('GET diagramas con token', authToken, 200);
+    // Test 7: GET diagrams with valid token
+    const getTest = await testGetDiagrams('GET diagrams with token', authToken, 200);
     results.push(getTest);
     
     if (getTest.passed && getTest.data && getTest.data.diagrams) {
@@ -508,7 +508,7 @@ async function runTests() {
       if (diagrams.length >= 2) {
         const isOrdered = new Date(diagrams[0].createdAt) >= new Date(diagrams[1].createdAt);
         results.push({
-          testName: 'GET ordenamiento correcto',
+          testName: 'GET correct ordering',
           passed: isOrdered,
           status: isOrdered ? 200 : 'FAIL',
           expectedStatus: 200
@@ -521,31 +521,31 @@ async function runTests() {
         Array.isArray(d.nodes) && Array.isArray(d.edges)
       );
       results.push({
-        testName: 'GET campos requeridos',
+        testName: 'GET required fields',
         passed: hasAllFields,
         status: hasAllFields ? 200 : 'FAIL',
         expectedStatus: 200
       });
     }
 
-    // Test 10: GET diagramas sin token
-    results.push(await testGetDiagrams('GET sin token', null, 401));
+    // Test 10: GET diagrams without token
+    results.push(await testGetDiagrams('GET without token', null, 401));
 
-    // Test 11: GET diagramas con token inválido
-    results.push(await testGetDiagrams('GET token inválido', 'token_invalido_123', 401));
+    // Test 11: GET diagrams with invalid token
+    results.push(await testGetDiagrams('GET invalid token', 'invalid_token_123', 401));
 
-    // Test 12: Verificar aislamiento de datos (otro usuario no ve estos diagramas)
+    // Test 12: Verify data isolation (another user should not see these diagrams)
     const otherUserToken = await registerAndLogin();
-    const isolationTest = await testGetDiagrams('GET aislamiento datos', otherUserToken, 200);
+    const isolationTest = await testGetDiagrams('GET data isolation', otherUserToken, 200);
     results.push(isolationTest);
     
     if (isolationTest.passed && isolationTest.data && isolationTest.data.diagrams) {
-      // Crear un diagrama para el nuevo usuario
+      // Create a diagram for the new user
       await testCreateDiagram(
-        'Setup: Diagrama usuario nuevo',
+        'Setup: New user diagram',
         {
           title: `User2 Diagram ${Date.now()}`,
-          description: 'Diagrama de usuario 2',
+          description: 'User 2 diagram',
           nodes: [],
           edges: []
         },
@@ -553,12 +553,12 @@ async function runTests() {
         201
       );
       
-      // Verificar que solo ve 1 diagrama (el suyo)
-      const otherUserDiagrams = await testGetDiagrams('GET solo propios', otherUserToken, 200);
+      // Verify they only see 1 diagram (their own)
+      const otherUserDiagrams = await testGetDiagrams('GET only own', otherUserToken, 200);
       if (otherUserDiagrams.passed && otherUserDiagrams.data) {
         const onlyOwn = otherUserDiagrams.data.diagrams.length === 1;
         results.push({
-          testName: 'GET solo diagramas propios',
+          testName: 'GET only own diagrams',
           passed: onlyOwn,
           status: 200,
           expectedStatus: 200
@@ -566,14 +566,14 @@ async function runTests() {
       }
     }
 
-    // ========== TESTS DE PUT /api/diagrams/:id ==========
+    // ========== TESTS FOR PUT /api/diagrams/:id ==========
     
-    // Crear diagrama para los tests de actualización
+    // Create diagram for update tests
     const updateTest = await testCreateDiagram(
-      'Setup PUT: Crear diagrama base',
+      'Setup PUT: Create base diagram',
       {
-        title: `Diagrama Para Actualizar ${Date.now()}`,
-        description: 'Descripción original',
+        title: `Diagram To Update ${Date.now()}`,
+        description: 'Original description',
         nodes: [{ id: 'n1', type: 'start', position: { x: 0, y: 0 }, data: {} }],
         edges: []
       },
@@ -585,16 +585,16 @@ async function runTests() {
     if (updateTest.passed && updateTest.data && updateTest.data.diagram) {
       diagramIdToUpdate = updateTest.data.diagram.id;
 
-      // Test PUT-1: Actualizar diagrama exitosamente
+      // Test PUT-1: Update diagram successfully
       const putTest1 = await testUpdateDiagram(
-        'PUT actualización exitosa',
+        'PUT successful update',
         diagramIdToUpdate,
         {
-          title: `Diagrama Actualizado ${Date.now()}`,
-          description: 'Descripción actualizada',
+          title: `Diagram Updated ${Date.now()}`,
+          description: 'Updated description',
           nodes: [
-            { id: 'n1', type: 'start', position: { x: 100, y: 100 }, data: { label: 'Inicio' } },
-            { id: 'n2', type: 'end', position: { x: 200, y: 200 }, data: { label: 'Fin' } }
+            { id: 'n1', type: 'start', position: { x: 100, y: 100 }, data: { label: 'Start' } },
+            { id: 'n2', type: 'end', position: { x: 200, y: 200 }, data: { label: 'End' } }
           ],
           edges: [
             { id: 'e1', source: 'n1', target: 'n2' }
@@ -617,32 +617,32 @@ async function runTests() {
                             updated.edges[0].target === 'n2';
 
         results.push({
-          testName: 'PUT nodes actualizados correctamente',
+          testName: 'PUT nodes updated correctly',
           passed: nodesUpdated,
           status: nodesUpdated ? 200 : 'FAIL',
           expectedStatus: 200
         });
 
         results.push({
-          testName: 'PUT edges actualizados correctamente',
+          testName: 'PUT edges updated correctly',
           passed: edgesUpdated,
           status: edgesUpdated ? 200 : 'FAIL',
           expectedStatus: 200
         });
       }
 
-      // Test PUT-2: Actualizar solo título
+      // Test PUT-2: Update title only
       results.push(await testUpdateDiagram(
-        'PUT solo título',
+        'PUT title only',
         diagramIdToUpdate,
-        { title: `Solo Título ${Date.now()}` },
+        { title: `Title Only ${Date.now()}` },
         authToken,
         200
       ));
 
-      // Test PUT-3: Actualizar solo nodes (manteniendo compatibilidad con edges)
+      // Test PUT-3: Update nodes only (maintaining compatibility with edges)
       results.push(await testUpdateDiagram(
-        'PUT solo nodes',
+        'PUT nodes only',
         diagramIdToUpdate,
         { 
           nodes: [
@@ -654,27 +654,27 @@ async function runTests() {
         200
       ));
 
-      // Test PUT-4: Título muy corto
+      // Test PUT-4: Title too short
       results.push(await testUpdateDiagram(
-        'PUT título muy corto',
+        'PUT title too short',
         diagramIdToUpdate,
         { title: 'AB' },
         authToken,
         400
       ));
 
-      // Test PUT-5: Nodes con estructura inválida
+      // Test PUT-5: Nodes with invalid structure
       results.push(await testUpdateDiagram(
-        'PUT nodes sin id',
+        'PUT nodes missing id',
         diagramIdToUpdate,
         { nodes: [{ type: 'start', position: { x: 0, y: 0 } }] },
         authToken,
         400
       ));
 
-      // Test PUT-6: Edges con estructura inválida
+      // Test PUT-6: Edges with invalid structure
       results.push(await testUpdateDiagram(
-        'PUT edges sin source',
+        'PUT edges missing source',
         diagramIdToUpdate,
         { edges: [{ id: 'e1', target: 'n2' }] },
         authToken,
@@ -682,52 +682,52 @@ async function runTests() {
       ));
     }
 
-    // Test PUT-7: Sin token
+    // Test PUT-7: Without token
     results.push(await testUpdateDiagram(
-      'PUT sin token',
+      'PUT without token',
       diagramIdToUpdate || 'dummy',
-      { title: 'Sin autorización' },
+      { title: 'Unauthorized' },
       null,
       401
     ));
 
-    // Test PUT-8: Token inválido
+    // Test PUT-8: Invalid token
     results.push(await testUpdateDiagram(
-      'PUT token inválido',
+      'PUT invalid token',
       diagramIdToUpdate || 'dummy',
-      { title: 'Token inválido' },
-      'token_invalido_123',
+      { title: 'Invalid token' },
+      'invalid_token_123',
       401
     ));
 
-    // Test PUT-9: ID no válido
+    // Test PUT-9: Invalid ID
     results.push(await testUpdateDiagram(
-      'PUT ID inválido',
-      'id_invalido',
-      { title: 'ID no válido' },
+      'PUT invalid ID',
+      'invalid_id',
+      { title: 'Invalid ID' },
       authToken,
       404
     ));
 
-    // Test PUT-10: Diagrama de otro usuario
+    // Test PUT-10: Another user's diagram
     if (otherUserToken && diagramIdToUpdate) {
       results.push(await testUpdateDiagram(
-        'PUT diagrama de otro usuario',
+        'PUT another user diagram',
         diagramIdToUpdate,
-        { title: 'Intentando modificar diagrama ajeno' },
+        { title: 'Attempting to modify another user\'s diagram' },
         otherUserToken,
         404
       ));
     }
 
   } catch (error) {
-    results.push({ testName: 'Error en setup', passed: false, error: error.message });
+    results.push({ testName: 'Setup error', passed: false, error: error.message });
   }
 
   return results;
 }
 
-// Ejecutar tests si es el archivo principal
+// Run tests if this is the main module
 if (require.main === module) {
   runTests();
 }

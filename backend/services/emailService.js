@@ -1,10 +1,10 @@
 const nodemailer = require("nodemailer");
 
 /**
- * Crea un transportador de email según el entorno.
- * En producción usa Gmail, en desarrollo usa Ethereal o SMTP local.
+ * Create an email transporter according to the environment.
+ * In production it uses Gmail, in development it uses Ethereal or local SMTP.
  * @function createTransporter
- * @returns {Object} Transportador de nodemailer configurado.
+ * @returns {Object} Configured nodemailer transporter.
  */
 const createTransporter = () => {
   if (process.env.NODE_ENV === "production") {
@@ -29,14 +29,14 @@ const createTransporter = () => {
 };
 
 /**
- * Envía un email de verificación al usuario para confirmar su dirección de correo.
+ * Send an account verification email to the user.
  * @async
  * @function sendVerificationEmail
- * @param {string} userEmail - Email del usuario.
- * @param {string} userName - Nombre del usuario.
- * @param {string} verificationToken - Token único de verificación.
- * @returns {Promise<Object>} Objeto con success (boolean) y messageId del email enviado.
- * @throws {Error} Si hay error al enviar el email.
+ * @param {string} userEmail - The user's email address.
+ * @param {string} userName - The user's display name.
+ * @param {string} verificationToken - Unique verification token.
+ * @returns {Promise<Object>} Object with success (boolean) and the sent messageId.
+ * @throws {Error} If sending the email fails.
  */
 const sendVerificationEmail = async (
   userEmail,
@@ -55,7 +55,7 @@ const sendVerificationEmail = async (
     const mailOptions = {
       from: `"BossFlow" <${process.env.EMAIL_FROM || "noreply@bossflow.com"}>`,
       to: userEmail,
-      subject: "Verifica tu cuenta de BossFlow",
+      subject: "Verify your BossFlow account",
       html: `
                 <!DOCTYPE html>
                 <html>
@@ -140,59 +140,59 @@ const sendVerificationEmail = async (
                             <h1>BossFlow</h1>
                         </div>
                         <div class="content">
-                            <h2>¡Bienvenido a BossFlow, ${userName}!</h2>
-                            <p>Gracias por registrarte en BossFlow. Para completar tu registro y comenzar a crear diagramas de flujo increíbles, necesitamos verificar tu dirección de email.</p>
+                            <h2>Welcome to BossFlow, ${userName}!</h2>
+                            <p>Thanks for signing up to BossFlow. To complete your registration and start creating flow diagrams, please verify your email address.</p>
 
-                            <p>Haz clic en el botón de abajo para verificar tu cuenta:</p>
+                            <p>Click the button below to verify your account:</p>
 
                             <div style="text-align: center;">
-                                <a href="${verificationUrl}" class="button">Verificar mi cuenta</a>
+                              <a href="${verificationUrl}" class="button">Verify my account</a>
                             </div>
 
                             <div class="warning">
-                                <p><strong>Este enlace expirará en 24 horas.</strong> Si no verificas tu cuenta dentro de este tiempo, tendrás que solicitar un nuevo email de verificación.</p>
+                              <p><strong>This link will expire in 24 hours.</strong> If you do not verify within this time, you will need to request a new verification email.</p>
                             </div>
 
-                            <p>Si no creaste esta cuenta, puedes ignorar este email de forma segura.</p>
+                            <p>If you did not create this account, you can safely ignore this email.</p>
 
                             <p style="margin-top: 30px; font-size: 14px; color: #7a8896;">
-                                Si el botón no funciona, copia y pega este enlace en tu navegador:<br>
-                                <a href="${verificationUrl}" style="color: #EAB308; word-break: break-all;">${verificationUrl}</a>
+                              If the button does not work, copy and paste this link into your browser:<br>
+                              <a href="${verificationUrl}" style="color: #EAB308; word-break: break-all;">${verificationUrl}</a>
                             </p>
                         </div>
                         <div class="footer">
-                            <p>&copy; ${new Date().getFullYear()} BossFlow. Todos los derechos reservados.</p>
-                            <p>Este es un email automático, por favor no respondas a este mensaje.</p>
+                            <p>&copy; ${new Date().getFullYear()} BossFlow. All rights reserved.</p>
+                            <p>This is an automated email, please do not reply to this message.</p>
                         </div>
                     </div>
                 </body>
                 </html>
             `,
       text: `
-¡Bienvenido a BossFlow, ${userName}!
+    Welcome to BossFlow, ${userName}!
 
-Gracias por registrarte en BossFlow. Para completar tu registro y comenzar a crear diagramas de flujo increíbles, necesitamos verificar tu dirección de email.
+    Thanks for signing up to BossFlow. To complete your registration and start creating flow diagrams, please verify your email address.
 
-Haz clic en el siguiente enlace para verificar tu cuenta:
-${verificationUrl}
+    Click the following link to verify your account:
+    ${verificationUrl}
 
-Este enlace expirará en 24 horas. Si no verificas tu cuenta dentro de este tiempo, tendrás que solicitar un nuevo email de verificación.
+    This link will expire in 24 hours. If you do not verify within this time, you will need to request a new verification email.
 
-Si no creaste esta cuenta, puedes ignorar este email de forma segura.
+    If you did not create this account, you can safely ignore this email.
 
-© ${new Date().getFullYear()} BossFlow. Todos los derechos reservados.
-            `,
+    © ${new Date().getFullYear()} BossFlow. All rights reserved.
+        `,
     };
 
-    // Enviar email
+    // Send email
     const info = await transporter.sendMail(mailOptions);
 
-    console.log("Email de verificación enviado:", info.messageId);
+    console.log("Verification email sent:", info.messageId);
 
-    // En desarrollo con Ethereal, mostrar URL de vista previa
+    // In development with Ethereal, show preview URL
     if (process.env.NODE_ENV !== "production") {
       console.log(
-        "Vista previa del email:",
+        "Email preview URL:",
         nodemailer.getTestMessageUrl(info)
       );
     }
@@ -202,19 +202,19 @@ Si no creaste esta cuenta, puedes ignorar este email de forma segura.
       messageId: info.messageId,
     };
   } catch (error) {
-    console.error("Error al enviar email de verificación:", error);
-    throw new Error("No se pudo enviar el email de verificación");
+    console.error("Error sending verification email:", error);
+    throw new Error("Could not send verification email");
   }
 };
 
 /**
- * Envía un email de bienvenida al usuario después de que haya verificado su cuenta.
+ * Send a welcome email to the user after they have verified their account.
  * @async
  * @function sendWelcomeEmail
- * @param {string} userEmail - Email del usuario.
- * @param {string} userName - Nombre del usuario.
- * @returns {Promise<void>} Promesa que se resuelve al enviar el email.
- * @throws {Error} Si hay error al enviar el email.
+ * @param {string} userEmail - The user's email address.
+ * @param {string} userName - The user's display name.
+ * @returns {Promise<void>} Resolves when the email has been sent.
+ * @throws {Error} If sending the email fails.
  */
 const sendWelcomeEmail = async (userEmail, userName) => {
   try {
@@ -223,7 +223,7 @@ const sendWelcomeEmail = async (userEmail, userName) => {
     const mailOptions = {
       from: `"BossFlow" <${process.env.EMAIL_FROM || "noreply@bossflow.com"}>`,
       to: userEmail,
-      subject: "¡Cuenta verificada! Bienvenido a BossFlow",
+      subject: "Account verified — Welcome to BossFlow",
       html: `
                 <!DOCTYPE html>
                 <html>
@@ -285,27 +285,26 @@ const sendWelcomeEmail = async (userEmail, userName) => {
                             <h1>BossFlow</h1>
                         </div>
                         <div class="content">
-                            <h2>¡Tu cuenta ha sido verificada exitosamente!</h2>
-                            <p>Hola ${userName},</p>
-                            <p>¡Felicidades! Tu cuenta de BossFlow ha sido verificada y ya puedes comenzar a usar todas nuestras funcionalidades.</p>
+                            <h2>Your account has been successfully verified!</h2>
+                            <p>Hello ${userName},</p>
+                            <p>Congratulations! Your BossFlow account has been verified and you can now start using all features.</p>
 
-                            <p>Con BossFlow puedes:</p>
+                            <p>With BossFlow you can:</p>
                             <ul>
-                                <li>Crear diagramas de flujo interactivos</li>
-                                <li>Planificar estrategias contra jefes de videojuegos</li>
-                                <li>Colaborar con otros usuarios</li>
-                                <li>Usar plantillas predefinidas</li>
+                                <li>Create interactive flow diagrams</li>
+                                <li>Collaborate with other users</li>
+                                <li>Use predefined templates</li>
                             </ul>
 
                             <div style="text-align: center;">
                                 <a href="${
                                   process.env.FRONTEND_URL ||
                                   "http://localhost:5173"
-                                }/dashboard" class="button">Ir al Dashboard</a>
+                                }/dashboard" class="button">Go to Dashboard</a>
                             </div>
                         </div>
                         <div class="footer">
-                            <p>&copy; ${new Date().getFullYear()} BossFlow. Todos los derechos reservados.</p>
+                          <p>&copy; ${new Date().getFullYear()} BossFlow. All rights reserved.</p>
                         </div>
                     </div>
                 </body>
@@ -314,10 +313,10 @@ const sendWelcomeEmail = async (userEmail, userName) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("Email de bienvenida enviado a:", userEmail);
+    console.log("Welcome email sent to:", userEmail);
   } catch (error) {
-    console.error("Error al enviar email de bienvenida:", error);
-    // No lanzar error, el email de bienvenida es opcional
+    console.error("Error sending welcome email:", error);
+    // Do not throw — welcome email is optional
   }
 };
 

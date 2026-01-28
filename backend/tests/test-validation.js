@@ -1,6 +1,6 @@
 /**
- * Tests de validación de estructura de diagramas
- * Prueba las validaciones de nodos y edges
+ * Diagram structure validation tests
+ * Tests nodes and edges validation
  */
 
 const http = require('http');
@@ -71,7 +71,7 @@ async function testValidation(testName, body, token, expectedStatus) {
 async function runTests() {
   const results = [];
 
-  // Obtener token de autenticación
+  // Obtain authentication token
   let authToken = '';
   try {
     const loginResponse = await makeRequest('POST', '/auth/login', {
@@ -83,7 +83,7 @@ async function runTests() {
       const parsed = JSON.parse(loginResponse.body);
       authToken = parsed.token;
     } else {
-      // Crear usuario si no existe
+      // Create user if it does not exist
       await makeRequest('POST', '/auth/register', {
         username: 'validationtest',
         email: 'validationtest@test.com',
@@ -99,18 +99,18 @@ async function runTests() {
       authToken = parsed.token;
     }
   } catch (error) {
-    console.error('Error obteniendo token:', error.message);
+    console.error('Error obtaining token:', error.message);
   }
 
   // ========================================
-  // TESTS DE VALIDACIÓN DE NODOS
+  // NODE VALIDATION TESTS
   // ========================================
 
-  // Test 1: Nodo sin campo "id"
+  // Test 1: Node missing the "id" field
   results.push(await testValidation(
-    'Validación: Nodo sin id',
+    'Validation: Node missing id',
     {
-      title: `Test sin ID ${Date.now()}`,
+      title: `Test missing ID ${Date.now()}`,
       nodes: [{
         type: 'default',
         position: { x: 100, y: 200 },
@@ -122,11 +122,11 @@ async function runTests() {
     400
   ));
 
-  // Test 2: Nodo sin campo "type"
+  // Test 2: Node missing the "type" field
   results.push(await testValidation(
-    'Validación: Nodo sin type',
+    'Validation: Node missing type',
     {
-      title: `Test sin type ${Date.now()}`,
+      title: `Test missing type ${Date.now()}`,
       nodes: [{
         id: '1',
         position: { x: 100, y: 200 },
@@ -138,11 +138,11 @@ async function runTests() {
     400
   ));
 
-  // Test 3: Nodo sin campo "position"
+  // Test 3: Node missing the "position" field
   results.push(await testValidation(
-    'Validación: Nodo sin position',
+    'Validation: Node missing position',
     {
-      title: `Test sin position ${Date.now()}`,
+      title: `Test missing position ${Date.now()}`,
       nodes: [{
         id: '1',
         type: 'default',
@@ -154,11 +154,11 @@ async function runTests() {
     400
   ));
 
-  // Test 4: Nodo sin "position.x"
+  // Test 4: Node missing "position.x"
   results.push(await testValidation(
-    'Validación: Nodo sin position.x',
+    'Validation: Node missing position.x',
     {
-      title: `Test sin x ${Date.now()}`,
+      title: `Test missing x ${Date.now()}`,
       nodes: [{
         id: '1',
         type: 'default',
@@ -171,11 +171,11 @@ async function runTests() {
     400
   ));
 
-  // Test 5: Nodo sin "position.y"
+  // Test 5: Node missing "position.y"
   results.push(await testValidation(
-    'Validación: Nodo sin position.y',
+    'Validation: Node missing position.y',
     {
-      title: `Test sin y ${Date.now()}`,
+      title: `Test missing y ${Date.now()}`,
       nodes: [{
         id: '1',
         type: 'default',
@@ -188,11 +188,11 @@ async function runTests() {
     400
   ));
 
-  // Test 6: Nodo sin campo "data"
+  // Test 6: Node missing the "data" field
   results.push(await testValidation(
-    'Validación: Nodo sin data',
+    'Validation: Node missing data',
     {
-      title: `Test sin data ${Date.now()}`,
+      title: `Test missing data ${Date.now()}`,
       nodes: [{
         id: '1',
         type: 'default',
@@ -204,11 +204,11 @@ async function runTests() {
     400
   ));
 
-  // Test 7: Nodos con IDs duplicados
+  // Test 7: Nodes with duplicate IDs
   results.push(await testValidation(
-    'Validación: IDs duplicados',
+    'Validation: Duplicate IDs',
     {
-      title: `Test IDs duplicados ${Date.now()}`,
+      title: `Test duplicate IDs ${Date.now()}`,
       nodes: [
         { id: '1', type: 'default', position: { x: 0, y: 0 }, data: {} },
         { id: '1', type: 'default', position: { x: 100, y: 100 }, data: {} }
@@ -220,14 +220,14 @@ async function runTests() {
   ));
 
   // ========================================
-  // TESTS DE VALIDACIÓN DE EDGES
+  // EDGE VALIDATION TESTS
   // ========================================
 
-  // Test 8: Edge sin campo "id"
+  // Test 8: Edge missing the "id" field
   results.push(await testValidation(
-    'Validación: Edge sin id',
+    'Validation: Edge missing id',
     {
-      title: `Test edge sin id ${Date.now()}`,
+      title: `Test edge missing id ${Date.now()}`,
       nodes: [
         { id: '1', type: 'default', position: { x: 0, y: 0 }, data: {} },
         { id: '2', type: 'default', position: { x: 100, y: 100 }, data: {} }
@@ -241,11 +241,11 @@ async function runTests() {
     400
   ));
 
-  // Test 9: Edge sin campo "source"
+  // Test 9: Edge missing the "source" field
   results.push(await testValidation(
-    'Validación: Edge sin source',
+    'Validation: Edge missing source',
     {
-      title: `Test edge sin source ${Date.now()}`,
+      title: `Test edge missing source ${Date.now()}`,
       nodes: [
         { id: '1', type: 'default', position: { x: 0, y: 0 }, data: {} },
         { id: '2', type: 'default', position: { x: 100, y: 100 }, data: {} }
@@ -259,11 +259,11 @@ async function runTests() {
     400
   ));
 
-  // Test 10: Edge sin campo "target"
+  // Test 10: Edge missing the "target" field
   results.push(await testValidation(
-    'Validación: Edge sin target',
+    'Validation: Edge missing target',
     {
-      title: `Test edge sin target ${Date.now()}`,
+      title: `Test edge missing target ${Date.now()}`,
       nodes: [
         { id: '1', type: 'default', position: { x: 0, y: 0 }, data: {} },
         { id: '2', type: 'default', position: { x: 100, y: 100 }, data: {} }
@@ -277,11 +277,11 @@ async function runTests() {
     400
   ));
 
-  // Test 11: Edge con source inexistente
+  // Test 11: Edge with non-existent source
   results.push(await testValidation(
-    'Validación: Edge source inexistente',
+    'Validation: Edge source nonexistent',
     {
-      title: `Test source inexistente ${Date.now()}`,
+      title: `Test source nonexistent ${Date.now()}`,
       nodes: [
         { id: '1', type: 'default', position: { x: 0, y: 0 }, data: {} }
       ],
@@ -295,11 +295,11 @@ async function runTests() {
     400
   ));
 
-  // Test 12: Edge con target inexistente
+  // Test 12: Edge with non-existent target
   results.push(await testValidation(
-    'Validación: Edge target inexistente',
+    'Validation: Edge target nonexistent',
     {
-      title: `Test target inexistente ${Date.now()}`,
+      title: `Test target nonexistent ${Date.now()}`,
       nodes: [
         { id: '1', type: 'default', position: { x: 0, y: 0 }, data: {} }
       ],
@@ -313,9 +313,9 @@ async function runTests() {
     400
   ));
 
-  // Test 13: Edge con source === target (self-loop)
+  // Test 13: Edge with source === target (self-loop)
   results.push(await testValidation(
-    'Validación: Edge self-loop',
+    'Validation: Edge self-loop',
     {
       title: `Test self-loop ${Date.now()}`,
       nodes: [
@@ -331,11 +331,11 @@ async function runTests() {
     400
   ));
 
-  // Test 14: Edges con IDs duplicados
+  // Test 14: Edges with duplicate IDs
   results.push(await testValidation(
-    'Validación: Edge IDs duplicados',
+    'Validation: Edge duplicate IDs',
     {
-      title: `Test edge IDs duplicados ${Date.now()}`,
+      title: `Test edge duplicate IDs ${Date.now()}`,
       nodes: [
         { id: '1', type: 'default', position: { x: 0, y: 0 }, data: {} },
         { id: '2', type: 'default', position: { x: 100, y: 100 }, data: {} },
@@ -351,19 +351,19 @@ async function runTests() {
   ));
 
   // ========================================
-  // TEST DE DIAGRAMA VÁLIDO
+  // VALID DIAGRAM TEST
   // ========================================
 
-  // Test 15: Diagrama válido completo
+  // Test 15: Valid complete diagram
   results.push(await testValidation(
-    'Validación: Diagrama válido',
+    'Validation: Valid diagram',
     {
-      title: `Diagrama válido ${Date.now()}`,
-      description: 'Diagrama con estructura correcta',
+      title: `Valid diagram ${Date.now()}`,
+      description: 'Diagram with correct structure',
       nodes: [
-        { id: 'n1', type: 'input', position: { x: 0, y: 0 }, data: { label: 'Inicio' } },
-        { id: 'n2', type: 'default', position: { x: 100, y: 100 }, data: { label: 'Proceso' } },
-        { id: 'n3', type: 'output', position: { x: 200, y: 200 }, data: { label: 'Fin' } }
+        { id: 'n1', type: 'input', position: { x: 0, y: 0 }, data: { label: 'Start' } },
+        { id: 'n2', type: 'default', position: { x: 100, y: 100 }, data: { label: 'Process' } },
+        { id: 'n3', type: 'output', position: { x: 200, y: 200 }, data: { label: 'End' } }
       ],
       edges: [
         { id: 'e1-2', source: 'n1', target: 'n2' },
