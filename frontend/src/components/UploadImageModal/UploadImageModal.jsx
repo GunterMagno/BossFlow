@@ -3,16 +3,16 @@ import './UploadImageModal.css';
 import { FiUploadCloud } from 'react-icons/fi';
 
 /**
- * Componente modal para subir imágenes desde archivo o URL.
- * Permite arrastrar y soltar archivos, seleccionar desde el explorador o ingresar una URL.
- * Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
+ * Modal component to upload images from file or URL.
+ * Allows drag and drop files, select from explorer or enter a URL.
+ * Validates image type and size before uploading to backend.
  *
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Indica si el modal está abierto
- * @param {Function} props.onClose - Función callback para cerrar el modal
- * @param {Function} props.onImageUploaded - Función callback ejecutada cuando se sube una imagen exitosamente
- * @param {string} props.title - Título del modal
- * @returns {JSX.Element|null} Elemento modal o null si está cerrado
+ * @param {Object} props - Component properties
+ * @param {boolean} props.isOpen - Indicates if the modal is open
+ * @param {Function} props.onClose - Callback function to close the modal
+ * @param {Function} props.onImageUploaded - Callback function executed when an image is successfully uploaded
+ * @param {string} props.title - Modal title
+ * @returns {JSX.Element|null} Modal element or null if closed
  */
 const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir imagen" }) => {
   const [imageUrl, setImageUrl] = useState('');
@@ -25,8 +25,8 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   if (!isOpen) return null;
 
   /**
-   * Cierra el modal y reinicia todos los estados a sus valores iniciales.
-   * Limpia la URL, errores, vista previa y ejecuta el callback de cierre.
+   * Closes the modal and resets all states to their initial values.
+   * Clears URL, errors, preview and executes the close callback.
    */
   const handleClose = () => {
     setImageUrl('');
@@ -36,11 +36,11 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   /**
-   * Valida el tipo y tamaño de un archivo de imagen.
-   * Verifica que sea JPEG, PNG, GIF o WEBP y no exceda los 5MB.
+   * Validates the type and size of an image file.
+   * Verifies it is JPEG, PNG, GIF or WEBP and does not exceed 5MB.
    *
-   * @param {File} file - Archivo a validar
-   * @returns {boolean} true si el archivo es válido, false en caso contrario
+   * @param {File} file - File to validate
+   * @returns {boolean} true if the file is valid, false otherwise
    */
   const validateFile = (file) => {
     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -61,11 +61,11 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   /**
-   * Sube un archivo de imagen al backend.
-   * Convierte el archivo a base64 y lo envía al servidor mediante una petición POST.
+   * Uploads an image file to the backend.
+   * Converts the file to base64 and sends it to the server via a POST request.
    *
-   * @param {File} file - Archivo de imagen a subir
-   * @returns {Promise<Object>} Promesa que resuelve con los datos de la imagen subida
+   * @param {File} file - Image file to upload
+   * @returns {Promise<Object>} Promise that resolves with the uploaded image data
    */
   const uploadFileToBackend = async (file) => {
     return new Promise((resolve, reject) => {
@@ -106,10 +106,10 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   /**
-   * Maneja la selección de un archivo de imagen.
-   * Valida el archivo, lo sube al backend y ejecuta el callback con los datos de la imagen.
+   * Handles the selection of an image file.
+   * Validates the file, uploads it to the backend and executes the callback with the image data.
    *
-   * @param {File} file - Archivo de imagen seleccionado
+   * @param {File} file - Selected image file
    */
   const handleFileSelect = async (file) => {
     if (!validateFile(file)) return;
@@ -136,10 +136,10 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   /**
-   * Maneja el evento de selección de archivo desde el input.
-   * Extrae el primer archivo seleccionado y lo procesa.
+   * Handles the file selection event from the input.
+   * Extracts the first selected file and processes it.
    *
-   * @param {Event} e - Evento de cambio del input de archivo
+   * @param {Event} e - File input change event
    */
   const handleFileInput = (e) => {
     const file = e.target.files[0];
@@ -149,10 +149,10 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   /**
-   * Maneja el evento de arrastrar un archivo sobre la zona de soltar.
-   * Previene el comportamiento por defecto y activa el estado de arrastre.
+   * Handles the event of dragging a file over the drop zone.
+   * Prevents default behavior and activates the dragging state.
    *
-   * @param {DragEvent} e - Evento de arrastre
+   * @param {DragEvent} e - Drag event
    */
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -160,10 +160,10 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   /**
-   * Maneja el evento de salida del archivo de la zona de soltar.
-   * Previene el comportamiento por defecto y desactiva el estado de arrastre.
+   * Handles the event of leaving the drop zone.
+   * Prevents default behavior and deactivates the dragging state.
    *
-   * @param {DragEvent} e - Evento de arrastre
+   * @param {DragEvent} e - Drag event
    */
   const handleDragLeave = (e) => {
     e.preventDefault();
@@ -171,10 +171,10 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   /**
-   * Maneja el evento de soltar un archivo en la zona designada.
-   * Previene el comportamiento por defecto, desactiva el estado de arrastre y procesa el archivo.
+   * Handles the event of dropping a file in the designated zone.
+   * Prevents default behavior, deactivates the dragging state and processes the file.
    *
-   * @param {DragEvent} e - Evento de soltar
+   * @param {DragEvent} e - Drop event
    */
   const handleDrop = (e) => {
     e.preventDefault();
@@ -187,10 +187,10 @@ const UploadImageModal = ({ isOpen, onClose, onImageUploaded, title = "Subir ima
   };
 
   /**
-   * Maneja el envío de una URL de imagen externa.
-   * Valida la URL con el backend y ejecuta el callback si es válida.
+   * Handles the submission of an external image URL.
+   * Validates the URL with the backend and executes the callback if valid.
    *
-   * @returns {Promise<void>} Promesa que resuelve cuando se completa la validación
+   * @returns {Promise<void>} Promise that resolves when validation completes
    */
   const handleUrlSubmit = async () => {
     if (!imageUrl.trim()) {

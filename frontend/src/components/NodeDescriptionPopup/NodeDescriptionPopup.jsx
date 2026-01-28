@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import './NodeDescriptionPopup.css';
 
 /**
- * Componente popup que muestra la descripción e imagen de un nodo.
- * Se posiciona automáticamente cerca del nodo, ajustándose al espacio disponible.
- * Incluye soporte para dispositivos móviles y táctiles.
+ * Popup component that displays a node's description and image.
+ * Automatically positions itself near the node, adjusting to available space.
+ * Includes support for mobile and touch devices.
  *
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Indica si el popup está abierto
- * @param {Function} props.onClose - Función callback para cerrar el popup
- * @param {Object} props.node - Objeto del nodo con sus datos (título, descripción, imagen)
- * @param {Object} props.nodePosition - Objeto con la posición del nodo (top, left, bottom, width)
- * @returns {JSX.Element|null} Elemento popup o null si está cerrado o sin descripción
+ * @param {Object} props - Component properties
+ * @param {boolean} props.isOpen - Whether the popup is open
+ * @param {Function} props.onClose - Callback function to close the popup
+ * @param {Object} props.node - Node object with its data (title, description, image)
+ * @param {Object} props.nodePosition - Object with node position (top, left, bottom, width)
+ * @returns {JSX.Element|null} Popup element or null if closed or without description
  */
 const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
   const tooltipRef = useRef(null);
@@ -24,9 +24,9 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
 
   useEffect(() => {
     /**
-     * Detecta si el dispositivo es móvil o táctil.
+     * Detects if the device is mobile or touch-enabled.
      *
-     * @returns {boolean} true si es un dispositivo táctil, false en caso contrario
+     * @returns {boolean} true if it's a touch device, false otherwise
      */
     const isMobile = () => {
       return (
@@ -50,10 +50,10 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     if (!isOpen) return;
 
     /**
-     * Maneja los clics fuera del popup para cerrarlo.
-     * Inicia la animación de cierre antes de ejecutar el callback.
+     * Handles clicks outside the popup to close it.
+     * Starts the closing animation before executing the callback.
      *
-     * @param {MouseEvent} e - Evento de clic del ratón
+     * @param {MouseEvent} e - Mouse click event
      */
     const handleClickOutside = (e) => {
       if (tooltipRef.current && !tooltipRef.current.contains(e.target) && isOpenRef.current) {
@@ -63,9 +63,9 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
     };
 
     /**
-     * Maneja la tecla Escape para cerrar el popup.
+     * Handles the Escape key to close the popup.
      *
-     * @param {KeyboardEvent} e - Evento de teclado
+     * @param {KeyboardEvent} e - Keyboard event
      */
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isOpenRef.current) {
@@ -119,8 +119,8 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
   }
 
   /**
-   * Maneja el evento cuando el ratón sale del popup (solo en escritorio).
-   * Inicia un temporizador para cerrar el popup después de la animación.
+   * Handles the event when the mouse leaves the popup (desktop only).
+   * Starts a timer to close the popup after the animation.
    */
   const handleMouseLeave = () => {
     if (!isMobileRef.current) {
@@ -130,8 +130,8 @@ const NodeDescriptionPopup = ({ isOpen, onClose, node, nodePosition }) => {
   };
 
   /**
-   * Maneja el evento cuando el ratón entra al popup (solo en escritorio).
-   * Cancela el temporizador de cierre si existe y mantiene el popup visible.
+   * Handles the event when the mouse enters the popup (desktop only).
+   * Cancels the closing timer if it exists and keeps the popup visible.
    */
   const handleMouseEnter = () => {
     if (!isMobileRef.current && hoverTimeoutRef.current) {

@@ -1,16 +1,16 @@
 import api from './api';
 
 /**
- * Servicio de autenticación
- * Maneja las peticiones HTTP relacionadas con login y registro
+ * Authentication service
+ * Handles HTTP requests related to login and registration
  */
 export const authService = {
   /**
-   * Iniciar sesión
-   * @param {string} email - Correo electrónico del usuario
-   * @param {string} password - Contraseña del usuario
-   * @param {boolean} rememberMe - Si se debe mantener la sesión por más tiempo
-   * @returns {Promise<Object>} Datos del usuario y token
+   * Log in
+   * @param {string} email - User's email address
+   * @param {string} password - User's password
+   * @param {boolean} rememberMe - Whether to keep the session for a longer time
+   * @returns {Promise<Object>} User data and token
    */
   login: async (email, password, rememberMe = false) => {
     const response = await api.post('/auth/login', { email, password, rememberMe });
@@ -18,12 +18,12 @@ export const authService = {
   },
 
   /**
-   * Registrar nuevo usuario
-   * @param {string} username - Nombre de usuario
-   * @param {string} email - Correo electrónico
-   * @param {string} password - Contraseña
-   * @param {boolean} rememberMe - Si se debe mantener la sesión por más tiempo
-   * @returns {Promise<Object>} Datos del usuario y token
+   * Register new user
+   * @param {string} username - Username
+   * @param {string} email - Email address
+   * @param {string} password - Password
+   * @param {boolean} rememberMe - Whether to keep the session for a longer time
+   * @returns {Promise<Object>} User data and token
    */
   register: async (username, email, password, rememberMe = false) => {
     const response = await api.post('/auth/register', {

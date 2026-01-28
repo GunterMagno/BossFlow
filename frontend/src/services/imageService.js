@@ -1,12 +1,12 @@
 import api from './api';
 
 /**
- * Elimina una imagen del servidor.
- * Solo elimina imágenes locales (URLs que comienzan con /uploads/).
+ * Deletes an image from the server.
+ * Only deletes local images (URLs starting with /uploads/).
  * @async
- * @param {string} imageUrl - URL de la imagen a eliminar (relativa o absoluta).
- * @returns {Promise<Object>} Respuesta de confirmación de eliminación.
- * @throws {Error} Si falla la solicitud.
+ * @param {string} imageUrl - URL of the image to delete (relative or absolute).
+ * @returns {Promise<Object>} Deletion confirmation response.
+ * @throws {Error} If the request fails.
  */
 export const deleteImage = async (imageUrl) => {
   try {
@@ -16,9 +16,9 @@ export const deleteImage = async (imageUrl) => {
       });
       return response.data;
     }
-    return { message: 'URL externa, no se elimina del servidor' };
+    return { message: 'External URL, not deleted from server' };
   } catch (error) {
-    console.error('Error al eliminar imagen:', error);
+    console.error('Error deleting image:', error);
     throw error;
   }
 };

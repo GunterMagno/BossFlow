@@ -8,7 +8,7 @@ import './DiagramCard.css';
  * @param {Object} props.diagram - Objeto con los datos del diagrama
  * @param {Function} props.onDelete - Callback ejecutado al eliminar el diagrama
  * @param {Function} props.onEdit - Callback ejecutado al editar el diagrama
- * @returns {JSX.Element} Tarjeta interactiva con información del diagrama
+ * @returns {JSX.Element} Interactive card with diagram information
  */
 function DiagramCard({ diagram, onDelete, onEdit }) {
   /**

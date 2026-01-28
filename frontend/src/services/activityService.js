@@ -17,8 +17,8 @@ export const ACTIVITY_TYPES = {
 };
 
 /**
- * Obtiene el ID del usuario actual desde el token JWT.
- * @returns {string|null} ID del usuario o null si no hay sesión.
+ * Gets current user's ID from JWT token.
+ * @returns {string|null} User ID or null if no session.
  */
 const getCurrentUserId = () => {
   try {
@@ -46,7 +46,7 @@ const getStorageKey = () => {
 
 /**
  * Obtener todas las actividades del usuario actual
- * @returns {Array} Array de actividades ordenadas por fecha (más recientes primero)
+ * @returns {Array} Array of activities sorted by date (most recent first)
  */
 export const getActivities = () => {
   try {
@@ -67,8 +67,8 @@ export const getActivities = () => {
 /**
  * Registrar una nueva actividad
  * @param {string} tipo - Tipo de actividad (CREATE, EDIT, DELETE, VIEW)
- * @param {string} diagramaTitle - Título del diagrama
- * @param {string} diagramaId - ID del diagrama
+ * @param {string} diagramaTitle - Diagram title
+ * @param {string} diagramaId - Diagram ID
  */
 export const registerActivity = (tipo, diagramaTitle, diagramaId) => {
   try {

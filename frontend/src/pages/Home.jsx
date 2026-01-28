@@ -18,7 +18,7 @@ import './Home.css';
 /**
  * Página de inicio de BossFlow.
  * Muestra información sobre la plataforma y opciones para registrarse o iniciar sesión.
- * @returns {React.ReactElement} El componente de la página de inicio.
+ * @returns {React.ReactElement} The home page component.
  */
 function Home() {
   const { isAuthenticated } = useAuth();

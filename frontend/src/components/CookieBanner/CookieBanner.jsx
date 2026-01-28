@@ -10,22 +10,22 @@ function CookieBanner() {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    // Verifica si el usuario ya aceptó o rechazó el banner
+    // Check if user already accepted or rejected the banner
     const cookieConsent = localStorage.getItem('cookieConsent');
     
-    // Si fue rechazado, usa sessionStorage para que vuelva a aparecer en nueva sesión
+    // If rejected, use sessionStorage so it appears again in new session
     if (cookieConsent === 'rejected') {
       const sessionConsent = sessionStorage.getItem('cookieConsentSession');
       
       if (!sessionConsent) {
-        // Muestra el banner de nuevo en esta sesión
+        // Show banner again in this session
         const timer = setTimeout(() => {
           setShowBanner(true);
         }, 1000);
         return () => clearTimeout(timer);
       }
     } else if (!cookieConsent) {
-      // Primera visita - muestra el banner después de un pequeño delay para mejor UX
+      // First visit - show banner after small delay for better UX
       const timer = setTimeout(() => {
         setShowBanner(true);
       }, 1000);

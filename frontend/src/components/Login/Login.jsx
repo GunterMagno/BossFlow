@@ -5,8 +5,8 @@ import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
 /**
- * Componente de inicio de sesión con validación de formulario
- * @returns {JSX.Element} Formulario de login con validación y gestión de errores
+ * Login component with form validation
+ * @returns {JSX.Element} Login form with validation and error handling
  */
 function Login() {
   const navigate = useNavigate();
@@ -20,29 +20,29 @@ function Login() {
     }
   }, [isAuthenticated, navigate]);
 
-  const [datosFormulario, setDatosFormulario] = useState({
+  const [formData, setFormData] = useState({
     correo: '',
     contrasena: '',
     recordarme: false,
   });
 
-  const [errores, setErrores] = useState({});
+  const [errors, setErrors] = useState({});
 
-  const [cargando, setCargando] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   /**
-   * Gestiona los cambios en los campos del formulario
-   * @param {Event} e - Evento de cambio del input
+   * Handles changes in form fields
+   * @param {Event} e - Input change event
    */
-  const manejoCambios = (e) => {
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setDatosFormulario({
-      ...datosFormulario,
+    setFormData({
+      ...formData,
       [name]: type === 'checkbox' ? checked : value,
     });
 
-    if (errores[name]) {
-      setErrores((prev) => ({
+    if (errors[name]) {
+      setErrors((prev) => ({
         ...prev,
         [name]: '',
       }));
@@ -50,64 +50,64 @@ function Login() {
   };
 
   /**
-   * Valida los campos del formulario de login
-   * @returns {Object} Objeto con los errores de validación encontrados
+   * Validates login form fields
+   * @returns {Object} Object with validation errors found
    */
-  const validarFormulario = () => {
-    const nuevosErrores = {};
+  const validateForm = () => {
+    const newErrors = {};
 
-    if (!datosFormulario.correo) {
-      nuevosErrores.correo = 'Es obligatorio introducir un correo electrónico.';
+    if (!formData.correo) {
+      newErrors.correo = 'Es obligatorio introducir un correo electrónico.';
     } else if (
       !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        datosFormulario.correo
+        formData.correo
       )
     ) {
-      nuevosErrores.correo = 'El correo electrónico no es válido.';
+      newErrors.correo = 'El correo electrónico no es válido.';
     }
 
-    if (!datosFormulario.contrasena) {
-      nuevosErrores.contrasena = 'Es obligatorio introducir una contraseña.';
-    } else if (datosFormulario.contrasena.length < 8) {
-      nuevosErrores.contrasena =
+    if (!formData.contrasena) {
+      newErrors.contrasena = 'Es obligatorio introducir una contraseña.';
+    } else if (formData.contrasena.length < 8) {
+      newErrors.contrasena =
         'La contraseña debe tener al menos 8 caracteres.';
     }
 
-    return nuevosErrores;
+    return newErrors;
   };
 
   /**
-   * Gestiona el envío del formulario de login
-   * @param {Event} e - Evento de submit del formulario
+   * Handles login form submission
+   * @param {Event} e - Form submit event
    */
-  const manejoSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const nuevosErrores = validarFormulario();
-    if (Object.keys(nuevosErrores).length > 0) {
-      setErrores(nuevosErrores);
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
     try {
-      setErrores({});
-      setCargando(true);
+      setErrors({});
+      setLoading(true);
 
-      const resultado = await login(
-        datosFormulario.correo,
-        datosFormulario.contrasena,
-        datosFormulario.recordarme
+      const result = await login(
+        formData.correo,
+        formData.contrasena,
+        formData.recordarme
       );
 
-      if (resultado.success) {
+      if (result.success) {
         navigate('/dashboard');
       } else {
-        setErrores({ submit: resultado.error });
+        setErrors({ submit: result.error });
       }
     } catch (error) {
-      setErrores({ submit: 'Error al iniciar sesión. Inténtalo de nuevo.' });
+      setErrors({ submit: 'Error al iniciar sesión. Inténtalo de nuevo.' });
     } finally {
-      setCargando(false);
+      setLoading(false);
     }
   };
 
@@ -121,10 +121,10 @@ function Login() {
           </p>
         </section>
 
-        <form onSubmit={manejoSubmit} className="login__formulario">
-          {errores.submit && (
+        <form onSubmit={handleSubmit} className="login__formulario">
+          {errors.submit && (
             <section className="login__error" role="alert">
-              {errores.submit}
+              {errors.submit}
             </section>
           )}
 
@@ -136,15 +136,15 @@ function Login() {
               type="text"
               id="correo"
               name="correo"
-              value={datosFormulario.correo}
-              onChange={manejoCambios}
+              value={formData.correo}
+              onChange={handleChange}
               placeholder="tu@ejemplo.com"
-              className={`login__input ${errores.correo ? 'login__input--error' : ''}`}
-              disabled={cargando}
+              className={`login__input ${errors.correo ? 'login__input--error' : ''}`}
+              disabled={loading}
             />
-            {errores.correo && (
+            {errors.correo && (
               <span className="login__mensaje-error" role="alert">
-                {errores.correo}
+                {errors.correo}
               </span>
             )}
           </fieldset>
@@ -165,15 +165,15 @@ function Login() {
               type="password"
               id="contrasena"
               name="contrasena"
-              value={datosFormulario.contrasena}
-              onChange={manejoCambios}
+              value={formData.contrasena}
+              onChange={handleChange}
               placeholder="********"
-              className={`login__input ${errores.contrasena ? 'login__input--error' : ''}`}
-              disabled={cargando}
+              className={`login__input ${errors.contrasena ? 'login__input--error' : ''}`}
+              disabled={loading}
             />
-            {errores.contrasena && (
+            {errors.contrasena && (
               <span className="login__mensaje-error" role="alert">
-                {errores.contrasena}
+                {errors.contrasena}
               </span>
             )}
           </fieldset>
@@ -184,16 +184,16 @@ function Login() {
                 type="checkbox"
                 id="recordarme"
                 name="recordarme"
-                checked={datosFormulario.recordarme}
-                onChange={manejoCambios}
+                checked={formData.recordarme}
+                onChange={handleChange}
                 className="login__checkbox-input"
               />
               <span className="login__checkbox-texto">Recordarme</span>
             </label>
           </fieldset>
 
-          <button type="submit" className="login__boton" disabled={cargando}>
-            {cargando ? (
+          <button type="submit" className="login__boton" disabled={loading}>
+            {loading ? (
               <>
                 <span className="login__spinner" aria-label="Cargando"></span>
                 Iniciar sesión

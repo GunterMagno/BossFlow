@@ -5,7 +5,7 @@ import './Community.css';
 /**
  * Página de comunidad (próximamente)
  * Muestra un placeholder con las características futuras de la sección de comunidad
- * @returns {JSX.Element} Página de comunidad en construcción
+ * @returns {JSX.Element} Community page under construction
  */
 function Community() {
   useEffect(() => {

@@ -1,6 +1,6 @@
 /**
- * Plantillas de diagramas predefinidas del sistema
- * Estas plantillas están embebidas en el cliente y no se almacenan en la base de datos.
+ * Predefined system diagram templates
+ * These templates are embedded in the client and are not stored in the database.
  * @type {Array<Object>}
  */
 export const DEFAULT_TEMPLATES = [

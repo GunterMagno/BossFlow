@@ -25,7 +25,7 @@ function DiagramList({ onCreateClick, onDiagramDeleted }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   /**
-   * Obtiene la lista de diagramas del usuario desde el servidor
+   * Fetches the user's diagram list from the server
    */
   const fetchDiagrams = async () => {
     try {

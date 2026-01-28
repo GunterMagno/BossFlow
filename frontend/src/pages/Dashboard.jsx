@@ -23,9 +23,9 @@ import {
 import './Dashboard.css';
 
 /**
- * Página principal del dashboard del usuario
- * Muestra estadísticas, diagramas, actividades y navegación principal
- * @returns {JSX.Element} Dashboard con sidebar, menú principal y contenido dinámico
+ * Main dashboard page for the user
+ * Displays statistics, diagrams, activities and main navigation
+ * @returns {JSX.Element} Dashboard with sidebar, main menu and dynamic content
  */
 function Dashboard() {
   const { logout } = useAuth();
@@ -43,7 +43,7 @@ function Dashboard() {
   }, []);
 
   /**
-   * Carga la lista de diagramas del usuario desde el servidor
+   * Loads the user's list of diagrams from the server
    */
   const fetchDiagrams = async () => {
     try {
@@ -52,8 +52,8 @@ function Dashboard() {
       const response = await getDiagrams();
       setDiagrams(response.diagrams || []);
     } catch (error) {
-      console.error('Error al cargar diagramas:', error);
-      setError('No se pudieron cargar los diagramas. El endpoint aún no está disponible.');
+      console.error('Error loading diagrams:', error);
+      setError('Could not load diagrams. The endpoint is not yet available.');
       setDiagrams([]);
     } finally {
       setLoading(false);
@@ -61,14 +61,14 @@ function Dashboard() {
   };
 
   /**
-   * Carga las estadísticas del usuario desde el servidor
+   * Loads the user's statistics from the server
    */
   const fetchStats = async () => {
     try {
       const response = await getStats();
       setUserStats(response.stats);
     } catch (error) {
-      console.error('Error al cargar estadísticas:', error);
+      console.error('Error loading statistics:', error);
     }
   };
 
@@ -79,7 +79,7 @@ function Dashboard() {
   }, []);
 
   /**
-   * Carga y formatea las actividades recientes del usuario
+   * Loads and formats the user's recent activities
    */
   const loadActivities = () => {
     const formattedActivities = getFormattedActivities();
@@ -87,7 +87,7 @@ function Dashboard() {
   };
 
   /**
-   * Ejecuta el logout del usuario y redirige a la página principal
+   * Executes user logout and redirects to the main page
    */
   const handleLogout = () => {
     logout();
@@ -95,7 +95,7 @@ function Dashboard() {
   };
 
   /**
-   * Refresca los datos tras crear un nuevo diagrama
+   * Refreshes data after creating a new diagram
    */
   const handleDiagramCreated = () => {
     fetchDiagrams();
@@ -104,7 +104,7 @@ function Dashboard() {
   };
 
   /**
-   * Refresca los datos tras eliminar un diagrama
+   * Refreshes data after deleting a diagram
    */
   const handleDiagramDeleted = () => {
     fetchDiagrams();
@@ -113,9 +113,9 @@ function Dashboard() {
   };
 
   /**
-   * Formatea una fecha en formato relativo (hace X tiempo)
-   * @param {string|Date} date - Fecha a formatear
-   * @returns {string} Fecha formateada en formato relativo
+   * Formats a date in relative format (X time ago)
+   * @param {string|Date} date - Date to format
+   * @returns {string} Date formatted in relative format
    */
   const formatRelativeDate = (date) => {
     const now = new Date();

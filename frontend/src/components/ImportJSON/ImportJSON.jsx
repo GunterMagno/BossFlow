@@ -4,13 +4,13 @@ import './ImportJSON.css';
 import { validateJSONStructure, isValidJSONFile, COMPATIBLE_VERSIONS } from '../../utils/jsonValidator';
 
 /**
- * Componente para importar diagramas desde archivos JSON con validación y preview
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Controla la visibilidad del modal
- * @param {Function} props.onClose - Callback ejecutado al cerrar el modal
- * @param {Function} props.onImport - Callback ejecutado al importar el diagrama
- * @param {Object} props.toast - Objeto para mostrar notificaciones
- * @returns {JSX.Element|null} Modal de importación o null si está cerrado
+ * Component to import diagrams from JSON files with validation and preview
+ * @param {Object} props - Component properties
+ * @param {boolean} props.isOpen - Controls the visibility of the modal
+ * @param {Function} props.onClose - Callback executed when closing the modal
+ * @param {Function} props.onImport - Callback executed when importing the diagram
+ * @param {Object} props.toast - Object to display notifications
+ * @returns {JSX.Element|null} Import modal or null if closed
  */
 function ImportJSON({ 
   isOpen, 
@@ -27,7 +27,7 @@ function ImportJSON({
   if (!isOpen) return null;
 
   /**
-   * Cierra el modal y resetea todo el estado del componente
+   * Closes the modal and resets all component state
    */
   const handleClose = () => {
     setPreviewData(null);
@@ -41,8 +41,8 @@ function ImportJSON({
   };
 
   /**
-   * Gestiona la selección y validación del archivo JSON
-   * @param {Event} event - Evento de selección de archivo
+   * Manages the selection and validation of the JSON file
+   * @param {Event} event - File selection event
    */
   const handleFileSelect = (event) => {
     const file = event.target.files?.[0];
@@ -89,7 +89,7 @@ function ImportJSON({
   };
 
   /**
-   * Confirma y ejecuta la importación del diagrama validado
+   * Confirms and executes the import of the validated diagram
    */
   const handleConfirmImport = () => {
     if (!previewData) return;
@@ -124,7 +124,7 @@ function ImportJSON({
   };
 
   /**
-   * Cancela la importación y limpia el estado del preview
+   * Cancels the import and clears the preview state
    */
   const handleCancelImport = () => {
     setPreviewData(null);

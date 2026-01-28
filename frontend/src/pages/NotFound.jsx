@@ -6,7 +6,7 @@ import './NotFound.css';
 /**
  * Página de error 404 - Página no encontrada.
  * Muestra un mensaje amigable cuando el usuario intenta acceder a una ruta inexistente.
- * @returns {React.ReactElement} El componente de la página de error 404.
+ * @returns {React.ReactElement} The 404 error page component.
  */
 function NotFound() {
   const navigate = useNavigate();

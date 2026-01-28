@@ -1,119 +1,119 @@
 import api from './api';
 
 /**
- * Obtiene todos los diagramas del usuario autenticado.
+ * Retrieves all diagrams of the authenticated user.
  * @async
- * @returns {Promise<Object>} Respuesta con la lista de diagramas.
- * @throws {Error} Si falla la solicitud.
+ * @returns {Promise<Object>} Response with the list of diagrams.
+ * @throws {Error} If the request fails.
  */
 export const getDiagrams = async () => {
   try {
     const response = await api.get('/diagrams');
     return response.data;
   } catch (error) {
-    console.error('Error al obtener diagramas:', error);
+    console.error('Error retrieving diagrams:', error);
     throw error;
   }
 };
 
 /**
- * Crea un nuevo diagrama.
+ * Creates a new diagram.
  * @async
- * @param {Object} diagramData - Datos del nuevo diagrama.
- * @returns {Promise<Object>} Respuesta con los datos del diagrama creado.
- * @throws {Error} Si falla la solicitud.
+ * @param {Object} diagramData - Data for the new diagram.
+ * @returns {Promise<Object>} Response with the created diagram data.
+ * @throws {Error} If the request fails.
  */
 export const createDiagram = async (diagramData) => {
   try {
     const response = await api.post('/diagrams', diagramData);
     return response.data;
   } catch (error) {
-    console.error('Error al crear diagrama:', error);
+    console.error('Error creating diagram:', error);
     throw error;
   }
 };
 
 /**
- * Obtiene un diagrama específico por su ID.
+ * Retrieves a specific diagram by its ID.
  * @async
- * @param {string} id - ID del diagrama a obtener.
- * @returns {Promise<Object>} Respuesta con los datos del diagrama.
- * @throws {Error} Si falla la solicitud.
+ * @param {string} id - ID of the diagram to retrieve.
+ * @returns {Promise<Object>} Response with the diagram data.
+ * @throws {Error} If the request fails.
  */
 export const getDiagramById = async (id) => {
   try {
     const response = await api.get(`/diagrams/${id}`);
     return response.data;
   } catch (error) {
-    console.error('Error al obtener diagrama:', error);
+    console.error('Error retrieving diagram:', error);
     throw error;
   }
 };
 
 /**
- * Actualiza un diagrama existente.
+ * Updates an existing diagram.
  * @async
- * @param {string} id - ID del diagrama a actualizar.
- * @param {Object} diagramData - Nuevos datos del diagrama.
- * @returns {Promise<Object>} Respuesta con los datos del diagrama actualizado.
- * @throws {Error} Si falla la solicitud.
+ * @param {string} id - ID of the diagram to update.
+ * @param {Object} diagramData - New data for the diagram.
+ * @returns {Promise<Object>} Response with the updated diagram data.
+ * @throws {Error} If the request fails.
  */
 export const updateDiagram = async (id, diagramData) => {
   try {
     const response = await api.put(`/diagrams/${id}`, diagramData);
     return response.data;
   } catch (error) {
-    console.error('Error al actualizar diagrama:', error);
+    console.error('Error updating diagram:', error);
     throw error;
   }
 };
 
 /**
- * Elimina un diagrama.
+ * Deletes a diagram.
  * @async
- * @param {string} id - ID del diagrama a eliminar.
- * @returns {Promise<Object>} Respuesta de confirmación de eliminación.
- * @throws {Error} Si falla la solicitud.
+ * @param {string} id - ID of the diagram to delete.
+ * @returns {Promise<Object>} Deletion confirmation response.
+ * @throws {Error} If the request fails.
  */
 export const deleteDiagram = async (id) => {
   try {
     const response = await api.delete(`/diagrams/${id}`);
     return response.data;
   } catch (error) {
-    console.error('Error al eliminar diagrama:', error);
+    console.error('Error deleting diagram:', error);
     throw error;
   }
 };
 
 /**
- * Obtiene todas las plantillas del usuario autenticado.
+ * Retrieves all templates of the authenticated user.
  * @async
- * @returns {Promise<Object>} Respuesta con la lista de plantillas.
- * @throws {Error} Si falla la solicitud.
+ * @returns {Promise<Object>} Response with the list of templates.
+ * @throws {Error} If the request fails.
  */
 export const getTemplates = async () => {
   try {
     const response = await api.get('/templates');
     return response.data;
   } catch (error) {
-    console.error('Error al obtener plantillas:', error);
+    console.error('Error retrieving templates:', error);
     throw error;
   }
 };
 
 /**
- * Elimina una plantilla.
+ * Deletes a template.
  * @async
- * @param {string} id - ID de la plantilla a eliminar.
- * @returns {Promise<Object>} Respuesta de confirmación de eliminación.
- * @throws {Error} Si falla la solicitud.
+ * @param {string} id - ID of the template to delete.
+ * @returns {Promise<Object>} Deletion confirmation response.
+ * @throws {Error} If the request fails.
  */
 export const deleteTemplate = async (id) => {
   try {
     const response = await api.delete(`/diagrams/${id}`);
     return response.data;
   } catch (error) {
-    console.error('Error al eliminar plantilla:', error);
+    console.error('Error deleting template:', error);
     throw error;
   }
 };

@@ -2,14 +2,14 @@ import { FiDownload, FiX, FiImage, FiFile } from 'react-icons/fi';
 import './ExportModal.css';
 
 /**
- * Modal para exportar el diagrama en diferentes formatos
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Controla la visibilidad del modal
- * @param {Function} props.onClose - Callback ejecutado al cerrar el modal
- * @param {Function} props.onExportPNG - Callback para exportar como imagen PNG
- * @param {Function} props.onExportJSON - Callback para exportar como archivo JSON
- * @param {boolean} props.isExporting - Indica si hay una exportación en proceso
- * @returns {JSX.Element|null} Modal de exportación o null si está cerrado
+ * Modal to export the diagram in different formats
+ * @param {Object} props - Component properties
+ * @param {boolean} props.isOpen - Controls the visibility of the modal
+ * @param {Function} props.onClose - Callback executed when closing the modal
+ * @param {Function} props.onExportPNG - Callback to export as PNG image
+ * @param {Function} props.onExportJSON - Callback to export as JSON file
+ * @param {boolean} props.isExporting - Indicates if an export is in progress
+ * @returns {JSX.Element|null} Export modal or null if closed
  */
 function ExportModal({ isOpen, onClose, onExportPNG, onExportJSON, isExporting }) {
   if (!isOpen) return null;

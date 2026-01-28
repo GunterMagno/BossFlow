@@ -32,9 +32,9 @@ const nodeIconMap = {
  * @param {Object} props - Propiedades del componente
  * @param {Function} props.onAddNode - Callback ejecutado al añadir un nodo
  * @param {string} [props.className=''] - Clases CSS adicionales
- * @param {Function} props.onCloseSidebar - Callback para cerrar el sidebar en móviles
- * @param {Array} [props.recentNodes=[]] - Lista de nodos usados recientemente
- * @returns {JSX.Element} Sidebar con categorías de nodos arrastrables
+ * @param {Function} props.onCloseSidebar - Callback to close sidebar on mobile
+ * @param {Array} props.recentNodes - Array of recently used nodes
+ * @returns {JSX.Element} Sidebar with draggable node categories
  */
 function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes = [] }) {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
 
   /**
    * Alterna la expansión de una sección del sidebar
-   * @param {string} section - Identificador de la sección a alternar
+   * @param {string} section - Section identifier to toggle
    */
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({
@@ -147,16 +147,16 @@ function EditorSidebar({ onAddNode, className = '', onCloseSidebar, recentNodes 
       color: nodeData.color
     };
 
-    console.log('Drag iniciado con datos:', nodeInfo);
+    console.log('Drag started with data:', nodeInfo);
     event.dataTransfer.setData('application/reactflow', JSON.stringify(nodeInfo));
     event.dataTransfer.effectAllowed = 'move';
   };
 
   /**
-   * Renderiza un botón de nodo arrastrable
-   * @param {Object} node - Datos del nodo a renderizar
-   * @param {number} index - Índice del nodo en la lista
-   * @returns {JSX.Element} Botón del nodo con capacidad de arrastre
+   * Renders a draggable node button
+   * @param {Object} node - Node data to render
+   * @param {number} index - Node index in the list
+   * @returns {JSX.Element} Node button with drag capability
    */
   const renderNodeButton = (node, index) => (
     <button

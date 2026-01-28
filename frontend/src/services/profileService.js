@@ -1,59 +1,59 @@
 import api from './api';
 
 /**
- * Obtiene el perfil del usuario autenticado.
+ * Retrieves the authenticated user's profile.
  * @async
- * @returns {Promise<Object>} Respuesta con los datos del perfil del usuario.
- * @throws {Error} Si falla la solicitud.
+ * @returns {Promise<Object>} Response with the user profile data.
+ * @throws {Error} If the request fails.
  */
 export const getProfile = async () => {
   try {
     const response = await api.get('/profile');
     return response.data;
   } catch (error) {
-    console.error('Error al obtener perfil:', error);
+    console.error('Error retrieving profile:', error);
     throw error;
   }
 };
 
 /**
- * Actualiza el perfil del usuario autenticado.
+ * Updates the authenticated user's profile.
  * @async
- * @param {Object} profileData - Nuevos datos del perfil.
- * @returns {Promise<Object>} Respuesta con los datos del perfil actualizado.
- * @throws {Error} Si falla la solicitud.
+ * @param {Object} profileData - New profile data.
+ * @returns {Promise<Object>} Response with the updated profile data.
+ * @throws {Error} If the request fails.
  */
 export const updateProfile = async (profileData) => {
   try {
     const response = await api.put('/profile', profileData);
     return response.data;
   } catch (error) {
-    console.error('Error al actualizar perfil:', error);
+    console.error('Error updating profile:', error);
     throw error;
   }
 };
 
 /**
- * Obtiene las estadísticas del usuario autenticado.
+ * Retrieves the authenticated user's statistics.
  * @async
- * @returns {Promise<Object>} Respuesta con las estadísticas del usuario.
- * @throws {Error} Si falla la solicitud.
+ * @returns {Promise<Object>} Response with the user's statistics.
+ * @throws {Error} If the request fails.
  */
 export const getStats = async () => {
   try {
     const response = await api.get('/profile/stats');
     return response.data;
   } catch (error) {
-    console.error('Error al obtener estadísticas:', error);
+    console.error('Error retrieving statistics:', error);
     throw error;
   }
 };
 
 /**
- * Exporta todos los datos personales del usuario en formato JSON.
+ * Exports all the user's personal data in JSON format.
  * @async
- * @returns {Promise<Blob>} Archivo JSON con los datos del usuario.
- * @throws {Error} Si falla la solicitud.
+ * @returns {Promise<Blob>} JSON file with the user's data.
+ * @throws {Error} If the request fails.
  */
 export const exportUserData = async () => {
   try {
@@ -62,17 +62,17 @@ export const exportUserData = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error al exportar datos:', error);
+    console.error('Error exporting data:', error);
     throw error;
   }
 };
 
 /**
- * Elimina permanentemente la cuenta del usuario.
+ * Permanently deletes the user's account.
  * @async
- * @param {string} confirmPassword - Contraseña para confirmar la eliminación.
- * @returns {Promise<Object>} Respuesta con confirmación de eliminación.
- * @throws {Error} Si falla la solicitud.
+ * @param {string} confirmPassword - Password to confirm deletion.
+ * @returns {Promise<Object>} Response with deletion confirmation.
+ * @throws {Error} If the request fails.
  */
 export const deleteAccount = async (confirmPassword) => {
   try {
@@ -81,7 +81,7 @@ export const deleteAccount = async (confirmPassword) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error al eliminar cuenta:', error);
+    console.error('Error deleting account:', error);
     throw error;
   }
 };

@@ -2,13 +2,13 @@ import './Toolbar.css';
 import { FiMenu } from 'react-icons/fi';
 
 /**
- * Componente de barra de herramientas de la aplicación.
- * Proporciona botón de menú para alternar la visibilidad del panel lateral.
- * Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
+ * Application toolbar component.
+ * Provides a menu button to toggle sidebar visibility.
+ * Especially useful on small screens to show/hide the panel.
  *
- * @param {Object} props - Propiedades del componente
- * @param {Function} props.onToggleSidebar - Función callback para alternar la visibilidad del panel lateral
- * @returns {JSX.Element} Elemento de barra de herramientas
+ * @param {Object} props - Component properties
+ * @param {Function} props.onToggleSidebar - Callback function to toggle sidebar visibility
+ * @returns {JSX.Element} Toolbar element
  */
 function Toolbar({ onToggleSidebar }) {
   return (

@@ -5,22 +5,22 @@ import { FiFileText, FiAlertCircle } from 'react-icons/fi';
 import './TemplateList.css';
 
 /**
- * Componente que muestra una lista de plantillas de diagramas.
- * Gestiona diferentes estados: carga, error, vacío y lista con plantillas.
- * Incluye confirmación modal antes de usar una plantilla.
+ * Component that displays a list of diagram templates.
+ * Manages different states: loading, error, empty and list with templates.
+ * Includes modal confirmation before using a template.
  *
- * @param {Object} props - Propiedades del componente
- * @param {Array} props.templates - Array de plantillas a mostrar
- * @param {boolean} props.loading - Indica si las plantillas están cargando
- * @param {string} props.error - Mensaje de error si ocurre algún problema
- * @param {Function} props.onUseTemplate - Callback al usar una plantilla
- * @param {Function} props.onEditTemplate - Callback al editar una plantilla
- * @param {Function} props.onDeleteTemplate - Callback al eliminar una plantilla
- * @param {Function} props.onRetry - Callback para reintentar la carga tras un error
- * @param {Function} props.onCreateTemplate - Callback para crear una nueva plantilla
- * @param {boolean} props.showCreateButton - Indica si mostrar el botón de crear plantilla
- * @param {boolean} props.isSystemTemplates - Indica si son plantillas del sistema
- * @returns {JSX.Element} Elemento de lista de plantillas
+ * @param {Object} props - Component properties
+ * @param {Array} props.templates - Array of templates to display
+ * @param {boolean} props.loading - Indicates if templates are loading
+ * @param {string} props.error - Error message if any problem occurs
+ * @param {Function} props.onUseTemplate - Callback when using a template
+ * @param {Function} props.onEditTemplate - Callback when editing a template
+ * @param {Function} props.onDeleteTemplate - Callback when deleting a template
+ * @param {Function} props.onRetry - Callback to retry loading after an error
+ * @param {Function} props.onCreateTemplate - Callback to create a new template
+ * @param {boolean} props.showCreateButton - Indicates if the create template button should be shown
+ * @param {boolean} props.isSystemTemplates - Indicates if they are system templates
+ * @returns {JSX.Element} Template list element
  */
 function TemplateList({
   templates,
@@ -37,18 +37,18 @@ function TemplateList({
   const [templateToUse, setTemplateToUse] = useState(null);
 
   /**
-   * Maneja el clic en una plantilla para iniciar el proceso de uso.
-   * Almacena la plantilla seleccionada para mostrar el modal de confirmación.
+   * Handles the click on a template to start the usage process.
+   * Stores the selected template to display the confirmation modal.
    *
-   * @param {Object} template - Plantilla seleccionada por el usuario
+   * @param {Object} template - Template selected by the user
    */
   const handleTemplateClick = (template) => {
     setTemplateToUse(template);
   };
 
   /**
-   * Confirma el uso de la plantilla seleccionada.
-   * Ejecuta el callback de uso y cierra el modal de confirmación.
+   * Confirms the use of the selected template.
+   * Executes the usage callback and closes the confirmation modal.
    */
   const handleConfirmUse = () => {
     if (!templateToUse) return;
@@ -61,8 +61,8 @@ function TemplateList({
   };
 
   /**
-   * Cancela el uso de la plantilla.
-   * Cierra el modal de confirmación sin ejecutar ninguna acción.
+   * Cancels the use of the template.
+   * Closes the confirmation modal without executing any action.
    */
   const handleCancelUse = () => {
     setTemplateToUse(null);

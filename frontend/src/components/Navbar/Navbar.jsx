@@ -12,65 +12,65 @@ import {
 import './Navbar.css';
 
 /**
- * Componente de barra de navegación principal de la aplicación.
- * Proporciona navegación entre páginas y gestión de autenticación de usuario.
- * Incluye menú responsive para dispositivos móviles y menú desplegable de usuario.
+ * Main navigation bar component of the application.
+ * Provides navigation between pages and user authentication management.
+ * Includes responsive menu for mobile devices and user dropdown menu.
  *
- * @returns {JSX.Element} Elemento de navegación con enlaces y opciones de usuario
+ * @returns {JSX.Element} Navigation element with links and user options
  */
 function Navbar() {
-  const [menuAbierto, setMenuAbierto] = useState(false);
-  const [menuMovilAbierto, setMenuMovilAbierto] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const menuRef = useRef(null);
 
   /**
-   * Alterna el estado de visibilidad del menú desplegable de usuario en escritorio.
+   * Toggles the visibility state of the desktop user dropdown menu.
    */
-  const alternarMenu = () => {
-    setMenuAbierto(!menuAbierto);
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   /**
-   * Alterna el estado de visibilidad del menú hamburguesa en dispositivos móviles.
+   * Toggles the visibility state of the mobile hamburger menu.
    */
-  const alternarMenuMovil = () => {
-    setMenuMovilAbierto(!menuMovilAbierto);
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
   };
 
   /**
-   * Cierra la sesión del usuario actual.
-   * Cierra todos los menús abiertos, ejecuta el logout y redirige a la página de inicio.
+   * Logs out the current user.
+   * Closes all open menus, executes logout and redirects to home page.
    */
-  const cerrarSesion = () => {
-    console.log('Cerrando sesión...');
-    setMenuAbierto(false);
-    setMenuMovilAbierto(false);
+  const handleLogout = () => {
+    console.log('Logging out...');
+    setMenuOpen(false);
+    setMobileMenuOpen(false);
     logout();
     navigate('/');
   };
 
   useEffect(() => {
     /**
-     * Maneja los clics fuera del menú desplegable para cerrarlo automáticamente.
+     * Handles clicks outside the dropdown menu to close it automatically.
      *
-     * @param {MouseEvent} event - Evento de clic del ratón
+     * @param {MouseEvent} event - Mouse click event
      */
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuAbierto(false);
+        setMenuOpen(false);
       }
     };
 
-    if (menuAbierto) {
+    if (menuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [menuAbierto]);
+  }, [menuOpen]);
 
   return (
     <header className="encabezado">
@@ -81,20 +81,20 @@ function Navbar() {
 
         <button
           className="navbar__hamburguesa"
-          onClick={alternarMenuMovil}
+          onClick={toggleMobileMenu}
           aria-label="Menú"
         >
-          {menuMovilAbierto ? <FiX /> : <FiMenu />}
+          {mobileMenuOpen ? <FiX /> : <FiMenu />}
         </button>
 
         <ul
-          className={`navbar__enlaces ${menuMovilAbierto ? 'navbar__enlaces--visible' : ''}`}
+          className={`navbar__enlaces ${mobileMenuOpen ? 'navbar__enlaces--visible' : ''}`}
         >
           <li className="navbar__elemento">
             <Link
               to="/"
               className="navbar__enlace"
-              onClick={() => setMenuMovilAbierto(false)}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Inicio
             </Link>
@@ -103,7 +103,7 @@ function Navbar() {
             <Link
               to="/dashboard"
               className="navbar__enlace"
-              onClick={() => setMenuMovilAbierto(false)}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Dashboard
             </Link>
@@ -112,7 +112,7 @@ function Navbar() {
             <Link
               to="/community"
               className="navbar__enlace"
-              onClick={() => setMenuMovilAbierto(false)}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Comunidad
             </Link>
@@ -124,14 +124,14 @@ function Navbar() {
                 <Link
                   to="/login"
                   className="navbar__boton-login"
-                  onClick={() => setMenuMovilAbierto(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Iniciar sesión
                 </Link>
                 <Link
                   to="/register"
                   className="navbar__boton-registro"
-                  onClick={() => setMenuMovilAbierto(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Registrarse
                 </Link>
@@ -142,19 +142,19 @@ function Navbar() {
                 <Link
                   to="/profile"
                   className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <FiUser /> Perfil
                 </Link>
                 <Link
                   to="/settings"
                   className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <FiSettings /> Configuración
                 </Link>
                 <button
-                  onClick={cerrarSesion}
+                  onClick={handleLogout}
                   className="navbar__enlace navbar__enlace--logout"
                 >
                   <FiLogOut /> Cerrar sesión
@@ -176,7 +176,7 @@ function Navbar() {
             </section>
           ) : (
             <>
-              <button className="navbar__usuario" onClick={alternarMenu}>
+              <button className="navbar__usuario" onClick={toggleMenu}>
                 <span className="navbar__avatar">
                   {user?.avatar ? (
                     <img src={user.avatar} alt={user.username} className="navbar__avatar-img" />
@@ -188,13 +188,13 @@ function Navbar() {
                   {user?.username || user?.email}
                 </span>
                 <span
-                  className={`navbar__flecha ${menuAbierto ? 'navbar__flecha--arriba' : ''}`}
+                  className={`navbar__flecha ${menuOpen ? 'navbar__flecha--arriba' : ''}`}
                 >
                   <FiChevronDown />
                 </span>
               </button>
 
-              {menuAbierto && (
+              {menuOpen && (
                 <ul className="menu-desplegable">
                   <li className="menu-desplegable__elemento">
                     <Link to="/profile" className="menu-desplegable__enlace">
@@ -215,7 +215,7 @@ function Navbar() {
                   <li className="menu-desplegable__separador"></li>
                   <li className="menu-desplegable__elemento">
                     <button
-                      onClick={cerrarSesion}
+                      onClick={handleLogout}
                       className="menu-desplegable__enlace menu-desplegable__enlace--cerrar"
                     >
                       <span className="menu-desplegable__icono">

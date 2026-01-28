@@ -6,7 +6,7 @@ import './Status.css';
 /**
  * Página de estado del sistema.
  * Muestra el estado de los servicios y componentes de BossFlow.
- * @returns {React.ReactElement} El componente de la página de estado.
+ * @returns {React.ReactElement} The status page component.
  */
 function Status() {
   const { loading, data, error, isConnected } = useHealthCheck();

@@ -1,82 +1,82 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const CLAVE_ALMACENAMIENTO = 'bossflow_recent_nodes';
-const MAXIMO_NODOS_RECIENTES = 5;
+const STORAGE_KEY = 'bossflow_recent_nodes';
+const MAX_RECENT_NODES = 5;
 
 /**
- * Hook para gestionar nodos recientes
- * Almacena y recupera los últimos nodos utilizados en el editor
+ * Hook for managing recent nodes.
+ * Stores and retrieves the last nodes used in the editor.
  * 
- * @returns {Object} { nodosRecientes, agregarNodoReciente, limpiarNodosRecientes }
+ * @returns {Object} { recentNodes, addRecentNode, clearRecentNodes }
  */
 const useRecentNodes = () => {
-  const [nodosRecientes, setNodosRecientes] = useState([]);
+  const [recentNodes, setRecentNodes] = useState([]);
 
   useEffect(() => {
     try {
-      const almacenado = localStorage.getItem(CLAVE_ALMACENAMIENTO);
-      if (almacenado) {
-        const parseado = JSON.parse(almacenado);
-        setNodosRecientes(Array.isArray(parseado) ? parseado : []);
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setRecentNodes(Array.isArray(parsed) ? parsed : []);
       }
     } catch (error) {
-      console.error('Error al cargar nodos recientes:', error);
-      setNodosRecientes([]);
+      console.error('Error loading recent nodes:', error);
+      setRecentNodes([]);
     }
   }, []);
 
   /**
-   * Añade un nodo a la lista de recientes
-   * Evita duplicados y mantiene un límite máximo
+   * Adds a node to the recent list.
+   * Avoids duplicates and maintains a maximum limit.
    * 
-   * @param {Object} datosNodo - Datos del nodo (type, label, description, color)
+   * @param {Object} nodeData - Node data (type, label, description, color)
    */
-  const agregarNodoReciente = useCallback((datosNodo) => {
-    if (!datosNodo || !datosNodo.type) {
-      console.warn('agregarNodoReciente: datosNodo inválido', datosNodo);
+  const addRecentNode = useCallback((nodeData) => {
+    if (!nodeData || !nodeData.type) {
+      console.warn('addRecentNode: invalid nodeData', nodeData);
       return;
     }
 
-    setNodosRecientes((previos) => {
-      const filtrados = previos.filter((nodo) => nodo.type !== datosNodo.type);
+    setRecentNodes((previous) => {
+      const filtered = previous.filter((node) => node.type !== nodeData.type);
       
-      const actualizados = [
+      const updated = [
         {
-          type: datosNodo.type,
-          label: datosNodo.label,
-          description: datosNodo.description,
-          color: datosNodo.color,
+          type: nodeData.type,
+          label: nodeData.label,
+          description: nodeData.description,
+          color: nodeData.color,
           timestamp: Date.now()
         },
-        ...filtrados
-      ].slice(0, MAXIMO_NODOS_RECIENTES);
+        ...filtered
+      ].slice(0, MAX_RECENT_NODES);
 
       try {
-        localStorage.setItem(CLAVE_ALMACENAMIENTO, JSON.stringify(actualizados));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       } catch (error) {
-        console.error('Error al guardar nodos recientes:', error);
+        console.error('Error saving recent nodes:', error);
       }
 
-      return actualizados;
+      return updated;
     });
   }, []);
 
   /**
-   * Limpia todos los nodos recientes
+   * Clears all recent nodes.
    */
-  const limpiarNodosRecientes = useCallback(() => {
-    setNodosRecientes([]);
+  const clearRecentNodes = useCallback(() => {
+    setRecentNodes([]);
     try {
-      localStorage.removeItem(CLAVE_ALMACENAMIENTO);
+      localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      console.error('Error al limpiar nodos recientes:', error);
+      console.error('Error clearing recent nodes:', error);
     }
   }, []);
 
   return {
-    nodosRecientes,
-    agregarNodoReciente,
-    limpiarNodosRecientes
+    recentNodes,
+    addRecentNode,
+    clearRecentNodes
   };
 };
 

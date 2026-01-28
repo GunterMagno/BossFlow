@@ -1,48 +1,48 @@
 /**
- * Utilidades para validar la estructura de archivos JSON de diagramas.
+ * Utilities for validating the structure of diagram JSON files.
  */
 
 /**
- * Versión actual del formato JSON.
+ * Current version of the JSON format.
  */
 export const CURRENT_VERSION = '1.0.0';
 
 /**
- * Versiones compatibles (para retrocompatibilidad).
+ * Compatible versions (for backwards compatibility).
  */
 export const COMPATIBLE_VERSIONS = ['1.0.0'];
 
 /**
- * Valida la estructura completa del JSON importado.
- * @param {Object} data - Datos JSON a validar.
- * @returns {Object} Objeto con propiedades valid (boolean) y errors (Array).
+ * Validates the complete structure of the imported JSON.
+ * @param {Object} data - JSON data to validate.
+ * @returns {Object} Object with properties valid (boolean) and errors (Array).
  */
 export function validateJSONStructure(data) {
   const errors = [];
 
   if (!data || typeof data !== 'object') {
-    return { valid: false, errors: ['El archivo no contiene un objeto JSON válido'] };
+    return { valid: false, errors: ['The file does not contain a valid JSON object'] };
   }
 
   if (!data.version) {
-    errors.push('Falta el campo "version"');
+    errors.push('Missing "version" field');
   } else if (!COMPATIBLE_VERSIONS.includes(data.version)) {
-    errors.push(`Versión incompatible: ${data.version}. Versiones compatibles: ${COMPATIBLE_VERSIONS.join(', ')}`);
+    errors.push(`Incompatible version: ${data.version}. Compatible versions: ${COMPATIBLE_VERSIONS.join(', ')}`);
   }
 
   if (!data.metadata || typeof data.metadata !== 'object') {
-    errors.push('Falta o es inválido el campo "metadata"');
+    errors.push('Missing or invalid "metadata" field');
   } else {
     if (!data.metadata.title || typeof data.metadata.title !== 'string') {
-      errors.push('metadata.title es requerido y debe ser texto');
+      errors.push('metadata.title is required and must be text');
     }
     if (!data.metadata.exportedAt || typeof data.metadata.exportedAt !== 'string') {
-      errors.push('metadata.exportedAt es requerido y debe ser texto');
+      errors.push('metadata.exportedAt is required and must be text');
     }
   }
 
   if (!data.diagram || typeof data.diagram !== 'object') {
-    errors.push('Falta o es inválido el campo "diagram"');
+    errors.push('Missing or invalid "diagram" field');
   } else {
     const nodeErrors = validateNodes(data.diagram.nodes);
     errors.push(...nodeErrors);
@@ -58,34 +58,34 @@ export function validateJSONStructure(data) {
 }
 
 /**
- * Valida el array de nodos.
- * @param {Array} nodes - Array de nodos a validar.
- * @returns {Array} Array de errores encontrados.
+ * Validates the array of nodes.
+ * @param {Array} nodes - Array of nodes to validate.
+ * @returns {Array} Array of errors found.
  */
 function validateNodes(nodes) {
   const errors = [];
 
   if (!Array.isArray(nodes)) {
-    errors.push('diagram.nodes debe ser un array');
+    errors.push('diagram.nodes must be an array');
     return errors;
   }
 
   nodes.forEach((node, index) => {
     if (!node.id || typeof node.id !== 'string') {
-      errors.push(`Nodo ${index}: falta o es inválido el campo "id"`);
+      errors.push(`Node ${index}: missing or invalid "id" field`);
     }
     if (!node.type || typeof node.type !== 'string') {
-      errors.push(`Nodo ${index}: falta o es inválido el campo "type"`);
+      errors.push(`Node ${index}: missing or invalid "type" field`);
     }
     if (!node.position || typeof node.position !== 'object') {
-      errors.push(`Nodo ${index}: falta o es inválido el campo "position"`);
+      errors.push(`Node ${index}: missing or invalid "position" field`);
     } else {
       if (typeof node.position.x !== 'number' || typeof node.position.y !== 'number') {
-        errors.push(`Nodo ${index}: position.x y position.y deben ser números`);
+        errors.push(`Node ${index}: position.x and position.y must be numbers`);
       }
     }
     if (!node.data || typeof node.data !== 'object') {
-      errors.push(`Nodo ${index}: falta o es inválido el campo "data"`);
+      errors.push(`Node ${index}: missing or invalid "data" field`);
     }
   });
 
@@ -93,27 +93,27 @@ function validateNodes(nodes) {
 }
 
 /**
- * Valida el array de conexiones (edges).
- * @param {Array} edges - Array de conexiones a validar.
- * @returns {Array} Array de errores encontrados.
+ * Validates the array of connections (edges).
+ * @param {Array} edges - Array of connections to validate.
+ * @returns {Array} Array of errors found.
  */
 function validateEdges(edges) {
   const errors = [];
 
   if (!Array.isArray(edges)) {
-    errors.push('diagram.edges debe ser un array');
+    errors.push('diagram.edges must be an array');
     return errors;
   }
 
   edges.forEach((edge, index) => {
     if (!edge.id || typeof edge.id !== 'string') {
-      errors.push(`Conexión ${index}: falta o es inválido el campo "id"`);
+      errors.push(`Connection ${index}: missing or invalid "id" field`);
     }
     if (!edge.source || typeof edge.source !== 'string') {
-      errors.push(`Conexión ${index}: falta o es inválido el campo "source"`);
+      errors.push(`Connection ${index}: missing or invalid "source" field`);
     }
     if (!edge.target || typeof edge.target !== 'string') {
-      errors.push(`Conexión ${index}: falta o es inválido el campo "target"`);
+      errors.push(`Connection ${index}: missing or invalid "target" field`);
     }
   });
 
@@ -121,8 +121,8 @@ function validateEdges(edges) {
 }
 
 /**
- * Se verifica si la versión es compatible.
- * @param {string} version - Versión a verificar
+ * Verifies if the version is compatible.
+ * @param {string} version - Version to verify
  * @returns {boolean}
  */
 export function isVersionCompatible(version) {
@@ -130,8 +130,8 @@ export function isVersionCompatible(version) {
 }
 
 /**
- * Se valida que el archivo tenga la extensión correcta.
- * @param {string} filename - Nombre del archivo
+ * Validates that the file has the correct extension.
+ * @param {string} filename - File name
  * @returns {boolean}
  */
 export function isValidJSONFile(filename) {

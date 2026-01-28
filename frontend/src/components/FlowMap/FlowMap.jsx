@@ -35,34 +35,34 @@ const tiposNodos = {
 const tiposEdges = { default: CustomEdge };
 
 /**
- * Componente principal del editor de diagramas de flujo
- * @param {Object} props - Propiedades del componente
- * @param {Array} [props.initialNodes=[]] - Nodos iniciales del diagrama
- * @param {Array} [props.initialEdges=[]] - Conexiones iniciales del diagrama
- * @param {Function} props.onNodesChange - Callback ejecutado cuando cambian los nodos
- * @param {Function} props.onEdgesChange - Callback ejecutado cuando cambian las conexiones
- * @param {Function} props.onNodeDoubleClick - Callback para doble clic en un nodo
- * @param {Function} props.onEdgeDoubleClick - Callback para doble clic en una conexión
- * @param {Function} props.onSetUpdateNodeFunction - Expone la función de actualización de nodos
- * @param {Function} props.onSetDeleteNodesFunction - Expone la función de eliminación de nodos
- * @param {Function} props.onDeleteRequest - Callback para solicitudes de eliminación
- * @param {Function} props.onRecentNodesChange - Callback cuando cambian los nodos recientes
- * @returns {JSX.Element} Editor de diagramas interactivo
+ * Main flow diagram editor component.
+ * @param {Object} props - Component properties
+ * @param {Array} [props.initialNodes=[]] - Initial diagram nodes
+ * @param {Array} [props.initialEdges=[]] - Initial diagram connections
+ * @param {Function} props.onNodesChange - Callback executed when nodes change
+ * @param {Function} props.onEdgesChange - Callback executed when connections change
+ * @param {Function} props.onNodeDoubleClick - Callback for double-click on a node
+ * @param {Function} props.onEdgeDoubleClick - Callback for double-click on a connection
+ * @param {Function} props.onSetUpdateNodeFunction - Exposes the node update function
+ * @param {Function} props.onSetDeleteNodesFunction - Exposes the node deletion function
+ * @param {Function} props.onDeleteRequest - Callback for deletion requests
+ * @param {Function} props.onRecentNodesChange - Callback when recent nodes change
+ * @returns {JSX.Element} Interactive diagram editor
  */
 function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesChangeProp, onEdgesChange: onEdgesChangeProp, onNodeDoubleClick, onEdgeDoubleClick, onSetUpdateNodeFunction, onSetDeleteNodesFunction, onDeleteRequest, onRecentNodesChange }) {
-  const [nodos, setNodos, onNodosChange] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
-  const [conexiones, setConexiones, onConexionesChange] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
+  const [nodes, setNodes, onNodesChangeInternal] = useNodesState(Array.isArray(initialNodes) ? initialNodes : []);
+  const [edges, setEdges, onEdgesChangeInternal] = useEdgesState(Array.isArray(initialEdges) ? initialEdges : []);
   const [selectedNodeForDescription, setSelectedNodeForDescription] = useState(null);
   const toast = useToast();
   const reactFlowWrapper = useRef(null);
   const { screenToFlowPosition } = useReactFlow();
-  const { nodosRecientes, agregarNodoReciente } = useRecentNodes();
+  const { recentNodes, addRecentNode } = useRecentNodes();
   const hoverTimeoutRef = useRef(null);
   const isDraggingRef = useRef(false);
 
   /**
-   * Gestiona los cambios en los nodos detectando eventos de arrastre
-   * @param {Array} changes - Array de cambios aplicados a los nodos
+   * Manages node changes by detecting drag events.
+   * @param {Array} changes - Array of changes applied to nodes
    */
   const handleNodesChange = useCallback((changes) => {
     const isDragging = changes.some(change => 
@@ -80,21 +80,21 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
       isDraggingRef.current = false;
     }
     
-    onNodosChange(changes);
-  }, [onNodosChange]);
+    onNodesChangeInternal(changes);
+  }, [onNodesChangeInternal]);
 
   useEffect(() => {
     if (onRecentNodesChange) {
-      onRecentNodesChange(nodosRecientes);
+      onRecentNodesChange(recentNodes);
     }
-  }, [nodosRecientes, onRecentNodesChange]);
+  }, [recentNodes, onRecentNodesChange]);
 
   /**
-   * Actualiza los datos de un nodo específico
-   * @param {Object} updatedNode - Nodo con los datos actualizados
+   * Updates data for a specific node.
+   * @param {Object} updatedNode - Node with updated data
    */
   const updateNode = useCallback((updatedNode) => {
-    setNodos((nds) =>
+    setNodes((nds) =>
       nds.map((node) => {
         if (node.id === updatedNode.id) {
           return {
@@ -105,20 +105,20 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
         return node;
       })
     );
-  }, [setNodos]);
+  }, [setNodes]);
 
   /**
-   * Elimina uno o varios nodos y sus conexiones asociadas
-   * @param {Array<string>} nodeIdsToDelete - Array de IDs de nodos a eliminar
+   * Deletes one or multiple nodes and their associated connections.
+   * @param {Array<string>} nodeIdsToDelete - Array of node IDs to delete
    */
   const deleteNodes = useCallback((nodeIdsToDelete) => {
-    setNodos((nds) => nds.filter((node) => !nodeIdsToDelete.includes(node.id)));
-    setConexiones((eds) =>
+    setNodes((nds) => nds.filter((node) => !nodeIdsToDelete.includes(node.id)));
+    setEdges((eds) =>
       eds.filter((edge) =>
         !nodeIdsToDelete.includes(edge.source) && !nodeIdsToDelete.includes(edge.target)
       )
     );
-  }, [setNodos, setConexiones]);
+  }, [setNodes, setEdges]);
 
   useEffect(() => {
     if (onSetUpdateNodeFunction) {
@@ -145,7 +145,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
         ...node,
         style: node.style || {}
       }));
-      setNodos(nodesWithStyle);
+      setNodes(nodesWithStyle);
       prevInitialNodesRef.current = initialNodes;
       isInitialLoadRef.current = false;
       return;
@@ -155,12 +155,12 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
       return;
     }
     
-    if (initialNodes.length !== nodos.length) {
+    if (initialNodes.length !== nodes.length) {
       const nodesWithStyle = initialNodes.map(node => ({
         ...node,
         style: node.style || {}
       }));
-      setNodos(nodesWithStyle);
+      setNodes(nodesWithStyle);
       prevInitialNodesRef.current = initialNodes;
     }
   }, [initialNodes]);
@@ -171,7 +171,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     if (!Array.isArray(initialEdges)) return;
     
     if (isInitialLoadRef.current && initialEdges.length > 0) {
-      setConexiones(initialEdges);
+      setEdges(initialEdges);
       prevInitialEdgesRef.current = initialEdges;
       return;
     }
@@ -180,10 +180,10 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
       return;
     }
     
-    const hasRealChanges = initialEdges.length !== conexiones.length;
+    const hasRealChanges = initialEdges.length !== edges.length;
     
     if (hasRealChanges) {
-      setConexiones(initialEdges);
+      setEdges(initialEdges);
       prevInitialEdgesRef.current = initialEdges;
     }
   }, [initialEdges]);
@@ -191,23 +191,23 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
 
   useEffect(() => {
     if (onNodesChangeProp) {
-      onNodesChangeProp(nodos);
+      onNodesChangeProp(nodes);
     }
-  }, [nodos, onNodesChangeProp]);
+  }, [nodes, onNodesChangeProp]);
 
   useEffect(() => {
     if (onEdgesChangeProp) {
-      onEdgesChangeProp(conexiones);
+      onEdgesChangeProp(edges);
     }
-  }, [conexiones, onEdgesChangeProp]);
+  }, [edges, onEdgesChangeProp]);
 
   /**
-   * Gestiona la creación de nuevas conexiones entre nodos
-   * @param {Object} params - Parámetros de la conexión (source, target, handles)
+   * Manages creation of new connections between nodes.
+   * @param {Object} params - Connection parameters (source, target, handles)
    */
   const onConnect = useCallback(
     (params) => {
-      setConexiones((eds) => {
+      setEdges((eds) => {
         const { source, target, sourceHandle, targetHandle } = params || {};
 
         if (!source || !target) {
@@ -234,12 +234,12 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
         return addEdge(params, eds);
       });
     },
-    [setConexiones, toast]
+    [setEdges, toast]
   );
 
   /**
-   * Permite el arrastre sobre el canvas
-   * @param {DragEvent} event - Evento de arrastre
+   * Allows dragging over the canvas.
+   * @param {DragEvent} event - Drag event
    */
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -247,8 +247,8 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   }, []);
 
   /**
-   * Gestiona la acción de soltar un nodo en el canvas
-   * @param {DragEvent} event - Evento de soltar
+   * Handles the action of dropping a node on the canvas.
+   * @param {DragEvent} event - Drop event
    */
   const onDrop = useCallback(
     (event) => {
@@ -257,20 +257,20 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
       const nodeDataString = event.dataTransfer.getData('application/reactflow');
 
       if (!nodeDataString) {
-        console.log('No hay datos en el drop');
+        console.log('No data in drop');
         return;
       }
 
       try {
         const nodeData = JSON.parse(nodeDataString);
-        console.log('Datos del nodo dropeado:', nodeData);
+        console.log('Dropped node data:', nodeData);
 
         const position = screenToFlowPosition({
           x: event.clientX,
           y: event.clientY,
         });
 
-        console.log('Posición calculada:', position);
+        console.log('Calculated position:', position);
 
         const newNodeId = `${nodeData.type}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
 
@@ -285,30 +285,30 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
           },
         };
 
-        console.log('Nuevo nodo a crear:', newNode);
+        console.log('New node to create:', newNode);
 
-        setNodos((nds) => {
-          console.log('Nodos actuales:', nds);
+        setNodes((nds) => {
+          console.log('Current nodes:', nds);
           const updated = [...nds, newNode];
-          console.log('Nodos actualizados:', updated);
+          console.log('Updated nodes:', updated);
           return updated;
         });
 
-        agregarNodoReciente(nodeData);
+        addRecentNode(nodeData);
 
         toast.success(`Nodo "${nodeData.label}" agregado al canvas`);
       } catch (error) {
-        console.error('Error al procesar el drop:', error);
+        console.error('Error processing drop:', error);
         toast.error('Error al agregar el nodo');
       }
     },
-    [screenToFlowPosition, setNodos, toast, agregarNodoReciente]
+    [screenToFlowPosition, setNodes, toast, addRecentNode]
   );
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Delete' || event.key === 'Supr') {
-        const selectedNodes = nodos.filter((node) => node.selected);
+        const selectedNodes = nodes.filter((node) => node.selected);
 
         if (selectedNodes.length > 0 && onDeleteRequest) {
           event.preventDefault();
@@ -322,12 +322,12 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [nodos, onDeleteRequest]);
+  }, [nodes, onDeleteRequest]);
 
   /**
-   * Gestiona el clic en un nodo para mostrar su descripción
-   * @param {Event} _event - Evento de clic (no utilizado)
-   * @param {Object} node - Nodo clickeado
+   * Handles clicking on a node to show its description.
+   * @param {Event} _event - Click event (unused)
+   * @param {Object} node - Clicked node
    */
   const handleNodeClick = useCallback((_event, node) => {
     if (node.data?.description && node.data.description.trim() !== '') {
@@ -350,9 +350,9 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   }, []);
 
   /**
-   * Gestiona el hover sobre un nodo en dispositivos desktop
-   * @param {Event} _event - Evento de mouse (no utilizado)
-   * @param {Object} node - Nodo sobre el que se hace hover
+   * Handles hovering over a node on desktop devices.
+   * @param {Event} _event - Mouse event (unused)
+   * @param {Object} node - Node being hovered over
    */
   const handleNodeMouseEnter = useCallback((_event, node) => {
     if (isDraggingRef.current) return;
@@ -376,7 +376,7 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
   }, []);
 
   /**
-   * Gestiona la salida del hover de un nodo
+   * Handles exiting hover from a node.
    */
   const handleNodeMouseLeave = useCallback(() => {
     if (hoverTimeoutRef.current) {
@@ -390,10 +390,10 @@ function FlowMap({ initialNodes = [], initialEdges = [], onNodesChange: onNodesC
     <section className="flowmap">
       <section className="flowmap__wrap" ref={reactFlowWrapper}>
         <ReactFlow
-          nodes={nodos}
-          edges={conexiones}
+          nodes={nodes}
+          edges={edges}
           onNodesChange={handleNodesChange}
-          onEdgesChange={onConexionesChange}
+          onEdgesChange={onEdgesChangeInternal}
           onConnect={onConnect}
           onDragOver={onDragOver}
           onDrop={onDrop}

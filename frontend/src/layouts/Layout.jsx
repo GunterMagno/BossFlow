@@ -6,7 +6,7 @@ import './Layout.css';
 /**
  * Componente de disposición principal de la aplicación
  * Envuelve la barra de navegación, contenido dinámico y pie de página
- * @returns {JSX.Element} Estructura base de la aplicación con Navbar, Outlet y Footer
+ * @returns {JSX.Element} Base application structure with Navbar, Outlet and Footer
  */
 function Layout() {
   return (

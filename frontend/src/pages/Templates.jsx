@@ -21,9 +21,9 @@ import {
 import './Dashboard.css';
 
 /**
- * Página de plantillas de BossFlow.
- * Muestra plantillas predeterminadas y permite al usuario crear y gestionar sus propias plantillas.
- * @returns {React.ReactElement} El componente de la página de plantillas.
+ * BossFlow templates page.
+ * Displays default templates and allows users to create and manage their own templates.
+ * @returns {React.ReactElement} The templates page component.
  */
 function Templates() {
   const { logout } = useAuth();
@@ -40,14 +40,14 @@ function Templates() {
   const [activeTab, setActiveTab] = useState('predeterminadas');
 
   /**
-   * Establece el título de la página cuando el componente se monta.
+   * Sets the page title when the component mounts.
    */
   useEffect(() => {
     document.title = 'Plantillas | BossFlow';
   }, []);
 
   /**
-   * Carga las plantillas del usuario desde el servidor.
+   * Loads user templates from the server.
    */
   const fetchTemplates = async () => {
     try {
@@ -56,7 +56,7 @@ function Templates() {
       const response = await getTemplates();
       setTemplates(response.templates || []);
     } catch (error) {
-      console.error('Error al cargar plantillas:', error);
+      console.error('Error loading templates:', error);
       setErrorTemplates('No se pudieron cargar las plantillas.');
       setTemplates([]);
     } finally {
@@ -65,7 +65,7 @@ function Templates() {
   };
 
   /**
-   * Carga las plantillas cuando se cambia a la pestaña de mis plantillas.
+   * Loads templates when switching to the my templates tab.
    */
   useEffect(() => {
     if (activeTab === 'mis-plantillas') {
@@ -74,7 +74,7 @@ function Templates() {
   }, [activeTab]);
 
   /**
-   * Cierra la sesión del usuario y lo redirige al inicio.
+   * Logs out the user and redirects to home.
    */
   const handleLogout = () => {
     logout();
@@ -82,8 +82,8 @@ function Templates() {
   };
 
   /**
-   * Maneja el uso de una plantilla para crear un nuevo diagrama.
-   * @param {Object} template - Plantilla a utilizar.
+   * Handles using a template to create a new diagram.
+   * @param {Object} template - Template to use.
    */
   const handleUseTemplate = (template) => {
     setTemplateNodes({
@@ -94,7 +94,7 @@ function Templates() {
   };
 
   /**
-   * Maneja el evento de creación de un nuevo diagrama desde una plantilla.
+   * Handles the event of creating a new diagram from a template.
    */
   const handleDiagramCreated = () => {
     setIsModalOpen(false);
@@ -102,7 +102,7 @@ function Templates() {
   };
 
   /**
-   * Maneja el evento de creación de una nueva plantilla.
+   * Handles the event of creating a new template.
    */
   const handleTemplateCreated = () => {
     fetchTemplates();
@@ -111,8 +111,8 @@ function Templates() {
   };
 
   /**
-   * Prepara una plantilla para edición.
-   * @param {Object} template - Plantilla a editar.
+   * Prepares a template for editing.
+   * @param {Object} template - Template to edit.
    */
   const handleEditTemplate = (template) => {
     if (activeTab === 'predeterminadas') {
@@ -125,15 +125,15 @@ function Templates() {
   };
 
   /**
-   * Prepara una plantilla para eliminación.
-   * @param {Object} template - Plantilla a eliminar.
+   * Prepares a template for deletion.
+   * @param {Object} template - Template to delete.
    */
   const handleDeleteTemplate = (template) => {
     setTemplateToDelete(template);
   };
 
   /**
-   * Confirma y ejecuta la eliminación de una plantilla.
+   * Confirms and executes template deletion.
    */
   const handleConfirmDelete = async () => {
     if (!templateToDelete) return;
@@ -143,7 +143,7 @@ function Templates() {
       toast.success('Plantilla eliminada correctamente');
       fetchTemplates();
     } catch (error) {
-      console.error('Error al eliminar plantilla:', error);
+      console.error('Error deleting template:', error);
       toast.error('No se pudo eliminar la plantilla');
     } finally {
       setTemplateToDelete(null);

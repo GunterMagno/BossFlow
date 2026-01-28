@@ -1,10 +1,10 @@
 import React from 'react';
 
 /**
- * Componente de barra lateral de la aplicación.
- * Renderiza un elemento aside vacío para la estructura de la interfaz.
+ * Application sidebar component.
+ * Renders an empty aside element for interface structure.
  *
- * @returns {JSX.Element} Elemento aside de barra lateral
+ * @returns {JSX.Element} Sidebar aside element
  */
 function Sidebar() {
   return (

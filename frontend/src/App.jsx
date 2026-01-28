@@ -21,7 +21,7 @@ import CookieBanner from './components/CookieBanner/CookieBanner';
 /**
  * Componente principal de la aplicación BossFlow.
  * Define la estructura de rutas y configura los proveedores de contexto.
- * @returns {React.ReactElement} El componente principal de la aplicación.
+ * @returns {React.ReactElement} The main application component.
  */
 function App() {
   return (

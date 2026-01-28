@@ -5,11 +5,11 @@ import { useAuth } from '../../context/AuthContext';
 import './Register.css';
 
 /**
- * Componente de página de registro de nuevos usuarios.
- * Proporciona un formulario completo con validación para crear una cuenta nueva.
- * Incluye campos para nombre de usuario, correo, contraseña y aceptación de términos.
+ * Registration page component for new users.
+ * Provides a complete form with validation to create a new account.
+ * Includes fields for username, email, password and terms acceptance.
  *
- * @returns {JSX.Element} Elemento de página de registro
+ * @returns {JSX.Element} Registration page element
  */
 function Register() {
   const navigate = useNavigate();
@@ -27,34 +27,34 @@ function Register() {
     }
   }, [isAuthenticated, navigate]);
 
-  const [datosFormulario, setDatosFormulario] = useState({
+  const [formData, setFormData] = useState({
     nombreUsuario: '',
     correo: '',
     contrasena: '',
     confirmarContrasena: '',
   });
 
-  const [errores, setErrores] = useState({});
+  const [errors, setErrors] = useState({});
 
-  const [cargando, setCargando] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [aceptarTerminos, setAceptarTerminos] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
   /**
-   * Maneja los cambios en los campos del formulario.
-   * Actualiza el estado del formulario y limpia el error del campo modificado.
+   * Handles changes in form fields.
+   * Updates form state and clears the error of the modified field.
    *
-   * @param {Event} e - Evento de cambio del input
+   * @param {Event} e - Input change event
    */
-  const manejoCambios = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setDatosFormulario({
-      ...datosFormulario,
+    setFormData({
+      ...formData,
       [name]: value,
     });
 
-    if (errores[name]) {
-      setErrores((prev) => ({
+    if (errors[name]) {
+      setErrors((prev) => ({
         ...prev,
         [name]: '',
       }));
@@ -62,92 +62,92 @@ function Register() {
   };
 
   /**
-   * Valida todos los campos del formulario de registro.
-   * Verifica nombre de usuario, correo, contraseñas y aceptación de términos.
+   * Validates all registration form fields.
+   * Checks username, email, passwords and terms acceptance.
    *
-   * @returns {Object} Objeto con los errores encontrados en la validación
+   * @returns {Object} Object with validation errors found
    */
-  const validarFormulario = () => {
-    const nuevosErrores = {};
+  const validateForm = () => {
+    const newErrors = {};
 
-    if (!datosFormulario.nombreUsuario) {
-      nuevosErrores.nombreUsuario =
+    if (!formData.nombreUsuario) {
+      newErrors.nombreUsuario =
         'Es obligatorio introducir un nombre de usuario.';
-    } else if (datosFormulario.nombreUsuario.length < 3) {
-      nuevosErrores.nombreUsuario =
+    } else if (formData.nombreUsuario.length < 3) {
+      newErrors.nombreUsuario =
         'El nombre de usuario debe tener al menos 3 caracteres.';
-    } else if (!/^[a-zA-Z0-9_-]+$/.test(datosFormulario.nombreUsuario)) {
-      nuevosErrores.nombreUsuario =
+    } else if (!/^[a-zA-Z0-9_-]+$/.test(formData.nombreUsuario)) {
+      newErrors.nombreUsuario =
         'El nombre de usuario solo puede contener letras, números, guiones y guiones bajos.';
     }
 
-    if (!datosFormulario.correo) {
-      nuevosErrores.correo = 'Es obligatorio introducir un correo electrónico.';
+    if (!formData.correo) {
+      newErrors.correo = 'Es obligatorio introducir un correo electrónico.';
     } else if (
       !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        datosFormulario.correo
+        formData.correo
       )
     ) {
-      nuevosErrores.correo = 'El correo electrónico no es válido.';
+      newErrors.correo = 'El correo electrónico no es válido.';
     }
 
-    if (!datosFormulario.contrasena) {
-      nuevosErrores.contrasena = 'Es obligatorio introducir una contraseña.';
-    } else if (datosFormulario.contrasena.length < 8) {
-      nuevosErrores.contrasena =
+    if (!formData.contrasena) {
+      newErrors.contrasena = 'Es obligatorio introducir una contraseña.';
+    } else if (formData.contrasena.length < 8) {
+      newErrors.contrasena =
         'La contraseña debe tener al menos 8 caracteres.';
     }
 
-    if (!datosFormulario.confirmarContrasena) {
-      nuevosErrores.confirmarContrasena =
+    if (!formData.confirmarContrasena) {
+      newErrors.confirmarContrasena =
         'Es obligatorio confirmar la contraseña.';
     } else if (
-      datosFormulario.contrasena !== datosFormulario.confirmarContrasena
+      formData.contrasena !== formData.confirmarContrasena
     ) {
-      nuevosErrores.confirmarContrasena = 'Las contraseñas no coinciden.';
+      newErrors.confirmarContrasena = 'Las contraseñas no coinciden.';
     }
 
-    if (!aceptarTerminos) {
-      nuevosErrores.terminos = 'Debes aceptar los Términos de Uso y la Política de Privacidad.';
+    if (!acceptTerms) {
+      newErrors.terminos = 'Debes aceptar los Términos de Uso y la Política de Privacidad.';
     }
 
-    return nuevosErrores;
+    return newErrors;
   };
 
   /**
-   * Maneja el envío del formulario de registro.
-   * Valida los datos, registra al usuario y redirige al dashboard si tiene éxito.
+   * Handles registration form submission.
+   * Validates data, registers the user and redirects to dashboard on success.
    *
-   * @param {Event} e - Evento de envío del formulario
+   * @param {Event} e - Form submit event
    */
-  const manejoSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const nuevosErrores = validarFormulario();
-    if (Object.keys(nuevosErrores).length > 0) {
-      setErrores(nuevosErrores);
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
     try {
-      setErrores({});
-      setCargando(true);
+      setErrors({});
+      setLoading(true);
 
-      const resultado = await registerUser(
-        datosFormulario.nombreUsuario,
-        datosFormulario.correo,
-        datosFormulario.contrasena
+      const result = await registerUser(
+        formData.nombreUsuario,
+        formData.correo,
+        formData.contrasena
       );
 
-      if (resultado.success) {
+      if (result.success) {
         navigate('/dashboard');
       } else {
-        setErrores({ submit: resultado.error });
+        setErrors({ submit: result.error });
       }
     } catch (error) {
-      setErrores({ submit: 'Error al registrarse. Inténtalo de nuevo.' });
+      setErrors({ submit: 'Error al registrarse. Inténtalo de nuevo.' });
     } finally {
-      setCargando(false);
+      setLoading(false);
     }
   };
 
@@ -159,10 +159,10 @@ function Register() {
           <p className="register__subtitulo">Regístrate para comenzar</p>
         </section>
 
-        <form onSubmit={manejoSubmit} className="register__formulario">
-          {errores.submit && (
+        <form onSubmit={handleSubmit} className="register__formulario">
+          {errors.submit && (
             <section className="register__error" role="alert">
-              {errores.submit}
+              {errors.submit}
             </section>
           )}
 
@@ -174,15 +174,15 @@ function Register() {
               type="text"
               id="nombreUsuario"
               name="nombreUsuario"
-              value={datosFormulario.nombreUsuario}
-              onChange={manejoCambios}
+              value={formData.nombreUsuario}
+              onChange={handleChange}
               placeholder="usuario123"
-              className={`register__input ${errores.nombreUsuario ? 'register__input--error' : ''}`}
-              disabled={cargando}
+              className={`register__input ${errors.nombreUsuario ? 'register__input--error' : ''}`}
+              disabled={loading}
             />
-            {errores.nombreUsuario && (
+            {errors.nombreUsuario && (
               <span className="register__mensaje-error" role="alert">
-                {errores.nombreUsuario}
+                {errors.nombreUsuario}
               </span>
             )}
           </fieldset>
@@ -195,15 +195,15 @@ function Register() {
               type="text"
               id="correo"
               name="correo"
-              value={datosFormulario.correo}
-              onChange={manejoCambios}
+              value={formData.correo}
+              onChange={handleChange}
               placeholder="tu@ejemplo.com"
-              className={`register__input ${errores.correo ? 'register__input--error' : ''}`}
-              disabled={cargando}
+              className={`register__input ${errors.correo ? 'register__input--error' : ''}`}
+              disabled={loading}
             />
-            {errores.correo && (
+            {errors.correo && (
               <span className="register__mensaje-error" role="alert">
-                {errores.correo}
+                {errors.correo}
               </span>
             )}
           </fieldset>
@@ -216,15 +216,15 @@ function Register() {
               type="password"
               id="contrasena"
               name="contrasena"
-              value={datosFormulario.contrasena}
-              onChange={manejoCambios}
+              value={formData.contrasena}
+              onChange={handleChange}
               placeholder="********"
-              className={`register__input ${errores.contrasena ? 'register__input--error' : ''}`}
-              disabled={cargando}
+              className={`register__input ${errors.contrasena ? 'register__input--error' : ''}`}
+              disabled={loading}
             />
-            {errores.contrasena && (
+            {errors.contrasena && (
               <span className="register__mensaje-error" role="alert">
-                {errores.contrasena}
+                {errors.contrasena}
               </span>
             )}
           </fieldset>
@@ -237,15 +237,15 @@ function Register() {
               type="password"
               id="confirmarContrasena"
               name="confirmarContrasena"
-              value={datosFormulario.confirmarContrasena}
-              onChange={manejoCambios}
+              value={formData.confirmarContrasena}
+              onChange={handleChange}
               placeholder="********"
-              className={`register__input ${errores.confirmarContrasena ? 'register__input--error' : ''}`}
-              disabled={cargando}
+              className={`register__input ${errors.confirmarContrasena ? 'register__input--error' : ''}`}
+              disabled={loading}
             />
-            {errores.confirmarContrasena && (
+            {errors.confirmarContrasena && (
               <span className="register__mensaje-error" role="alert">
-                {errores.confirmarContrasena}
+                {errors.confirmarContrasena}
               </span>
             )}
           </fieldset>
@@ -256,14 +256,14 @@ function Register() {
                 type="checkbox"
                 id="terminos"
                 className="register__checkbox-input"
-                checked={aceptarTerminos}
+                checked={acceptTerms}
                 onChange={(e) => {
-                  setAceptarTerminos(e.target.checked);
-                  if (errores.terminos) {
-                    setErrores((prev) => ({ ...prev, terminos: '' }));
+                  setAcceptTerms(e.target.checked);
+                  if (errors.terminos) {
+                    setErrors((prev) => ({ ...prev, terminos: '' }));
                   }
                 }}
-                disabled={cargando}
+                disabled={loading}
               />
               <span className="register__checkbox-texto">
                 Acepto los{' '}
@@ -276,15 +276,15 @@ function Register() {
                 </Link>
               </span>
             </label>
-            {errores.terminos && (
+            {errors.terminos && (
               <span className="register__mensaje-error" role="alert">
-                {errores.terminos}
+                {errors.terminos}
               </span>
             )}
           </fieldset>
 
-          <button type="submit" className="register__boton" disabled={cargando}>
-            {cargando ? (
+          <button type="submit" className="register__boton" disabled={loading}>
+            {loading ? (
               <>
                 <span className="register__spinner"></span>
                 Registrando...
