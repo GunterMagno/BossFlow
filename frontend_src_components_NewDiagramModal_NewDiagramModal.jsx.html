@@ -49,16 +49,16 @@ import ImportJSON from '../ImportJSON/ImportJSON';
 import './NewDiagramModal.css';
 
 /**
- * Componente modal para crear un nuevo diagrama.
- * Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
+ * Modal component for creating a new diagram.
+ * Allows creating diagrams from scratch, from templates, or by importing JSON data.
  *
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Indica si el modal está abierto
- * @param {Function} props.onClose - Función callback para cerrar el modal
- * @param {Function} props.onDiagramCreated - Función callback ejecutada cuando se crea un diagrama
- * @param {Array|null} props.initialNodes - Nodos iniciales para crear desde plantilla
- * @param {Array|null} props.initialEdges - Conexiones iniciales para crear desde plantilla
- * @returns {JSX.Element|null} Elemento modal o null si está cerrado
+ * @param {Object} props - Component properties
+ * @param {boolean} props.isOpen - Whether the modal is open
+ * @param {Function} props.onClose - Callback function to close the modal
+ * @param {Function} props.onDiagramCreated - Callback function executed when a diagram is created
+ * @param {Array|null} props.initialNodes - Initial nodes for creating from template
+ * @param {Array|null} props.initialEdges - Initial connections for creating from template
+ * @returns {JSX.Element|null} Modal element or null if closed
  */
 function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = null, initialEdges = null }) {
   const navigate = useNavigate();
@@ -73,10 +73,10 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
   const [importedData, setImportedData] = useState(null);
 
   /**
-   * Maneja los cambios en los campos de entrada del formulario.
-   * Actualiza el estado del formulario y limpia los errores del campo modificado.
+   * Handles changes in form input fields.
+   * Updates the form state and clears errors for the modified field.
    *
-   * @param {Event} e - Evento de cambio del input
+   * @param {Event} e - Input change event
    */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,10 +94,10 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
   };
 
   /**
-   * Valida los campos del formulario antes de enviar.
-   * Verifica que el título esté presente y tenga al menos 3 caracteres.
+   * Validates form fields before submission.
+   * Checks that the title is present and has at least 3 characters.
    *
-   * @returns {boolean} true si el formulario es válido, false en caso contrario
+   * @returns {boolean} true if form is valid, false otherwise
    */
   const validateForm = () => {
     const newErrors = {};
@@ -113,13 +113,13 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
   };
 
   /**
-   * Maneja la importación de datos desde un archivo JSON.
-   * Almacena los datos importados y pre-rellena el título si está disponible.
+   * Handles importing data from a JSON file.
+   * Stores imported data and pre-fills the title if available.
    *
-   * @param {Object} data - Datos del diagrama importados desde JSON
-   * @param {Array} data.nodes - Nodos del diagrama
-   * @param {Array} data.edges - Conexiones del diagrama
-   * @param {Object} data.metadata - Metadatos del diagrama
+   * @param {Object} data - Diagram data imported from JSON
+   * @param {Array} data.nodes - Diagram nodes
+   * @param {Array} data.edges - Diagram connections
+   * @param {Object} data.metadata - Diagram metadata
    */
   const handleImport = (data) => {
     setImportedData(data);
@@ -136,11 +136,11 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
   };
 
   /**
-   * Maneja el envío del formulario para crear un nuevo diagrama.
-   * Valida los datos, crea el diagrama en el backend, registra la actividad
-   * y redirige al editor del nuevo diagrama.
+   * Handles form submission to create a new diagram.
+   * Validates data, creates the diagram on the backend, registers activity,
+   * and redirects to the new diagram editor.
    *
-   * @param {Event} e - Evento de envío del formulario
+   * @param {Event} e - Form submission event
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -182,7 +182,7 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
         navigate(`/editor/${response.diagram.id}`);
       }
     } catch (error) {
-      console.error('Error al crear diagrama:', error);
+      console.error('Error creating diagram:', error);
 
       if (error.response?.status === 409) {
         setErrors({
@@ -208,8 +208,8 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
   };
 
   /**
-   * Cierra el modal y reinicia el formulario a su estado inicial.
-   * Limpia todos los campos, errores y datos importados.
+   * Closes the modal and resets the form to its initial state.
+   * Clears all fields, errors, and imported data.
    */
   const handleClose = () => {
     setFormData({
@@ -222,9 +222,9 @@ function NewDiagramModal({ isOpen, onClose, onDiagramCreated, initialNodes = nul
   };
 
   /**
-   * Maneja el evento de teclado para cerrar el modal con la tecla Escape.
+   * Handles keyboard event to close the modal with Escape key.
    *
-   * @param {KeyboardEvent} e - Evento de teclado
+   * @param {KeyboardEvent} e - Keyboard event
    */
   const handleKeyDown = (e) => {
     if (e.key === 'Escape') {
@@ -378,7 +378,7 @@ export default NewDiagramModal;
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 16 2026 11:19:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 30 2026 09:43:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

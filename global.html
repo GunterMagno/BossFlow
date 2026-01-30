@@ -442,7 +442,7 @@ Almacena las actividades en localStorage por usuario
 
 
 <div class="description">
-    Orígenes permitidos para CORS en desarrollo.
+    Allowed origins for CORS in development.
 </div>
 
 
@@ -506,7 +506,7 @@ Almacena las actividades en localStorage por usuario
 
 
 <div class="description">
-    Instancia de Axios con configuración por defecto.
+    Axios instance with default configuration.
 </div>
 
 
@@ -570,9 +570,9 @@ Almacena las actividades en localStorage por usuario
 
 
 <div class="description">
-    Componente proveedor del contexto de autenticación.
-Gestiona el estado de autenticación, login, registro y cierre de sesión de usuarios.
-Verifica automáticamente la autenticación al cargar y maneja tokens expirados.
+    Authentication context provider component.
+Manages authentication state, login, registration, and user logout.
+Automatically verifies authentication on load and handles expired tokens.
 </div>
 
 
@@ -636,8 +636,8 @@ Verifica automáticamente la autenticación al cargar y maneja tokens expirados.
 
 
 <div class="description">
-    Servicio de autenticación
-Maneja las peticiones HTTP relacionadas con login y registro
+    Authentication service
+Handles HTTP requests related to login and registration
 </div>
 
 
@@ -701,9 +701,9 @@ Maneja las peticiones HTTP relacionadas con login y registro
 
 
 <div class="description">
-    Configuración de la URL base para las solicitudes de la API.
-En desarrollo se puede usar VITE_API_URL para una URL absoluta.
-En producción se usa rutas relativas para que el proxy (Nginx) maneje /api.
+    Configuration of the base URL for API requests.
+In development, VITE_API_URL can be used for an absolute URL.
+In production, relative paths are used so that the proxy (Nginx) handles /api.
 </div>
 
 
@@ -831,7 +831,7 @@ En producción se usa rutas relativas para que el proxy (Nginx) maneje /api.
 
 
 <div class="description">
-    Versiones compatibles (para retrocompatibilidad).
+    Compatible versions (for backwards compatibility).
 </div>
 
 
@@ -895,7 +895,7 @@ En producción se usa rutas relativas para que el proxy (Nginx) maneje /api.
 
 
 <div class="description">
-    Crea un nuevo diagrama.
+    Creates a new diagram.
 </div>
 
 
@@ -959,7 +959,7 @@ En producción se usa rutas relativas para que el proxy (Nginx) maneje /api.
 
 
 <div class="description">
-    Versión actual del formato JSON.
+    Current version of the JSON format.
 </div>
 
 
@@ -1153,8 +1153,8 @@ Representa un punto de bifurcación o decisión en el flujo del diagrama.
 
 
 <div class="description">
-    Plantillas de diagramas predefinidas del sistema
-Estas plantillas están embebidas en el cliente y no se almacenan en la base de datos.
+    Predefined system diagram templates
+These templates are embedded in the client and are not stored in the database.
 </div>
 
 
@@ -1228,7 +1228,7 @@ Estas plantillas están embebidas en el cliente y no se almacenan en la base de 
 
 
 <div class="description">
-    Elimina permanentemente la cuenta del usuario.
+    Permanently deletes the user's account.
 </div>
 
 
@@ -1292,7 +1292,7 @@ Estas plantillas están embebidas en el cliente y no se almacenan en la base de 
 
 
 <div class="description">
-    Elimina un diagrama.
+    Deletes a diagram.
 </div>
 
 
@@ -1356,8 +1356,8 @@ Estas plantillas están embebidas en el cliente y no se almacenan en la base de 
 
 
 <div class="description">
-    Elimina una imagen del servidor.
-Solo elimina imágenes locales (URLs que comienzan con /uploads/).
+    Deletes an image from the server.
+Only deletes local images (URLs starting with /uploads/).
 </div>
 
 
@@ -1421,7 +1421,7 @@ Solo elimina imágenes locales (URLs que comienzan con /uploads/).
 
 
 <div class="description">
-    Elimina una plantilla.
+    Deletes a template.
 </div>
 
 
@@ -1680,7 +1680,7 @@ Representa el punto de finalización de un flujo en el diagrama.
 
 
 <div class="description">
-    Exporta todos los datos personales del usuario en formato JSON.
+    Exports all the user's personal data in JSON format.
 </div>
 
 
@@ -1872,7 +1872,7 @@ Representa el punto de finalización de un flujo en el diagrama.
 
 
 <div class="description">
-    Obtiene un diagrama específico por su ID.
+    Retrieves a specific diagram by its ID.
 </div>
 
 
@@ -1936,7 +1936,7 @@ Representa el punto de finalización de un flujo en el diagrama.
 
 
 <div class="description">
-    Obtiene todos los diagramas del usuario autenticado.
+    Retrieves all diagrams of the authenticated user.
 </div>
 
 
@@ -2064,7 +2064,7 @@ Representa el punto de finalización de un flujo en el diagrama.
 
 
 <div class="description">
-    Obtiene el perfil del usuario autenticado.
+    Retrieves the authenticated user's profile.
 </div>
 
 
@@ -2128,7 +2128,7 @@ Representa el punto de finalización de un flujo en el diagrama.
 
 
 <div class="description">
-    Obtiene las estadísticas del usuario autenticado.
+    Retrieves the authenticated user's statistics.
 </div>
 
 
@@ -2192,7 +2192,7 @@ Representa el punto de finalización de un flujo en el diagrama.
 
 
 <div class="description">
-    Obtiene todas las plantillas del usuario autenticado.
+    Retrieves all templates of the authenticated user.
 </div>
 
 
@@ -2320,7 +2320,7 @@ Representa el punto de finalización de un flujo en el diagrama.
 
 
 <div class="description">
-    Tests para validar el esquema de imágenes en Diagrams y Nodos
+    Tests to validate the image schema in Diagrams and Nodes
 </div>
 
 
@@ -2384,8 +2384,8 @@ Representa el punto de finalización de un flujo en el diagrama.
 
 
 <div class="description">
-    Tests de validación de estructura de diagramas
-Prueba las validaciones de nodos y edges
+    Diagram structure validation tests
+Tests nodes and edges validation
 </div>
 
 
@@ -2449,8 +2449,8 @@ Prueba las validaciones de nodos y edges
 
 
 <div class="description">
-    Script simple para comparar performance CON y SIN índices
-Uso: node tests/test-performance.js
+    Simple script to compare performance WITH and WITHOUT indexes
+Usage: node tests/test-performance.js
 </div>
 
 
@@ -2968,9 +2968,9 @@ Representa un temporizador o contador de tiempo en el diagrama.
 
 
 <div class="description">
-    Componente proveedor del contexto de notificaciones toast.
-Gestiona el estado y ciclo de vida de las notificaciones emergentes.
-Proporciona métodos para mostrar diferentes tipos de notificaciones (success, error, warning, info).
+    Toast notification context provider component.
+Manages the state and lifecycle of popup notifications.
+Provides methods to display different types of notifications (success, error, warning, info).
 </div>
 
 
@@ -3034,7 +3034,7 @@ Proporciona métodos para mostrar diferentes tipos de notificaciones (success, e
 
 
 <div class="description">
-    Actualiza un diagrama existente.
+    Updates an existing diagram.
 </div>
 
 
@@ -3098,7 +3098,7 @@ Proporciona métodos para mostrar diferentes tipos de notificaciones (success, e
 
 
 <div class="description">
-    Actualiza el perfil del usuario autenticado.
+    Updates the authenticated user's profile.
 </div>
 
 
@@ -3162,8 +3162,8 @@ Proporciona métodos para mostrar diferentes tipos de notificaciones (success, e
 
 
 <div class="description">
-    Hook personalizado para acceder al contexto de autenticación.
-Proporciona acceso a los datos y funciones de autenticación del usuario.
+    Custom hook to access the authentication context.
+Provides access to user authentication data and functions.
 </div>
 
 
@@ -3227,8 +3227,8 @@ Proporciona acceso a los datos y funciones de autenticación del usuario.
 
 
 <div class="description">
-    Hook personalizado para verificar la salud de la conexión con el backend
-Realiza un chequeo de disponibilidad al montarse el componente
+    Custom hook to check backend connection health.
+Performs an availability check when the component mounts.
 </div>
 
 
@@ -3292,8 +3292,8 @@ Realiza un chequeo de disponibilidad al montarse el componente
 
 
 <div class="description">
-    Hook personalizado para acceder al contexto de notificaciones toast.
-Proporciona métodos para mostrar notificaciones temporales en la interfaz.
+    Custom hook to access the toast notification context.
+Provides methods to display temporary notifications in the interface.
 </div>
 
 
@@ -3454,7 +3454,7 @@ Define la estructura de rutas y configura los proveedores de contexto.
 
 
 <div class="param-desc">
-    El componente principal de la aplicación.
+    The main application component.
 </div>
 
     
@@ -3476,8 +3476,8 @@ Define la estructura de rutas y configura los proveedores de contexto.
 
 
 <div class="description">
-    Middleware de autenticación basado en JWT.
-Verifica y decodifica el token enviado en el header Authorization.
+    JWT-based authentication middleware.
+Verifies and decodes the token sent in the Authorization header.
 </div>
 
 
@@ -3574,7 +3574,7 @@ Verifica y decodifica el token enviado en el header Authorization.
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -3617,7 +3617,7 @@ Verifica y decodifica el token enviado en el header Authorization.
             
 
             <td class="description last">
-                Headers de la solicitud.
+                Request headers.
                 
                     
 
@@ -3660,7 +3660,7 @@ Verifica y decodifica el token enviado en el header Authorization.
             
 
             <td class="description last">
-                Header Authorization con formato "Bearer token".
+                Authorization header in the format "Bearer token".
                 
             </td>
         </tr>
@@ -3702,7 +3702,7 @@ Verifica y decodifica el token enviado en el header Authorization.
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -3728,7 +3728,7 @@ Verifica y decodifica el token enviado en el header Authorization.
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -3756,7 +3756,7 @@ Verifica y decodifica el token enviado en el header Authorization.
 <dl>
     <dt>
         <div class="param-desc">
-        Error JSON con mensaje si el token no existe, es inválido o ha expirado.
+        JSON error with message if the token is missing, invalid or expired.
         </div>
     </dt>
     <dd></dd>
@@ -3801,7 +3801,7 @@ Verifica y decodifica el token enviado en el header Authorization.
 
 
 <div class="param-desc">
-    Si el token es válido, continúa con next(). Si es inválido, retorna error 401.
+    If the token is valid, calls next(). If invalid, returns 401.
 </div>
 
     
@@ -3910,7 +3910,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
 
 
 <div class="param-desc">
-    Página de comunidad en construcción
+    Community page under construction
 </div>
 
     
@@ -3932,7 +3932,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
 
 
 <div class="description">
-    Diálogo modal de confirmación para acciones críticas
+    Confirmation modal dialog for critical actions
 </div>
 
 
@@ -4029,7 +4029,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -4088,7 +4088,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Controla la visibilidad del diálogo
+                Controls the visibility of the dialog
                 
             </td>
         </tr>
@@ -4126,7 +4126,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Callback al cerrar el diálogo
+                Callback when closing the dialog
                 
             </td>
         </tr>
@@ -4164,7 +4164,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Callback al confirmar la acción
+                Callback when confirming the action
                 
             </td>
         </tr>
@@ -4202,7 +4202,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Título mostrado en la cabecera
+                Title shown in the header
                 
             </td>
         </tr>
@@ -4240,7 +4240,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Mensaje descriptivo de la acción
+                Descriptive message for the action
                 
             </td>
         </tr>
@@ -4282,7 +4282,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Texto del botón de confirmación
+                Text of the confirmation button
                 
             </td>
         </tr>
@@ -4324,7 +4324,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Texto del botón de cancelación
+                Text of the cancel button
                 
             </td>
         </tr>
@@ -4366,7 +4366,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Tipo visual del diálogo (warning, error, etc.)
+                Visual type of the dialog (warning, error, etc.)
                 
             </td>
         </tr>
@@ -4418,7 +4418,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
 
 
 <div class="param-desc">
-    Renderiza el diálogo o null si está cerrado
+    Renders the dialog or null if closed
 </div>
 
     
@@ -4440,7 +4440,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
 
 
 <div class="description">
-    Modal de confirmación para acciones que requieren validación del usuario
+    Confirmation modal for actions that require user validation
 </div>
 
 
@@ -4537,7 +4537,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -4596,7 +4596,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Controla la visibilidad del modal
+                Controls the visibility of the modal
                 
             </td>
         </tr>
@@ -4634,7 +4634,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Callback ejecutado al cerrar el modal
+                Callback executed when closing the modal
                 
             </td>
         </tr>
@@ -4672,7 +4672,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Callback ejecutado al confirmar la acción
+                Callback executed when confirming the action
                 
             </td>
         </tr>
@@ -4714,7 +4714,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Título mostrado en el modal
+                Title shown in the modal
                 
             </td>
         </tr>
@@ -4756,7 +4756,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Mensaje descriptivo
+                Descriptive message
                 
             </td>
         </tr>
@@ -4798,7 +4798,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Texto del botón de confirmación
+                Text of the confirmation button
                 
             </td>
         </tr>
@@ -4840,7 +4840,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Texto del botón de cancelación
+                Text of the cancel button
                 
             </td>
         </tr>
@@ -4882,7 +4882,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Tipo visual del modal (danger, warning, info)
+                Visual type of the modal (danger, warning, info)
                 
             </td>
         </tr>
@@ -4924,7 +4924,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
             
 
             <td class="description last">
-                Indica si hay una operación en curso
+                Indicates if an operation is in progress
                 
             </td>
         </tr>
@@ -4976,7 +4976,7 @@ Muestra un placeholder con las características futuras de la sección de comuni
 
 
 <div class="param-desc">
-    Renderiza el modal o null si está cerrado
+    Renders the modal or null if closed
 </div>
 
     
@@ -4998,8 +4998,8 @@ Muestra un placeholder con las características futuras de la sección de comuni
 
 
 <div class="description">
-    Conecta a la base de datos MongoDB.
-Lee la URI de conexión desde la variable de entorno MONGO_URI.
+    Connects to the MongoDB database.
+Reads the connection URI from the MONGO_URI environment variable.
 </div>
 
 
@@ -5072,7 +5072,7 @@ Lee la URI de conexión desde la variable de entorno MONGO_URI.
 <dl>
     <dt>
         <div class="param-desc">
-        Si hay error en la conexión, imprime el error y termina el proceso.
+        If there is a connection error, logs the error and exits the process.
         </div>
     </dt>
     <dd></dd>
@@ -5117,7 +5117,7 @@ Lee la URI de conexión desde la variable de entorno MONGO_URI.
 
 
 <div class="param-desc">
-    Promesa que se resuelve cuando la conexión es exitosa.
+    Promise that resolves when the connection is successful.
 </div>
 
     
@@ -5307,7 +5307,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
 
 
 <div class="description">
-    Crea un nuevo diagrama para el usuario autenticado.
+    Creates a new diagram for the authenticated user.
 </div>
 
 
@@ -5404,7 +5404,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -5447,7 +5447,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
             
 
             <td class="description last">
-                Datos del diagrama.
+                Diagram data.
                 
                     
 
@@ -5490,7 +5490,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
             
 
             <td class="description last">
-                Título del diagrama.
+                Diagram title.
                 
             </td>
         </tr>
@@ -5516,7 +5516,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
             
 
             <td class="description last">
-                Nodos del diagrama.
+                Diagram nodes.
                 
             </td>
         </tr>
@@ -5542,7 +5542,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
             
 
             <td class="description last">
-                Conexiones del diagrama.
+                Diagram connections.
                 
             </td>
         </tr>
@@ -5576,7 +5576,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
             
 
             <td class="description last">
-                ID del usuario autenticado.
+                Authenticated user ID.
                 
             </td>
         </tr>
@@ -5610,7 +5610,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -5636,7 +5636,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -5677,7 +5677,7 @@ Explica el uso (o no uso) de cookies en BossFlow.
 
 
 <div class="param-desc">
-    Diagrama creado con ID generado.
+    Created diagram with generated ID.
 </div>
 
     
@@ -5699,8 +5699,8 @@ Explica el uso (o no uso) de cookies en BossFlow.
 
 
 <div class="description">
-    Crea un transportador de email según el entorno.
-En producción usa Gmail, en desarrollo usa Ethereal o SMTP local.
+    Create an email transporter according to the environment.
+In production it uses Gmail, in development it uses Ethereal or local SMTP.
 </div>
 
 
@@ -5786,7 +5786,7 @@ En producción usa Gmail, en desarrollo usa Ethereal o SMTP local.
 
 
 <div class="param-desc">
-    Transportador de nodemailer configurado.
+    Configured nodemailer transporter.
 </div>
 
     
@@ -6469,8 +6469,8 @@ En producción usa Gmail, en desarrollo usa Ethereal o SMTP local.
 
 
 <div class="description">
-    Página principal del dashboard del usuario
-Muestra estadísticas, diagramas, actividades y navegación principal
+    Main dashboard page for the user
+Displays statistics, diagrams, activities and main navigation
 </div>
 
 
@@ -6556,7 +6556,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="param-desc">
-    Dashboard con sidebar, menú principal y contenido dinámico
+    Dashboard with sidebar, main menu and dynamic content
 </div>
 
     
@@ -6578,7 +6578,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="description">
-    Elimina permanentemente la cuenta del usuario y todos sus datos.
+    Permanently deletes the user's account and all their data.
 </div>
 
 
@@ -6675,7 +6675,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -6718,7 +6718,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Usuario autenticado.
+                Authenticated user.
                 
                     
 
@@ -6761,7 +6761,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                ID del usuario.
+                User ID.
                 
             </td>
         </tr>
@@ -6795,7 +6795,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Cuerpo de la solicitud.
+                Request body.
                 
                     
 
@@ -6838,7 +6838,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Contraseña para confirmar eliminación.
+                Password to confirm deletion.
                 
             </td>
         </tr>
@@ -6880,7 +6880,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -6921,7 +6921,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="param-desc">
-    Mensaje de confirmación de eliminación.
+    Deletion confirmation message.
 </div>
 
     
@@ -6943,7 +6943,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="description">
-    Elimina un diagrama del usuario autenticado.
+    Deletes a diagram of the authenticated user.
 </div>
 
 
@@ -7040,7 +7040,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -7083,7 +7083,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                ID del diagrama a eliminar.
+                ID of the diagram to delete.
                 
             </td>
         </tr>
@@ -7109,7 +7109,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Usuario autenticado.
+                Authenticated user.
                 
                     
 
@@ -7152,7 +7152,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                ID del usuario.
+                User ID.
                 
             </td>
         </tr>
@@ -7194,7 +7194,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -7220,7 +7220,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -7261,7 +7261,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="param-desc">
-    Mensaje de confirmación de eliminación.
+    Deletion confirmation message.
 </div>
 
     
@@ -7283,7 +7283,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="description">
-    Elimina una imagen del servidor.
+    Deletes an image from the server.
 </div>
 
 
@@ -7380,7 +7380,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -7423,7 +7423,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Datos de la solicitud.
+                Request body data.
                 
                     
 
@@ -7466,7 +7466,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                URL de la imagen a eliminar.
+                URL of the image to delete.
                 
             </td>
         </tr>
@@ -7508,7 +7508,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -7534,7 +7534,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -7575,7 +7575,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="param-desc">
-    Mensaje de confirmación de eliminación.
+    Deletion confirmation message.
 </div>
 
     
@@ -7838,7 +7838,7 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="param-desc">
-    Tarjeta interactiva con información del diagrama
+    Interactive card with diagram information
 </div>
 
     
@@ -8097,8 +8097,8 @@ Muestra estadísticas, diagramas, actividades y navegación principal
 
 
 <div class="description">
-    Página del editor de diagramas con canvas interactivo
-Gestiona la carga, edición, guardado y exportación de diagramas
+    Diagram editor page with interactive canvas
+Manages loading, editing, saving and exporting diagrams
 </div>
 
 
@@ -8184,7 +8184,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Editor completo con toolbar, sidebar y canvas
+    Complete editor with toolbar, sidebar and canvas
 </div>
 
     
@@ -8442,7 +8442,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback para cerrar el sidebar en móviles
+                Callback to close sidebar on mobile
                 
             </td>
         </tr>
@@ -8466,8 +8466,6 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
                 
 
@@ -8478,13 +8476,11 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
                 <td class="default">
                 
-                    []
-                
                 </td>
             
 
             <td class="description last">
-                Lista de nodos usados recientemente
+                Array of recently used nodes
                 
             </td>
         </tr>
@@ -8533,7 +8529,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Sidebar con categorías de nodos arrastrables
+    Sidebar with draggable node categories
 </div>
 
     
@@ -8555,7 +8551,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Componente interno que maneja las operaciones de exportación del diagrama.
+    Internal component that handles diagram export operations.
 </div>
 
 
@@ -8652,7 +8648,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Props del componente.
+                Component props.
                 
                     
 
@@ -8695,7 +8691,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Indica si el modal de exportación está abierto.
+                Indicates if the export modal is open.
                 
             </td>
         </tr>
@@ -8721,7 +8717,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Función para cerrar el modal.
+                Function to close the modal.
                 
             </td>
         </tr>
@@ -8747,7 +8743,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Título del diagrama a exportar.
+                Title of the diagram to export.
                 
             </td>
         </tr>
@@ -8773,7 +8769,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Indica si se está exportando.
+                Indicates if exporting is in progress.
                 
             </td>
         </tr>
@@ -8799,7 +8795,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Función para establecer el estado de exportación.
+                Function to set the export state.
                 
             </td>
         </tr>
@@ -8825,7 +8821,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de notificaciones toast.
+                Toast notifications object.
                 
             </td>
         </tr>
@@ -8871,7 +8867,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Modal para exportar el diagrama en diferentes formatos
+    Modal to export the diagram in different formats
 </div>
 
 
@@ -8968,7 +8964,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -9011,7 +9007,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Controla la visibilidad del modal
+                Controls the visibility of the modal
                 
             </td>
         </tr>
@@ -9037,7 +9033,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback ejecutado al cerrar el modal
+                Callback executed when closing the modal
                 
             </td>
         </tr>
@@ -9063,7 +9059,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback para exportar como imagen PNG
+                Callback to export as PNG image
                 
             </td>
         </tr>
@@ -9089,7 +9085,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback para exportar como archivo JSON
+                Callback to export as JSON file
                 
             </td>
         </tr>
@@ -9115,7 +9111,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Indica si hay una exportación en proceso
+                Indicates if an export is in progress
                 
             </td>
         </tr>
@@ -9167,7 +9163,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Modal de exportación o null si está cerrado
+    Export modal or null if closed
 </div>
 
     
@@ -9189,7 +9185,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Exporta todos los datos personales del usuario en formato JSON.
+    Exports all personal data of the user in JSON format.
 </div>
 
 
@@ -9286,7 +9282,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -9329,7 +9325,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Usuario autenticado.
+                Authenticated user.
                 
                     
 
@@ -9372,7 +9368,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                ID del usuario.
+                User ID.
                 
             </td>
         </tr>
@@ -9414,7 +9410,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -9455,7 +9451,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    JSON con todos los datos del usuario y sus diagramas.
+    JSON with the user's data and their diagrams.
 </div>
 
     
@@ -9477,7 +9473,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Componente principal del editor de diagramas de flujo
+    Main flow diagram editor component.
 </div>
 
 
@@ -9574,7 +9570,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -9637,7 +9633,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Nodos iniciales del diagrama
+                Initial diagram nodes
                 
             </td>
         </tr>
@@ -9679,7 +9675,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Conexiones iniciales del diagrama
+                Initial diagram connections
                 
             </td>
         </tr>
@@ -9717,7 +9713,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback ejecutado cuando cambian los nodos
+                Callback executed when nodes change
                 
             </td>
         </tr>
@@ -9755,7 +9751,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback ejecutado cuando cambian las conexiones
+                Callback executed when connections change
                 
             </td>
         </tr>
@@ -9793,7 +9789,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback para doble clic en un nodo
+                Callback for double-click on a node
                 
             </td>
         </tr>
@@ -9831,7 +9827,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback para doble clic en una conexión
+                Callback for double-click on a connection
                 
             </td>
         </tr>
@@ -9869,7 +9865,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Expone la función de actualización de nodos
+                Exposes the node update function
                 
             </td>
         </tr>
@@ -9907,7 +9903,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Expone la función de eliminación de nodos
+                Exposes the node deletion function
                 
             </td>
         </tr>
@@ -9945,7 +9941,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback para solicitudes de eliminación
+                Callback for deletion requests
                 
             </td>
         </tr>
@@ -9983,7 +9979,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Callback cuando cambian los nodos recientes
+                Callback when recent nodes change
                 
             </td>
         </tr>
@@ -10032,7 +10028,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Editor de diagramas interactivo
+    Interactive diagram editor
 </div>
 
     
@@ -10162,7 +10158,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Obtiene el ID del usuario actual desde el token JWT.
+    Gets current user's ID from JWT token.
 </div>
 
 
@@ -10251,7 +10247,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    ID del usuario o null si no hay sesión.
+    User ID or null if no session.
 </div>
 
     
@@ -10273,7 +10269,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Obtiene un diagrama específico por ID.
+    Retrieves a specific diagram by ID.
 </div>
 
 
@@ -10370,7 +10366,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -10413,7 +10409,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                ID del diagrama.
+                Diagram ID.
                 
             </td>
         </tr>
@@ -10447,7 +10443,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -10473,7 +10469,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -10514,7 +10510,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Datos completos del diagrama.
+    Full diagram data.
 </div>
 
     
@@ -10536,7 +10532,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Obtiene todos los diagramas del usuario autenticado.
+    Retrieves all diagrams of the authenticated user.
 </div>
 
 
@@ -10633,7 +10629,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -10676,7 +10672,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Usuario autenticado.
+                Authenticated user.
                 
                     
 
@@ -10719,7 +10715,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                ID del usuario.
+                User ID.
                 
             </td>
         </tr>
@@ -10761,7 +10757,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -10787,7 +10783,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -10828,7 +10824,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Lista de diagramas del usuario.
+    List of the user's diagrams.
 </div>
 
     
@@ -10850,7 +10846,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Obtiene el perfil del usuario autenticado.
+    Retrieves the authenticated user's profile.
 </div>
 
 
@@ -10947,7 +10943,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -10990,7 +10986,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Usuario autenticado.
+                Authenticated user.
                 
                     
 
@@ -11033,7 +11029,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                ID del usuario.
+                User ID.
                 
             </td>
         </tr>
@@ -11075,7 +11071,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -11116,7 +11112,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Datos del perfil del usuario sin contraseña.
+    User profile data without password.
 </div>
 
     
@@ -11138,7 +11134,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Obtiene las estadísticas y logros del usuario autenticado.
+    Retrieves the authenticated user's statistics and achievements.
 </div>
 
 
@@ -11235,7 +11231,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -11278,7 +11274,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Usuario autenticado.
+                Authenticated user.
                 
                     
 
@@ -11321,7 +11317,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                ID del usuario.
+                User ID.
                 
             </td>
         </tr>
@@ -11363,7 +11359,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -11404,7 +11400,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Estadísticas y logros del usuario.
+    User statistics and achievements.
 </div>
 
     
@@ -11537,7 +11533,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="description">
-    Obtiene todas las plantillas del usuario autenticado.
+    Retrieves all templates of the authenticated user.
 </div>
 
 
@@ -11634,7 +11630,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -11677,7 +11673,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Usuario autenticado.
+                Authenticated user.
                 
                     
 
@@ -11720,7 +11716,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                ID del usuario.
+                User ID.
                 
             </td>
         </tr>
@@ -11762,7 +11758,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -11788,7 +11784,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -11829,7 +11825,7 @@ Gestiona la carga, edición, guardado y exportación de diagramas
 
 
 <div class="param-desc">
-    Lista de plantillas del usuario.
+    List of the user's templates.
 </div>
 
     
@@ -12176,7 +12172,7 @@ Muestra información sobre la plataforma y opciones para registrarse o iniciar s
 
 
 <div class="param-desc">
-    El componente de la página de inicio.
+    The home page component.
 </div>
 
     
@@ -12463,7 +12459,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
 
 
 <div class="description">
-    Componente para importar diagramas desde archivos JSON con validación y preview
+    Component to import diagrams from JSON files with validation and preview
 </div>
 
 
@@ -12560,7 +12556,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -12603,7 +12599,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
             
 
             <td class="description last">
-                Controla la visibilidad del modal
+                Controls the visibility of the modal
                 
             </td>
         </tr>
@@ -12629,7 +12625,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
             
 
             <td class="description last">
-                Callback ejecutado al cerrar el modal
+                Callback executed when closing the modal
                 
             </td>
         </tr>
@@ -12655,7 +12651,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
             
 
             <td class="description last">
-                Callback ejecutado al importar el diagrama
+                Callback executed when importing the diagram
                 
             </td>
         </tr>
@@ -12681,7 +12677,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
             
 
             <td class="description last">
-                Objeto para mostrar notificaciones
+                Object to display notifications
                 
             </td>
         </tr>
@@ -12733,7 +12729,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
 
 
 <div class="param-desc">
-    Modal de importación o null si está cerrado
+    Import modal or null if closed
 </div>
 
     
@@ -12755,7 +12751,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
 
 
 <div class="description">
-    Se valida que el archivo tenga la extensión correcta.
+    Validates that the file has the correct extension.
 </div>
 
 
@@ -12852,7 +12848,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
             
 
             <td class="description last">
-                Nombre del archivo
+                File name
                 
             </td>
         </tr>
@@ -12911,7 +12907,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
 
 
 <div class="description">
-    Se verifica si la versión es compatible.
+    Verifies if the version is compatible.
 </div>
 
 
@@ -13008,7 +13004,7 @@ Incluye capacidad de redimensionado y eliminación cuando está seleccionado.
             
 
             <td class="description last">
-                Versión a verificar
+                Version to verify
                 
             </td>
         </tr>
@@ -13154,7 +13150,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
 
 
 <div class="param-desc">
-    Estructura base de la aplicación con Navbar, Outlet y Footer
+    Base application structure with Navbar, Outlet and Footer
 </div>
 
     
@@ -13176,7 +13172,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
 
 
 <div class="description">
-    Componente de inicio de sesión con validación de formulario
+    Login component with form validation
 </div>
 
 
@@ -13262,7 +13258,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
 
 
 <div class="param-desc">
-    Formulario de login con validación y gestión de errores
+    Login form with validation and error handling
 </div>
 
     
@@ -13284,7 +13280,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
 
 
 <div class="description">
-    Autentica un usuario existente y genera un token JWT.
+    Authenticates an existing user and generates a JWT.
 </div>
 
 
@@ -13381,7 +13377,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -13424,7 +13420,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
             
 
             <td class="description last">
-                Credenciales del usuario.
+                User credentials.
                 
                     
 
@@ -13467,7 +13463,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
             
 
             <td class="description last">
-                Email del usuario.
+                User email.
                 
             </td>
         </tr>
@@ -13493,7 +13489,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
             
 
             <td class="description last">
-                Contraseña del usuario.
+                User password.
                 
             </td>
         </tr>
@@ -13519,7 +13515,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
             
 
             <td class="description last">
-                Si es verdadero, el token dura 30 días.
+                If true, token lasts 30 days.
                 
             </td>
         </tr>
@@ -13561,7 +13557,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -13587,7 +13583,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
             
 
             <td class="description last">
-                Función middleware siguiente.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -13628,7 +13624,7 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
 
 
 <div class="param-desc">
-    Token JWT y datos del usuario autenticado.
+    JWT token and authenticated user data.
 </div>
 
     
@@ -13650,8 +13646,8 @@ Envuelve la barra de navegación, contenido dinámico y pie de página
 
 
 <div class="description">
-    Cierra la sesión del usuario.
-En un sistema basado en JWT, el cierre de sesión se maneja eliminando el token en el cliente.
+    Logs out the user.
+In a JWT-based system, logout is handled by removing the token on the client.
 </div>
 
 
@@ -13748,7 +13744,7 @@ En un sistema basado en JWT, el cierre de sesión se maneja eliminando el token 
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
             </td>
         </tr>
@@ -13774,7 +13770,7 @@ En un sistema basado en JWT, el cierre de sesión se maneja eliminando el token 
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -13800,7 +13796,7 @@ En un sistema basado en JWT, el cierre de sesión se maneja eliminando el token 
             
 
             <td class="description last">
-                Función middleware siguiente.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -13841,7 +13837,7 @@ En un sistema basado en JWT, el cierre de sesión se maneja eliminando el token 
 
 
 <div class="param-desc">
-    Mensaje de confirmación de cierre de sesión.
+    Confirmation message for logout.
 </div>
 
     
@@ -14074,9 +14070,9 @@ En un sistema basado en JWT, el cierre de sesión se maneja eliminando el token 
 
 
 <div class="description">
-    Componente de barra de navegación principal de la aplicación.
-Proporciona navegación entre páginas y gestión de autenticación de usuario.
-Incluye menú responsive para dispositivos móviles y menú desplegable de usuario.
+    Main navigation bar component of the application.
+Provides navigation between pages and user authentication management.
+Includes responsive menu for mobile devices and user dropdown menu.
 </div>
 
 
@@ -14162,7 +14158,7 @@ Incluye menú responsive para dispositivos móviles y menú desplegable de usuar
 
 
 <div class="param-desc">
-    Elemento de navegación con enlaces y opciones de usuario
+    Navigation element with links and user options
 </div>
 
     
@@ -14184,8 +14180,8 @@ Incluye menú responsive para dispositivos móviles y menú desplegable de usuar
 
 
 <div class="description">
-    Componente modal para crear un nuevo diagrama.
-Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
+    Modal component for creating a new diagram.
+Allows creating diagrams from scratch, from templates, or by importing JSON data.
 </div>
 
 
@@ -14282,7 +14278,7 @@ Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -14325,7 +14321,7 @@ Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
             
 
             <td class="description last">
-                Indica si el modal está abierto
+                Whether the modal is open
                 
             </td>
         </tr>
@@ -14351,7 +14347,7 @@ Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
             
 
             <td class="description last">
-                Función callback para cerrar el modal
+                Callback function to close the modal
                 
             </td>
         </tr>
@@ -14377,7 +14373,7 @@ Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
             
 
             <td class="description last">
-                Función callback ejecutada cuando se crea un diagrama
+                Callback function executed when a diagram is created
                 
             </td>
         </tr>
@@ -14406,7 +14402,7 @@ Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
             
 
             <td class="description last">
-                Nodos iniciales para crear desde plantilla
+                Initial nodes for creating from template
                 
             </td>
         </tr>
@@ -14435,7 +14431,7 @@ Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
             
 
             <td class="description last">
-                Conexiones iniciales para crear desde plantilla
+                Initial connections for creating from template
                 
             </td>
         </tr>
@@ -14487,7 +14483,7 @@ Permite crear diagramas desde cero, desde plantillas o importando datos JSON.
 
 
 <div class="param-desc">
-    Elemento modal o null si está cerrado
+    Modal element or null if closed
 </div>
 
     
@@ -14909,9 +14905,9 @@ Permite definir título y descripción para plantillas reutilizables.
 
 
 <div class="description">
-    Componente popup que muestra la descripción e imagen de un nodo.
-Se posiciona automáticamente cerca del nodo, ajustándose al espacio disponible.
-Incluye soporte para dispositivos móviles y táctiles.
+    Popup component that displays a node's description and image.
+Automatically positions itself near the node, adjusting to available space.
+Includes support for mobile and touch devices.
 </div>
 
 
@@ -15008,7 +15004,7 @@ Incluye soporte para dispositivos móviles y táctiles.
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -15051,7 +15047,7 @@ Incluye soporte para dispositivos móviles y táctiles.
             
 
             <td class="description last">
-                Indica si el popup está abierto
+                Whether the popup is open
                 
             </td>
         </tr>
@@ -15077,7 +15073,7 @@ Incluye soporte para dispositivos móviles y táctiles.
             
 
             <td class="description last">
-                Función callback para cerrar el popup
+                Callback function to close the popup
                 
             </td>
         </tr>
@@ -15103,7 +15099,7 @@ Incluye soporte para dispositivos móviles y táctiles.
             
 
             <td class="description last">
-                Objeto del nodo con sus datos (título, descripción, imagen)
+                Node object with its data (title, description, image)
                 
             </td>
         </tr>
@@ -15129,7 +15125,7 @@ Incluye soporte para dispositivos móviles y táctiles.
             
 
             <td class="description last">
-                Objeto con la posición del nodo (top, left, bottom, width)
+                Object with node position (top, left, bottom, width)
                 
             </td>
         </tr>
@@ -15181,7 +15177,7 @@ Incluye soporte para dispositivos móviles y táctiles.
 
 
 <div class="param-desc">
-    Elemento popup o null si está cerrado o sin descripción
+    Popup element or null if closed or without description
 </div>
 
     
@@ -15203,8 +15199,8 @@ Incluye soporte para dispositivos móviles y táctiles.
 
 
 <div class="description">
-    Componente modal para editar las propiedades de un nodo del diagrama.
-Permite modificar título, descripción, tipo e imagen asociada al nodo.
+    Modal component for editing diagram node properties.
+Allows modifying title, description, type, and associated image of a node.
 </div>
 
 
@@ -15301,7 +15297,7 @@ Permite modificar título, descripción, tipo e imagen asociada al nodo.
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -15344,7 +15340,7 @@ Permite modificar título, descripción, tipo e imagen asociada al nodo.
             
 
             <td class="description last">
-                Indica si el modal está abierto
+                Whether the modal is open
                 
             </td>
         </tr>
@@ -15370,7 +15366,7 @@ Permite modificar título, descripción, tipo e imagen asociada al nodo.
             
 
             <td class="description last">
-                Función callback para cerrar el modal
+                Callback function to close the modal
                 
             </td>
         </tr>
@@ -15396,7 +15392,7 @@ Permite modificar título, descripción, tipo e imagen asociada al nodo.
             
 
             <td class="description last">
-                Objeto del nodo a editar con sus datos
+                Node object to edit with its data
                 
             </td>
         </tr>
@@ -15422,7 +15418,7 @@ Permite modificar título, descripción, tipo e imagen asociada al nodo.
             
 
             <td class="description last">
-                Función callback para guardar los cambios del nodo
+                Callback function to save node changes
                 
             </td>
         </tr>
@@ -15448,7 +15444,7 @@ Permite modificar título, descripción, tipo e imagen asociada al nodo.
             
 
             <td class="description last">
-                Función callback para eliminar el nodo
+                Callback function to delete the node
                 
             </td>
         </tr>
@@ -15500,7 +15496,7 @@ Permite modificar título, descripción, tipo e imagen asociada al nodo.
 
 
 <div class="param-desc">
-    Elemento modal o null si está cerrado
+    Modal element or null if closed
 </div>
 
     
@@ -15820,7 +15816,7 @@ Muestra un mensaje amigable cuando el usuario intenta acceder a una ruta inexist
 
 
 <div class="param-desc">
-    El componente de la página de error 404.
+    The 404 error page component.
 </div>
 
     
@@ -16019,8 +16015,8 @@ Uso:
 
 
 <div class="description">
-    Página de perfil del usuario.
-Permite al usuario ver y editar su información personal, estadísticas y juegos favoritos.
+    User profile page.
+Allows the user to view and edit their personal information, statistics, and favorite games.
 </div>
 
 
@@ -16106,7 +16102,7 @@ Permite al usuario ver y editar su información personal, estadísticas y juegos
 
 
 <div class="param-desc">
-    El componente de la página de perfil.
+    The profile page component.
 </div>
 
     
@@ -16128,9 +16124,9 @@ Permite al usuario ver y editar su información personal, estadísticas y juegos
 
 
 <div class="description">
-    Componente de página de registro de nuevos usuarios.
-Proporciona un formulario completo con validación para crear una cuenta nueva.
-Incluye campos para nombre de usuario, correo, contraseña y aceptación de términos.
+    Registration page component for new users.
+Provides a complete form with validation to create a new account.
+Includes fields for username, email, password and terms acceptance.
 </div>
 
 
@@ -16216,7 +16212,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 
 
 <div class="param-desc">
-    Elemento de página de registro
+    Registration page element
 </div>
 
     
@@ -16238,7 +16234,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 
 
 <div class="description">
-    Registra un nuevo usuario en la aplicación.
+    Registers a new user in the application.
 </div>
 
 
@@ -16335,7 +16331,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -16378,7 +16374,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Datos del usuario.
+                User data.
                 
                     
 
@@ -16421,7 +16417,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Nombre de usuario único (mínimo 3 caracteres).
+                Unique username (minimum 3 characters).
                 
             </td>
         </tr>
@@ -16447,7 +16443,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Email único en formato válido.
+                Unique email in valid format.
                 
             </td>
         </tr>
@@ -16473,7 +16469,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Contraseña (mínimo 8 caracteres).
+                Password (minimum 8 characters).
                 
             </td>
         </tr>
@@ -16499,7 +16495,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Si es verdadero, el token dura 30 días.
+                If true, token lasts 30 days.
                 
             </td>
         </tr>
@@ -16541,7 +16537,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -16567,7 +16563,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Función middleware siguiente.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -16608,7 +16604,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 
 
 <div class="param-desc">
-    Token JWT y datos del usuario registrado.
+    JWT token and the registered user data.
 </div>
 
     
@@ -16630,7 +16626,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 
 
 <div class="description">
-    Envía un email de verificación al usuario para confirmar su dirección de correo.
+    Send an account verification email to the user.
 </div>
 
 
@@ -16727,7 +16723,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Email del usuario.
+                The user's email address.
                 
             </td>
         </tr>
@@ -16753,7 +16749,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Nombre del usuario.
+                The user's display name.
                 
             </td>
         </tr>
@@ -16779,7 +16775,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Token único de verificación.
+                Unique verification token.
                 
             </td>
         </tr>
@@ -16807,7 +16803,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 <dl>
     <dt>
         <div class="param-desc">
-        Si hay error al enviar el email.
+        If sending the email fails.
         </div>
     </dt>
     <dd></dd>
@@ -16852,7 +16848,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 
 
 <div class="param-desc">
-    Objeto con success (boolean) y messageId del email enviado.
+    Object with success (boolean) and the sent messageId.
 </div>
 
     
@@ -16874,7 +16870,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 
 
 <div class="description">
-    Envía un email de bienvenida al usuario después de que haya verificado su cuenta.
+    Send a welcome email to the user after they have verified their account.
 </div>
 
 
@@ -16971,7 +16967,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Email del usuario.
+                The user's email address.
                 
             </td>
         </tr>
@@ -16997,7 +16993,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
             
 
             <td class="description last">
-                Nombre del usuario.
+                The user's display name.
                 
             </td>
         </tr>
@@ -17025,7 +17021,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 <dl>
     <dt>
         <div class="param-desc">
-        Si hay error al enviar el email.
+        If sending the email fails.
         </div>
     </dt>
     <dd></dd>
@@ -17070,7 +17066,7 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 
 
 <div class="param-desc">
-    Promesa que se resuelve al enviar el email.
+    Resolves when the email has been sent.
 </div>
 
     
@@ -17092,8 +17088,8 @@ Incluye campos para nombre de usuario, correo, contraseña y aceptación de tér
 
 
 <div class="description">
-    Componente de barra lateral de la aplicación.
-Renderiza un elemento aside vacío para la estructura de la interfaz.
+    Application sidebar component.
+Renders an empty aside element for interface structure.
 </div>
 
 
@@ -17179,7 +17175,7 @@ Renderiza un elemento aside vacío para la estructura de la interfaz.
 
 
 <div class="param-desc">
-    Elemento aside de barra lateral
+    Sidebar aside element
 </div>
 
     
@@ -17372,7 +17368,7 @@ Muestra el estado de los servicios y componentes de BossFlow.
 
 
 <div class="param-desc">
-    El componente de la página de estado.
+    The status page component.
 </div>
 
     
@@ -17711,9 +17707,9 @@ Diferencia entre plantillas del sistema y plantillas de usuario.
 
 
 <div class="description">
-    Componente que muestra una lista de plantillas de diagramas.
-Gestiona diferentes estados: carga, error, vacío y lista con plantillas.
-Incluye confirmación modal antes de usar una plantilla.
+    Component that displays a list of diagram templates.
+Manages different states: loading, error, empty and list with templates.
+Includes modal confirmation before using a template.
 </div>
 
 
@@ -17810,7 +17806,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -17853,7 +17849,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Array de plantillas a mostrar
+                Array of templates to display
                 
             </td>
         </tr>
@@ -17879,7 +17875,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Indica si las plantillas están cargando
+                Indicates if templates are loading
                 
             </td>
         </tr>
@@ -17905,7 +17901,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Mensaje de error si ocurre algún problema
+                Error message if any problem occurs
                 
             </td>
         </tr>
@@ -17931,7 +17927,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Callback al usar una plantilla
+                Callback when using a template
                 
             </td>
         </tr>
@@ -17957,7 +17953,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Callback al editar una plantilla
+                Callback when editing a template
                 
             </td>
         </tr>
@@ -17983,7 +17979,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Callback al eliminar una plantilla
+                Callback when deleting a template
                 
             </td>
         </tr>
@@ -18009,7 +18005,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Callback para reintentar la carga tras un error
+                Callback to retry loading after an error
                 
             </td>
         </tr>
@@ -18035,7 +18031,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Callback para crear una nueva plantilla
+                Callback to create a new template
                 
             </td>
         </tr>
@@ -18061,7 +18057,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Indica si mostrar el botón de crear plantilla
+                Indicates if the create template button should be shown
                 
             </td>
         </tr>
@@ -18087,7 +18083,7 @@ Incluye confirmación modal antes de usar una plantilla.
             
 
             <td class="description last">
-                Indica si son plantillas del sistema
+                Indicates if they are system templates
                 
             </td>
         </tr>
@@ -18136,7 +18132,7 @@ Incluye confirmación modal antes de usar una plantilla.
 
 
 <div class="param-desc">
-    Elemento de lista de plantillas
+    Template list element
 </div>
 
     
@@ -18158,8 +18154,8 @@ Incluye confirmación modal antes de usar una plantilla.
 
 
 <div class="description">
-    Página de plantillas de BossFlow.
-Muestra plantillas predeterminadas y permite al usuario crear y gestionar sus propias plantillas.
+    BossFlow templates page.
+Displays default templates and allows users to create and manage their own templates.
 </div>
 
 
@@ -18245,7 +18241,7 @@ Muestra plantillas predeterminadas y permite al usuario crear y gestionar sus pr
 
 
 <div class="param-desc">
-    El componente de la página de plantillas.
+    The templates page component.
 </div>
 
     
@@ -18351,9 +18347,9 @@ Muestra los términos y condiciones completos para el uso de BossFlow.
 
 
 <div class="description">
-    Componente de notificación toast temporal.
-Muestra mensajes emergentes con diferentes tipos y se cierra automáticamente.
-Incluye iconos según el tipo de mensaje y botón de cierre manual.
+    Temporary toast notification component.
+Displays popup messages with different types and closes automatically.
+Includes icons according to message type and manual close button.
 </div>
 
 
@@ -18450,7 +18446,7 @@ Incluye iconos según el tipo de mensaje y botón de cierre manual.
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -18493,7 +18489,7 @@ Incluye iconos según el tipo de mensaje y botón de cierre manual.
             
 
             <td class="description last">
-                Mensaje a mostrar en la notificación
+                Message to display in the notification
                 
             </td>
         </tr>
@@ -18519,7 +18515,7 @@ Incluye iconos según el tipo de mensaje y botón de cierre manual.
             
 
             <td class="description last">
-                Tipo de notificación (success, error, warning, info)
+                Notification type (success, error, warning, info)
                 
             </td>
         </tr>
@@ -18545,7 +18541,7 @@ Incluye iconos según el tipo de mensaje y botón de cierre manual.
             
 
             <td class="description last">
-                Función callback para cerrar la notificación
+                Callback function to close the notification
                 
             </td>
         </tr>
@@ -18571,7 +18567,7 @@ Incluye iconos según el tipo de mensaje y botón de cierre manual.
             
 
             <td class="description last">
-                Duración en milisegundos antes de cerrarse automáticamente
+                Duration in milliseconds before closing automatically
                 
             </td>
         </tr>
@@ -18620,7 +18616,7 @@ Incluye iconos según el tipo de mensaje y botón de cierre manual.
 
 
 <div class="param-desc">
-    Elemento de notificación toast
+    Toast notification element
 </div>
 
     
@@ -18642,9 +18638,9 @@ Incluye iconos según el tipo de mensaje y botón de cierre manual.
 
 
 <div class="description">
-    Componente de barra de herramientas de la aplicación.
-Proporciona botón de menú para alternar la visibilidad del panel lateral.
-Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
+    Application toolbar component.
+Provides a menu button to toggle sidebar visibility.
+Especially useful on small screens to show/hide the panel.
 </div>
 
 
@@ -18741,7 +18737,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -18784,7 +18780,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Función callback para alternar la visibilidad del panel lateral
+                Callback function to toggle sidebar visibility
                 
             </td>
         </tr>
@@ -18833,7 +18829,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
 
 
 <div class="param-desc">
-    Elemento de barra de herramientas
+    Toolbar element
 </div>
 
     
@@ -18855,7 +18851,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
 
 
 <div class="description">
-    Actualiza un diagrama existente del usuario autenticado.
+    Updates an existing diagram of the authenticated user.
 </div>
 
 
@@ -18952,7 +18948,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -18995,7 +18991,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                ID del diagrama a actualizar.
+                ID of the diagram to update.
                 
             </td>
         </tr>
@@ -19021,7 +19017,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Nuevos datos del diagrama.
+                New diagram data.
                 
                     
 
@@ -19064,7 +19060,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Nuevo título.
+                New title.
                 
             </td>
         </tr>
@@ -19090,7 +19086,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Nuevos nodos.
+                New nodes.
                 
             </td>
         </tr>
@@ -19116,7 +19112,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Nuevas conexiones.
+                New connections.
                 
             </td>
         </tr>
@@ -19150,7 +19146,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Usuario autenticado.
+                Authenticated user.
                 
                     
 
@@ -19193,7 +19189,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                ID del usuario.
+                User ID.
                 
             </td>
         </tr>
@@ -19235,7 +19231,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -19261,7 +19257,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -19302,7 +19298,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
 
 
 <div class="param-desc">
-    Diagrama actualizado.
+    Updated diagram.
 </div>
 
     
@@ -19324,7 +19320,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
 
 
 <div class="description">
-    Actualiza el perfil del usuario autenticado.
+    Updates the authenticated user's profile.
 </div>
 
 
@@ -19421,7 +19417,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -19464,7 +19460,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Campos a actualizar.
+                Fields to update.
                 
                     
 
@@ -19507,7 +19503,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Nuevo nombre de usuario (mínimo 3 caracteres).
+                New username (minimum 3 characters).
                 
             </td>
         </tr>
@@ -19533,7 +19529,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Nueva biografía (máximo 500 caracteres).
+                New biography (maximum 500 characters).
                 
             </td>
         </tr>
@@ -19559,7 +19555,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Nuevos juegos favoritos (máximo 10).
+                New favourite games (maximum 10).
                 
             </td>
         </tr>
@@ -19585,7 +19581,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                URL del nuevo avatar.
+                URL of the new avatar.
                 
             </td>
         </tr>
@@ -19627,7 +19623,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -19668,7 +19664,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
 
 
 <div class="param-desc">
-    Usuario actualizado sin contraseña.
+    Updated user without password.
 </div>
 
     
@@ -19690,7 +19686,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
 
 
 <div class="description">
-    Sube una imagen desde archivo en base64 o desde URL.
+    Uploads an image from a base64 file or from a URL.
 </div>
 
 
@@ -19787,7 +19783,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -19830,7 +19826,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Datos de la imagen.
+                Image data.
                 
                     
 
@@ -19873,7 +19869,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Imagen en base64.
+                Image in base64.
                 
             </td>
         </tr>
@@ -19899,7 +19895,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Nombre del archivo (opcional).
+                File name (optional).
                 
             </td>
         </tr>
@@ -19925,7 +19921,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Tipo MIME de la imagen (jpeg, png, gif, webp).
+                Image MIME type (jpeg, png, gif, webp).
                 
             </td>
         </tr>
@@ -19967,7 +19963,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -19993,7 +19989,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -20034,7 +20030,7 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
 
 
 <div class="param-desc">
-    Metadatos de la imagen subida.
+    Metadata of the uploaded image.
 </div>
 
     
@@ -20056,9 +20052,9 @@ Especialmente útil en pantallas pequeñas para mostrar/ocultar el panel.
 
 
 <div class="description">
-    Componente modal para subir imágenes desde archivo o URL.
-Permite arrastrar y soltar archivos, seleccionar desde el explorador o ingresar una URL.
-Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
+    Modal component to upload images from file or URL.
+Allows drag and drop files, select from explorer or enter a URL.
+Validates image type and size before uploading to backend.
 </div>
 
 
@@ -20155,7 +20151,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
             
 
             <td class="description last">
-                Propiedades del componente
+                Component properties
                 
                     
 
@@ -20198,7 +20194,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
             
 
             <td class="description last">
-                Indica si el modal está abierto
+                Indicates if the modal is open
                 
             </td>
         </tr>
@@ -20224,7 +20220,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
             
 
             <td class="description last">
-                Función callback para cerrar el modal
+                Callback function to close the modal
                 
             </td>
         </tr>
@@ -20250,7 +20246,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
             
 
             <td class="description last">
-                Función callback ejecutada cuando se sube una imagen exitosamente
+                Callback function executed when an image is successfully uploaded
                 
             </td>
         </tr>
@@ -20276,7 +20272,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
             
 
             <td class="description last">
-                Título del modal
+                Modal title
                 
             </td>
         </tr>
@@ -20328,7 +20324,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
 
 
 <div class="param-desc">
-    Elemento modal o null si está cerrado
+    Modal element or null if closed
 </div>
 
     
@@ -20350,7 +20346,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
 
 
 <div class="description">
-    Hook personalizado para exportar diagramas en diferentes formatos
+    Custom hook for exporting diagrams in different formats.
 </div>
 
 
@@ -20467,7 +20463,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
             
 
             <td class="description last">
-                Nombre base para los archivos exportados
+                Base name for exported files
                 
             </td>
         </tr>
@@ -20508,7 +20504,7 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
 
 
 <div class="param-desc">
-    Objeto con métodos de exportación (PNG, JSON) y referencias a SVG y PDF (desactivados)
+    Object with export methods (PNG, JSON) and references to SVG and PDF (disabled)
 </div>
 
     
@@ -20530,8 +20526,8 @@ Valida el tipo y tamaño de las imágenes antes de subirlas al backend.
 
 
 <div class="description">
-    Hook para gestionar nodos recientes
-Almacena y recupera los últimos nodos utilizados en el editor
+    Hook for managing recent nodes.
+Stores and retrieves the last nodes used in the editor.
 </div>
 
 
@@ -20617,7 +20613,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    { nodosRecientes, agregarNodoReciente, limpiarNodosRecientes }
+    { recentNodes, addRecentNode, clearRecentNodes }
 </div>
 
     
@@ -20639,7 +20635,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida la estructura completa del diagrama (nodos, edges e imágenes).
+    Validates the complete diagram structure (nodes, edges and images).
 </div>
 
 
@@ -20736,7 +20732,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Datos del diagrama.
+                Diagram data.
                 
                     
 
@@ -20779,7 +20775,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de nodos (opcional, por defecto []).
+                Array of nodes (optional, default []).
                 
             </td>
         </tr>
@@ -20805,7 +20801,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de edges (opcional, por defecto []).
+                Array of edges (optional, default []).
                 
             </td>
         </tr>
@@ -20831,7 +20827,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de imágenes (opcional, por defecto []).
+                Array of images (optional, default []).
                 
             </td>
         </tr>
@@ -20880,7 +20876,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Objeto con propiedades valid (boolean) y errors (array de strings).
+    Object with properties valid (boolean) and errors (array of strings).
 </div>
 
     
@@ -20902,7 +20898,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida la estructura de un edge (conexión entre nodos)
+    Validates the structure of an edge (connection between nodes).
 </div>
 
 
@@ -20999,7 +20995,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Edge a validar
+                Edge to validate.
                 
             </td>
         </tr>
@@ -21025,7 +21021,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de nodos para validar referencias
+                Array of nodes to validate references.
                 
             </td>
         </tr>
@@ -21088,7 +21084,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida el array de conexiones (edges).
+    Validates the array of connections (edges).
 </div>
 
 
@@ -21185,7 +21181,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de conexiones a validar.
+                Array of connections to validate.
                 
             </td>
         </tr>
@@ -21226,7 +21222,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Array de errores encontrados.
+    Array of errors found.
 </div>
 
     
@@ -21248,7 +21244,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida el array completo de conexiones (edges).
+    Validates the full array of connections (edges).
 </div>
 
 
@@ -21345,7 +21341,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de edges a validar.
+                Array of edges to validate.
                 
             </td>
         </tr>
@@ -21371,7 +21367,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de nodos para validar referencias.
+                Array of nodes to validate references.
                 
             </td>
         </tr>
@@ -21412,7 +21408,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Objeto con propiedades valid (boolean) y errors (array de strings).
+    Object with properties valid (boolean) and errors (array of strings).
 </div>
 
     
@@ -21434,7 +21430,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida los metadatos de una imagen.
+    Validates image metadata.
 </div>
 
 
@@ -21531,7 +21527,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Metadatos de la imagen a validar.
+                Image metadata to validate.
                 
                     
 
@@ -21574,7 +21570,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Nombre del archivo.
+                File name.
                 
             </td>
         </tr>
@@ -21600,7 +21596,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                URL de la imagen.
+                Image URL.
                 
             </td>
         </tr>
@@ -21626,7 +21622,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Tipo MIME (jpeg, png, gif, webp).
+                MIME type (jpeg, png, gif, webp).
                 
             </td>
         </tr>
@@ -21652,7 +21648,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Tamaño en bytes (máximo 5MB).
+                Size in bytes (maximum 5MB).
                 
             </td>
         </tr>
@@ -21686,7 +21682,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Contexto para mensajes de error.
+                Context for error messages.
                 
             </td>
         </tr>
@@ -21727,7 +21723,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Objeto con propiedades valid (boolean) y errors (array de strings).
+    Object with properties valid (boolean) and errors (array of strings).
 </div>
 
     
@@ -21749,7 +21745,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida una URL de imagen externa.
+    Validates an external image URL.
 </div>
 
 
@@ -21846,7 +21842,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Objeto de solicitud Express.
+                Express request object.
                 
                     
 
@@ -21889,7 +21885,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Datos de validación.
+                Validation data.
                 
                     
 
@@ -21932,7 +21928,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                URL de la imagen a validar.
+                URL of the image to validate.
                 
             </td>
         </tr>
@@ -21974,7 +21970,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Objeto de respuesta Express.
+                Express response object.
                 
             </td>
         </tr>
@@ -22000,7 +21996,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Middleware de siguiente en la cadena.
+                Next middleware function.
                 
             </td>
         </tr>
@@ -22041,7 +22037,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Metadatos de la imagen validada.
+    Metadata of the validated image.
 </div>
 
     
@@ -22063,7 +22059,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida la estructura completa del JSON importado.
+    Validates the complete structure of the imported JSON.
 </div>
 
 
@@ -22160,7 +22156,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Datos JSON a validar.
+                JSON data to validate.
                 
             </td>
         </tr>
@@ -22201,7 +22197,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Objeto con propiedades valid (boolean) y errors (Array).
+    Object with properties valid (boolean) and errors (Array).
 </div>
 
     
@@ -22223,7 +22219,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida la estructura de un nodo del diagrama.
+    Validates the structure of a diagram node.
 </div>
 
 
@@ -22320,7 +22316,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Nodo a validar.
+                Node to validate.
                 
                     
 
@@ -22363,7 +22359,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                ID único del nodo.
+                Unique node ID.
                 
             </td>
         </tr>
@@ -22389,7 +22385,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Tipo de nodo.
+                Node type.
                 
             </td>
         </tr>
@@ -22415,7 +22411,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Posición del nodo {x, y}.
+                Node position {x, y}.
                 
             </td>
         </tr>
@@ -22441,7 +22437,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Datos del nodo.
+                Node data.
                 
             </td>
         </tr>
@@ -22475,7 +22471,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Índice del nodo en el array.
+                Index of the node in the array.
                 
             </td>
         </tr>
@@ -22516,7 +22512,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Objeto con propiedades valid (boolean) y errors (array de strings).
+    Object with properties valid (boolean) and errors (array of strings).
 </div>
 
     
@@ -22538,7 +22534,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida el array de nodos.
+    Validates the array of nodes.
 </div>
 
 
@@ -22635,7 +22631,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de nodos a validar.
+                Array of nodes to validate.
                 
             </td>
         </tr>
@@ -22676,7 +22672,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Array de errores encontrados.
+    Array of errors found.
 </div>
 
     
@@ -22698,7 +22694,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Valida el array completo de nodos.
+    Validates the full array of nodes.
 </div>
 
 
@@ -22795,7 +22791,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
             
 
             <td class="description last">
-                Array de nodos a validar.
+                Array of nodes to validate.
                 
             </td>
         </tr>
@@ -22836,7 +22832,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="param-desc">
-    Objeto con propiedades valid (boolean) y errors (array de strings).
+    Object with properties valid (boolean) and errors (array of strings).
 </div>
 
     
@@ -22860,7 +22856,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Esquema de diagrama con nodos, edges e imágenes.
+    Diagram schema with nodes, edges and images.
 </div>
 
 
@@ -22909,7 +22905,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Título del diagrama (mínimo 3 caracteres).</td>
+            <td class="description last">Diagram title (minimum 3 characters).</td>
         </tr>
 
         
@@ -22934,7 +22930,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Descripción (máximo 500 caracteres).</td>
+            <td class="description last">Description (maximum 500 characters).</td>
         </tr>
 
         
@@ -22959,7 +22955,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">ID del usuario propietario.</td>
+            <td class="description last">Owner user ID.</td>
         </tr>
 
         
@@ -22984,7 +22980,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Si es una plantilla pública.</td>
+            <td class="description last">Whether it is a public template.</td>
         </tr>
 
         
@@ -23009,7 +23005,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Imágenes del diagrama (máximo 10).</td>
+            <td class="description last">Diagram images (maximum 10).</td>
         </tr>
 
         
@@ -23034,7 +23030,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Nodos del diagrama.</td>
+            <td class="description last">Diagram nodes.</td>
         </tr>
 
         
@@ -23059,7 +23055,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Conexiones entre nodos.</td>
+            <td class="description last">Connections between nodes.</td>
         </tr>
 
         
@@ -23138,7 +23134,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Esquema de metadatos de imagen para diagramas.
+    Image metadata schema for diagrams.
 </div>
 
 
@@ -23187,7 +23183,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Nombre del archivo.</td>
+            <td class="description last">File name.</td>
         </tr>
 
         
@@ -23212,7 +23208,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">URL de la imagen.</td>
+            <td class="description last">Image URL.</td>
         </tr>
 
         
@@ -23237,7 +23233,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Tipo MIME (jpeg, png, gif, webp).</td>
+            <td class="description last">MIME type (jpeg, png, gif, webp).</td>
         </tr>
 
         
@@ -23262,7 +23258,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Tamaño en bytes (máximo 5MB).</td>
+            <td class="description last">Size in bytes (maximum 5MB).</td>
         </tr>
 
         
@@ -23287,7 +23283,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Fecha de creación.</td>
+            <td class="description last">Creation date.</td>
         </tr>
 
         
@@ -23366,7 +23362,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
 
 <div class="description">
-    Esquema de usuario con campos de autenticación, perfil y estadísticas.
+    User schema with authentication, profile and statistics fields.
 </div>
 
 
@@ -23415,7 +23411,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Nombre de usuario único (mínimo 3 caracteres).</td>
+            <td class="description last">Unique username (minimum 3 characters).</td>
         </tr>
 
         
@@ -23440,7 +23436,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Email único validado.</td>
+            <td class="description last">Validated unique email.</td>
         </tr>
 
         
@@ -23465,7 +23461,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Contraseña hasheada (mínimo 8 caracteres).</td>
+            <td class="description last">Hashed password (minimum 8 characters).</td>
         </tr>
 
         
@@ -23490,7 +23486,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">URL del avatar (opcional).</td>
+            <td class="description last">Avatar URL (optional).</td>
         </tr>
 
         
@@ -23515,7 +23511,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Biografía del usuario (máximo 500 caracteres).</td>
+            <td class="description last">User biography (maximum 500 characters).</td>
         </tr>
 
         
@@ -23540,7 +23536,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Lista de juegos favoritos (máximo 10).</td>
+            <td class="description last">List of favourite games (maximum 10).</td>
         </tr>
 
         
@@ -23565,7 +23561,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Logros desbloqueados.</td>
+            <td class="description last">Unlocked achievements.</td>
         </tr>
 
         
@@ -23590,7 +23586,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Estadísticas del usuario.</td>
+            <td class="description last">User statistics.</td>
         </tr>
 
         
@@ -23615,7 +23611,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Si el email ha sido verificado.</td>
+            <td class="description last">Whether the email has been verified.</td>
         </tr>
 
         
@@ -23640,7 +23636,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Token para verificar email.</td>
+            <td class="description last">Token to verify email.</td>
         </tr>
 
         
@@ -23665,7 +23661,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 
             
 
-            <td class="description last">Fecha de expiración del token.</td>
+            <td class="description last">Token expiry date.</td>
         </tr>
 
         
@@ -23751,7 +23747,7 @@ Almacena y recupera los últimos nodos utilizados en el editor
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 16 2026 11:19:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 30 2026 09:43:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

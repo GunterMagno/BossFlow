@@ -53,65 +53,65 @@ import {
 import './Navbar.css';
 
 /**
- * Componente de barra de navegación principal de la aplicación.
- * Proporciona navegación entre páginas y gestión de autenticación de usuario.
- * Incluye menú responsive para dispositivos móviles y menú desplegable de usuario.
+ * Main navigation bar component of the application.
+ * Provides navigation between pages and user authentication management.
+ * Includes responsive menu for mobile devices and user dropdown menu.
  *
- * @returns {JSX.Element} Elemento de navegación con enlaces y opciones de usuario
+ * @returns {JSX.Element} Navigation element with links and user options
  */
 function Navbar() {
-  const [menuAbierto, setMenuAbierto] = useState(false);
-  const [menuMovilAbierto, setMenuMovilAbierto] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const menuRef = useRef(null);
 
   /**
-   * Alterna el estado de visibilidad del menú desplegable de usuario en escritorio.
+   * Toggles the visibility state of the desktop user dropdown menu.
    */
-  const alternarMenu = () => {
-    setMenuAbierto(!menuAbierto);
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   /**
-   * Alterna el estado de visibilidad del menú hamburguesa en dispositivos móviles.
+   * Toggles the visibility state of the mobile hamburger menu.
    */
-  const alternarMenuMovil = () => {
-    setMenuMovilAbierto(!menuMovilAbierto);
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
   };
 
   /**
-   * Cierra la sesión del usuario actual.
-   * Cierra todos los menús abiertos, ejecuta el logout y redirige a la página de inicio.
+   * Logs out the current user.
+   * Closes all open menus, executes logout and redirects to home page.
    */
-  const cerrarSesion = () => {
-    console.log('Cerrando sesión...');
-    setMenuAbierto(false);
-    setMenuMovilAbierto(false);
+  const handleLogout = () => {
+    console.log('Logging out...');
+    setMenuOpen(false);
+    setMobileMenuOpen(false);
     logout();
     navigate('/');
   };
 
   useEffect(() => {
     /**
-     * Maneja los clics fuera del menú desplegable para cerrarlo automáticamente.
+     * Handles clicks outside the dropdown menu to close it automatically.
      *
-     * @param {MouseEvent} event - Evento de clic del ratón
+     * @param {MouseEvent} event - Mouse click event
      */
     const handleClickOutside = (event) => {
       if (menuRef.current &amp;&amp; !menuRef.current.contains(event.target)) {
-        setMenuAbierto(false);
+        setMenuOpen(false);
       }
     };
 
-    if (menuAbierto) {
+    if (menuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [menuAbierto]);
+  }, [menuOpen]);
 
   return (
     &lt;header className="encabezado">
@@ -122,20 +122,20 @@ function Navbar() {
 
         &lt;button
           className="navbar__hamburguesa"
-          onClick={alternarMenuMovil}
+          onClick={toggleMobileMenu}
           aria-label="Menú"
         >
-          {menuMovilAbierto ? &lt;FiX /> : &lt;FiMenu />}
+          {mobileMenuOpen ? &lt;FiX /> : &lt;FiMenu />}
         &lt;/button>
 
         &lt;ul
-          className={`navbar__enlaces ${menuMovilAbierto ? 'navbar__enlaces--visible' : ''}`}
+          className={`navbar__enlaces ${mobileMenuOpen ? 'navbar__enlaces--visible' : ''}`}
         >
           &lt;li className="navbar__elemento">
             &lt;Link
               to="/"
               className="navbar__enlace"
-              onClick={() => setMenuMovilAbierto(false)}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Inicio
             &lt;/Link>
@@ -144,7 +144,7 @@ function Navbar() {
             &lt;Link
               to="/dashboard"
               className="navbar__enlace"
-              onClick={() => setMenuMovilAbierto(false)}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Dashboard
             &lt;/Link>
@@ -153,7 +153,7 @@ function Navbar() {
             &lt;Link
               to="/community"
               className="navbar__enlace"
-              onClick={() => setMenuMovilAbierto(false)}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Comunidad
             &lt;/Link>
@@ -165,14 +165,14 @@ function Navbar() {
                 &lt;Link
                   to="/login"
                   className="navbar__boton-login"
-                  onClick={() => setMenuMovilAbierto(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Iniciar sesión
                 &lt;/Link>
                 &lt;Link
                   to="/register"
                   className="navbar__boton-registro"
-                  onClick={() => setMenuMovilAbierto(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Registrarse
                 &lt;/Link>
@@ -183,19 +183,19 @@ function Navbar() {
                 &lt;Link
                   to="/profile"
                   className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   &lt;FiUser /> Perfil
                 &lt;/Link>
                 &lt;Link
                   to="/settings"
                   className="navbar__enlace"
-                  onClick={() => setMenuMovilAbierto(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   &lt;FiSettings /> Configuración
                 &lt;/Link>
                 &lt;button
-                  onClick={cerrarSesion}
+                  onClick={handleLogout}
                   className="navbar__enlace navbar__enlace--logout"
                 >
                   &lt;FiLogOut /> Cerrar sesión
@@ -217,7 +217,7 @@ function Navbar() {
             &lt;/section>
           ) : (
             &lt;>
-              &lt;button className="navbar__usuario" onClick={alternarMenu}>
+              &lt;button className="navbar__usuario" onClick={toggleMenu}>
                 &lt;span className="navbar__avatar">
                   {user?.avatar ? (
                     &lt;img src={user.avatar} alt={user.username} className="navbar__avatar-img" />
@@ -229,13 +229,13 @@ function Navbar() {
                   {user?.username || user?.email}
                 &lt;/span>
                 &lt;span
-                  className={`navbar__flecha ${menuAbierto ? 'navbar__flecha--arriba' : ''}`}
+                  className={`navbar__flecha ${menuOpen ? 'navbar__flecha--arriba' : ''}`}
                 >
                   &lt;FiChevronDown />
                 &lt;/span>
               &lt;/button>
 
-              {menuAbierto &amp;&amp; (
+              {menuOpen &amp;&amp; (
                 &lt;ul className="menu-desplegable">
                   &lt;li className="menu-desplegable__elemento">
                     &lt;Link to="/profile" className="menu-desplegable__enlace">
@@ -256,7 +256,7 @@ function Navbar() {
                   &lt;li className="menu-desplegable__separador">&lt;/li>
                   &lt;li className="menu-desplegable__elemento">
                     &lt;button
-                      onClick={cerrarSesion}
+                      onClick={handleLogout}
                       className="menu-desplegable__enlace menu-desplegable__enlace--cerrar"
                     >
                       &lt;span className="menu-desplegable__icono">
@@ -288,7 +288,7 @@ export default Navbar;
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 16 2026 11:19:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 30 2026 09:43:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

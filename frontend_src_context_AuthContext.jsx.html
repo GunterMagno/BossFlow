@@ -46,28 +46,28 @@ import authService from '../services/authService';
 const AuthContext = createContext(null);
 
 /**
- * Hook personalizado para acceder al contexto de autenticación.
- * Proporciona acceso a los datos y funciones de autenticación del usuario.
+ * Custom hook to access the authentication context.
+ * Provides access to user authentication data and functions.
  *
- * @throws {Error} Si se usa fuera de un AuthProvider
- * @returns {Object} Objeto con datos y métodos de autenticación
+ * @throws {Error} If used outside an AuthProvider
+ * @returns {Object} Object with authentication data and methods
  */
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
-        throw new Error('useAuth debe ser usado dentro de un AuthProvider');
+        throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;
 };
 
 /**
- * Componente proveedor del contexto de autenticación.
- * Gestiona el estado de autenticación, login, registro y cierre de sesión de usuarios.
- * Verifica automáticamente la autenticación al cargar y maneja tokens expirados.
+ * Authentication context provider component.
+ * Manages authentication state, login, registration, and user logout.
+ * Automatically verifies authentication on load and handles expired tokens.
  *
- * @param {Object} props - Propiedades del componente
- * @param {React.ReactNode} props.children - Componentes hijos envueltos por el proveedor
- * @returns {JSX.Element} Proveedor del contexto de autenticación
+ * @param {Object} props - Component properties
+ * @param {React.ReactNode} props.children - Child components wrapped by the provider
+ * @returns {JSX.Element} Authentication context provider
  */
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -78,11 +78,11 @@ export const AuthProvider = ({ children }) => {
         checkAuth();
 
         /**
-         * Maneja el evento de token expirado.
-         * Cierra la sesión del usuario y redirige a la página de login.
+         * Handles expired token event.
+         * Logs out the user and redirects to login page.
          */
         const handleTokenExpired = () => {
-            console.log('Token expirado detectado, cerrando sesión...');
+            console.log('Expired token detected, logging out...');
             logout();
             window.location.href = '/login';
         };
@@ -95,10 +95,10 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     /**
-     * Verifica la autenticación del usuario desde localStorage.
-     * Recupera los datos del usuario y token guardados, actualizando el estado si son válidos.
+     * Verifies user authentication from localStorage.
+     * Retrieves stored user data and token, updating state if valid.
      *
-     * @returns {Promise&lt;void>} Promesa que resuelve cuando se completa la verificación
+     * @returns {Promise&lt;void>} Promise that resolves when verification is complete
      */
     const checkAuth = async () => {
         try {
@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }) => {
                 api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             }
         } catch (error) {
-            console.error('Error al verificar autenticación:', error);
+            console.error('Error verifying authentication:', error);
             localStorage.removeItem('user');
             localStorage.removeItem('token');
         } finally {
@@ -122,19 +122,19 @@ export const AuthProvider = ({ children }) => {
     };
 
     /**
-     * Inicia sesión de un usuario con correo y contraseña.
-     * Guarda los datos del usuario y token en localStorage y actualiza el estado de autenticación.
+     * Logs in a user with email and password.
+     * Saves user data and token to localStorage and updates authentication state.
      *
-     * @param {string} correo - Correo electrónico del usuario
-     * @param {string} contrasena - Contraseña del usuario
-     * @param {boolean} recordarme - Indica si se debe recordar la sesión
-     * @returns {Promise&lt;Object>} Promesa que resuelve con resultado del login (success, user o error)
+     * @param {string} email - User's email address
+     * @param {string} password - User's password
+     * @param {boolean} rememberMe - Whether to remember the session
+     * @returns {Promise&lt;Object>} Promise that resolves with login result (success, user or error)
      */
-    const login = async (correo, contrasena, recordarme = false) => {
+    const login = async (email, password, rememberMe = false) => {
         try {
             setLoading(true);
 
-            const { user: userData, token } = await authService.login(correo, contrasena, recordarme);
+            const { user: userData, token } = await authService.login(email, password, rememberMe);
 
             localStorage.setItem('user', JSON.stringify(userData));
             localStorage.setItem('token', token);
@@ -146,7 +146,7 @@ export const AuthProvider = ({ children }) => {
 
             return { success: true, user: userData };
         } catch (error) {
-            console.error('Error en login:', error);
+            console.error('Error in login:', error);
             const errorMessage = error.response?.data?.error || 'Error al iniciar sesión. Inténtalo de nuevo.';
             return { success: false, error: errorMessage };
         } finally {
@@ -155,24 +155,24 @@ export const AuthProvider = ({ children }) => {
     };
 
     /**
-     * Registra un nuevo usuario en el sistema.
-     * Guarda los datos del usuario y token en localStorage tras el registro exitoso.
+     * Registers a new user in the system.
+     * Saves user data and token to localStorage after successful registration.
      *
-     * @param {string} nombreUsuario - Nombre de usuario para el nuevo registro
-     * @param {string} correo - Correo electrónico del usuario
-     * @param {string} contrasena - Contraseña del usuario
-     * @param {boolean} recordarme - Indica si se debe recordar la sesión
-     * @returns {Promise&lt;Object>} Promesa que resuelve con resultado del registro (success, user o error)
+     * @param {string} username - Username for the new registration
+     * @param {string} email - User's email address
+     * @param {string} password - User's password
+     * @param {boolean} rememberMe - Whether to remember the session
+     * @returns {Promise&lt;Object>} Promise that resolves with registration result (success, user or error)
      */
-    const register = async (nombreUsuario, correo, contrasena, recordarme = false) => {
+    const register = async (username, email, password, rememberMe = false) => {
         try {
             setLoading(true);
 
             const { user: userData, token } = await authService.register(
-                nombreUsuario,
-                correo,
-                contrasena,
-                recordarme
+                username,
+                email,
+                password,
+                rememberMe
             );
 
             localStorage.setItem('user', JSON.stringify(userData));
@@ -185,7 +185,7 @@ export const AuthProvider = ({ children }) => {
 
             return { success: true, user: userData };
         } catch (error) {
-            console.error('Error en register:', error);
+            console.error('Error in register:', error);
             const errorMessage = error.response?.data?.error || 'Error al registrarse. Inténtalo de nuevo.';
             return { success: false, error: errorMessage };
         } finally {
@@ -194,10 +194,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     /**
-     * Cierra la sesión del usuario actual.
-     * Elimina los datos del usuario y token de localStorage y limpia el estado de autenticación.
+     * Logs out the current user.
+     * Removes user data and token from localStorage and clears authentication state.
      *
-     * @returns {Object} Objeto con el resultado del logout (success o error)
+     * @returns {Object} Object with logout result (success or error)
      */
     const logout = () => {
         try {
@@ -211,7 +211,7 @@ export const AuthProvider = ({ children }) => {
 
             return { success: true };
         } catch (error) {
-            console.error('Error en logout:', error);
+            console.error('Error in logout:', error);
             return { success: false, error: 'Error al cerrar sesión' };
         }
     };
@@ -245,7 +245,7 @@ export default AuthContext;
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 16 2026 11:19:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 30 2026 09:43:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

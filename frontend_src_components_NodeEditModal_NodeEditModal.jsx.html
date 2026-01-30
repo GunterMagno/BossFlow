@@ -45,16 +45,16 @@ import { FiX, FiTrash2, FiImage } from 'react-icons/fi';
 import UploadImageModal from '../UploadImageModal/UploadImageModal';
 
 /**
- * Componente modal para editar las propiedades de un nodo del diagrama.
- * Permite modificar título, descripción, tipo e imagen asociada al nodo.
+ * Modal component for editing diagram node properties.
+ * Allows modifying title, description, type, and associated image of a node.
  *
- * @param {Object} props - Propiedades del componente
- * @param {boolean} props.isOpen - Indica si el modal está abierto
- * @param {Function} props.onClose - Función callback para cerrar el modal
- * @param {Object} props.node - Objeto del nodo a editar con sus datos
- * @param {Function} props.onSave - Función callback para guardar los cambios del nodo
- * @param {Function} props.onDelete - Función callback para eliminar el nodo
- * @returns {JSX.Element|null} Elemento modal o null si está cerrado
+ * @param {Object} props - Component properties
+ * @param {boolean} props.isOpen - Whether the modal is open
+ * @param {Function} props.onClose - Callback function to close the modal
+ * @param {Object} props.node - Node object to edit with its data
+ * @param {Function} props.onSave - Callback function to save node changes
+ * @param {Function} props.onDelete - Callback function to delete the node
+ * @returns {JSX.Element|null} Modal element or null if closed
  */
 function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   const [formData, setFormData] = useState({
@@ -91,10 +91,10 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   }, [isOpen, node]);
 
   /**
-   * Maneja los cambios en los campos del formulario.
-   * Actualiza el estado del formulario y limpia el error del campo modificado.
+   * Handles changes in form fields.
+   * Updates the form state and clears the error for the modified field.
    *
-   * @param {Event} e - Evento de cambio del input
+   * @param {Event} e - Input change event
    */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -112,10 +112,10 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   };
 
   /**
-   * Valida los campos del formulario antes de guardar.
-   * Verifica título, descripción y tipo del nodo según las reglas establecidas.
+   * Validates form fields before saving.
+   * Checks title, description, and node type according to established rules.
    *
-   * @returns {boolean} true si el formulario es válido, false en caso contrario
+   * @returns {boolean} true if form is valid, false otherwise
    */
   const validateForm = () => {
     const newErrors = {};
@@ -141,10 +141,10 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   };
 
   /**
-   * Maneja el envío del formulario para guardar los cambios del nodo.
-   * Valida los datos y ejecuta el callback onSave con el nodo actualizado.
+   * Handles form submission to save node changes.
+   * Validates data and executes the onSave callback with the updated node.
    *
-   * @param {Event} e - Evento de envío del formulario
+   * @param {Event} e - Form submission event
    */
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -165,10 +165,10 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   };
 
   /**
-   * Maneja la imagen subida desde el modal de carga.
-   * Actualiza el estado del formulario con los datos de la nueva imagen.
+   * Handles uploaded image from the upload modal.
+   * Updates the form state with the new image data.
    *
-   * @param {Object} imageData - Objeto con los datos de la imagen (url, filename, etc.)
+   * @param {Object} imageData - Object with image data (url, filename, etc.)
    */
   const handleImageUploaded = (imageData) => {
     setFormData(prev => ({
@@ -178,8 +178,8 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   };
 
   /**
-   * Elimina la imagen asociada al nodo.
-   * Establece el campo de imagen como null en el estado del formulario.
+   * Removes the image associated with the node.
+   * Sets the image field to null in the form state.
    */
   const handleRemoveImage = () => {
     setFormData(prev => ({
@@ -189,8 +189,8 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
   };
 
   /**
-   * Maneja la eliminación del nodo.
-   * Ejecuta el callback onDelete con el ID del nodo si está disponible.
+   * Handles node deletion.
+   * Executes the onDelete callback with the node ID if available.
    */
   const handleDelete = () => {
     if (onDelete &amp;&amp; node) {
@@ -200,9 +200,9 @@ function NodeEditModal({ isOpen, onClose, node, onSave, onDelete }) {
 
   useEffect(() => {
     /**
-     * Maneja la tecla Escape para cerrar el modal.
+     * Handles the Escape key to close the modal.
      *
-     * @param {KeyboardEvent} e - Evento de teclado
+     * @param {KeyboardEvent} e - Keyboard event
      */
     const handleEsc = (e) => {
       if (e.key === 'Escape' &amp;&amp; isOpen) {
@@ -392,7 +392,7 @@ export default NodeEditModal;
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 16 2026 11:19:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 30 2026 09:43:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

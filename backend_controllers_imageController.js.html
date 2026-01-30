@@ -50,16 +50,16 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 }
 
 /**
- * Sube una imagen desde archivo en base64 o desde URL.
+ * Uploads an image from a base64 file or from a URL.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.body - Datos de la imagen.
- * @param {string} req.body.image - Imagen en base64.
- * @param {string} req.body.filename - Nombre del archivo (opcional).
- * @param {string} req.body.mimeType - Tipo MIME de la imagen (jpeg, png, gif, webp).
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Object} Metadatos de la imagen subida.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Image data.
+ * @param {string} req.body.image - Image in base64.
+ * @param {string} req.body.filename - File name (optional).
+ * @param {string} req.body.mimeType - Image MIME type (jpeg, png, gif, webp).
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} Metadata of the uploaded image.
  */
 exports.uploadImage = async (req, res, next) => {
   try {
@@ -67,7 +67,7 @@ exports.uploadImage = async (req, res, next) => {
 
     if (!image) {
       return res.status(400).json({
-        error: "No se proporcionó ninguna imagen",
+        error: "No image provided",
       });
     }
 
@@ -79,7 +79,7 @@ exports.uploadImage = async (req, res, next) => {
     ];
     if (!mimeType || !validMimeTypes.includes(mimeType)) {
       return res.status(400).json({
-        error: "Tipo de imagen no válido. Use: jpeg, png, gif o webp",
+        error: "Invalid image type. Use: jpeg, png, gif or webp",
       });
     }
 
@@ -96,7 +96,7 @@ exports.uploadImage = async (req, res, next) => {
     const MAX_SIZE = 5 * 1024 * 1024;
     if (size > MAX_SIZE) {
       return res.status(400).json({
-        error: "La imagen excede el tamaño máximo de 5MB",
+        error: "Image exceeds maximum size of 5MB",
       });
     }
 
@@ -109,7 +109,7 @@ exports.uploadImage = async (req, res, next) => {
     const imageUrl = `/uploads/images/${uniqueName}`;
 
     res.status(201).json({
-      message: "Imagen subida exitosamente",
+      message: "Image uploaded successfully",
       image: {
         filename: filename || uniqueName,
         url: imageUrl,
@@ -119,20 +119,20 @@ exports.uploadImage = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.error("❌ Error al subir imagen:", error);
+    console.error("❌ Error uploading image:", error);
     next(error);
   }
 };
 
 /**
- * Valida una URL de imagen externa.
+ * Validates an external image URL.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.body - Datos de validación.
- * @param {string} req.body.url - URL de la imagen a validar.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Object} Metadatos de la imagen validada.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Validation data.
+ * @param {string} req.body.url - URL of the image to validate.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} Metadata of the validated image.
  */
 exports.validateImageUrl = async (req, res, next) => {
   try {
@@ -140,7 +140,7 @@ exports.validateImageUrl = async (req, res, next) => {
 
     if (!url) {
       return res.status(400).json({
-        error: "No se proporcionó ninguna URL",
+        error: "No URL provided",
       });
     }
 
@@ -149,13 +149,13 @@ exports.validateImageUrl = async (req, res, next) => {
       parsedUrl = new URL(url);
     } catch (e) {
       return res.status(400).json({
-        error: "URL no válida",
+        error: "Invalid URL",
       });
     }
 
     if (!parsedUrl.protocol.startsWith("http")) {
       return res.status(400).json({
-        error: "La URL debe usar protocolo HTTP o HTTPS",
+        error: "URL must use HTTP or HTTPS protocol",
       });
     }
 
@@ -167,7 +167,7 @@ exports.validateImageUrl = async (req, res, next) => {
     else if (urlLower.includes(".svg")) mimeType = "image/svg+xml";
 
     res.status(200).json({
-      message: "URL validada exitosamente",
+      message: "URL validated successfully",
       image: {
         filename: url.split("/").pop() || "image",
         url: url,
@@ -177,20 +177,20 @@ exports.validateImageUrl = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.error("❌ Error al validar URL:", error);
+    console.error("❌ Error validating URL:", error);
     next(error);
   }
 };
 
 /**
- * Elimina una imagen del servidor.
+ * Deletes an image from the server.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.body - Datos de la solicitud.
- * @param {string} req.body.url - URL de la imagen a eliminar.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Middleware de siguiente en la cadena.
- * @returns {Object} Mensaje de confirmación de eliminación.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Request body data.
+ * @param {string} req.body.url - URL of the image to delete.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} Deletion confirmation message.
  */
 exports.deleteImage = async (req, res, next) => {
   try {
@@ -198,7 +198,7 @@ exports.deleteImage = async (req, res, next) => {
 
     if (!url) {
       return res.status(400).json({
-        error: "No se proporcionó ninguna URL",
+        error: "No URL provided",
       });
     }
 
@@ -206,19 +206,19 @@ exports.deleteImage = async (req, res, next) => {
       const filename = url.split("/").pop();
       const filePath = path.join(UPLOAD_DIR, filename);
 
-      if (fs.existsSync(filePath)) {
+        if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
         return res.status(200).json({
-          message: "Imagen eliminada exitosamente",
+          message: "Image deleted successfully",
         });
       }
     }
 
     res.status(200).json({
-      message: "Imagen referenciada eliminada (URL externa)",
+      message: "Referenced image removed (external URL)",
     });
   } catch (error) {
-    console.error("❌ Error al eliminar imagen:", error);
+    console.error("❌ Error deleting image:", error);
     next(error);
   }
 };
@@ -234,7 +234,7 @@ exports.deleteImage = async (req, res, next) => {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 16 2026 11:19:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 30 2026 09:43:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

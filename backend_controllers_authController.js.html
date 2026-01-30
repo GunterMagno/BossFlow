@@ -45,17 +45,17 @@ const validator = require("validator");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 /**
- * Registra un nuevo usuario en la aplicación.
+ * Registers a new user in the application.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.body - Datos del usuario.
- * @param {string} req.body.username - Nombre de usuario único (mínimo 3 caracteres).
- * @param {string} req.body.email - Email único en formato válido.
- * @param {string} req.body.password - Contraseña (mínimo 8 caracteres).
- * @param {boolean} req.body.rememberMe - Si es verdadero, el token dura 30 días.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Función middleware siguiente.
- * @returns {Object} Token JWT y datos del usuario registrado.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - User data.
+ * @param {string} req.body.username - Unique username (minimum 3 characters).
+ * @param {string} req.body.email - Unique email in valid format.
+ * @param {string} req.body.password - Password (minimum 8 characters).
+ * @param {boolean} req.body.rememberMe - If true, token lasts 30 days.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} JWT token and the registered user data.
  */
 exports.register = async (req, res, next) => {
   try {
@@ -63,39 +63,39 @@ exports.register = async (req, res, next) => {
 
     if (!username || !email || !password) {
       return res.status(400).json({
-        error: "Todos los campos son requeridos (username, email, password)",
+        error: "All fields are required (username, email, password)",
       });
     }
 
     if (!validator.isEmail(email)) {
       return res.status(400).json({
-        error: "El formato del email no es válido",
+        error: "Invalid email format",
       });
     }
 
     if (username.trim().length &lt; 3) {
       return res.status(400).json({
-        error: "El username debe tener al menos 3 caracteres",
+        error: "Username must be at least 3 characters",
       });
     }
 
     if (password.length &lt; 8) {
       return res.status(400).json({
-        error: "La contraseña debe tener al menos 8 caracteres",
+        error: "Password must be at least 8 characters",
       });
     }
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
       return res.status(400).json({
-        error: "El email ya está registrado",
+        error: "Email is already registered",
       });
     }
 
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
       return res.status(400).json({
-        error: "El username ya está en uso",
+        error: "Username is already in use",
       });
     }
 
@@ -110,7 +110,7 @@ exports.register = async (req, res, next) => {
     const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, { expiresIn });
 
     res.status(201).json({
-      message: "Usuario registrado exitosamente",
+      message: "User registered successfully",
       token,
       user: {
         id: newUser._id,
@@ -125,16 +125,16 @@ exports.register = async (req, res, next) => {
 };
 
 /**
- * Autentica un usuario existente y genera un token JWT.
+ * Authenticates an existing user and generates a JWT.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.body - Credenciales del usuario.
- * @param {string} req.body.email - Email del usuario.
- * @param {string} req.body.password - Contraseña del usuario.
- * @param {boolean} req.body.rememberMe - Si es verdadero, el token dura 30 días.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Función middleware siguiente.
- * @returns {Object} Token JWT y datos del usuario autenticado.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - User credentials.
+ * @param {string} req.body.email - User email.
+ * @param {string} req.body.password - User password.
+ * @param {boolean} req.body.rememberMe - If true, token lasts 30 days.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} JWT token and authenticated user data.
  */
 exports.login = async (req, res, next) => {
   try {
@@ -142,13 +142,13 @@ exports.login = async (req, res, next) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        error: "Todos los campos son requeridos (email, password)",
+        error: "All fields are required (email, password)",
       });
     }
 
     if (!validator.isEmail(email)) {
       return res.status(400).json({
-        error: "El formato del email no es válido",
+        error: "Invalid email format",
       });
     }
 
@@ -158,7 +158,7 @@ exports.login = async (req, res, next) => {
 
     if (!user) {
       return res.status(401).json({
-        error: "Credenciales inválidas",
+        error: "Invalid credentials",
       });
     }
 
@@ -166,7 +166,7 @@ exports.login = async (req, res, next) => {
 
     if (!isMatch) {
       return res.status(401).json({
-        error: "Credenciales inválidas",
+        error: "Invalid credentials",
       });
     }
 
@@ -174,7 +174,7 @@ exports.login = async (req, res, next) => {
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn });
 
     res.status(200).json({
-      message: "Login exitoso",
+      message: "Login successful",
       token,
       user: {
         id: user._id,
@@ -189,18 +189,18 @@ exports.login = async (req, res, next) => {
 };
 
 /**
- * Cierra la sesión del usuario.
- * En un sistema basado en JWT, el cierre de sesión se maneja eliminando el token en el cliente.
+ * Logs out the user.
+ * In a JWT-based system, logout is handled by removing the token on the client.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} res - Objeto de respuesta Express.
- * @param {Function} next - Función middleware siguiente.
- * @returns {Object} Mensaje de confirmación de cierre de sesión.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Next middleware function.
+ * @returns {Object} Confirmation message for logout.
  */
 exports.logout = async (req, res, next) => {
   try {
     res.status(200).json({
-      message: "Sesión cerrada correctamente",
+      message: "Logged out successfully",
     });
   } catch (err) {
     next(err);
@@ -218,7 +218,7 @@ exports.logout = async (req, res, next) => {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 16 2026 11:19:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 30 2026 09:43:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -46,56 +46,56 @@ const fs = require("fs");
 const path = require("path");
 
 /**
- * Obtiene el perfil del usuario autenticado.
+ * Retrieves the authenticated user's profile.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.user - Usuario autenticado.
- * @param {string} req.user.userId - ID del usuario.
- * @param {Object} res - Objeto de respuesta Express.
- * @returns {Object} Datos del perfil del usuario sin contraseña.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.user - Authenticated user.
+ * @param {string} req.user.userId - User ID.
+ * @param {Object} res - Express response object.
+ * @returns {Object} User profile data without password.
  */
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).select("-password");
 
     if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     res.json({ user });
   } catch (error) {
-    console.error("Error al obtener perfil:", error);
-    res.status(500).json({ error: "Error al obtener perfil" });
+    console.error("Error fetching profile:", error);
+    res.status(500).json({ error: "Error fetching profile" });
   }
 };
 
 /**
- * Actualiza el perfil del usuario autenticado.
+ * Updates the authenticated user's profile.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.body - Campos a actualizar.
- * @param {string} req.body.username - Nuevo nombre de usuario (mínimo 3 caracteres).
- * @param {string} req.body.bio - Nueva biografía (máximo 500 caracteres).
- * @param {Array} req.body.favoriteGames - Nuevos juegos favoritos (máximo 10).
- * @param {string} req.body.avatar - URL del nuevo avatar.
- * @param {Object} res - Objeto de respuesta Express.
- * @returns {Object} Usuario actualizado sin contraseña.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Fields to update.
+ * @param {string} req.body.username - New username (minimum 3 characters).
+ * @param {string} req.body.bio - New biography (maximum 500 characters).
+ * @param {Array} req.body.favoriteGames - New favourite games (maximum 10).
+ * @param {string} req.body.avatar - URL of the new avatar.
+ * @param {Object} res - Express response object.
+ * @returns {Object} Updated user without password.
  */
 exports.updateProfile = async (req, res) => {
   try {
     const { username, bio, favoriteGames, avatar } = req.body;
     const userId = req.user.userId;
 
-    // Campos permitidos para actualizar
+    // Allowed fields to update
     const updateData = {};
 
     if (username !== undefined) {
-      // Validar que el username no esté en uso por otro usuario
+      // Validate that the username is not used by another user
       if (username.length &lt; 3) {
         return res
           .status(400)
           .json({
-            error: "El nombre de usuario debe tener al menos 3 caracteres",
+            error: "Username must be at least 3 characters",
           });
       }
 
@@ -106,7 +106,7 @@ exports.updateProfile = async (req, res) => {
       if (existingUser) {
         return res
           .status(400)
-          .json({ error: "El nombre de usuario ya está en uso" });
+          .json({ error: "Username is already in use" });
       }
       updateData.username = username;
     }
@@ -115,7 +115,7 @@ exports.updateProfile = async (req, res) => {
       if (bio.length > 500) {
         return res
           .status(400)
-          .json({ error: "La biografía no puede exceder 500 caracteres" });
+          .json({ error: "Biography cannot exceed 500 characters" });
       }
       updateData.bio = bio;
     }
@@ -124,12 +124,12 @@ exports.updateProfile = async (req, res) => {
       if (!Array.isArray(favoriteGames)) {
         return res
           .status(400)
-          .json({ error: "Los juegos favoritos deben ser un array" });
+          .json({ error: "Favourite games must be an array" });
       }
       if (favoriteGames.length > 10) {
         return res
           .status(400)
-          .json({ error: "No puedes tener más de 10 juegos favoritos" });
+          .json({ error: "You cannot have more than 10 favourite games" });
       }
       updateData.favoriteGames = favoriteGames;
     }
@@ -138,7 +138,7 @@ exports.updateProfile = async (req, res) => {
       updateData.avatar = avatar;
     }
 
-    // Actualizar usuario
+    // Update user
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $set: updateData },
@@ -146,34 +146,34 @@ exports.updateProfile = async (req, res) => {
     ).select("-password");
 
     if (!updatedUser) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     res.json({
-      message: "Perfil actualizado correctamente",
+      message: "Profile updated successfully",
       user: updatedUser,
     });
   } catch (error) {
-    console.error("Error al actualizar perfil:", error);
+    console.error("Error updating profile:", error);
 
     if (error.code === 11000) {
       return res
         .status(400)
-        .json({ error: "El nombre de usuario ya está en uso" });
+        .json({ error: "Username is already in use" });
     }
 
-    res.status(500).json({ error: "Error al actualizar perfil" });
+    res.status(500).json({ error: "Error updating profile" });
   }
 };
 
 /**
- * Obtiene las estadísticas y logros del usuario autenticado.
+ * Retrieves the authenticated user's statistics and achievements.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.user - Usuario autenticado.
- * @param {string} req.user.userId - ID del usuario.
- * @param {Object} res - Objeto de respuesta Express.
- * @returns {Object} Estadísticas y logros del usuario.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.user - Authenticated user.
+ * @param {string} req.user.userId - User ID.
+ * @param {Object} res - Express response object.
+ * @returns {Object} User statistics and achievements.
  */
 exports.getStats = async (req, res) => {
   try {
@@ -182,7 +182,7 @@ exports.getStats = async (req, res) => {
     );
 
     if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     res.json({
@@ -190,36 +190,36 @@ exports.getStats = async (req, res) => {
       achievements: user.achievements,
     });
   } catch (error) {
-    console.error("Error al obtener estadísticas:", error);
-    res.status(500).json({ error: "Error al obtener estadísticas" });
+    console.error("Error fetching statistics:", error);
+    res.status(500).json({ error: "Error fetching statistics" });
   }
 };
 
 /**
- * Exporta todos los datos personales del usuario en formato JSON.
+ * Exports all personal data of the user in JSON format.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.user - Usuario autenticado.
- * @param {string} req.user.userId - ID del usuario.
- * @param {Object} res - Objeto de respuesta Express.
- * @returns {Object} JSON con todos los datos del usuario y sus diagramas.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.user - Authenticated user.
+ * @param {string} req.user.userId - User ID.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON with the user's data and their diagrams.
  */
 exports.exportUserData = async (req, res) => {
   try {
     const Diagram = require("../models/Diagram");
     const userId = req.user.userId;
 
-    // Obtener datos del usuario
+    // Get user data
     const user = await User.findById(userId).select("-password").lean();
 
     if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      return res.status(404).json({ error: "User not found" });
     }
 
-    // Obtiene todos los diagramas del usuario
+    // Get all diagrams of the user
     const diagrams = await Diagram.find({ userId }).lean();
 
-    // Construye el objeto de exportación
+    // Build the export object
     const exportData = {
       exportDate: new Date().toISOString(),
       exportType: "full_user_data",
@@ -257,7 +257,7 @@ exports.exportUserData = async (req, res) => {
       },
     };
 
-    // Configura headers para descarga
+    // Set headers for download
     res.setHeader("Content-Type", "application/json");
     res.setHeader(
       "Content-Disposition",
@@ -266,42 +266,42 @@ exports.exportUserData = async (req, res) => {
 
     res.json(exportData);
   } catch (error) {
-    console.error("Error al exportar datos:", error);
-    res.status(500).json({ error: "Error al exportar datos del usuario" });
+    console.error("Error exporting data:", error);
+    res.status(500).json({ error: "Error exporting user data" });
   }
 };
 
 /**
- * Elimina permanentemente la cuenta del usuario y todos sus datos.
+ * Permanently deletes the user's account and all their data.
  * @async
- * @param {Object} req - Objeto de solicitud Express.
- * @param {Object} req.user - Usuario autenticado.
- * @param {string} req.user.userId - ID del usuario.
- * @param {Object} req.body - Cuerpo de la solicitud.
- * @param {string} req.body.confirmPassword - Contraseña para confirmar eliminación.
- * @param {Object} res - Objeto de respuesta Express.
- * @returns {Object} Mensaje de confirmación de eliminación.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.user - Authenticated user.
+ * @param {string} req.user.userId - User ID.
+ * @param {Object} req.body - Request body.
+ * @param {string} req.body.confirmPassword - Password to confirm deletion.
+ * @param {Object} res - Express response object.
+ * @returns {Object} Deletion confirmation message.
  */
 exports.deleteAccount = async (req, res) => {
   try {
     const userId = req.user.userId;
     const { confirmPassword } = req.body;
 
-    // Valida que se proporcione la contraseña de confirmación
+    // Validate that confirm password is provided
     if (!confirmPassword) {
       return res.status(400).json({
-        error: "Debes proporcionar tu contraseña para confirmar la eliminación",
+        error: "You must provide your password to confirm deletion",
       });
     }
 
-    // Obtiene usuario con contraseña
+    // Get user (including password)
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      return res.status(404).json({ error: "User not found" });
     }
 
-    // Verifica contraseña
+    // Verify password
     const isPasswordValid = await bcrypt.compare(
       confirmPassword,
       user.password
@@ -310,13 +310,13 @@ exports.deleteAccount = async (req, res) => {
     if (!isPasswordValid) {
       return res
         .status(401)
-        .json({ error: "Contraseña incorrecta. No se puede eliminar la cuenta" });
+        .json({ error: "Incorrect password. Cannot delete account" });
     }
 
-    // Obtiene todos los diagramas del usuario
+    // Get all diagrams of the user
     const diagrams = await Diagram.find({ userId });
 
-    // Elimina imágenes asociadas a los diagramas
+    // Delete images associated with the diagrams
     for (const diagram of diagrams) {
       if (diagram.nodes &amp;&amp; Array.isArray(diagram.nodes)) {
         for (const node of diagram.nodes) {
@@ -337,32 +337,32 @@ exports.deleteAccount = async (req, res) => {
                 fs.unlinkSync(imagePath);
               }
             } catch (err) {
-              console.error("Error al eliminar imagen:", err);
-              // Continúa con la eliminación aunque falle borrar una imagen
+              console.error("Error deleting image:", err);
+              // Continue deletion even if removing an image fails
             }
           }
         }
       }
     }
 
-    // Elimina todos los diagramas del usuario
+    // Delete all user's diagrams
     await Diagram.deleteMany({ userId });
 
-    // Elimina el usuario
+    // Delete the user
     await User.findByIdAndDelete(userId);
 
     console.log(
-      `✅ Cuenta eliminada: Usuario ${user.username} (${user.email})`
+      `✅ Account deleted: User ${user.username} (${user.email})`
     );
 
     res.json({
-      message: "Tu cuenta y todos tus datos han sido eliminados permanentemente",
+      message: "Your account and all your data have been permanently deleted",
       deletedUser: user.username,
       deletedDiagrams: diagrams.length,
     });
   } catch (error) {
-    console.error("Error al eliminar cuenta:", error);
-    res.status(500).json({ error: "Error al eliminar la cuenta" });
+    console.error("Error deleting account:", error);
+    res.status(500).json({ error: "Error deleting account" });
   }
 };
 </code></pre>
@@ -377,7 +377,7 @@ exports.deleteAccount = async (req, res) => {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 16 2026 11:19:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jan 30 2026 09:43:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
