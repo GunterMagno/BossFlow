@@ -1,6 +1,20 @@
 # 👿 BossFlow ⚔
 
+[![Release](https://img.shields.io/github/v/tag/GunterMagno/BossFlow?label=version)](https://github.com/GunterMagno/BossFlow/releases)
+[![License](https://img.shields.io/github/license/GunterMagno/BossFlow)](https://github.com/GunterMagno/BossFlow/blob/main/LICENSE)
+[![Issues](https://img.shields.io/github/issues/GunterMagno/BossFlow)](https://github.com/GunterMagno/BossFlow/issues)
+[![Contributors](https://img.shields.io/github/contributors/GunterMagno/BossFlow)](https://github.com/GunterMagno/BossFlow/graphs/contributors)
+[![Stars](https://img.shields.io/github/stars/GunterMagno/BossFlow?style=social)](https://github.com/GunterMagno/BossFlow/stargazers)
+
+
+##### CI/CD
+
+[![Security Scan](https://github.com/GunterMagno/BossFlow/actions/workflows/trivy.yml/badge.svg)](https://github.com/GunterMagno/BossFlow/actions/workflows/trivy.yml)
+[![Docker Images](https://github.com/GunterMagno/BossFlow/actions/workflows/image_docker.yaml/badge.svg)](https://github.com/GunterMagno/BossFlow/actions/workflows/image_docker.yaml) 
+[![GitHub Pages](https://github.com/GunterMagno/BossFlow/actions/workflows/jsdoc.yml/badge.svg)](https://github.com/GunterMagno/BossFlow/actions/workflows/jsdoc.yml)
+
 ![Logo](./frontend/public/logo.png)
+
 
 ## Descripción
 
@@ -21,7 +35,7 @@ BossFlow resuelve el problema de la fragmentación de información sobre estrate
 - [Cómo contribuir](#cómo-contribuir)
 - [Contacto](#contacto)
 - [Información del equipo](#información-del-equipo)
-- [Documentación adicional](#documentación-adicional)
+
 
 ## Tecnologías utilizadas
 
@@ -188,7 +202,7 @@ VITE_API_URL=http://localhost:4000/api
 Enlace al despliegue: [Despliegue de la aplicación](https://bossflow.app/)
     - [Documentación de despliegue](docs/despliegue/).
 
-Enlace a la demo de la aplicación: [Despliegue de la aplicación](https://youtube.com/)
+Enlace a la demo de la aplicación: [https://youtu.be/gMY0KOfktd0](https://youtu.be/gMY0KOfktd0)
 
 
 ## Cómo contribuir
@@ -203,15 +217,6 @@ Para dudas o colaboración abre un Issue o contacta al creador del repositorio.
 
 ## Información del equipo
 
-### Documentación profesores
-> [!NOTE]
-> Esta documentación va dirigida a algunos profesores en específico por los requerimentos de su asignatura.
-
-#### Daniel Sánchez Benítez
-- **[Propuesta inicial](docs/dani/propuesta-inicial.pdf)**
-- **[Requisitos técnicos](docs/dani/requisitos-tecnicos.pdf)**
-- **[Evaluación técnica](docs/dani/evaluacion-tecnica.pdf)**
-
 ## Información del equipo  
 - Alejandro Borrego Cruz - [Perfil Github](https://github.com/GunterMagno)
 - Jesús López Pérez - [Perfil Github](https://github.com/jesuuslopeez)
@@ -225,73 +230,6 @@ Enlace a la [WIKI](https://github.com/GunterMagno/BossFlow/wiki)
 
 👉 **[Ver índice completo de documentación](docs/README.md)**
 
-La carpeta `docs/` contiene la documentación técnica y de proyecto organizada por áreas:
-
-### Estructura de la documentación
-
-#### Documentos Raíz
-- `docs/README.md`: índice principal y guía de lectura para navegar la documentación
-- `docs/analisis-competencia.md`: análisis de aplicaciones similares y competencia
-- `docs/estructura-organizativa.md`: organización del equipo y roles
-- `docs/recursos.md`: recursos materiales, herramientas y servicios utilizados
-- `docs/financiacion.md`: plan de financiación y costes del proyecto
-- `docs/presupuesto.md`: desglose detallado del presupuesto
-- `docs/legislacion.md`: marco legal y normativa aplicable
-- `docs/documentacion-legislacion.md`: documentación legal detallada
-- `docs/retrospectiva.md`: retrospectivas de sprints y lecciones aprendidas
-
-#### API (`docs/api/`)
-Especificaciones relacionadas con la estructura de los diagramas:
-- `estructura-nodos-json.md`: esquema JSON y reglas de validación para los nodos
-- `NODE_TYPES.md`: tipos de nodos y su semántica
-
-#### Arquitectura (`docs/arquitectura/`)
-Detalles arquitectónicos del sistema:
-- `arquitectura-tecnica.md`: diseño general de la arquitectura
-- `base-de-datos.md`: esquema y modelo de datos MongoDB
-- `auth-flujo.md`: flujo de autenticación y autorización JWT
-- `estrategia-logout.md`: implementación del cierre de sesión
-
-#### Despliegue (`docs/despliegue/`)
-Guías para desplegar la aplicación:
-- `DESPLIEGUE.md`: guía rápida de despliegue
-- `despliegue-vps.md`: despliegue en VPS con Docker
-- `setup-docker.md`: configuración de Docker y Docker Compose
-
-#### Proyecto (`docs/proyecto/`)
-Información del proyecto y planificación:
-- `objetivos-alcance.md`: objetivos y alcance del proyecto
-- `problema.md`: definición del problema a resolver
-- `viabilidad-tecnica.md`: análisis de viabilidad técnica
-- `asignacion.md`: asignación de tareas y responsabilidades
-- `recursos.md`: recursos del proyecto (duplicado, ver raíz)
-
-#### Historias de Usuario (`docs/historias-usuario/`)
-Historias de usuario y criterios de aceptación:
-- `crud-diagramas.md`: historias de usuario para el CRUD de diagramas
-
-#### Sprints (`docs/sprints/`)
-Planificación y seguimiento de sprints:
-- `planificacion-sprints.md`: planificación general de sprints
-- `product-backlog.md`: backlog de producto
-- `sprint1/`, `sprint2/`, `sprint3/`...: ceremonias y documentación de cada sprint
-
-#### UI/UX (`docs/ui-ux/`)
-Recursos de diseño y experiencia de usuario:
-- `figma.md`: enlaces y notas de diseño en Figma
-- `capturas/`: capturas de pantalla del diseño
-
-#### Capturas de aplicación (`docs/img-app/`)
-Capturas de pantalla de la aplicación funcionando
-
-#### Políticas (`docs/politicas/`)
-Documentos legales y políticas de privacidad
-
-#### Documentación para profesores (`docs/dani/`)
-Documentación específica para evaluación académica
-
-### Enlace video demo
-
-[https://youtu.be/gMY0KOfktd0](https://youtu.be/gMY0KOfktd0)
+La carpeta `docs/` contiene la documentación técnica y de proyecto organizada por áreas.
 
 
