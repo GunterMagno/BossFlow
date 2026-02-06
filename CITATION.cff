@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Borrego Cruz"
+    given-names: "Alejandro"
+  - family-names: "López Pérez"
+    given-names: "Jesús"
+  - family-names: "Montes Iglesias"
+    given-names: "Daniel"
+title: "BossFlow"
+version: 0.1
+date-released: 2024-11-18
+url: "https://bossflow.app/"
+repository-code: "https://github.com/GunterMagno/BossFlow"
+license: MIT
+abstract: "A web application that allows players to create, share, and manage interactive flow diagrams with strategies to defeat video game bosses."
+keywords:
+  - react
+  - nodejs
+  - mongodb
+  - docker
+  - diagrams
+  - gaming
+  - strategy
