@@ -3,6 +3,7 @@
 [![Release](https://img.shields.io/github/v/tag/GunterMagno/BossFlow?label=version)](https://github.com/GunterMagno/BossFlow/releases)
 [![License](https://img.shields.io/github/license/GunterMagno/BossFlow)](https://github.com/GunterMagno/BossFlow/blob/main/LICENSE)
 [![Issues](https://img.shields.io/github/issues/GunterMagno/BossFlow)](https://github.com/GunterMagno/BossFlow/issues)
+[![PRs](https://img.shields.io/github/issues-pr/GunterMagno/BossFlow)](https://github.com/GunterMagno/BossFlow/pulls)
 [![Contributors](https://img.shields.io/github/contributors/GunterMagno/BossFlow)](https://github.com/GunterMagno/BossFlow/graphs/contributors)
 [![Stars](https://img.shields.io/github/stars/GunterMagno/BossFlow?style=social)](https://github.com/GunterMagno/BossFlow/stargazers)
 
@@ -35,6 +36,8 @@ BossFlow resuelve el problema de la fragmentación de información sobre estrate
 - [Cómo contribuir](#cómo-contribuir)
 - [Contacto](#contacto)
 - [Información del equipo](#información-del-equipo)
+- [License](#license)
+- [Documentación adicional](#documentación-adicional)
 
 
 ## Tecnologías utilizadas
@@ -215,12 +218,14 @@ Enlace a la demo de la aplicación: [https://youtu.be/gMY0KOfktd0](https://youtu
 
 Para dudas o colaboración abre un Issue o contacta al creador del repositorio.
 
-## Información del equipo
-
 ## Información del equipo  
 - Alejandro Borrego Cruz - [Perfil Github](https://github.com/GunterMagno)
 - Jesús López Pérez - [Perfil Github](https://github.com/jesuuslopeez)
 - Daniel Montes Iglesias - [Perfil Github](https://github.com/danielmi5)
+
+## License
+
+Este proyecto está licenciado bajo MIT, los términos están descritos en el archivo [LICENSE](LICENSE).
 
 ## Documentación adicional
 
@@ -231,5 +236,6 @@ Enlace a la [WIKI](https://github.com/GunterMagno/BossFlow/wiki)
 👉 **[Ver índice completo de documentación](docs/README.md)**
 
 La carpeta `docs/` contiene la documentación técnica y de proyecto organizada por áreas.
+
 
 
